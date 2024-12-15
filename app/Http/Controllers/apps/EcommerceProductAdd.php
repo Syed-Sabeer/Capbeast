@@ -48,7 +48,7 @@ class EcommerceProductAdd extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-            }
+            } 
 
             // Store pricing in 'product_pricing' table
             foreach ($request->input('quantity') as $index => $quantity) {
