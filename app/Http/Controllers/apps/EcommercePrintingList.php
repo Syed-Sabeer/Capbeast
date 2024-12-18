@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Apps;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
+use App\Models\ProductPrinting;
 
 class EcommercePrintingList extends Controller
 {
     public function index()
     {
-        return view('content.apps.app-ecommerce-printing-list');
+        // Fetch all records using the model
+        $printing = ProductPrinting::all();
+
+        // Pass the data to the view
+        return view('content.apps.app-ecommerce-printing-list', compact('printing'));
     }
 }

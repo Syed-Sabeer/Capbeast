@@ -40,7 +40,7 @@ class EcommercePrintingAdd extends Controller
           return redirect()->back()->with('success', 'Product added successfully.');
       } catch (\Exception $e) {
           // Log the error
-          \Log::error('Error adding product: ' . $e->getMessage());
+          // \Log::error('Error adding product: ' . $e->getMessage());
           return redirect()->back()->with('error', 'Failed to add product. Please try again.');
       }
   }
