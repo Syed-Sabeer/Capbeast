@@ -128,11 +128,18 @@
                             <td>No Image Available</td>
                         @endif
 
-                            <!-- Assuming the first image is the main image -->
-                            <td>{{ $product->title }}</td>
-                            <td>
-                                ${{ number_format($product->min_price, 2) }} ~ ${{ number_format($product->max_price, 2) }}
-                            </td>
+                        <td>{{ $product->title }}</td>
+                        <td>
+                            @php
+                                // Ensure min_price and max_price are numeric
+                                $minPrice = is_numeric($product->min_price) ? $product->min_price : 0;
+                                $maxPrice = is_numeric($product->max_price) ? $product->max_price : 0;
+                            @endphp
+                            ${{ number_format($minPrice, 2) }} ~ ${{ number_format($maxPrice, 2) }}
+                        </td>
+
+
+
 
                             <td>
                                 <div class="w-25 d-flex justify-content-end">

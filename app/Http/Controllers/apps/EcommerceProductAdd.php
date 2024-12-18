@@ -39,28 +39,35 @@ class EcommerceProductAdd extends Controller
                 'updated_at' => now(),
             ]);
 
-            // Store colors in 'product_color' table
+            // Collect all colors and images into arrays
+            $colors = [];
+            $images = [];
             foreach ($request->input('color') as $index => $color) {
-                DB::table('product_color')->insert([
-                    'product_id' => $productId,
-                    'color' => $color,
-                    'images' => json_encode($this->uploadFiles($request->file('images')[$index] ?? [])),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            } 
-
-            // Store pricing in 'product_pricing' table
-            foreach ($request->input('quantity') as $index => $quantity) {
-                DB::table('product_pricing')->insert([
-                    'product_id' => $productId,
-                    'pricing' => $request->input('pricing')[$index],
-                    'quantity' => $quantity,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
+                $colors[] = $color; // Add color to the array
+                $images = array_merge($images, $this->uploadFiles($request->file('images')[$index] ?? []));
             }
 
+            // Insert a single row into 'product_color' table
+            DB::table('product_color')->insert([
+                'product_id' => $productId,
+                'color' => json_encode($colors),  // Encode all colors into a JSON array
+                'images' => json_encode($images), // Encode all images into a JSON array
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Collect all quantities and pricing into arrays
+            $quantities = $request->input('quantity');
+            $pricings = $request->input('pricing');
+
+            
+            DB::table('product_pricing')->insert([
+              'product_id' => $productId,
+              'quantity' => json_encode($quantities), // Encode all quantities into a JSON array
+              'pricing' => json_encode($pricings),    // Encode all pricing into a JSON array
+              'created_at' => now(),
+              'updated_at' => now(),
+          ]);
             return redirect()->back()->with('success', 'Product added successfully!');
 
         } catch (\Exception $e) {
@@ -68,6 +75,8 @@ class EcommerceProductAdd extends Controller
             return redirect()->back()->with('error', 'Failed to add product. Please try again.');
         }
     }
+
+
 
     private function uploadFiles($files)
     {

@@ -28,6 +28,8 @@ use App\Http\Controllers\apps\Calendar;
 use App\Http\Controllers\apps\Kanban;
 use App\Http\Controllers\apps\EcommerceDashboard;
 use App\Http\Controllers\apps\EcommerceProductList;
+use App\Http\Controllers\apps\EcommercePrintingList;
+use App\Http\Controllers\apps\EcommercePrintingAdd;
 use App\Http\Controllers\apps\EcommerceProductAdd;
 use App\Http\Controllers\apps\EcommerceProductCategory;
 use App\Http\Controllers\apps\EcommerceOrderList;
@@ -194,11 +196,18 @@ Route::get('/app/chat', [Chat::class, 'index'])->name('app-chat');
 Route::get('/app/calendar', [Calendar::class, 'index'])->name('app-calendar');
 Route::get('/app/kanban', [Kanban::class, 'index'])->name('app-kanban');
 Route::get('/app/ecommerce/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
-Route::get('/app/ecommerce/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
+
+
+
+
+Route::get('/app/ecommerce/printing/add', [EcommercePrintingAdd::class, 'index'])->name('app-ecommerce-printing-add');
+Route::post('/app/ecommerce/printing/add', [EcommercePrintingAdd::class, 'store'])->name('app-ecommerce-printing-store');
+Route::get('/app/ecommerce/printing/list', [EcommercePrintingList::class, 'index'])->name('app-ecommerce-printing-list');
 
 
 Route::get('/app/ecommerce/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
 Route::post('/app/ecommerce/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
+Route::get('/app/ecommerce/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
 
 Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
 

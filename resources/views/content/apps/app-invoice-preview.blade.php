@@ -107,7 +107,7 @@
           </thead>
           <tbody>
             <tr>
-              <td class="text-nowrap">Vuexy Admin Template</td>
+              <td class="text-nowrap">Beanies Admin Template</td>
               <td class="text-nowrap">HTML Admin Template</td>
               <td>$32</td>
               <td>1</td>

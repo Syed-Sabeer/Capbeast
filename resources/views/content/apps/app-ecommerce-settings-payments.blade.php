@@ -85,7 +85,7 @@ $configData = Helper::appClasses();
           <div class="card-header">
             <div class="card-title m-0">
               <h5 class="m-0 mb-1">Supported payment methods</h5>
-              <p class="text-muted mb-0">Payment methods that are available with one of Vuexy's approved payment providers.</p>
+              <p class="text-muted mb-0">Payment methods that are available with one of Beanies's approved payment providers.</p>
             </div>
           </div>
           <div class="card-body">

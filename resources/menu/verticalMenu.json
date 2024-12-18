@@ -33,6 +33,22 @@
           ]
         },
         {
+          "name": "Printing",
+          "slug": "app-ecommerce-printing",
+          "submenu": [
+            {
+              "url": "app/ecommerce/printing/list",
+              "name": "Printing List",
+              "slug": "app-ecommerce-printing-list"
+            },
+            {
+              "url": "app/ecommerce/printing/add",
+              "name": "Add Printing",
+              "slug": "app-ecommerce-printing-add"
+            }
+          ]
+        },
+        {
           "name": "Order",
           "slug": "app-ecommerce-order",
           "submenu": [

@@ -9562,7 +9562,7 @@ __webpack_require__.r(__webpack_exports__);
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -9576,17 +9576,17 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = __webpack_modules__;
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/chunk loaded */
 /******/ 	!function() {
@@ -9621,7 +9621,7 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			return result;
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
@@ -9633,12 +9633,12 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			}
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	!function() {
 /******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	!function() {
 /******/ 		// define __esModule on exports
@@ -9649,11 +9649,11 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	}();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/jsonp chunk loading */
 /******/ 	!function() {
 /******/ 		// no baseURI
-/******/ 		
+/******/
 /******/ 		// object to store loaded and loading chunks
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
@@ -9755,19 +9755,19 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			"assets/vendor/css/pages/app-chat": 0,
 /******/ 			"assets/vendor/css/pages/app-calendar": 0
 /******/ 		};
-/******/ 		
+/******/
 /******/ 		// no chunk on demand loading
-/******/ 		
+/******/
 /******/ 		// no prefetching
-/******/ 		
+/******/
 /******/ 		// no preloaded
-/******/ 		
+/******/
 /******/ 		// no HMR
-/******/ 		
+/******/
 /******/ 		// no HMR manifest
-/******/ 		
+/******/
 /******/ 		__webpack_require__.O.j = function(chunkId) { return installedChunks[chunkId] === 0; };
-/******/ 		
+/******/
 /******/ 		// install a JSONP callback for chunk loading
 /******/ 		var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
 /******/ 			var chunkIds = data[0];
@@ -9794,14 +9794,14 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 			}
 /******/ 			return __webpack_require__.O(result);
 /******/ 		}
-/******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkVuexy"] = self["webpackChunkVuexy"] || [];
+/******/
+/******/ 		var chunkLoadingGlobal = self["webpackChunkBeanies"] = self["webpackChunkBeanies"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	}();
-/******/ 	
+/******/
 /************************************************************************/
-/******/ 	
+/******/
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
@@ -9902,7 +9902,7 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	__webpack_require__.O(undefined, ["assets/vendor/libs/highlight/highlight-github","assets/vendor/css/pages/app-academy","assets/vendor/fonts/tabler-icons","assets/vendor/fonts/fontawesome","assets/vendor/fonts/flag-icons","assets/vendor/libs/typeahead-js/typeahead","assets/vendor/libs/toastr/toastr","assets/vendor/libs/tagify/tagify","assets/vendor/libs/swiper/swiper","assets/vendor/libs/sweetalert2/sweetalert2","assets/vendor/libs/spinkit/spinkit","assets/vendor/libs/shepherd/shepherd","assets/vendor/css/pages/app-academy-details","assets/vendor/libs/select2/select2","assets/vendor/libs/rateyo/rateyo","assets/vendor/libs/quill/typography","assets/vendor/libs/quill/katex","assets/vendor/libs/quill/editor","assets/vendor/libs/plyr/plyr","assets/vendor/libs/pickr/pickr-themes","assets/vendor/libs/perfect-scrollbar/perfect-scrollbar","assets/vendor/libs/nouislider/nouislider","assets/vendor/libs/node-waves/node-waves","assets/vendor/css/pages/advanced-wizard","assets/vendor/libs/mapbox-gl/mapbox-gl","assets/vendor/libs/leaflet/leaflet","assets/vendor/libs/jstree/jstree","assets/vendor/libs/jquery-timepicker/jquery-timepicker","assets/vendor/libs/jkanban/jkanban","assets/vendor/libs/highlight/highlight","assets/vendor/libs/fullcalendar/fullcalendar","assets/vendor/libs/flatpickr/flatpickr","assets/vendor/libs/dropzone/dropzone","assets/vendor/css/core","assets/vendor/libs/datatables-select-bs5/select.bootstrap5","assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5","assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5","assets/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5","assets/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5","assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes","assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5","assets/vendor/libs/datatables-bs5/datatables.bootstrap5","assets/vendor/libs/bs-stepper/bs-stepper","assets/vendor/libs/bootstrap-select/bootstrap-select","assets/vendor/css/core-dark","assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength","assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker","assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker","assets/vendor/libs/apex-charts/apex-charts","assets/vendor/libs/animate-on-scroll/animate-on-scroll","assets/vendor/libs/animate-css/animate","assets/vendor/css/theme-semi-dark","assets/vendor/css/theme-semi-dark-dark","assets/vendor/css/theme-raspberry","assets/vendor/css/theme-raspberry-dark","assets/vendor/css/theme-default","assets/vendor/css/theme-default-dark","assets/vendor/css/theme-bordered","assets/vendor/css/theme-bordered-dark","assets/vendor/css/rtl/theme-semi-dark","assets/vendor/css/rtl/theme-semi-dark-dark","assets/vendor/css/rtl/theme-raspberry","assets/vendor/css/rtl/theme-raspberry-dark","assets/vendor/css/rtl/theme-default","assets/vendor/css/rtl/theme-default-dark","assets/vendor/css/rtl/theme-bordered","assets/vendor/css/rtl/theme-bordered-dark","assets/vendor/css/rtl/core","assets/vendor/css/rtl/core-dark","assets/vendor/css/pages/wizard-ex-checkout","assets/vendor/css/pages/ui-carousel","assets/vendor/css/pages/page-user-view","assets/vendor/css/pages/page-profile","assets/vendor/css/pages/page-pricing","assets/vendor/css/pages/page-misc","assets/vendor/css/pages/page-icons","assets/vendor/css/pages/page-help-center","assets/vendor/css/pages/page-faq","assets/vendor/css/pages/page-auth","assets/vendor/css/pages/page-account-settings","assets/vendor/css/pages/front-page","assets/vendor/css/pages/front-page-pricing","assets/vendor/css/pages/front-page-payment","assets/vendor/css/pages/front-page-landing","assets/vendor/css/pages/front-page-help-center","assets/vendor/css/pages/cards-advance","assets/vendor/css/pages/app-logistics-fleet","assets/vendor/css/pages/app-logistics-dashboard","assets/vendor/css/pages/app-kanban","assets/vendor/css/pages/app-invoice","assets/vendor/css/pages/app-invoice-print","assets/vendor/css/pages/app-email","assets/vendor/css/pages/app-ecommerce","assets/vendor/css/pages/app-chat","assets/vendor/css/pages/app-calendar"], function() { return __webpack_require__("./resources/assets/vendor/fonts/fontawesome.scss"); })
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["assets/vendor/libs/highlight/highlight-github","assets/vendor/css/pages/app-academy","assets/vendor/fonts/tabler-icons","assets/vendor/fonts/fontawesome","assets/vendor/fonts/flag-icons","assets/vendor/libs/typeahead-js/typeahead","assets/vendor/libs/toastr/toastr","assets/vendor/libs/tagify/tagify","assets/vendor/libs/swiper/swiper","assets/vendor/libs/sweetalert2/sweetalert2","assets/vendor/libs/spinkit/spinkit","assets/vendor/libs/shepherd/shepherd","assets/vendor/css/pages/app-academy-details","assets/vendor/libs/select2/select2","assets/vendor/libs/rateyo/rateyo","assets/vendor/libs/quill/typography","assets/vendor/libs/quill/katex","assets/vendor/libs/quill/editor","assets/vendor/libs/plyr/plyr","assets/vendor/libs/pickr/pickr-themes","assets/vendor/libs/perfect-scrollbar/perfect-scrollbar","assets/vendor/libs/nouislider/nouislider","assets/vendor/libs/node-waves/node-waves","assets/vendor/css/pages/advanced-wizard","assets/vendor/libs/mapbox-gl/mapbox-gl","assets/vendor/libs/leaflet/leaflet","assets/vendor/libs/jstree/jstree","assets/vendor/libs/jquery-timepicker/jquery-timepicker","assets/vendor/libs/jkanban/jkanban","assets/vendor/libs/highlight/highlight","assets/vendor/libs/fullcalendar/fullcalendar","assets/vendor/libs/flatpickr/flatpickr","assets/vendor/libs/dropzone/dropzone","assets/vendor/css/core","assets/vendor/libs/datatables-select-bs5/select.bootstrap5","assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5","assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5","assets/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5","assets/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5","assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes","assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5","assets/vendor/libs/datatables-bs5/datatables.bootstrap5","assets/vendor/libs/bs-stepper/bs-stepper","assets/vendor/libs/bootstrap-select/bootstrap-select","assets/vendor/css/core-dark","assets/vendor/libs/bootstrap-maxlength/bootstrap-maxlength","assets/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker","assets/vendor/libs/bootstrap-datepicker/bootstrap-datepicker","assets/vendor/libs/apex-charts/apex-charts","assets/vendor/libs/animate-on-scroll/animate-on-scroll","assets/vendor/libs/animate-css/animate","assets/vendor/css/theme-semi-dark","assets/vendor/css/theme-semi-dark-dark","assets/vendor/css/theme-raspberry","assets/vendor/css/theme-raspberry-dark","assets/vendor/css/theme-default","assets/vendor/css/theme-default-dark","assets/vendor/css/theme-bordered","assets/vendor/css/theme-bordered-dark","assets/vendor/css/rtl/theme-semi-dark","assets/vendor/css/rtl/theme-semi-dark-dark","assets/vendor/css/rtl/theme-raspberry","assets/vendor/css/rtl/theme-raspberry-dark","assets/vendor/css/rtl/theme-default","assets/vendor/css/rtl/theme-default-dark","assets/vendor/css/rtl/theme-bordered","assets/vendor/css/rtl/theme-bordered-dark","assets/vendor/css/rtl/core","assets/vendor/css/rtl/core-dark","assets/vendor/css/pages/wizard-ex-checkout","assets/vendor/css/pages/ui-carousel","assets/vendor/css/pages/page-user-view","assets/vendor/css/pages/page-profile","assets/vendor/css/pages/page-pricing","assets/vendor/css/pages/page-misc","assets/vendor/css/pages/page-icons","assets/vendor/css/pages/page-help-center","assets/vendor/css/pages/page-faq","assets/vendor/css/pages/page-auth","assets/vendor/css/pages/page-account-settings","assets/vendor/css/pages/front-page","assets/vendor/css/pages/front-page-pricing","assets/vendor/css/pages/front-page-payment","assets/vendor/css/pages/front-page-landing","assets/vendor/css/pages/front-page-help-center","assets/vendor/css/pages/cards-advance","assets/vendor/css/pages/app-logistics-fleet","assets/vendor/css/pages/app-logistics-dashboard","assets/vendor/css/pages/app-kanban","assets/vendor/css/pages/app-invoice","assets/vendor/css/pages/app-invoice-print","assets/vendor/css/pages/app-email","assets/vendor/css/pages/app-ecommerce","assets/vendor/css/pages/app-chat","assets/vendor/css/pages/app-calendar"], function() { return __webpack_require__("./resources/assets/vendor/fonts/tabler-icons.scss"); })
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
-/******/ 	
+/******/
 /******/ 	return __webpack_exports__;
 /******/ })()
 ;

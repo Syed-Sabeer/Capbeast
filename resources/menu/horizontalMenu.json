@@ -1,6 +1,6 @@
 {
   "menu": [
-   
+
     {
       "name": "Layouts",
       "icon": "menu-icon tf-icons ti ti-layout-sidebar",
@@ -1083,7 +1083,7 @@
           "target": "_blank"
         },
         {
-          "url": "https://demos.pixinvent.com/vuexy-html-admin-template/documentation/laravel-introduction.html",
+          "url": "https://demos.pixinvent.com/Beanies-html-admin-template/documentation/laravel-introduction.html",
           "icon": "menu-icon tf-icons ti ti-file-description",
           "name": "Documentation",
           "slug": "documentation",

@@ -158,7 +158,7 @@ $configData = Helper::appClasses();
                         <img src="{{asset('assets/img/front-pages/branding/logo-1.png')}}" alt="client logo" class="client-logo img-fluid" />
                       </div>
                       <p>
-                        “Vuexy is hands down the most useful front end Bootstrap theme I've ever used. I can't wait
+                        “Beanies is hands down the most useful front end Bootstrap theme I've ever used. I can't wait
                         to use it again for my next project.”
                       </p>
                       <div class="text-warning mb-3">
@@ -187,7 +187,7 @@ $configData = Helper::appClasses();
                         <img src="{{asset('assets/img/front-pages/branding/logo-2.png')}}" alt="client logo" class="client-logo img-fluid" />
                       </div>
                       <p>
-                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building
+                        “I've never used a theme as versatile and flexible as Beanies. It's my go to for building
                         dashboard sites on almost any project.”
                       </p>
                       <div class="text-warning mb-3">
@@ -274,7 +274,7 @@ $configData = Helper::appClasses();
                         <img src="{{asset('assets/img/front-pages/branding/logo-5.png')}}" alt="client logo" class="client-logo img-fluid" />
                       </div>
                       <p>
-                        “I've never used a theme as versatile and flexible as Vuexy. It's my go to for building
+                        “I've never used a theme as versatile and flexible as Beanies. It's my go to for building
                         dashboard sites on almost any project.”
                       </p>
                       <div class="text-warning mb-3">
