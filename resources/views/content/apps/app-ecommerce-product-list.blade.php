@@ -119,9 +119,10 @@
                         <tr>
                             <td>{{ $product->id }}</td>
                             @php
-                            $baseImages = json_decode($product->base_images, true);
+                            // Check if base_images is an array already
+                            $baseImages = is_array($product->base_images) ? $product->base_images : json_decode($product->base_images, true);
                         @endphp
-
+                
                         @if (is_array($baseImages) && !empty($baseImages))
                             <td><img src="{{ asset('storage/' . $baseImages[0]) }}" alt="Product Image" width="50"></td>
                         @else
@@ -130,13 +131,23 @@
 
                         <td>{{ $product->title }}</td>
                         <td>
-                            @php
-                                // Ensure min_price and max_price are numeric
-                                $minPrice = is_numeric($product->min_price) ? $product->min_price : 0;
-                                $maxPrice = is_numeric($product->max_price) ? $product->max_price : 0;
-                            @endphp
-                            ${{ number_format($minPrice, 2) }} ~ ${{ number_format($maxPrice, 2) }}
-                        </td>
+                          @php
+                              // Ensure min_price and max_price are numeric and greater than zero
+                              $minPrice = isset($product->min_price) && is_numeric($product->min_price) && $product->min_price > 0 
+                                          ? $product->min_price 
+                                          : 0;
+                              $maxPrice = isset($product->max_price) && is_numeric($product->max_price) && $product->max_price > 0 
+                                          ? $product->max_price 
+                                          : 0;
+                          @endphp
+                      
+                          @if($minPrice > 0 && $maxPrice > 0)
+                              ${{ number_format($minPrice, 2) }} ~ ${{ number_format($maxPrice, 2) }}
+                          @else
+                              Not Available
+                          @endif
+                      </td>
+                      
 
 
 

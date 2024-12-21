@@ -33,17 +33,17 @@
           ]
         },
         {
-          "name": "Printing",
+          "name": "Embroidery",
           "slug": "app-ecommerce-printing",
           "submenu": [
             {
               "url": "app/ecommerce/printing/list",
-              "name": "Printing List",
+              "name": "Embroidery List",
               "slug": "app-ecommerce-printing-list"
             },
             {
               "url": "app/ecommerce/printing/add",
-              "name": "Add Printing",
+              "name": "Add Embroidery",
               "slug": "app-ecommerce-printing-add"
             }
           ]
