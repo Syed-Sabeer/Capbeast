@@ -34,7 +34,7 @@ class EcommerceProductAdd extends Controller
             $product = Product::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'base_images' => $this->uploadFiles($request->file('base_images')),
+                'base_images' => $this->uploadFiles($request->file('base_images'), 'ProductImages'),
             ]);
 
             // Process colors and images
@@ -42,7 +42,7 @@ class EcommerceProductAdd extends Controller
             $images = [];
             foreach ($request->color as $index => $color) {
                 $colors[] = $color;
-                $images = array_merge($images, $this->uploadFiles($request->file('images')[$index] ?? []));
+                $images = array_merge($images, $this->uploadFiles($request->file('images')[$index] ?? [], 'ProductImages/ColorVariations'));
             }
 
             // Save product colors
@@ -66,12 +66,12 @@ class EcommerceProductAdd extends Controller
         }
     }
 
-    private function uploadFiles($files)
+    private function uploadFiles($files, $directory)
     {
         $filePaths = [];
         if ($files) {
             foreach ($files as $file) {
-                $filePaths[] = $file->store('uploads', 'public');
+                $filePaths[] = $file->store($directory, 'public');
             }
         }
         return $filePaths;

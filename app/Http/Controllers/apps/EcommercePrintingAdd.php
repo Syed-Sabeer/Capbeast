@@ -23,10 +23,10 @@ class EcommercePrintingAdd extends Controller
               'quantity.*' => 'required|integer',
               'price.*' => 'required|numeric',
           ]);
-  
+
           // Upload image if it exists
           $imagePath = $request->hasFile('image') ? $this->uploadFile($request->file('image')) : null;
-  
+
           // Insert data into the table
           DB::table('product_printing')->insertGetId([
               'title' => $request->input('title'),
@@ -36,7 +36,7 @@ class EcommercePrintingAdd extends Controller
               'created_at' => now(),
               'updated_at' => now(),
           ]);
-  
+
           return redirect()->back()->with('success', 'Product added successfully.');
       } catch (\Exception $e) {
           // Log the error
@@ -44,15 +44,15 @@ class EcommercePrintingAdd extends Controller
           return redirect()->back()->with('error', 'Failed to add product. Please try again.');
       }
   }
-  
+
 
   private function uploadFile($file)
   {
       if ($file) {
-          return $file->store('uploads', 'public'); // Save file and return its path
+          return $file->store('ProductPrintingImages', 'public'); // Save file and return its path
       }
       return null;
   }
-  
-  
+
+
 }
