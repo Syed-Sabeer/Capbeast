@@ -27,23 +27,6 @@ class Product extends Model
         return $this->hasOne(ProductPricing::class, 'product_id');
     }
 
-    // // Add accessors for min_price and max_price
-    // public function getMinPriceAttribute()
-    // {
-    //     // Check if the pricing is an array; if not, make it an array
-    //     $pricing = is_array($this->productPricing->pricing) ? $this->productPricing->pricing : [$this->productPricing->pricing];
-    
-    //     // Return the minimum price, or 0 if there's no valid pricing
-    //     return $pricing ? (float)min($pricing) : 0;
-    // }
-    
-    // public function getMaxPriceAttribute()
-    // {
-    //     // Check if the pricing is an array; if not, make it an array
-    //     $pricing = is_array($this->productPricing->pricing) ? $this->productPricing->pricing : [$this->productPricing->pricing];
-    
-    //     // Return the maximum price, or 0 if there's no valid pricing
-    //     return $pricing ? (float)max($pricing) : 0;
-    // }
-    
+
+
 }
