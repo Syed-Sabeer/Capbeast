@@ -27,10 +27,11 @@ use App\Http\Controllers\apps\Chat;
 use App\Http\Controllers\apps\Calendar;
 use App\Http\Controllers\apps\Kanban;
 use App\Http\Controllers\apps\EcommerceDashboard;
-use App\Http\Controllers\apps\EcommerceProductList;
-use App\Http\Controllers\apps\EcommercePrintingList;
-use App\Http\Controllers\apps\EcommercePrintingAdd;
-use App\Http\Controllers\apps\EcommerceProductAdd;
+
+
+use App\Http\Controllers\apps\EcommerceDeliveryList;
+use App\Http\Controllers\apps\EcommerceDeliveryAdd;
+
 use App\Http\Controllers\apps\EcommerceProductCategory;
 use App\Http\Controllers\apps\EcommerceOrderList;
 use App\Http\Controllers\apps\EcommerceOrderDetails;
@@ -161,6 +162,46 @@ use App\Http\Controllers\charts\ApexCharts;
 use App\Http\Controllers\charts\ChartJs;
 use App\Http\Controllers\maps\Leaflet;
 
+
+
+use App\Http\Controllers\Main\ProductDetailController;
+
+use App\Http\Controllers\Admin\apps\EcommercePrintingList;
+use App\Http\Controllers\Admin\apps\EcommerceProductAdd;
+use App\Http\Controllers\Admin\apps\EcommerceProductList;
+use App\Http\Controllers\Admin\apps\EcommercePrintingAdd;
+
+
+Route::prefix('main')->group(function () {
+  Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
+});
+
+
+// Route::prefix('admin')->middleware('auth:admin')->group(function () {
+  Route::prefix('admin')->group(function () {
+    Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');
+    Route::post('/delivery/add', [EcommerceDeliveryAdd::class, 'store'])->name('app-ecommerce-delivery-store');
+    Route::get('/delivery/list', [EcommerceDeliveryList::class, 'index'])->name('app-ecommerce-delivery-list');
+
+    Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name('app-ecommerce-printing-add');
+    Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name('app-ecommerce-printing-store');
+    Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name('app-ecommerce-printing-list');
+
+    Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
+    Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
+    Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
+    Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
+
+});
+
+
+
+
+
+
+
+
+
 // Main Page Route
 Route::get('/', [Analytics::class, 'index'])->name('dashboard-analytics');
 Route::get('/dashboard/analytics', [Analytics::class, 'index'])->name('dashboard-analytics');
@@ -200,16 +241,6 @@ Route::get('/app/ecommerce/dashboard', [EcommerceDashboard::class, 'index'])->na
 
 
 
-Route::get('/app/ecommerce/printing/add', [EcommercePrintingAdd::class, 'index'])->name('app-ecommerce-printing-add');
-Route::post('/app/ecommerce/printing/add', [EcommercePrintingAdd::class, 'store'])->name('app-ecommerce-printing-store');
-Route::get('/app/ecommerce/printing/list', [EcommercePrintingList::class, 'index'])->name('app-ecommerce-printing-list');
-
-
-Route::get('/app/ecommerce/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
-Route::post('/app/ecommerce/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
-Route::get('/app/ecommerce/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
-
-Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
 
 Route::get('/app/ecommerce/product/category', [EcommerceProductCategory::class, 'index'])->name('app-ecommerce-product-category');
 
