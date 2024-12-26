@@ -29,8 +29,8 @@ use App\Http\Controllers\apps\Kanban;
 use App\Http\Controllers\apps\EcommerceDashboard;
 
 
-use App\Http\Controllers\apps\EcommerceDeliveryList;
-use App\Http\Controllers\apps\EcommerceDeliveryAdd;
+
+
 
 use App\Http\Controllers\apps\EcommerceProductCategory;
 use App\Http\Controllers\apps\EcommerceOrderList;
@@ -165,15 +165,20 @@ use App\Http\Controllers\maps\Leaflet;
 
 
 use App\Http\Controllers\Main\ProductDetailController;
+use App\Http\Controllers\Main\ProductController;
 
 use App\Http\Controllers\Admin\apps\EcommercePrintingList;
 use App\Http\Controllers\Admin\apps\EcommerceProductAdd;
 use App\Http\Controllers\Admin\apps\EcommerceProductList;
 use App\Http\Controllers\Admin\apps\EcommercePrintingAdd;
+use App\Http\Controllers\Admin\apps\EcommerceDeliveryAdd;
+use App\Http\Controllers\Admin\apps\EcommerceDeliveryList;
 
 
 Route::prefix('main')->group(function () {
   Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
+  Route::get('/products', [ProductController::class, 'index'])->name('products');
+
 });
 
 

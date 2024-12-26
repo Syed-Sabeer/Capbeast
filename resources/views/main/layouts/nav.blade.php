@@ -276,7 +276,7 @@
                                     <div class="bg-overlay bg-primary" style="opacity: 0.90;"></div>
                                     <div class="card-body d-flex align-items-center justify-content-center position-relative">
                                         <div class="text-center">
-                                            <h6 class="card-title text-white">Welcome to Toner</h6>
+                                            <h6 class="card-title text-white">Welcome to Monkey Beanies</h6>
                                             <p class="text-white-75">See all the products at once.</p>
                                             <a href="#!" class="btn btn-light btn-sm btn-hover">Shop Now <i class="ph-arrow-right align-middle"></i></a>
                                         </div>
@@ -489,8 +489,3 @@
         </div>
     </div>
 </nav>
-
-
-
-
-

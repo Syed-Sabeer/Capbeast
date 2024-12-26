@@ -5,7 +5,7 @@
                 <div class="footer-info">
                     <img src="../assets/images/logo-light.png" alt="" height="28" class="logo-light">
                     <img src="../assets/images/logo-dark.png" alt="" height="28" class="logo-dark">
-                    <p class="footer-desc mt-4 mb-2 me-3">Toner provides best fashion experience for both men and women at best pricing. We follow New fashion approach to give best premium feel.</p>
+                    <p class="footer-desc mt-4 mb-2 me-3">Monkey Beanies provides best fashion experience for both men and women at best pricing. We follow New fashion approach to give best premium feel.</p>
 
                     <div class="footer-social mt-4">
                         <ul class="list-inline mb-0">
@@ -83,7 +83,8 @@
 
         <div class="row footer-border-alt mt-4 align-items-center fs-15">
             <div class="col-sm-6">
-                <script>document.write(new Date().getFullYear())</script> © Toner. Design &amp; Develop by <a href="https://themesbrand.com/" target="_blank" class="text-reset text-decoration-underline">Themesbrand</a>
+                <script>document.write(new Date().getFullYear())</script> © Monkey Beanies.
+                {{-- Design &amp; Develop by <a href="https://themesbrand.com/" target="_blank" class="text-reset text-decoration-underline">Themesbrand</a> --}}
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
