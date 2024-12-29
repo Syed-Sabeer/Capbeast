@@ -1107,7 +1107,7 @@ background-position: center;
 
 
 
-                  
+
 
             </div>
         </div>
@@ -1122,150 +1122,174 @@ background-position: center;
 </div>
 <!--end container-->
 </section>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    const quantityInput = document.getElementById("quantity-input");
-    const totalQty = document.getElementById("total-qty");
-    const totalQtyCustomization = document.getElementById("total-qty2");
-    const totalQtyDelivery = document.getElementById("total-qty3");
-    const totalPrice = document.getElementById("total-price");
-    const totalPriceCustomization = document.getElementById("total-price2");
-    const totalPriceDelivery = document.getElementById("total-price3");
-    const printingOptions = document.querySelectorAll(".printing-option");
-    const shippingOptions = document.querySelectorAll('input[name="shippingOption"]');
-    const pickYourselfBox = document.getElementById('pickYourselfBox');
-    const viewBundleBox = document.getElementById('viewBundleBox');
-    const artworkSelection = document.getElementById("artwork-upload");
+        const quantityInput = document.getElementById("quantity-input");
+        const totalQty = document.getElementById("total-qty");
+        const totalQtyCustomization = document.getElementById("total-qty2");
+        const totalQtyDelivery = document.getElementById("total-qty3");
+        const totalPrice = document.getElementById("total-price");
+        const totalPriceCustomization = document.getElementById("total-price2");
+        const totalPriceDelivery = document.getElementById("total-price3");
+        const printingOptions = document.querySelectorAll(".printing-option");
+        const shippingOptions = document.querySelectorAll('input[name="shippingOption"]');
+        const pickYourselfBox = document.getElementById('pickYourselfBox');
+        const viewBundleBox = document.getElementById('viewBundleBox');
+        const artworkSelection = document.getElementById("artwork-upload");
 
-    let selectedPrintingPrice = 0;
-    let selectedPrintingQuantities = [];
-    let pricesForSelectedPrinting = [];
+        let selectedPrintingPrice = 0;
+        let selectedPrintingQuantities = [];
+        let pricesForSelectedPrinting = [];
 
-    // Quantities and prices from server (ensure they are numbers)
-    const quantities = @json($quantities).map(Number);
-    const prices = @json($prices).map(Number);
-    const quantitiesDelivery = @json($quantitiesdelivery).map(Number);
-    const pricesDelivery = @json($pricesDelivery).map(Number);
+        // Quantities and prices from server (ensure they are numbers)
+        const quantities = @json($quantities).map(Number);
+        const prices = @json($prices).map(Number);
+        const quantitiesDelivery = @json($quantitiesdelivery).map(Number);
+        const pricesDelivery = @json($pricesDelivery).map(Number);
 
-    // Handle printing option selection
-    printingOptions.forEach(option => {
-        option.addEventListener("click", function () {
-            printingOptions.forEach(opt => opt.classList.remove("active"));
-            this.classList.add("active");
+        // Handle printing option selection
+        printingOptions.forEach(option => {
+            option.addEventListener("click", function () {
+                printingOptions.forEach(opt => opt.classList.remove("active"));
+                this.classList.add("active");
 
-            try {
-                selectedPrintingQuantities = JSON.parse(this.dataset.quantities).map(Number);
-                pricesForSelectedPrinting = JSON.parse(this.dataset.prices).map(Number);
-                updatePrintingPriceAndTotal();
-            } catch (error) {
-                console.error("Error parsing quantities or prices data:", error);
-            }
+                try {
+                    selectedPrintingQuantities = JSON.parse(this.dataset.quantities).map(Number);
+                    pricesForSelectedPrinting = JSON.parse(this.dataset.prices).map(Number);
+                    updatePrintingPriceAndTotal();
+                } catch (error) {
+                    console.error("Error parsing quantities or prices data:", error);
+                }
+            });
         });
-    });
 
-    // Function to calculate printing price based on quantity
-    function calculatePrice(quantity, quantities, prices) {
-        quantity = parseInt(quantity);
-        if (isNaN(quantity)) return 0;
+        // Function to calculate printing price based on quantity
+        function calculatePrice(quantity, quantities, prices) {
+            quantity = parseInt(quantity);
+            if (isNaN(quantity)) return 0;
 
-        let price = 0;
-        for (let i = quantities.length - 1; i >= 0; i--) {
-            if (quantity >= quantities[i]) {
-                price = prices[i];
-                break;
+            let price = 0;
+            for (let i = quantities.length - 1; i >= 0; i--) {
+                if (quantity >= quantities[i]) {
+                    price = prices[i];
+                    break;
+                }
             }
-        }
-        return price;
-    }
-
-    // Update printing price and total price
-    function updatePrintingPriceAndTotal() {
-        const enteredQty = parseInt(quantityInput.value) || 0;
-        totalQty.textContent = enteredQty;
-        totalQtyCustomization.textContent = enteredQty;
-        totalQtyDelivery.textContent = enteredQty;
-
-        selectedPrintingPrice = calculatePrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
-        calculateTotalPrice();
-    }
-
-    // Update total price based on quantity and selected printing option
-    function calculateTotalPrice() {
-        const enteredQty = parseInt(quantityInput.value) || 0;
-        let calculatedPrice = calculatePrice(enteredQty, quantities, prices);
-        const total = calculatedPrice * enteredQty;
-
-        totalPrice.textContent = `$${total.toFixed(2)}`;
-        totalPriceCustomization.textContent = `$${(selectedPrintingPrice * enteredQty).toFixed(2)}`;
-
-        if (selectedPrintingPrice === 0 && total >= 1) {
-            artworkSelection.style.display = "none";
-        } else {
-            artworkSelection.style.display = "block";
-        }
-    }
-
-    // Update delivery price and total cost for "View Shipping Bundle"
-    function updateDeliveryPriceAndTotal() {
-        const enteredQty = parseInt(quantityInput.value) || 0;
-        const deliveryPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
-        const totalDelivery = deliveryPrice * enteredQty;
-        totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
-    }
-
-    // Toggle between "Pick Yourself" and "View Shipping Bundle"
-    function toggleOptions() {
-        const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
-
-        if (selectedOption === 'pickYourself') {
-            pickYourselfBox.style.display = 'block';
-            viewBundleBox.style.display = 'none';
-            totalPriceDelivery.textContent = '$0.00';
-            resetTotalPrice();
-        } else {
-            pickYourselfBox.style.display = 'none';
-            viewBundleBox.style.display = 'block';
-            updateDeliveryPriceAndTotal();
-        }
-    }
-
-    // Reset the total price to $0 for "Pick Yourself"
-    function resetTotalPrice() {
-        totalPrice.textContent = "$0.00";
-        totalPriceCustomization.textContent = "$0.00";
-    }
-
-    // Listen to changes in shipping options and update the view
-    shippingOptions.forEach(option => {
-        option.addEventListener('change', toggleOptions);
-    });
-
-    // Recalculate total price and update view on quantity change
-    quantityInput.addEventListener("input", function () {
-        const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
-        
-        if (selectedOption === 'pickYourself') {
-            totalPriceDelivery.textContent = '$0.00';
-            resetTotalPrice();
-        } else {
-            updateDeliveryPriceAndTotal();
+            return price;
         }
 
-        updatePrintingPriceAndTotal();
-    });
+        // Update printing price and total price
+        function updatePrintingPriceAndTotal() {
+            const enteredQty = parseInt(quantityInput.value) || 0;
+            totalQty.textContent = enteredQty;
+            totalQtyCustomization.textContent = enteredQty;
+            totalQtyDelivery.textContent = enteredQty;
 
-    // Ensure correct view on page load
-    toggleOptions();
-
-    // Prevent entering a value below the minimum quantity
-    quantityInput.addEventListener("blur", function () {
-        const enteredQty = parseInt(quantityInput.value) || 0;
-        if (enteredQty < Math.min(...quantities)) {
-            quantityInput.value = Math.min(...quantities);
+            selectedPrintingPrice = calculatePrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
             calculateTotalPrice();
         }
-    });
-});
 
+        // Update total price based on quantity and selected printing option
+        function calculateTotalPrice() {
+            const enteredQty = parseInt(quantityInput.value) || 0;
+            let calculatedPrice = calculatePrice(enteredQty, quantities, prices);
+            const total = calculatedPrice * enteredQty;
+
+            totalPrice.textContent = `$${total.toFixed(2)}`;
+            totalPriceCustomization.textContent = `$${(selectedPrintingPrice * enteredQty).toFixed(2)}`;
+
+            if (selectedPrintingPrice === 0 && total >= 1) {
+                artworkSelection.style.display = "none";
+            } else {
+                artworkSelection.style.display = "block";
+            }
+
+            // Update background color based on calculated price
+            document.querySelectorAll('[id^="pricing-"]').forEach(function(priceElement) {
+                const priceValue = parseFloat(priceElement.getAttribute('data-price')); // Get the price value
+
+                if (priceValue === calculatedPrice) {
+                    priceElement.style.backgroundColor = "#1D4B8F";
+                    priceElement.style.color = "#fff";
+                } else {
+                    priceElement.style.backgroundColor = "";
+                    priceElement.style.color = "black";
+                }
+            });
+        }
+
+        // Update delivery price and total cost for "View Shipping Bundle"
+        function updateDeliveryPriceAndTotal() {
+            const enteredQty = parseInt(quantityInput.value) || 0;
+            const deliveryPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
+            const totalDelivery = deliveryPrice * enteredQty;
+            totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
+        }
+
+        // Toggle between "Pick Yourself" and "View Shipping Bundle"
+        function toggleOptions() {
+            const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+
+            if (selectedOption === 'pickYourself') {
+                pickYourselfBox.style.display = 'block';
+                viewBundleBox.style.display = 'none';
+                totalPriceDelivery.textContent = '$0.00';
+                resetTotalPrice();
+            } else {
+                pickYourselfBox.style.display = 'none';
+                viewBundleBox.style.display = 'block';
+                updateDeliveryPriceAndTotal();
+            }
+        }
+
+        // Reset the total price to $0 for "Pick Yourself"
+        function resetTotalPrice() {
+            totalPrice.textContent = "$0.00";
+            totalPriceCustomization.textContent = "$0.00";
+        }
+
+        // Listen to changes in shipping options and update the view
+        shippingOptions.forEach(option => {
+            option.addEventListener('change', toggleOptions);
+        });
+
+        // Recalculate total price and update view on quantity change
+        quantityInput.addEventListener("input", function () {
+            const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+            
+            if (selectedOption === 'pickYourself') {
+                totalPriceDelivery.textContent = '$0.00';
+                resetTotalPrice();
+            } else {
+                updateDeliveryPriceAndTotal();
+            }
+
+            updatePrintingPriceAndTotal();
+        });
+
+        // Ensure correct view on page load
+        toggleOptions();
+
+        // Prevent entering a value below the minimum quantity and update the UI accordingly
+        quantityInput.addEventListener("blur", function () {
+            const enteredQty = parseInt(quantityInput.value) || 0;
+            const minQty = Math.min(...quantities);
+            
+            if (enteredQty < minQty) {
+                quantityInput.value = minQty;
+                calculateTotalPrice();
+            }
+
+            // Ensure the total quantity and price are updated
+            totalQty.textContent = quantityInput.value;
+            totalQtyCustomization.textContent = quantityInput.value;
+            totalQtyDelivery.textContent = quantityInput.value;
+        });
+    });
 </script>
+
+
+
+
 @endsection
