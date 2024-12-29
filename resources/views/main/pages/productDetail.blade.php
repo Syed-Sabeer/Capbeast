@@ -3,6 +3,216 @@
 @section('main-container')
 
 
+  <!--cart -->
+  <div class="offcanvas offcanvas-end product-list" tabindex="-1" id="ecommerceCart"
+  aria-labelledby="ecommerceCartLabel">
+  <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title" id="ecommerceCartLabel">
+          My Cart
+          <span class="badge bg-danger align-middle ms-1 cartitem-badge">4</span>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body px-0">
+      <div data-simplebar class="h-100">
+          <ul class="list-group list-group-flush cartlist">
+              <li class="list-group-item product">
+                  <div class="d-flex gap-3">
+                      <div class="flex-shrink-0">
+                          <div class="avatar-md" style="height: 100%">
+                              <div class="avatar-title bg-warning-subtle rounded-3">
+                                  <img src="../assets/images/products/img-4.png" alt="" class="avatar-sm" />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="flex-grow-1">
+                          <a href="#!">
+                              <h5 class="fs-15">Borosil Paper Cup</h5>
+                          </a>
+                          <div class="d-flex mb-3 gap-2">
+                              <div class="text-muted fw-medium mb-0">
+                                  $<span class="product-price">24.00</span>
+                              </div>
+                              <div class="vr"></div>
+                              <span class="text-success fw-medium">In Stock</span>
+                          </div>
+                          <div class="input-step">
+                              <button type="button" class="minus">–</button>
+                              <input type="number" class="product-quantity" value="2" min="0" max="100"
+                                  readonly />
+                              <button type="button" class="plus">+</button>
+                          </div>
+                      </div>
+                      <div class="flex-shrink-0 d-flex flex-column justify-content-between align-items-end">
+                          <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"
+                              data-bs-toggle="modal" data-bs-target="#removeItemModal">
+                              <i class="ri-close-fill fs-16"></i>
+                          </button>
+                          <div class="fw-medium mb-0 fs-16">
+                              $<span class="product-line-price">48.00</span>
+                          </div>
+                      </div>
+                  </div>
+              </li>
+              <li class="list-group-item product">
+                  <div class="d-flex gap-3">
+                      <div class="flex-shrink-0">
+                          <div class="avatar-md" style="height: 100%">
+                              <div class="avatar-title bg-info-subtle rounded-3">
+                                  <img src="../assets/images/products/img-1.png" alt="" class="avatar-sm" />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="flex-grow-1">
+                          <a href="#!">
+                              <h5 class="fs-15">Rockerz Ear Bluetooth Hea...</h5>
+                          </a>
+                          <div class="d-flex mb-3 gap-2">
+                              <div class="text-muted fw-medium mb-0">
+                                  $<span class="product-price">160.00</span>
+                              </div>
+                              <div class="vr"></div>
+                              <span class="text-success fw-medium">In Stock</span>
+                          </div>
+                          <div class="input-step">
+                              <button type="button" class="minus">–</button>
+                              <input type="number" class="product-quantity" value="1" min="0" max="100"
+                                  readonly />
+                              <button type="button" class="plus">+</button>
+                          </div>
+                      </div>
+                      <div class="flex-shrink-0 d-flex flex-column justify-content-between align-items-end">
+                          <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"
+                              data-bs-toggle="modal" data-bs-target="#removeItemModal">
+                              <i class="ri-close-fill fs-16"></i>
+                          </button>
+                          <div class="fw-medium mb-0 fs-16">
+                              $<span class="product-line-price">160.00</span>
+                          </div>
+                      </div>
+                  </div>
+              </li>
+              <li class="list-group-item product">
+                  <div class="d-flex gap-3">
+                      <div class="flex-shrink-0">
+                          <div class="avatar-md" style="height: 100%">
+                              <div class="avatar-title bg-danger-subtle rounded-3">
+                                  <img src="../assets/images/products/img-6.png" alt="" class="avatar-sm" />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="flex-grow-1">
+                          <a href="#!">
+                              <h5 class="fs-15">Monte Carlo Sweaters</h5>
+                          </a>
+                          <div class="d-flex mb-3 gap-2">
+                              <div class="text-muted fw-medium mb-0">
+                                  $ <span class="product-price">244.99</span>
+                              </div>
+                              <div class="vr"></div>
+                              <span class="text-success fw-medium">In Stock</span>
+                          </div>
+                          <div class="input-step">
+                              <button type="button" class="minus">–</button>
+                              <input type="number" class="product-quantity" value="3" min="0" max="100"
+                                  readonly />
+                              <button type="button" class="plus">+</button>
+                          </div>
+                      </div>
+                      <div class="flex-shrink-0 d-flex flex-column justify-content-between align-items-end">
+                          <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"
+                              data-bs-toggle="modal" data-bs-target="#removeItemModal">
+                              <i class="ri-close-fill fs-16"></i>
+                          </button>
+                          <div class="fw-medium mb-0 fs-16">
+                              $<span class="product-line-price">734.97</span>
+                          </div>
+                      </div>
+                  </div>
+              </li>
+              <li class="list-group-item product">
+                  <div class="d-flex gap-3">
+                      <div class="flex-shrink-0">
+                          <div class="avatar-md" style="height: 100%">
+                              <div class="avatar-title bg-primary-subtle rounded-3">
+                                  <img src="../assets/images/products/img-8.png" alt="" class="avatar-sm" />
+                              </div>
+                          </div>
+                      </div>
+                      <div class="flex-grow-1">
+                          <a href="#!">
+                              <h5 class="fs-15">Men's Running Shoes Act...</h5>
+                          </a>
+                          <div class="d-flex mb-3 gap-2">
+                              <div class="text-muted fw-medium mb-0">
+                                  $<span class="product-price">120.30</span>
+                              </div>
+                              <div class="vr"></div>
+                              <span class="text-success fw-medium">In Stock</span>
+                          </div>
+                          <div class="input-step">
+                              <button type="button" class="minus">–</button>
+                              <input type="number" class="product-quantity" value="2" min="0" max="100"
+                                  readonly />
+                              <button type="button" class="plus">+</button>
+                          </div>
+                      </div>
+                      <div class="flex-shrink-0 d-flex flex-column justify-content-between align-items-end">
+                          <button type="button" class="btn btn-icon btn-sm btn-ghost-secondary remove-item-btn"
+                              data-bs-toggle="modal" data-bs-target="#removeItemModal">
+                              <i class="ri-close-fill fs-16"></i>
+                          </button>
+                          <div class="fw-medium mb-0 fs-16">
+                              $<span class="product-line-price">240.60</span>
+                          </div>
+                      </div>
+                  </div>
+              </li>
+          </ul>
+
+          <div class="table-responsive mx-2 border-top border-top-dashed">
+              <table class="table table-borderless mb-0 fs-14 fw-semibold">
+                  <tbody>
+                      <tr>
+                          <td>Sub Total :</td>
+                          <td class="text-end cart-subtotal">$1183.57</td>
+                      </tr>
+                      <tr>
+                          <td>Discount <span class="text-muted">(Toner15)</span>:</td>
+                          <td class="text-end cart-discount">- $177.54</td>
+                      </tr>
+                      <tr>
+                          <td>Shipping Charge :</td>
+                          <td class="text-end cart-shipping">$65.00</td>
+                      </tr>
+                      <tr>
+                          <td>Estimated Tax (12.5%) :</td>
+                          <td class="text-end cart-tax">$147.95</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+  <div class="offcanvas-footer border-top p-3 text-center">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+          <h6 class="m-0 fs-16 text-muted">Total:</h6>
+          <div class="px-2">
+              <h6 class="m-0 fs-16 cart-total">$1218.98</h6>
+          </div>
+      </div>
+      <div class="row g-2">
+          <div class="col-6">
+              <button type="button" class="btn btn-light w-100" id="reset-layout">
+                  View Cart
+              </button>
+          </div>
+          <div class="col-6">
+              <a href="#!" target="_blank" class="btn btn-info w-100">Continue to Checkout</a>
+          </div>
+      </div>
+  </div>
+</div>
 
 
 <section class="ecommerce-about" style="
@@ -20,7 +230,9 @@ background-position: center;
                     <ol class="breadcrumb breadcrumb-light justify-content-center mt-4">
                         <li class="breadcrumb-item"><a href="#">Product</a></li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            Product Details
+                          <a href="{{ route('product.detail', ['id' => $product->id]) }}">
+                          {{ $product->title }}
+                          </a>
                         </li>
                     </ol>
                 </nav>
@@ -63,27 +275,26 @@ background-position: center;
             <div class="tab-content text-muted">
                 <div class="tab-pane active" id="pricechart" role="tabpanel">
                     <table class="table fs-15 align-middle table-nowrap mt-4">
-                      <thead>
-                        <tr>
-                            <th scope="col" style="text-align: center;">Qty</th>
-                            @foreach($quantities as $quantity)
-                                <th scope="col" data-quantity="{{ $quantity }}" style="text-align: center;">{{ $quantity }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style="text-align: center;">
-                                <a href="#" class="text-body">Price</a>
-                            </td>
-                            @foreach($prices as $price)
+                        <thead>
+                            <tr>
+                                <th scope="col">Qty</th>
+                                @foreach($quantities as $quantity)
+                                    <th scope="col" data-quantity="{{ $quantity }}">{{ $quantity }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="#" class="text-body">Price</a>
+                                </td>
+                                @foreach($prices as $price)
                                 <td class="fw-medium" data-price="{{ $price }}" id="pricing-{{ $price }}" style="text-align: center;">
                                     ${{ number_format($price, 2) }}
                                 </td>
                             @endforeach
-                        </tr>
-                    </tbody>
-
+                            </tr>
+                        </tbody>
                     </table>
 
                 </div>
@@ -485,30 +696,30 @@ background-position: center;
     <div class="row gx-2">
         <div class="col-lg-4">
             <div class="row">
-              <div class="col-md-3 mb-3">
-                <div thumbsSlider="" class="swiper productSwiper mb-3 mb-lg-0 d-flex">
-                    <div class="swiper-wrapper d-flex" id="thumbnail-wrapper">
-                        @foreach($product->base_images as $image)
-                            <div class="swiper-slide base-image">
-                                <div class="product-thumb rounded cursor-pointer">
-                                    <img src="{{ asset('storage/' . $image) }}" alt="Product Base Image" class="img-fluid" />
-                                </div>
-                            </div>
-                        @endforeach
+                <div class="col-md-3 mb-3">
+                    <div thumbsSlider="" class="swiper productSwiper mb-3 mb-lg-0 d-flex">
+                        <div class="swiper-wrapper d-flex" id="thumbnail-wrapper">
+                          @foreach($product->base_images as $image)
+                          <div class="swiper-slide base-image">
+                              <div class="product-thumb rounded cursor-pointer">
+                                  <img src="{{ asset('storage/' . $image) }}" alt="Product Base Image" class="img-fluid" />
+                              </div>
+                          </div>
+                      @endforeach
 
-                        @if($colors && !empty($colors->images))
-                            @foreach($colors->images as $index => $image)
-                                <div class="swiper-slide color-image" data-color="{{ strtolower($colors->color[$index]) }}">
-                                    <div class="product-thumb rounded cursor-pointer">
-                                        <img src="{{ asset('storage/' . $image) }}" alt="Product Color Image" class="img-fluid" />
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
+                      @if($colors && !empty($colors->images))
+                          @foreach($colors->images as $index => $image)
+                              <div class="swiper-slide color-image" data-color="{{ strtolower($colors->color[$index]) }}">
+                                  <div class="product-thumb rounded cursor-pointer">
+                                      <img src="{{ asset('storage/' . $image) }}" alt="Product Color Image" class="img-fluid" />
+                                  </div>
+                              </div>
+                          @endforeach
+                      @endif
+                        </div>
+
                     </div>
                 </div>
-            </div>
-
 
                 <!-- Main Product Images -->
                 <div class="col-md-10">
@@ -520,18 +731,18 @@ background-position: center;
                         <div class="swiper productSwiper2">
                             <div class="swiper-wrapper" id="main-view-wrapper">
                               @foreach($product->base_images as $image)
-                                    <div class="swiper-slide base-image">
-                                        <img src="{{ asset('storage/' . $image) }}" alt="Product Image" class="img-fluid" />
-                                    </div>
-                                @endforeach
+                              <div class="swiper-slide base-image">
+                                  <img src="{{ asset('storage/' . $image) }}" alt="Product Image" class="img-fluid" />
+                              </div>
+                          @endforeach
 
-                                @if($colors && !empty($colors->images))
-                                @foreach($colors->images as $index => $image)
-                                        <div class="swiper-slide color-image"data-color="{{ strtolower($colors->color[$index]) }}">
-                                            <img src="{{ asset('storage/' . $image) }}" alt="Color Variation Image" class="img-fluid" />
-                                        </div>
-                                    @endforeach
-                                @endif
+                          @if($colors && !empty($colors->images))
+                          @foreach($colors->images as $index => $image)
+                                  <div class="swiper-slide color-image"data-color="{{ strtolower($colors->color[$index]) }}">
+                                      <img src="{{ asset('storage/' . $image) }}" alt="Color Variation Image" class="img-fluid" />
+                                  </div>
+                              @endforeach
+                          @endif
                             </div>
 
 
@@ -544,6 +755,23 @@ background-position: center;
 
             </div>
 
+            <!-- Product Action Buttons -->
+            <div class="col-lg-12">
+                <div class="mt-3">
+                    <div class="hstack gap-2">
+                        <button type="button" class="btn btn-success btn-hover w-100">
+                            <i class="bi bi-basket2 me-2"></i> Add To Cart
+                        </button>
+                        <button type="button" class="btn btn-primary btn-hover w-100">
+                            <i class="bi bi-cart2 me-2"></i> Buy Now
+                        </button>
+                        <button class="btn btn-soft-danger custom-toggle btn-hover" data-bs-toggle="button" aria-pressed="true">
+                            <span class="icon-on"><i class="ri-heart-line"></i></span>
+                            <span class="icon-off"><i class="ri-heart-fill"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
             <!--end row-->
         </div>
@@ -604,7 +832,7 @@ background-position: center;
                     <label for="beanie-color" class="section-header">Select Beanies Color</label>
                     <select id="beanie-color" class="form-control">
                         <option>Select Beanies Color</option>
-
+                        <option value="all">All Colors</option>
                         @if(!empty($colorNames))
                             @foreach($colorNames as $colorName)
                                 <option value="{{ strtolower($colorName) }}">{{ ucfirst($colorName) }}</option>
@@ -616,34 +844,33 @@ background-position: center;
 
 
 
-                    <div class="container">
-                        <div class="section-header mt-4">
-                            Select Printing Option
-                        </div>
 
-                        <div class="printing-options">
-                            @if($productPrintings->isNotEmpty())
-                                @foreach($productPrintings as $printing)
-                                    <div class="option-card printing-option"
-                                         data-id="{{ $printing->id }}"
-                                         data-title="{{ $printing->title }}"
-                                         data-quantities="{{ json_encode($printing->quantity) }}"
-                                         data-prices="{{ json_encode($printing->price) }}">
-                                        <img src="{{ asset('storage/' . $printing->image) }} " alt="{{ $printing->title }}">
-                                        <h3>{{ $printing->title }}</h3>
-                                    </div>
-                                @endforeach
-                            @else
-                                <p>No printing options available.</p>
-                            @endif
-                        </div>
-                    </div>
+  <div class="section-header mt-4">
+      Select Printing Option
+  </div>
 
+  <div class="printing-options">
+      @if($productPrintings->isNotEmpty())
+          @foreach($productPrintings as $printing)
+              <div class="option-card printing-option"
+                   data-id="{{ $printing->id }}"
+                   data-title="{{ $printing->title }}"
+                   data-quantities="{{ json_encode($printing->quantity) }}"
+                   data-prices="{{ json_encode($printing->price) }}">
+                  <img src="{{ asset('storage/' . $printing->image) }} " alt="{{ $printing->title }}">
+                  <h3>{{ $printing->title }}</h3>
+              </div>
+          @endforeach
+      @else
+          <p>No printing options available.</p>
+      @endif
+  </div>
 
 
 
 
-                      <div class="container my-5">
+
+                      <div class="container my-5" id="artwork-upload">
                         <h2 class="text-center mb-4">Upload Your Artwork</h2>
 
                         <!-- Artwork Type -->
@@ -711,426 +938,437 @@ background-position: center;
                 </div>
 
 
+                <div class="container">
+                  <div class="customization-section bg-white border border-light">
+
+                      <div class="d-flex justify-content-between align-items-center mb-3">
+                          <div class="step">
+                              STEP 3
+                          </div>
+                          <h2 class="h4 mb-0 ml-2">Shipping</h2>
+                          <div class="price-details">
+                              Total Qty: <span>12</span> | Price: <span>$168.12</span>
+                          </div>
+                      </div>
+                      <div class="radio-options">
+                          <label>
+                              <input type="radio" name="shippingOption" value="pickYourself" checked onchange="toggleOptions()"> Pick Yourself
+                          </label>
+                          <label>
+                              <input type="radio" name="shippingOption" value="viewBundle" onchange="toggleOptions()"> View Shipping Bundle
+                          </label>
+                      </div>
+                      <div id="pickYourselfBox" class="option-box">
+                          <ul class="dselects">
+                              <li>
+                                  <span class="check">
+
+                                      <i class="fa-solid fa-truck"></i>
+                                  </span>
+                                  <div class="delivery_date w3_bg">Pick Yourself
+
+
+                                  </div>
+                                  <div class="delivery_price w3_bg">
+                                      <span class="delivery_price_number text-danger"
+                                          style="font-weight:700">FREE</span>
+                                  </div>
+                              </li>
+                                  </ul>
+                      </div>
+                      <div id="viewBundleBox" class="option-box" style="display: none;">
+
+                        @if ($latestProductDelivery)
+
+                        <ul class="dselects">
+                            @php
+                                $quantitiesdelivery = json_decode($latestProductDelivery->quantity, true);
+                                $pricesDelivery = json_decode($latestProductDelivery->pricing, true);
+                            @endphp
+
+                            @if ($quantitiesdelivery && $pricesDelivery && count($quantitiesdelivery) === count($pricesDelivery))
+                                @foreach ($quantitiesdelivery as $index => $quantitydelivery)
+                                    <li>
+                                        <span class="check"><i class="fa-solid fa-truck"></i></span>
+                                        <div class="delivery_date w3_bg">Qty: {{ $quantitydelivery }}</div>
+                                        <div class="delivery_price w3_bg">Price: ${{ number_format($pricesDelivery[$index], 2) }}</div>
+                                    </li>
+                                @endforeach
+                            @else
+                                <li>
+                                    <div class="delivery_date w3_bg">Data mismatch or incomplete</div>
+                                </li>
+                            @endif
+                        </ul>
+                    @else
+                        <p>No delivery records found.</p>
+                    @endif
+
+                      </div>
+
+
+
+
+
+                      <div class="col-md-12 content-outer delivery-outer-box review-order-detail mt-2 w3_bg">
+                          <div class="review_order w3_bg">
+                              <div class="order_details_review order-detail w3_bg">
+                                  <div class="row w3_bg">
+                                      <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
+                                          <p class="order-overview-selected-product"> Product:</p>
+                                          <p></p>
+                                      </div>
+                                      <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
+                                          <p><span class="s3-total-product-name">  {{ $product->title }}</span>
+                                          </p>
+                                      </div>
+                                      <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
+                                          <p> Total Quantity: </p>
+                                      </div>
+                                      <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
+                                          <p><span class="s3-total-qty">12</span><span
+                                                  class="get_free_offer_qty text-warning text_theme_color"></span><span
+                                                  class="amount" style="display: none;"></span></p>
+                                      </div>
+                                      <div style="display:none"
+                                          class="s3-increment-on-total-parent col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
+                                          <p> Setup Charge: </p>
+                                          <p></p>
+                                      </div>
+                                      <div style="display:none"
+                                          class="s3-increment-on-total-parent col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
+                                          <p><span class="dollar_sign">$</span><span
+                                                  class="amount s3-increment-on-total">0.00</span><span
+                                                  class="dollar_sign"></span></p>
+                                      </div>
+                                      <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
+                                        <p> Amount Calculaion: </p>
+                                        <p></p>
+                                    </div>
+                                    <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
+                                        <p><span class="amount s3-total-price">Product Price: &nbsp;</span>
+                                          <span class="dollar_sign">$</span><span id="product_price">2430.32</span></p>
+
+                                          <p><span class="amount s3-total-price">Customization: &nbsp;</span>
+                                            <span class="dollar_sign">$</span><span id="customization_price">2430.32</span></p>
+
+
+                                          <p><span class="amount s3-total-price">Delivery Price: &nbsp;</span>
+                                            <span class="dollar_sign">$</span><span id="delivery_price">2430.32</span></p>
+
+                                    </div>
+                                      <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
+                                          <p> Total Amount: </p>
+                                          <p></p>
+                                      </div>
+                                      <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
+                                          <p><span class="dollar_sign">$</span><span
+                                                  class="amount s3-total-price">130.32</span><span
+                                                  class="dollar_sign"></span> (All Inclusive)</p>
+                                      </div>
+
+
+                                  </div>
+
+
+                                  <div class="form-group w3_bg" id="other_reason_div" style="display: none">
+                                      <div class="text-left mb-1 mt-3 w3_bg">
+                                          <input type="text" class="form-control" name="other_reason"
+                                              onchange="selectOrderFor(this,'input')" id="other_reason"
+                                              placeholder="Enter details...." value="">
+                                      </div>
+                                  </div>
+
+                              </div>
+                          </div>
+                          <input type="radio" class="d-none" name="product_id" checked="" value="716">
+                          <input type="hidden" name="action" value="addToCart">
+                          <input type="hidden" name="sample" value="true" class="d-none smp-contents">
+                          <div class="order-button-box w3_bg">
+                              <div class="order-button-payment text-center w3_bg">
+                                  <button class="btn btn-success btnAddToCart" aria-hidden="true">
+                                      <svg style="margin-right: 10px; margin-bottom: 5px;" width="23" height="22"
+                                          viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path
+                                              d="M1 1H4.81818L7.37636 13.7524C7.46365 14.1909 7.70273 14.5847 8.05175 14.865C8.40077 15.1454 8.83748 15.2943 9.28545 15.2857H18.5636C19.0116 15.2943 19.4483 15.1454 19.7973 14.865C20.1464 14.5847 20.3854 14.1909 20.4727 13.7524L22 5.7619H5.77273M9.59091 20.0476C9.59091 20.5736 9.16354 21 8.63636 21C8.10918 21 7.68182 20.5736 7.68182 20.0476C7.68182 19.5216 8.10918 19.0952 8.63636 19.0952C9.16354 19.0952 9.59091 19.5216 9.59091 20.0476ZM20.0909 20.0476C20.0909 20.5736 19.6635 21 19.1364 21C18.6092 21 18.1818 20.5736 18.1818 20.0476C18.1818 19.5216 18.6092 19.0952 19.1364 19.0952C19.6635 19.0952 20.0909 19.5216 20.0909 20.0476Z"
+                                              stroke="white" stroke-width="2" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                      </svg>
+                                      Add To Cart</button>
+                                  <div class="cartLoad ximgLoading w3_bg" style="display:none;"><img
+                                          data-class="LazyLoad" src="https://www.imprintnow.ca/cache/blank.png"
+                                          data-src="https://d3ngdnua5h1yvk.cloudfront.net/images/mload.gif"></div>
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+                  </div>
+
+
+
+
             </div>
         </div>
         <!--end col-->
-<div class="col-lg-8 ms-auto">
-        <div class="container">
-          <div class="customization-section bg-white border border-light">
-
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                  <div class="step">
-                      STEP 3
-                  </div>
-                  <h2 class="h4 mb-0 ml-2">Shipping</h2>
-                  <div class="price-details">
-                      Total Qty: <span>12</span> | Price: <span>$168.12</span>
-                  </div>
-              </div>
-              <div class="radio-options">
-                  <label>
-                      <input type="radio" name="shippingOption" value="pickYourself" checked onchange="toggleOptions()"> Pick Yourself
-                  </label>
-                  <label>
-                      <input type="radio" name="shippingOption" value="viewBundle" onchange="toggleOptions()"> View Shipping Bundle
-                  </label>
-              </div>
-              <div id="pickYourselfBox" class="option-box">
-                  <ul class="dselects">
-                      <li>
-                          <span class="check">
-
-                              <i class="fa-solid fa-truck"></i>
-                          </span>
-                          <div class="delivery_date w3_bg">Pick Yourself
-
-
-                          </div>
-                          <div class="delivery_price w3_bg">
-                              <span class="delivery_price_number text-danger"
-                                  style="font-weight:700">FREE</span>
-                          </div>
-                      </li>
-                          </ul>
-              </div>
-              <div id="viewBundleBox" class="option-box" style="display: none;">
-
-                @if ($latestProductDelivery)
-              
-                <ul class="dselects">
-                    @php
-                        $quantities = json_decode($latestProductDelivery->quantity, true);
-                        $prices = json_decode($latestProductDelivery->pricing, true);
-                    @endphp
-
-                    @if ($quantities && $prices && count($quantities) === count($prices))
-                        @foreach ($quantities as $index => $quantity)
-                            <li>
-                                <span class="check"><i class="fa-solid fa-truck"></i></span>
-                                <div class="delivery_date w3_bg">Qty: {{ $quantity }}</div>
-                                <div class="delivery_price w3_bg">Price: ${{ number_format($prices[$index], 2) }}</div>
-                            </li>
-                        @endforeach
-                    @else
-                        <li>
-                            <div class="delivery_date w3_bg">Data mismatch or incomplete</div>
-                        </li>
-                    @endif
-                </ul>
-            @else
-                <p>No delivery records found.</p>
-            @endif
-
-              </div>
-          <!-- </div> -->
 
 
 
-
-              <div class="col-md-12 content-outer delivery-outer-box review-order-detail mt-2 w3_bg">
-                  <div class="review_order w3_bg">
-                      <div class="order_details_review order-detail w3_bg">
-                          <div class="row w3_bg">
-                              <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
-                                  <p class="order-overview-selected-product"> Product:</p>
-                                  <p></p>
-                              </div>
-                              <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
-                                  <p><span class="s3-total-product-name">  {{ $product->title }}</span>
-                                  </p>
-                              </div>
-                              <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
-                                  <p> Total Quantity: </p>
-                              </div>
-                              <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
-                                  <p><span class="s3-total-qty">12</span><span
-                                          class="get_free_offer_qty text-warning text_theme_color"></span><span
-                                          class="amount" style="display: none;"></span></p>
-                              </div>
-                              <div style="display:none"
-                                  class="s3-increment-on-total-parent col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
-                                  <p> Setup Charge: </p>
-                                  <p></p>
-                              </div>
-                              <div style="display:none"
-                                  class="s3-increment-on-total-parent col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
-                                  <p><span class="dollar_sign">$</span><span
-                                          class="amount s3-increment-on-total">0.00</span><span
-                                          class="dollar_sign"></span></p>
-                              </div>
-                              <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
-                                <p> Amount Calculaion: </p>
-                                <p></p>
-                            </div>
-                            <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
-                                <p><span
-                                        class="amount s3-total-price">Product Price: &nbsp;</span><span
-                                        class="dollar_sign"></span> <span class="dollar_sign">$</span>2430.32</p>
-                                        <p><span
-                                          class="amount s3-total-price">Customization: &nbsp;</span><span
-                                          class="dollar_sign"></span> <span class="dollar_sign">$</span>2430.32</p>
-                                          <p><span
-                                            class="amount s3-total-price">Delivery Price:&nbsp; </span><span
-                                            class="dollar_sign"></span> <span class="dollar_sign">$</span>2430.32</p>
-                            </div>
-                              <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
-                                  <p> Total Amount: </p>
-                                  <p></p>
-                              </div>
-                              <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
-                                  <p><span class="dollar_sign">$</span><span
-                                          class="amount s3-total-price">130.32</span><span
-                                          class="dollar_sign"></span> (All Inclusive)</p>
-                              </div>
-
-
-                          </div>
-
-
-                          <div class="form-group w3_bg" id="other_reason_div" style="display: none">
-                              <div class="text-left mb-1 mt-3 w3_bg">
-                                  <input type="text" class="form-control" name="other_reason"
-                                      onchange="selectOrderFor(this,'input')" id="other_reason"
-                                      placeholder="Enter details...." value="">
-                              </div>
-                          </div>
-
-                      </div>
-                  </div>
-                  <input type="radio" class="d-none" name="product_id" checked="" value="716">
-                  <input type="hidden" name="action" value="addToCart">
-                  <input type="hidden" name="sample" value="true" class="d-none smp-contents">
-                  <div class="order-button-box w3_bg">
-                      <div class="order-button-payment text-center w3_bg">
-                          <button class="btn btn-success btnAddToCart" aria-hidden="true">
-                              <svg style="margin-right: 10px; margin-bottom: 5px;" width="23" height="22"
-                                  viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path
-                                      d="M1 1H4.81818L7.37636 13.7524C7.46365 14.1909 7.70273 14.5847 8.05175 14.865C8.40077 15.1454 8.83748 15.2943 9.28545 15.2857H18.5636C19.0116 15.2943 19.4483 15.1454 19.7973 14.865C20.1464 14.5847 20.3854 14.1909 20.4727 13.7524L22 5.7619H5.77273M9.59091 20.0476C9.59091 20.5736 9.16354 21 8.63636 21C8.10918 21 7.68182 20.5736 7.68182 20.0476C7.68182 19.5216 8.10918 19.0952 8.63636 19.0952C9.16354 19.0952 9.59091 19.5216 9.59091 20.0476ZM20.0909 20.0476C20.0909 20.5736 19.6635 21 19.1364 21C18.6092 21 18.1818 20.5736 18.1818 20.0476C18.1818 19.5216 18.6092 19.0952 19.1364 19.0952C19.6635 19.0952 20.0909 19.5216 20.0909 20.0476Z"
-                                      stroke="white" stroke-width="2" stroke-linecap="round"
-                                      stroke-linejoin="round"></path>
-                              </svg>
-                              Add To Cart</button>
-                          <div class="cartLoad ximgLoading w3_bg" style="display:none;"><img
-                                  data-class="LazyLoad" src="https://www.imprintnow.ca/cache/blank.png"
-                                  data-src="https://d3ngdnua5h1yvk.cloudfront.net/images/mload.gif"></div>
-                      </div>
-                  </div>
-              </div>
-
-          </div>
-          </div>
 
 
     </div>
-
-  </div>
     <!--end row-->
 </div>
 <!--end container-->
 </section>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const quantityInput = document.getElementById("quantity-input");
-    const totalQty = document.getElementById("total-qty");
-    const totalQtyCustomization = document.getElementById("total-qty2");
-    const totalPrice = document.getElementById("total-price");
-    const totalPriceCustomization = document.getElementById("total-price2");
-    const printingOptions = document.querySelectorAll(".printing-option");
+  document.addEventListener("DOMContentLoaded", function () {
+      const quantityInput = document.getElementById("quantity-input");
+      const totalQty = document.getElementById("total-qty");
+      const totalQtyCustomization = document.getElementById("total-qty2");
+      const totalPrice = document.getElementById("total-price");
+      const totalPriceCustomization = document.getElementById("total-price2");
+      const printingOptions = document.querySelectorAll(".printing-option");
 
-    let selectedPrintingPrice = 0;  // Store price based on the selected printing option
-    let selectedPrintingQuantities = [];  // Store quantities for selected printing
-    let pricesForSelectedPrinting = [];  // Store prices for selected printing
+      let selectedPrintingPrice = 0;  // Store price based on the selected printing option
+      let selectedPrintingQuantities = [];  // Store quantities for selected printing
+      let pricesForSelectedPrinting = [];  // Store prices for selected printing
 
-    // Quantities and prices from the server (for quantity-based price calculation)
-    const quantities = @json($quantities).map(Number);  // Ensure quantities are numbers
-    const prices = @json($prices).map(Number);  // Ensure prices are numbers
+      // Quantities and prices from the server (for quantity-based price calculation)
+      const quantities = @json($quantities).map(Number);  // Ensure quantities are numbers
+      const prices = @json($prices).map(Number);  // Ensure prices are numbers
 
-    console.log("Available Quantities: ", quantities);
-    console.log("Available Prices: ", prices);
+      console.log("Available Quantities: ", quantities);
+      console.log("Available Prices: ", prices);
 
-    // Handle printing option selection
-    printingOptions.forEach(option => {
-        option.addEventListener("click", function () {
-            // Remove active class from all options
-            printingOptions.forEach(opt => opt.classList.remove("active"));
-            // Add active class to the clicked option
-            this.classList.add("active");
+      // Handle printing option selection
+      printingOptions.forEach(option => {
+          option.addEventListener("click", function () {
+              // Remove active class from all options
+              printingOptions.forEach(opt => opt.classList.remove("active"));
+              // Add active class to the clicked option
+              this.classList.add("active");
 
-            // Get the selected printing option's quantities and prices
-            let quantitiesData = this.dataset.quantities;  // Raw data from the attribute
-            let pricesData = this.dataset.prices;  // Raw data from the attribute
+              // Get the selected printing option's quantities and prices
+              let quantitiesData = this.dataset.quantities;  // Raw data from the attribute
+              let pricesData = this.dataset.prices;  // Raw data from the attribute
 
-            console.log("Raw Quantities Data:", quantitiesData);
-            console.log("Raw Prices Data:", pricesData);
+              console.log("Raw Quantities Data:", quantitiesData);
+              console.log("Raw Prices Data:", pricesData);
 
-            try {
-                // Parse the quantities and prices safely
-                selectedPrintingQuantities = JSON.parse(quantitiesData);
-                pricesForSelectedPrinting = JSON.parse(pricesData);
+              try {
+                  // Parse the quantities and prices safely
+                  selectedPrintingQuantities = JSON.parse(quantitiesData);
+                  pricesForSelectedPrinting = JSON.parse(pricesData);
 
-                // Check if parsing was successful and log the results
-                console.log("Selected Quantities (parsed):", selectedPrintingQuantities);
-                console.log("Selected Prices (parsed):", pricesForSelectedPrinting);
+                  // Check if parsing was successful and log the results
+                  console.log("Selected Quantities (parsed):", selectedPrintingQuantities);
+                  console.log("Selected Prices (parsed):", pricesForSelectedPrinting);
 
-                // Ensure the parsed data is arrays of numbers
-                if (Array.isArray(selectedPrintingQuantities)) {
-                    selectedPrintingQuantities = selectedPrintingQuantities.map(Number);
-                }
+                  // Ensure the parsed data is arrays of numbers
+                  if (Array.isArray(selectedPrintingQuantities)) {
+                      selectedPrintingQuantities = selectedPrintingQuantities.map(Number);
+                  }
 
-                if (Array.isArray(pricesForSelectedPrinting)) {
-                    pricesForSelectedPrinting = pricesForSelectedPrinting.map(Number);
-                }
+                  if (Array.isArray(pricesForSelectedPrinting)) {
+                      pricesForSelectedPrinting = pricesForSelectedPrinting.map(Number);
+                  }
 
-                console.log("Selected Quantities after mapping to numbers:", selectedPrintingQuantities);
-                console.log("Selected Prices after mapping to numbers:", pricesForSelectedPrinting);
-            } catch (error) {
-                console.error("Error parsing quantities or prices data:", error);
-            }
+                  console.log("Selected Quantities after mapping to numbers:", selectedPrintingQuantities);
+                  console.log("Selected Prices after mapping to numbers:", pricesForSelectedPrinting);
+              } catch (error) {
+                  console.error("Error parsing quantities or prices data:", error);
+              }
 
-            // Recalculate total price after selecting the printing option
-            updatePrintingPriceAndTotal();
-        });
-    });
+              // Recalculate total price after selecting the printing option
+              updatePrintingPriceAndTotal();
+          });
+      });
 
-    // Function to calculate printing price based on quantity
-    function calculatePrintingPrice(quantity, quantities, prices) {
-        let price = 0;  // Default to 0 if no match is found
+      // Function to calculate printing price based on quantity
+      function calculatePrintingPrice(quantity, quantities, prices) {
+          let price = 0;  // Default to 0 if no match is found
 
-        console.log("Calculating price for quantity:", quantity);
+          console.log("Calculating price for quantity:", quantity);
 
-        // Ensure quantity is a valid number
-        quantity = parseInt(quantity);
+          // Ensure quantity is a valid number
+          quantity = parseInt(quantity);
 
-        if (isNaN(quantity)) {
-            console.error("Invalid quantity entered");
-            return price;  // Return 0 if the quantity is invalid
-        }
+          if (isNaN(quantity)) {
+              console.error("Invalid quantity entered");
+              return price;  // Return 0 if the quantity is invalid
+          }
 
-        // Ensure quantities and prices are arrays
-        if (!Array.isArray(quantities)) {
-            console.error("Quantities is not an array. Parsing the quantities...");
-            quantities = JSON.parse(quantities);  // Ensure it is an array if it's a string
-        }
+          // Ensure quantities and prices are arrays
+          if (!Array.isArray(quantities)) {
+              console.error("Quantities is not an array. Parsing the quantities...");
+              quantities = JSON.parse(quantities);  // Ensure it is an array if it's a string
+          }
 
-        if (!Array.isArray(prices)) {
-            console.error("Prices is not an array. Parsing the prices...");
-            prices = JSON.parse(prices);  // Ensure it is an array if it's a string
-        }
+          if (!Array.isArray(prices)) {
+              console.error("Prices is not an array. Parsing the prices...");
+              prices = JSON.parse(prices);  // Ensure it is an array if it's a string
+          }
 
-        // Now, parse quantities and prices as numbers
-        quantities = quantities.map(q => parseInt(q));
-        prices = prices.map(p => parseFloat(p));
+          // Now, parse quantities and prices as numbers
+          quantities = quantities.map(q => parseInt(q));
+          prices = prices.map(p => parseFloat(p));
 
-        console.log("Parsed Quantities:", quantities);
-        console.log("Parsed Prices:", prices);
+          console.log("Parsed Quantities:", quantities);
+          console.log("Parsed Prices:", prices);
 
-        // Loop through the quantities array to find the exact match
-        for (let i = 0; i < quantities.length; i++) {
-            console.log(`Checking if ${quantity} matches ${quantities[i]}`);
-            if (quantity === quantities[i]) {
-                price = prices[i];
-                console.log("Exact match found:", price);
-                return price;
-            }
-        }
+          // Loop through the quantities array to find the exact match
+          for (let i = 0; i < quantities.length; i++) {
+              console.log(`Checking if ${quantity} matches ${quantities[i]}`);
+              if (quantity === quantities[i]) {
+                  price = prices[i];
+                  console.log("Exact match found:", price);
+                  return price;
+              }
+          }
 
-        // If no exact match is found, find the largest quantity less than or equal to the entered quantity
-        console.log("No exact match found, checking for the largest valid quantity...");
-        let closestQuantity = -1;
-        for (let i = quantities.length - 1; i >= 0; i--) {
-            if (quantity >= quantities[i]) {
-                closestQuantity = quantities[i];
-                price = prices[i];
-                break;
-            }
-        }
+          // If no exact match is found, find the largest quantity less than or equal to the entered quantity
+          console.log("No exact match found, checking for the largest valid quantity...");
+          let closestQuantity = -1;
+          for (let i = quantities.length - 1; i >= 0; i--) {
+              if (quantity >= quantities[i]) {
+                  closestQuantity = quantities[i];
+                  price = prices[i];
+                  break;
+              }
+          }
 
-        if (closestQuantity === -1) {
-            console.error("No valid quantity found for the entered amount.");
-        } else {
-            console.log("Using closest quantity:", closestQuantity, "with price:", price);
-        }
+          if (closestQuantity === -1) {
+              console.error("No valid quantity found for the entered amount.");
+          } else {
+              console.log("Using closest quantity:", closestQuantity, "with price:", price);
+          }
 
-        return price;
-    }
-
-    // Function to update the printing price and calculate total price
-    function updatePrintingPriceAndTotal() {
-        const enteredQty = parseInt(quantityInput.value) || 0;
-        totalQty.textContent = enteredQty;
-        totalQtyCustomization.textContent = enteredQty;
-
-        // Recalculate the printing price based on the selected quantity
-        selectedPrintingPrice = calculatePrintingPrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
-
-        console.log("Selected Printing Price:", selectedPrintingPrice);
-
-        calculateTotalPrice(); // Recalculate the total price after updating printing price
-    }
-
-    // Calculate total price based on quantity and selected printing option
-    function calculateTotalPrice() {
-        const enteredQty = parseInt(quantityInput.value) || 0;
-        totalQty.textContent = enteredQty;
-        totalQtyCustomization.textContent = enteredQty;
-
-        let calculatedPrice = 0;
-
-        // Calculate base price based on quantity (default pricing)
-        if (enteredQty > 0) {
-            if (enteredQty > Math.max(...quantities)) {
-                calculatedPrice = prices[prices.length - 1];  // Use the highest price if quantity exceeds max
-            } else {
-                for (let i = 0; i < quantities.length; i++) {
-                    if (enteredQty >= quantities[i]) {
-                        calculatedPrice = prices[i];
-                    }
-                }
-            }
-        }
-
-        console.log("Calculated Price based on Quantity:", calculatedPrice);
-
-// Loop through all the price elements and check if the price matches the calculatedPrice
-document.querySelectorAll('[id^="pricing-"]').forEach(function(priceElement) {
-    const priceValue = parseFloat(priceElement.getAttribute('data-price')); // Get the price value
-
-    // Check if the current price matches the calculated price
-    if (priceValue === calculatedPrice) {
-        // Set the background color to blue if it matches
-        priceElement.style.backgroundColor = "#1D4B8F";
-        priceElement.style.color = "#fff";
-    } else {
-        // Reset the background color for all other prices
-        priceElement.style.backgroundColor = "";
-        priceElement.style.color = "black";
-    }
-});
-
-
-
-        // Now calculate the total price by adding the printing price if available
-        const total = (calculatedPrice * enteredQty);
-        // const total = (calculatedPrice * enteredQty) + (selectedPrintingPrice * enteredQty);
-        console.log("Total Price Calculated:", total);
-
-        // Update the displayed total price
-        if (isNaN(total)) {
-            totalPrice.textContent = "$0.00";
-            totalPriceCustomization.textContent = "$0.00";  // Ensure this is also updated
-        } else {
-            totalPrice.textContent = `$${total.toFixed(2)}`;
-
-            // Display calculated price for the selected printing option in the second field
-            totalPriceCustomization.textContent = `$${(selectedPrintingPrice * enteredQty).toFixed(2)}`;
-        }
-    }
-
-    // Update price when quantity is entered
-    quantityInput.addEventListener("input", updatePrintingPriceAndTotal);
-
-    // Prevent entering a value below the minimum quantity
-    quantityInput.addEventListener("blur", function () {
-        const enteredQty = parseInt(quantityInput.value) || 0;
-        if (enteredQty < Math.min(...quantities)) {
-            quantityInput.value = Math.min(...quantities);
-            calculateTotalPrice();
-        }
-    });
-});
-
-
-    // Script For Selecting an Embroidery card
-        document.addEventListener("DOMContentLoaded", function () {
-            const printingOptions = document.querySelectorAll(".option-card");
-
-            // Handle printing option selection
-            printingOptions.forEach(option => {
-                option.addEventListener("click", function () {
-                    // Remove the "selected" class from all other options
-                    printingOptions.forEach(opt => opt.classList.remove("selected"));
-
-                    // Add the "selected" class to the clicked option
-                    this.classList.add("selected");
-                });
-            });
-        });
-        </script>
- <script>
-  function toggleOptions() {
-      const pickYourselfBox = document.getElementById('pickYourselfBox');
-      const viewBundleBox = document.getElementById('viewBundleBox');
-      const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
-
-      if (selectedOption === 'pickYourself') {
-          pickYourselfBox.style.display = 'block';
-          viewBundleBox.style.display = 'none';
-      } else if (selectedOption === 'viewBundle') {
-          pickYourselfBox.style.display = 'none';
-          viewBundleBox.style.display = 'block';
+          return price;
       }
+
+      // Function to update the printing price and calculate total price
+      function updatePrintingPriceAndTotal() {
+          const enteredQty = parseInt(quantityInput.value) || 0;
+          totalQty.textContent = enteredQty;
+          totalQtyCustomization.textContent = enteredQty;
+
+          // Recalculate the printing price based on the selected quantity
+          selectedPrintingPrice = calculatePrintingPrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
+
+          console.log("Selected Printing Price:", selectedPrintingPrice);
+
+
+          calculateTotalPrice(); // Recalculate the total price after updating printing price
+      }
+
+      // Calculate total price based on quantity and selected printing option
+      function calculateTotalPrice() {
+      const enteredQty = parseInt(quantityInput.value) || 0;
+      totalQty.textContent = enteredQty;
+      totalQtyCustomization.textContent = enteredQty;
+
+      let calculatedPrice = 0;
+
+      // Calculate base price based on quantity (default pricing)
+      if (enteredQty > 0) {
+          if (enteredQty > Math.max(...quantities)) {
+              calculatedPrice = prices[prices.length - 1]; // Use the highest price if quantity exceeds max
+          } else {
+              for (let i = 0; i < quantities.length; i++) {
+                  if (enteredQty >= quantities[i]) {
+                      calculatedPrice = prices[i];
+                  }
+              }
+          }
+      }
+
+      console.log("Calculated Price based on Quantity:", calculatedPrice);
+
+      // Update the background color of matching price elements
+      document.querySelectorAll('[id^="pricing-"]').forEach(function(priceElement) {
+          const priceValue = parseFloat(priceElement.getAttribute('data-price')); // Get the price value
+
+          if (priceValue === calculatedPrice) {
+              priceElement.style.backgroundColor = "#1D4B8F";
+              priceElement.style.color = "#fff";
+          } else {
+              priceElement.style.backgroundColor = "";
+              priceElement.style.color = "black";
+          }
+      });
+
+      // Calculate the total price
+      const total = calculatedPrice * enteredQty;
+
+      console.log("Total Price Calculated:", total);
+
+      // Update the displayed total price
+      if (isNaN(total)) {
+          totalPrice.textContent = "$0.00";
+          totalPriceCustomization.textContent = "$0.00";
+      } else {
+          totalPrice.textContent = `$${total.toFixed(2)}`;
+          totalPriceCustomization.textContent = `$${(selectedPrintingPrice * enteredQty).toFixed(2)}`;
+      }
+
+      // Update artworkSelection visibility
+      const artworkSelection = document.getElementById("artwork-upload");
+
+      if (selectedPrintingPrice === 0 && total >= 1) {
+              artworkSelection.style.display = "none";
+
+          } else {
+              artworkSelection.style.display = "block";
+
+          }
   }
-</script>
+
+      // Update price when quantity is entered
+      quantityInput.addEventListener("input", updatePrintingPriceAndTotal);
+
+      // Prevent entering a value below the minimum quantity
+      quantityInput.addEventListener("blur", function () {
+          const enteredQty = parseInt(quantityInput.value) || 0;
+          if (enteredQty < Math.min(...quantities)) {
+              quantityInput.value = Math.min(...quantities);
+              calculateTotalPrice();
+          }
+      });
+  });
+
+
+      // Script For Selecting an Embroidery card
+          document.addEventListener("DOMContentLoaded", function () {
+              const printingOptions = document.querySelectorAll(".option-card");
+
+              // Handle printing option selection
+              printingOptions.forEach(option => {
+                  option.addEventListener("click", function () {
+                      // Remove the "selected" class from all other options
+                      printingOptions.forEach(opt => opt.classList.remove("selected"));
+
+                      // Add the "selected" class to the clicked option
+                      this.classList.add("selected");
+                  });
+              });
+          });
+          </script>
+   <script>
+    function toggleOptions() {
+        const pickYourselfBox = document.getElementById('pickYourselfBox');
+        const viewBundleBox = document.getElementById('viewBundleBox');
+        const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+
+        if (selectedOption === 'pickYourself') {
+            pickYourselfBox.style.display = 'block';
+            viewBundleBox.style.display = 'none';
+        } else if (selectedOption === 'viewBundle') {
+            pickYourselfBox.style.display = 'none';
+            viewBundleBox.style.display = 'block';
+        }
+    }
+  </script>
+
 @endsection
