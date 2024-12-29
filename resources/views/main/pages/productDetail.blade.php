@@ -947,7 +947,7 @@ background-position: center;
                           </div>
                           <h2 class="h4 mb-0 ml-2">Shipping</h2>
                           <div class="price-details">
-                              Total Qty: <span>12</span> | Price: <span>$168.12</span>
+                              Total Qty: <span id="total-qty3"></span> | Price: <span id="total-price3">$168.12</span>
                           </div>
                       </div>
                       <div class="radio-options">
@@ -1121,254 +1121,150 @@ background-position: center;
 </div>
 <!--end container-->
 </section>
-
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-      const quantityInput = document.getElementById("quantity-input");
-      const totalQty = document.getElementById("total-qty");
-      const totalQtyCustomization = document.getElementById("total-qty2");
-      const totalPrice = document.getElementById("total-price");
-      const totalPriceCustomization = document.getElementById("total-price2");
-      const printingOptions = document.querySelectorAll(".printing-option");
+    document.addEventListener("DOMContentLoaded", function () {
+    const quantityInput = document.getElementById("quantity-input");
+    const totalQty = document.getElementById("total-qty");
+    const totalQtyCustomization = document.getElementById("total-qty2");
+    const totalQtyDelivery = document.getElementById("total-qty3");
+    const totalPrice = document.getElementById("total-price");
+    const totalPriceCustomization = document.getElementById("total-price2");
+    const totalPriceDelivery = document.getElementById("total-price3");
+    const printingOptions = document.querySelectorAll(".printing-option");
+    const shippingOptions = document.querySelectorAll('input[name="shippingOption"]');
+    const pickYourselfBox = document.getElementById('pickYourselfBox');
+    const viewBundleBox = document.getElementById('viewBundleBox');
+    const artworkSelection = document.getElementById("artwork-upload");
 
-      let selectedPrintingPrice = 0;  // Store price based on the selected printing option
-      let selectedPrintingQuantities = [];  // Store quantities for selected printing
-      let pricesForSelectedPrinting = [];  // Store prices for selected printing
+    let selectedPrintingPrice = 0;
+    let selectedPrintingQuantities = [];
+    let pricesForSelectedPrinting = [];
 
-      // Quantities and prices from the server (for quantity-based price calculation)
-      const quantities = @json($quantities).map(Number);  // Ensure quantities are numbers
-      const prices = @json($prices).map(Number);  // Ensure prices are numbers
+    // Quantities and prices from server (ensure they are numbers)
+    const quantities = @json($quantities).map(Number);
+    const prices = @json($prices).map(Number);
+    const quantitiesDelivery = @json($quantitiesdelivery).map(Number);
+    const pricesDelivery = @json($pricesDelivery).map(Number);
 
-      console.log("Available Quantities: ", quantities);
-      console.log("Available Prices: ", prices);
+    // Handle printing option selection
+    printingOptions.forEach(option => {
+        option.addEventListener("click", function () {
+            printingOptions.forEach(opt => opt.classList.remove("active"));
+            this.classList.add("active");
 
-      // Handle printing option selection
-      printingOptions.forEach(option => {
-          option.addEventListener("click", function () {
-              // Remove active class from all options
-              printingOptions.forEach(opt => opt.classList.remove("active"));
-              // Add active class to the clicked option
-              this.classList.add("active");
+            try {
+                selectedPrintingQuantities = JSON.parse(this.dataset.quantities).map(Number);
+                pricesForSelectedPrinting = JSON.parse(this.dataset.prices).map(Number);
+                updatePrintingPriceAndTotal();
+            } catch (error) {
+                console.error("Error parsing quantities or prices data:", error);
+            }
+        });
+    });
 
-              // Get the selected printing option's quantities and prices
-              let quantitiesData = this.dataset.quantities;  // Raw data from the attribute
-              let pricesData = this.dataset.prices;  // Raw data from the attribute
+    // Function to calculate printing price based on quantity
+    function calculatePrice(quantity, quantities, prices) {
+        quantity = parseInt(quantity);
+        if (isNaN(quantity)) return 0;
 
-              console.log("Raw Quantities Data:", quantitiesData);
-              console.log("Raw Prices Data:", pricesData);
+        let price = 0;
+        for (let i = quantities.length - 1; i >= 0; i--) {
+            if (quantity >= quantities[i]) {
+                price = prices[i];
+                break;
+            }
+        }
+        return price;
+    }
 
-              try {
-                  // Parse the quantities and prices safely
-                  selectedPrintingQuantities = JSON.parse(quantitiesData);
-                  pricesForSelectedPrinting = JSON.parse(pricesData);
+    // Update printing price and total price
+    function updatePrintingPriceAndTotal() {
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        totalQty.textContent = enteredQty;
+        totalQtyCustomization.textContent = enteredQty;
+        totalQtyDelivery.textContent = enteredQty;
 
-                  // Check if parsing was successful and log the results
-                  console.log("Selected Quantities (parsed):", selectedPrintingQuantities);
-                  console.log("Selected Prices (parsed):", pricesForSelectedPrinting);
+        selectedPrintingPrice = calculatePrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
+        calculateTotalPrice();
+    }
 
-                  // Ensure the parsed data is arrays of numbers
-                  if (Array.isArray(selectedPrintingQuantities)) {
-                      selectedPrintingQuantities = selectedPrintingQuantities.map(Number);
-                  }
+    // Update total price based on quantity and selected printing option
+    function calculateTotalPrice() {
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        let calculatedPrice = calculatePrice(enteredQty, quantities, prices);
+        const total = calculatedPrice * enteredQty;
 
-                  if (Array.isArray(pricesForSelectedPrinting)) {
-                      pricesForSelectedPrinting = pricesForSelectedPrinting.map(Number);
-                  }
+        totalPrice.textContent = `$${total.toFixed(2)}`;
+        totalPriceCustomization.textContent = `$${(selectedPrintingPrice * enteredQty).toFixed(2)}`;
 
-                  console.log("Selected Quantities after mapping to numbers:", selectedPrintingQuantities);
-                  console.log("Selected Prices after mapping to numbers:", pricesForSelectedPrinting);
-              } catch (error) {
-                  console.error("Error parsing quantities or prices data:", error);
-              }
+        if (selectedPrintingPrice === 0 && total >= 1) {
+            artworkSelection.style.display = "none";
+        } else {
+            artworkSelection.style.display = "block";
+        }
+    }
 
-              // Recalculate total price after selecting the printing option
-              updatePrintingPriceAndTotal();
-          });
-      });
+    // Update delivery price and total cost for "View Shipping Bundle"
+    function updateDeliveryPriceAndTotal() {
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        const deliveryPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
+        const totalDelivery = deliveryPrice * enteredQty;
+        totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
+    }
 
-      // Function to calculate printing price based on quantity
-      function calculatePrintingPrice(quantity, quantities, prices) {
-          let price = 0;  // Default to 0 if no match is found
-
-          console.log("Calculating price for quantity:", quantity);
-
-          // Ensure quantity is a valid number
-          quantity = parseInt(quantity);
-
-          if (isNaN(quantity)) {
-              console.error("Invalid quantity entered");
-              return price;  // Return 0 if the quantity is invalid
-          }
-
-          // Ensure quantities and prices are arrays
-          if (!Array.isArray(quantities)) {
-              console.error("Quantities is not an array. Parsing the quantities...");
-              quantities = JSON.parse(quantities);  // Ensure it is an array if it's a string
-          }
-
-          if (!Array.isArray(prices)) {
-              console.error("Prices is not an array. Parsing the prices...");
-              prices = JSON.parse(prices);  // Ensure it is an array if it's a string
-          }
-
-          // Now, parse quantities and prices as numbers
-          quantities = quantities.map(q => parseInt(q));
-          prices = prices.map(p => parseFloat(p));
-
-          console.log("Parsed Quantities:", quantities);
-          console.log("Parsed Prices:", prices);
-
-          // Loop through the quantities array to find the exact match
-          for (let i = 0; i < quantities.length; i++) {
-              console.log(`Checking if ${quantity} matches ${quantities[i]}`);
-              if (quantity === quantities[i]) {
-                  price = prices[i];
-                  console.log("Exact match found:", price);
-                  return price;
-              }
-          }
-
-          // If no exact match is found, find the largest quantity less than or equal to the entered quantity
-          console.log("No exact match found, checking for the largest valid quantity...");
-          let closestQuantity = -1;
-          for (let i = quantities.length - 1; i >= 0; i--) {
-              if (quantity >= quantities[i]) {
-                  closestQuantity = quantities[i];
-                  price = prices[i];
-                  break;
-              }
-          }
-
-          if (closestQuantity === -1) {
-              console.error("No valid quantity found for the entered amount.");
-          } else {
-              console.log("Using closest quantity:", closestQuantity, "with price:", price);
-          }
-
-          return price;
-      }
-
-      // Function to update the printing price and calculate total price
-      function updatePrintingPriceAndTotal() {
-          const enteredQty = parseInt(quantityInput.value) || 0;
-          totalQty.textContent = enteredQty;
-          totalQtyCustomization.textContent = enteredQty;
-
-          // Recalculate the printing price based on the selected quantity
-          selectedPrintingPrice = calculatePrintingPrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
-
-          console.log("Selected Printing Price:", selectedPrintingPrice);
-
-
-          calculateTotalPrice(); // Recalculate the total price after updating printing price
-      }
-
-      // Calculate total price based on quantity and selected printing option
-      function calculateTotalPrice() {
-      const enteredQty = parseInt(quantityInput.value) || 0;
-      totalQty.textContent = enteredQty;
-      totalQtyCustomization.textContent = enteredQty;
-
-      let calculatedPrice = 0;
-
-      // Calculate base price based on quantity (default pricing)
-      if (enteredQty > 0) {
-          if (enteredQty > Math.max(...quantities)) {
-              calculatedPrice = prices[prices.length - 1]; // Use the highest price if quantity exceeds max
-          } else {
-              for (let i = 0; i < quantities.length; i++) {
-                  if (enteredQty >= quantities[i]) {
-                      calculatedPrice = prices[i];
-                  }
-              }
-          }
-      }
-
-      console.log("Calculated Price based on Quantity:", calculatedPrice);
-
-      // Update the background color of matching price elements
-      document.querySelectorAll('[id^="pricing-"]').forEach(function(priceElement) {
-          const priceValue = parseFloat(priceElement.getAttribute('data-price')); // Get the price value
-
-          if (priceValue === calculatedPrice) {
-              priceElement.style.backgroundColor = "#1D4B8F";
-              priceElement.style.color = "#fff";
-          } else {
-              priceElement.style.backgroundColor = "";
-              priceElement.style.color = "black";
-          }
-      });
-
-      // Calculate the total price
-      const total = calculatedPrice * enteredQty;
-
-      console.log("Total Price Calculated:", total);
-
-      // Update the displayed total price
-      if (isNaN(total)) {
-          totalPrice.textContent = "$0.00";
-          totalPriceCustomization.textContent = "$0.00";
-      } else {
-          totalPrice.textContent = `$${total.toFixed(2)}`;
-          totalPriceCustomization.textContent = `$${(selectedPrintingPrice * enteredQty).toFixed(2)}`;
-      }
-
-      // Update artworkSelection visibility
-      const artworkSelection = document.getElementById("artwork-upload");
-
-      if (selectedPrintingPrice === 0 && total >= 1) {
-              artworkSelection.style.display = "none";
-
-          } else {
-              artworkSelection.style.display = "block";
-
-          }
-  }
-
-      // Update price when quantity is entered
-      quantityInput.addEventListener("input", updatePrintingPriceAndTotal);
-
-      // Prevent entering a value below the minimum quantity
-      quantityInput.addEventListener("blur", function () {
-          const enteredQty = parseInt(quantityInput.value) || 0;
-          if (enteredQty < Math.min(...quantities)) {
-              quantityInput.value = Math.min(...quantities);
-              calculateTotalPrice();
-          }
-      });
-  });
-
-
-      // Script For Selecting an Embroidery card
-          document.addEventListener("DOMContentLoaded", function () {
-              const printingOptions = document.querySelectorAll(".option-card");
-
-              // Handle printing option selection
-              printingOptions.forEach(option => {
-                  option.addEventListener("click", function () {
-                      // Remove the "selected" class from all other options
-                      printingOptions.forEach(opt => opt.classList.remove("selected"));
-
-                      // Add the "selected" class to the clicked option
-                      this.classList.add("selected");
-                  });
-              });
-          });
-          </script>
-   <script>
+    // Toggle between "Pick Yourself" and "View Shipping Bundle"
     function toggleOptions() {
-        const pickYourselfBox = document.getElementById('pickYourselfBox');
-        const viewBundleBox = document.getElementById('viewBundleBox');
         const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
 
         if (selectedOption === 'pickYourself') {
             pickYourselfBox.style.display = 'block';
             viewBundleBox.style.display = 'none';
-        } else if (selectedOption === 'viewBundle') {
+            totalPriceDelivery.textContent = '$0.00';
+            resetTotalPrice();
+        } else {
             pickYourselfBox.style.display = 'none';
             viewBundleBox.style.display = 'block';
+            updateDeliveryPriceAndTotal();
         }
     }
-  </script>
 
+    // Reset the total price to $0 for "Pick Yourself"
+    function resetTotalPrice() {
+        totalPrice.textContent = "$0.00";
+        totalPriceCustomization.textContent = "$0.00";
+    }
+
+    // Listen to changes in shipping options and update the view
+    shippingOptions.forEach(option => {
+        option.addEventListener('change', toggleOptions);
+    });
+
+    // Recalculate total price and update view on quantity change
+    quantityInput.addEventListener("input", function () {
+        const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+        
+        if (selectedOption === 'pickYourself') {
+            totalPriceDelivery.textContent = '$0.00';
+            resetTotalPrice();
+        } else {
+            updateDeliveryPriceAndTotal();
+        }
+
+        updatePrintingPriceAndTotal();
+    });
+
+    // Ensure correct view on page load
+    toggleOptions();
+
+    // Prevent entering a value below the minimum quantity
+    quantityInput.addEventListener("blur", function () {
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        if (enteredQty < Math.min(...quantities)) {
+            quantityInput.value = Math.min(...quantities);
+            calculateTotalPrice();
+        }
+    });
+});
+
+</script>
 @endsection
