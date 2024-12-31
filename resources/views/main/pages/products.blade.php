@@ -5,11 +5,11 @@
 
 
 <section class="ecommerce-about" style="
-background-image: url('../assetsMain/images/profile-bg.jpg');
+background-image: url('../assetsMain/images/productbreadcrumb.jpg');
 background-size: cover;
 background-position: center;
 ">
-    <div class="bg-overlay bg-primary" style="opacity: 0.85"></div>
+    <div class="bg-overlay bg-primary-about" style="opacity: 0.7"></div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">

@@ -9,7 +9,7 @@ background-image: url('../assetsMain/images/about.jpg');
 background-size: cover;
 background-position: center;
 ">
-    <div class="bg-overlay bg-primary-about" style="opacity: 0.6"></div>
+    <div class="bg-overlay bg-primary-about" style="opacity: 0.7"></div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">

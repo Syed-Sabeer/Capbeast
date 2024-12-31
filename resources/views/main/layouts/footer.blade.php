@@ -4,7 +4,7 @@
             <div class="col-lg-4">
                 <div class="footer-info">
 
-                    <img src="../assetsMain/images/logo-light.png" alt height="160" alt="logo">
+                    <img src="{{ asset('assetsMain/images/logo-light.png') }}" alt="logo image" height="160" alt="logo">
 
 
                     <div class="footer-social mt-4">
@@ -76,19 +76,19 @@
                 <div class="text-sm-end d-none d-sm-block">
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                            <a href="#!"><img src="../assetsMain/images/ecommerce/payment/visa.png" alt
+                            <a href="#!"><img src="{{ asset('assetsMain/images/ecommerce/payment/visa.png') }}" alt
                                     height="30" /></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="../assetsMain/images/ecommerce/payment/discover.png" alt
+                            <a href="#!"><img src="{{ asset('assetsMain/images/ecommerce/payment/discover.png') }}" alt
                                     height="30" /></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="../assetsMain/images/ecommerce/payment/american-express.png" alt
+                            <a href="#!"><img src="{{ asset('assetsMain/images/ecommerce/payment/american-express.png') }}" alt
                                     height="30" /></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="../assetsMain/images/ecommerce/payment/paypal.png" alt
+                            <a href="#!"><img src="{{ asset('assetsMain/images/ecommerce/payment/paypal.png') }}" alt
                                     height="30" /></a>
                         </li>
                     </ul>

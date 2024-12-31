@@ -3,7 +3,7 @@
         <div class="container">
             <a class="navbar-brand d-none d-lg-block" href="{{ route('home') }}">
                 <div>
-                    <img src="../assetsMain/images/logo-dark.png" alt height="100" />
+                    <img src="{{ asset('assetsMain/images/logo-dark.png') }}" alt="logo image" height="100" />
                 </div>
 
             </a>
@@ -16,8 +16,8 @@
                 <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0" id="navigation-menu">
                     <li class="nav-item d-block d-lg-none">
                         <a class="d-block p-3 h-auto text-center" href="{{ route('home') }}">
-                            <img src="../assetsMain/images/logo-dark.png" alt height="25" class="card-logo-dark mx-auto" />
-                            <img src="../assetsMain/images/logo-light.png" alt height="25"
+                            <img src="{{ asset('assetsMain/images/logo-dark.png') }}" alt height="25" class="card-logo-dark mx-auto" />
+                            <img src="{{ asset('assetsMain/images/logo-light.png') }}" alt height="25"
                                 class="card-logo-light mx-auto" />
                         </a>
                     </li>
@@ -59,7 +59,7 @@
                 <div class="dropdown header-item dropdown-hover-end">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle header-profile-user" src="../assetsMain/images/users/avatar-1.jpg"
+                        <img class="rounded-circle header-profile-user" src="{{ asset('assetsMain/images/users/avatar-1.jpg') }}"
                             alt="Header Avatar" />
                     </button>
                     <!-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

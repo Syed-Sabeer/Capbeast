@@ -660,7 +660,7 @@
 }
 
 [data-footer=dark] .footer-landing .footer-link a:hover {
-    color: rgba(255, 255, 255, .8);
+    color: #F7B708;
     -webkit-transition: all .5s;
     transition: all .5s;
     text-decoration: underline !important
@@ -675,7 +675,7 @@
 
 [data-footer=dark] .footer-landing .footer-social i:hover {
     color: #fff;
-    background-color: #7c6bff
+    background-color: #F7B708
 }
 
 [data-footer=dark] .footer-landing .footer-title {
@@ -2227,7 +2227,7 @@
 
 .ecommerce-navbar .navbar-nav .nav-item .nav-link.active,
 .ecommerce-navbar .navbar-nav .nav-item .nav-link:hover {
-    color: #4b93ff
+    color: #F7B708
 }
 
 .ecommerce-navbar .dropdown-menu-list .nav-item .nav-link {
