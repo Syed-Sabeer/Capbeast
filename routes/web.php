@@ -166,6 +166,8 @@ use App\Http\Controllers\maps\Leaflet;
 
 use App\Http\Controllers\Main\ProductDetailController;
 use App\Http\Controllers\Main\ProductController;
+use App\Http\Controllers\Main\AboutController;
+use App\Http\Controllers\Main\HomeController;
 
 use App\Http\Controllers\Admin\apps\EcommercePrintingList;
 use App\Http\Controllers\Admin\apps\EcommerceProductAdd;
@@ -178,6 +180,9 @@ use App\Http\Controllers\Admin\apps\EcommerceDeliveryList;
 Route::prefix('main')->group(function () {
   Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
   Route::get('/products', [ProductController::class, 'index'])->name('products');
+  Route::get('/about', [AboutController::class, 'index'])->name('about');
+  Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 
 });
 

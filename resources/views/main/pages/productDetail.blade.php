@@ -279,7 +279,7 @@ background-position: center;
                             <tr>
                                 <th scope="col">Qty</th>
                                 @foreach($quantities as $quantity)
-                                    <th scope="col" data-quantity="{{ $quantity }}">{{ $quantity }}</th>
+                                    <th scope="col" class="text-align-center" data-quantity="{{ $quantity }}">{{ $quantity }}</th>
                                 @endforeach
                             </tr>
                         </thead>
@@ -289,7 +289,7 @@ background-position: center;
                                     <a href="#" class="text-body">Price</a>
                                 </td>
                                 @foreach($prices as $price)
-                                <td class="fw-medium" data-price="{{ $price }}" id="pricing-{{ $price }}" style="text-align: center;">
+                                <td class="fw-medium text-align-center" data-price="{{ $price }}" id="pricing-{{ $price }}" >
                                     ${{ number_format($price, 2) }}
                                 </td>
                             @endforeach
