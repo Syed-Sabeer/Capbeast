@@ -4,7 +4,33 @@
 
 
 
-
+<section class="ecommerce-about" style="
+background-image: url('../assetsMain/images/profile-bg.jpg');
+background-size: cover;
+background-position: center;
+">
+    <div class="bg-overlay bg-primary" style="opacity: 0.85"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <h1 class="text-white mb-0">About</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-light justify-content-center mt-4">
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" >
+                                About
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+    </div>
+    <!--end container-->
+</section>
 
 <section class="ecommerce-about">
     <div class="effect d-none d-md-block">
@@ -22,13 +48,13 @@
                     <div class="row align-items-center">
                         <div class="col-md-6">
                             <div class="position-relative">
-                                <img src="../assets/images/ecommerce/img-4.jpg" alt="" class="img-fluid rounded">
+                                <img src="../assetsMain/images/ecommerce/img-4.jpg" alt="" class="img-fluid rounded">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="vstack gap-4">
-                                <img src="../assets/images/ecommerce/img-1.jpg" alt="" class="img-fluid rounded">
-                                <img src="../assets/images/ecommerce/img-3.jpg" alt="" class="img-fluid rounded">
+                                <img src="../assetsMain/images/ecommerce/img-1.jpg" alt="" class="img-fluid rounded">
+                                <img src="../assetsMain/images/ecommerce/img-3.jpg" alt="" class="img-fluid rounded">
                             </div>
                         </div>
                     </div>
@@ -98,7 +124,7 @@
             <div class="col-xl-3 col-md-6">
                 <div class="team-box text-center">
                     <div class="team-img">
-                        <img src="../assets/images/users/avatar-7.jpg" alt="" class="img-fluid rounded rounded-circle border border-dashed border-dark border-opacity-25">
+                        <img src="../assetsMain/images/users/avatar-7.jpg" alt="" class="img-fluid rounded rounded-circle border border-dashed border-dark border-opacity-25">
                     </div>
                     <div class="mt-4 pt-1">
                         <a href="#!">
@@ -111,7 +137,7 @@
             <div class="col-xl-3 col-md-6">
                 <div class="team-box text-center">
                     <div class="team-img">
-                        <img src="../assets/images/users/avatar-1.jpg" alt="" class="img-fluid rounded rounded-circle border border-dashed border-dark border-opacity-25">
+                        <img src="../assetsMain/images/users/avatar-1.jpg" alt="" class="img-fluid rounded rounded-circle border border-dashed border-dark border-opacity-25">
                     </div>
                     <div class="mt-4 pt-1">
                         <a href="#!">
@@ -124,7 +150,7 @@
             <div class="col-xl-3 col-md-6">
                 <div class="team-box text-center">
                     <div class="team-img">
-                        <img src="../assets/images/users/avatar-2.jpg" alt="" class="img-fluid rounded rounded-circle border border-dashed border-dark border-opacity-25">
+                        <img src="../assetsMain/images/users/avatar-2.jpg" alt="" class="img-fluid rounded rounded-circle border border-dashed border-dark border-opacity-25">
                     </div>
                     <div class="mt-4 pt-1">
                         <a href="#!">
@@ -137,7 +163,7 @@
             <div class="col-xl-3 col-md-6">
                 <div class="team-box text-center">
                     <div class="team-img">
-                        <img src="../assets/images/users/avatar-8.jpg" alt="" class="img-fluid rounded rounded-circle border border-dashed border-dark border-opacity-25">
+                        <img src="../assetsMain/images/users/avatar-8.jpg" alt="" class="img-fluid rounded rounded-circle border border-dashed border-dark border-opacity-25">
                     </div>
                     <div class="mt-4 pt-1">
                         <a href="#!">
@@ -156,7 +182,7 @@
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <div>
-                    <img src="../assets/images/ecommerce/img-5.jpg" alt="" class="img-fluid rounded">
+                    <img src="../assetsMain/images/ecommerce/img-5.jpg" alt="" class="img-fluid rounded">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -171,7 +197,7 @@
     </div>
 </section>
 
-<section class="section" style="background-image: url('../assets/images/profile-bg.jpg'); background-size: cover;background-position: center;">
+<section class="section" style="background-image: url('../assetsMain/images/profile-bg.jpg'); background-size: cover;background-position: center;">
     <div class="bg-overlay bg-primary" style="opacity: 0.85;"></div>
     <div class="container">
         <div class="row justify-content-center">
@@ -197,7 +223,7 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="d-flex align-items-center gap-3">
                     <div class="flex-shrink-0">
-                        <img src="../assets/images/ecommerce/fast-delivery.png" alt="" class="avatar-sm">
+                        <img src="../assetsMain/images/ecommerce/fast-delivery.png" alt="" class="avatar-sm">
                     </div>
                     <div class="flex-grow-1">
                         <h5 class="fs-15">Fast &amp; Secure Delivery</h5>
@@ -208,7 +234,7 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="d-flex align-items-center gap-3">
                     <div class="flex-shrink-0">
-                        <img src="../assets/images/ecommerce/returns.png" alt="" class="avatar-sm">
+                        <img src="../assetsMain/images/ecommerce/returns.png" alt="" class="avatar-sm">
                     </div>
                     <div class="flex-grow-1">
                         <h5 class="fs-15">2 Days Return Policy</h5>
@@ -219,7 +245,7 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="d-flex align-items-center gap-3">
                     <div class="flex-shrink-0">
-                        <img src="../assets/images/ecommerce/guarantee-certificate.png" alt="" class="avatar-sm">
+                        <img src="../assetsMain/images/ecommerce/guarantee-certificate.png" alt="" class="avatar-sm">
                     </div>
                     <div class="flex-grow-1">
                         <h5 class="fs-15">Money Back Guarantee</h5>
@@ -230,7 +256,7 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="d-flex align-items-center gap-3">
                     <div class="flex-shrink-0">
-                        <img src="../assets/images/ecommerce/24-hours-support.png" alt="" class="avatar-sm">
+                        <img src="../assetsMain/images/ecommerce/24-hours-support.png" alt="" class="avatar-sm">
                     </div>
                     <div class="flex-grow-1">
                         <h5 class="fs-15">24 X 7 Service</h5>
