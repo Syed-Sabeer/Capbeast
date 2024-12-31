@@ -4,7 +4,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title>Index | Toner eCommerce + Admin HTML Template</title>
+        <title>Monkey Beanies</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="Toner - eCommerce + Admin HTML Template Build with HTML, React, Laravel, Nodejs" name="description">
         <meta content="Themesbrand" name="author">

@@ -4,7 +4,7 @@
             <div class="col-lg-4">
                 <div class="footer-info">
 
-                    <img src="../assetsMain/images/logo-dark.png" alt height="160" alt="logo">
+                    <img src="../assetsMain/images/logo-light.png" alt height="160" alt="logo">
 
 
                     <div class="footer-social mt-4">
