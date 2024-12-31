@@ -13855,7 +13855,10 @@ span.flatpickr-weekday {
     padding: 180px 0 85px;
     position: relative
 }
-
+.ecommerce-aboutpage {
+    padding: 300px 0 85px;
+    position: relative
+}
 .effect .ecommerce-effect {
     position: absolute;
     height: 15rem;

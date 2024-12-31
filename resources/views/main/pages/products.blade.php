@@ -5,7 +5,7 @@
 
 
 <section class="ecommerce-about" style="
-background-image: url('../assets/images/profile-bg.jpg');
+background-image: url('../assetsMain/images/profile-bg.jpg');
 background-size: cover;
 background-position: center;
 ">

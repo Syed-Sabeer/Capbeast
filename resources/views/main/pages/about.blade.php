@@ -32,7 +32,7 @@ background-position: center;
     <!--end container-->
 </section>
 
-<section class="ecommerce-about" style="margin-top: -5%">
+<section class="ecommerce-aboutpage" style="margin-top: -15%">
     <div class="effect d-none d-md-block">
         <div class="ecommerce-effect bg-primary"></div>
         <div class="ecommerce-effect bg-info"></div>

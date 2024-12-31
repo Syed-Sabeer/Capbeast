@@ -21,7 +21,7 @@
                       <div class="flex-shrink-0">
                           <div class="avatar-md" style="height: 100%">
                               <div class="avatar-title bg-warning-subtle rounded-3">
-                                  <img src="../assets/images/products/img-4.png" alt="" class="avatar-sm" />
+                                  <img src="../assetsMain/images/products/img-4.png" alt="" class="avatar-sm" />
                               </div>
                           </div>
                       </div>
@@ -59,7 +59,7 @@
                       <div class="flex-shrink-0">
                           <div class="avatar-md" style="height: 100%">
                               <div class="avatar-title bg-info-subtle rounded-3">
-                                  <img src="../assets/images/products/img-1.png" alt="" class="avatar-sm" />
+                                  <img src="../assetsMain/images/products/img-1.png" alt="" class="avatar-sm" />
                               </div>
                           </div>
                       </div>
@@ -97,7 +97,7 @@
                       <div class="flex-shrink-0">
                           <div class="avatar-md" style="height: 100%">
                               <div class="avatar-title bg-danger-subtle rounded-3">
-                                  <img src="../assets/images/products/img-6.png" alt="" class="avatar-sm" />
+                                  <img src="../assetsMain/images/products/img-6.png" alt="" class="avatar-sm" />
                               </div>
                           </div>
                       </div>
@@ -135,7 +135,7 @@
                       <div class="flex-shrink-0">
                           <div class="avatar-md" style="height: 100%">
                               <div class="avatar-title bg-primary-subtle rounded-3">
-                                  <img src="../assets/images/products/img-8.png" alt="" class="avatar-sm" />
+                                  <img src="../assetsMain/images/products/img-8.png" alt="" class="avatar-sm" />
                               </div>
                           </div>
                       </div>
@@ -216,7 +216,7 @@
 
 
 <section class="ecommerce-about" style="
-background-image: url('../assets/images/profile-bg.jpg');
+background-image: url('../assetsMain/images/profile-bg.jpg');
 background-size: cover;
 background-position: center;
 ">
@@ -454,7 +454,7 @@ background-position: center;
                             <div class="d-flex p-3 border-bottom border-bottom-dashed">
                                 <div class="flex-shrink-0 me-3">
                                     <img class="avatar-xs rounded-circle"
-                                        src="../assets/images/users/avatar-5.jpg" alt="" />
+                                        src="../assetsMain/images/users/avatar-5.jpg" alt="" />
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="d-flex mb-3">
@@ -500,7 +500,7 @@ background-position: center;
                                     <div class="d-flex mt-4">
                                         <div class="flex-shrink-0 me-3">
                                             <img class="avatar-xs rounded-circle"
-                                                src="../assets/images/users/avatar-1.jpg" alt="" />
+                                                src="../assetsMain/images/users/avatar-1.jpg" alt="" />
                                         </div>
                                         <div class="flex-grow-1">
                                             <div class="d-flex mb-3">
@@ -526,7 +526,7 @@ background-position: center;
                             <div class="d-flex p-3 border-bottom border-bottom-dashed">
                                 <div class="flex-shrink-0 me-3">
                                     <img class="avatar-xs rounded-circle"
-                                        src="../assets/images/users/avatar-3.jpg" alt="" />
+                                        src="../assetsMain/images/users/avatar-3.jpg" alt="" />
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="d-flex mb-3">
@@ -575,7 +575,7 @@ background-position: center;
                             <div class="d-flex p-3 border-bottom border-bottom-dashed mb-3">
                                 <div class="flex-shrink-0 me-3">
                                     <img class="avatar-xs rounded-circle"
-                                        src="../assets/images/users/avatar-8.jpg" alt="" />
+                                        src="../assetsMain/images/users/avatar-8.jpg" alt="" />
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="d-flex mb-3">
@@ -620,7 +620,7 @@ background-position: center;
                                     <div class="d-flex mt-4">
                                         <div class="flex-shrink-0 me-3">
                                             <img class="avatar-xs rounded-circle"
-                                                src="../assets/images/users/avatar-1.jpg" alt="" />
+                                                src="../assetsMain/images/users/avatar-1.jpg" alt="" />
                                         </div>
                                         <div class="flex-grow-1">
                                             <div class="d-flex mb-3">
