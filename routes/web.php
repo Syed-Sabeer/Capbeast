@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\laravel_example\UserManagement;
-use App\Http\Controllers\dashboard\Analytics;
+use App\Http\Controllers\Admin\dashboard\Analytics;
 use App\Http\Controllers\dashboard\Crm;
 use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\layouts\CollapsedMenu;
