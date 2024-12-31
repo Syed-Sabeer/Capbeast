@@ -206,3 +206,6 @@
         box-shadow: 0 11px 36px 0 #0000000D !important;
         padding: 20px;
     }
+    .bg-primary-about{
+      --tb-bg-opacity: 1;
+    }

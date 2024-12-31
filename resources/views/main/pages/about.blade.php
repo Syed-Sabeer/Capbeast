@@ -5,11 +5,11 @@
 
 
 <section class="ecommerce-about" style="
-background-image: url('../assetsMain/images/profile-bg.jpg');
+background-image: url('../assetsMain/images/about.jpg');
 background-size: cover;
 background-position: center;
 ">
-    <div class="bg-overlay bg-primary" style="opacity: 0.85"></div>
+    <div class="bg-overlay bg-primary-about" style="opacity: 0.6"></div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">
@@ -32,7 +32,7 @@ background-position: center;
     <!--end container-->
 </section>
 
-<section class="ecommerce-about">
+<section class="ecommerce-about" style="margin-top: -5%">
     <div class="effect d-none d-md-block">
         <div class="ecommerce-effect bg-primary"></div>
         <div class="ecommerce-effect bg-info"></div>

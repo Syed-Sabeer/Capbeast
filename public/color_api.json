@@ -1,35 +1,51 @@
 [
-  {
-      "name": "Red",
-      "hex": "#FF0000"
-  },
-  {
-      "name": "Green",
-      "hex": "#00FF00"
-  },
-  {
-      "name": "Blue",
-      "hex": "#0000FF"
-  },
-  {
-      "name": "White",
-      "hex": "#FFFFFF"
-  },
-  {
-      "name": "Black",
-      "hex": "#000000"
-  },
-  {
-      "name": "Yellow",
-      "hex": "#FFFF00"
-  },
-  {
-      "name": "Cyan",
-      "hex": "#00FFFF"
-  },
-  {
-      "name": "Magenta",
-      "hex": "#FF00FF"
-  }
-
-]
+    {
+        "name": "Red",
+        "hex": "#FF0000"
+    },
+    {
+        "name": "Green",
+        "hex": "#00FF00"
+    },
+    {
+        "name": "Blue",
+        "hex": "#0000FF"
+    },
+    {
+        "name": "White",
+        "hex": "#FFFFFF"
+    },
+    {
+        "name": "Black",
+        "hex": "#000000"
+    },
+    {
+        "name": "Yellow",
+        "hex": "#FFFF00"
+    },
+    {
+        "name": "Cyan",
+        "hex": "#00FFFF"
+    },
+    {
+        "name": "Magenta",
+        "hex": "#FF00FF"
+    },
+    {
+        "name": "Navy",
+        "hex": "#000080"
+    },
+    {
+        "name": "Royal Blue",
+        "hex": "#4169E1"
+    },
+    {
+        "name": "Dark Grey",
+        "hex": "#A9A9A9"
+    },
+    {
+        "name": "Heather",
+        "hex": "#B7B8B6"
+    }
+  ]
+  
