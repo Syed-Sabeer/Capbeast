@@ -52,4 +52,22 @@ class EcommerceProductList extends Controller
 
         return response()->json(['success' => true]);
     }
+
+
+    public function destroy($id)
+    {
+        try {
+            // Find the product by ID
+            $product = Product::findOrFail($id);
+    
+            // Delete the product (cascade delete will handle related records)
+            $product->delete();
+    
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+    
+
 }

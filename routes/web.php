@@ -43,6 +43,7 @@ Route::prefix('main')->group(function () {
     Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
     Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
     Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
+    Route::delete('/product/{id}', [EcommerceProductList::class, 'destroy'])->name('products.destroy');
     Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
 
 });
