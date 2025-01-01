@@ -31,11 +31,11 @@
                         <a class="nav-link" href="{{ route('products') }}" data-key="t-shop">Shop</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../faqs.html" data-key="t-faqs">FAQs</a>
+                        <a class="nav-link" href="{{ route('faqs') }}" data-key="t-faqs">FAQs</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="../contact-us.html" data-key="t-contact">Contact</a>
+                        <a class="nav-link" href="{{ route('contact') }}" data-key="t-contact">Contact</a>
                     </li>
                 </ul>
             </div>

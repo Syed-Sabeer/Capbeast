@@ -8,6 +8,8 @@ use App\Http\Controllers\Main\ProductDetailController;
 use App\Http\Controllers\Main\ProductController;
 use App\Http\Controllers\Main\AboutController;
 use App\Http\Controllers\Main\HomeController;
+use App\Http\Controllers\Main\ContactController;
+use App\Http\Controllers\Main\FAQsController;
 
 use App\Http\Controllers\Admin\apps\EcommercePrintingList;
 use App\Http\Controllers\Admin\apps\EcommerceProductAdd;
@@ -25,6 +27,8 @@ Route::prefix('main')->group(function () {
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/about', [AboutController::class, 'index'])->name('about');
   Route::get('/home', [HomeController::class, 'index'])->name('home');
+  Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+  Route::get('/faqs', [FAQsController::class, 'index'])->name('faqs');
 
 
 });
@@ -44,6 +48,10 @@ Route::prefix('main')->group(function () {
     Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
     Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
     Route::delete('/product/{id}', [EcommerceProductList::class, 'destroy'])->name('products.destroy');
+    Route::get('/product/edit/{id}', [EcommerceProductAdd::class, 'edit'])->name('app-ecommerce-product-edit');
+Route::post('/product/edit/{id}', [EcommerceProductAdd::class, 'update'])->name('app-ecommerce-product-update');
+
+
     Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
 
 });

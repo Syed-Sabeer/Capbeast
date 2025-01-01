@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Log;
 
 
 class EcommerceProductList extends Controller
@@ -54,20 +55,32 @@ class EcommerceProductList extends Controller
     }
 
 
+    
+
     public function destroy($id)
     {
         try {
-            // Find the product by ID
+            Log::info("Attempting to delete product with ID: $id");
+    
             $product = Product::findOrFail($id);
     
-            // Delete the product (cascade delete will handle related records)
+            Log::info("Product found: " . json_encode($product));
+    
             $product->delete();
     
+            Log::info("Product deleted successfully.");
+    
             return response()->json(['success' => true]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            Log::error("Database error: " . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Database error: ' . $e->getMessage()], 500);
         } catch (\Exception $e) {
+            Log::error("Error deleting product: " . $e->getMessage());
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
+        
+    
     
 
 }

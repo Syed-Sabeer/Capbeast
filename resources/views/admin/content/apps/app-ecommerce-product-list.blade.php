@@ -165,11 +165,16 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="" class="me-2"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="" class="me-2"><i class="fa-solid fa-trash"></i></a>
-                                <a data-bs-toggle="modal" data-bs-target="#onboardHorizontalImageModal"><i
-                                        class="fa-solid fa-eye"></i></a>
+                                <a href="{{ route('app-ecommerce-product-edit', $product->id) }}" class="me-2"><i class="fa-solid fa-pen-to-square"></i></a>
+
+
+
+                                <a href="javascript:void(0);" class="me-2 delete-product" data-id="{{ $product->id }}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                                <a data-bs-toggle="modal" data-bs-target="#onboardHorizontalImageModal"><i class="fa-solid fa-eye"></i></a>
                             </td>
+                            
                         </tr>
                     @endforeach
 
@@ -178,7 +183,40 @@
         </div>
     </div>
 
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.delete-product');
+    
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.dataset.id;
+    
+                    if (confirm('Are you sure you want to delete this product?')) {
+                        fetch(`/admin/product/${productId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            }
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('Product deleted successfully!');
+                                    location.reload();
+                                } else {
+                                    alert('Error deleting product: ' + (data.message || 'Unknown error.'));
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Error deleting product!');
+                            });
+                    }
+                });
+            });
+        });
+    </script>
+    
 
        <!-- Form with Image horizontal Modal -->
        <div class="modal-onboarding modal fade animate__animated" id="onboardHorizontalImageModal" tabindex="-1" aria-hidden="true">
