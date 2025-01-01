@@ -47,14 +47,14 @@
                     data-bs-toggle="modal" data-bs-target="#searchModal">
                     <i class="bx bx-search fs-22"></i>
                 </button>
-                <div class="topbar-head-dropdown ms-1 header-item">
+                {{-- <div class="topbar-head-dropdown ms-1 header-item">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
                         data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart">
                         <i class="ph-shopping-cart fs-18"></i>
                         <span
                             class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">4</span>
                     </button>
-                </div>
+                </div> --}}
 
                 <div class="dropdown header-item dropdown-hover-end">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"

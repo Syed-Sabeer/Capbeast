@@ -243,7 +243,7 @@ background-position: center;
 </section>
 
 <section class="section pt-0 pb-0">
-    <h4 class="lh-base mb-1 p-3 mt-3" style="font-size: 2rem; color: #1d497e; background-color: #ECF1F4; text-align: center">
+    <h4 class="lh-base mb-1 p-3 mt-3" style="font-size: 2rem; color: #F7B708; background-color: rgba(247, 183, 8, 0.1); text-align: center">
         {{ $product->title }}
     </h4>
 <div class="container mt-5">
@@ -687,91 +687,133 @@ background-position: center;
     <!--end row-->
 </div>
 </section>
+<style>
+
+    .slider-container {
+      width: 300px;
+      text-align: center;
+      position: relative;
+    }
+
+    .main-image {
+      width: 100%;
+      height: 300px;
+      object-fit: contain;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .thumbnail-container {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .thumbnail {
+      width: 50px;
+      height: 50px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      object-fit: cover;
+      transition: border-color 0.3s;
+    }
+
+    .thumbnail:hover, .thumbnail.active {
+      border-color: #ff9900;
+    }
+
+    .arrow {
+      position: absolute;
+      top: calc(13% - 100px);
+      transform: translateY(50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .arrow.left {
+      left: -40px;
+    }
+
+    .arrow.right {
+      right: -40px;
+    }
+  </style>
 
 <section class="section" >
 <div class="container">
-    <div class="row gx-2">
-        <div class="col-lg-4">
-            <div class="row">
-                <div class="col-md-3 mb-3">
-                    <div thumbsSlider="" class="swiper productSwiper mb-3 mb-lg-0 d-flex">
-                        <div class="swiper-wrapper d-flex" id="thumbnail-wrapper">
-                          @foreach($product->base_images as $image)
-                          <div class="swiper-slide base-image">
-                              <div class="product-thumb rounded cursor-pointer">
-                                  <img src="{{ asset('storage/' . $image) }}" alt="Product Base Image" class="img-fluid" />
-                              </div>
-                          </div>
-                      @endforeach
+        <div class="row gx-2">
 
-                      @if($colors && !empty($colors->images))
-                          @foreach($colors->images as $index => $image)
-                              <div class="swiper-slide color-image" data-color="{{ strtolower($colors->color[$index]) }}">
-                                  <div class="product-thumb rounded cursor-pointer">
-                                      <img src="{{ asset('storage/' . $image) }}" alt="Product Color Image" class="img-fluid" />
-                                  </div>
-                              </div>
-                          @endforeach
-                      @endif
-                        </div>
 
-                    </div>
+            <div class="slider-container mt-3">
+                <button class="arrow left" onclick="changeSlide(-1)">&lt;</button>
+                <img src="{{ asset('storage/' . ($product->base_images[0] ?? 'placeholder.png')) }}" 
+                     alt="Main Product" class="main-image" id="mainImage">
+                <button class="arrow right" onclick="changeSlide(1)">&gt;</button>
+              
+                <div class="thumbnail-container">
+                  @foreach($product->base_images as $image)
+                    <img src="{{ asset('storage/' . $image) }}" 
+                         alt="Product Thumbnail" 
+                         class="thumbnail {{ $loop->first ? 'active' : '' }}" 
+                         onclick="changeImage(this)">
+                  @endforeach
+              
+                  @if($colors && !empty($colors->images))
+                    @foreach($colors->images as $index => $image)
+                      <img src="{{ asset('storage/' . $image) }}" 
+                           alt="Color Thumbnail" 
+                           class="thumbnail" 
+                           onclick="changeImage(this)">
+                    @endforeach
+                  @endif
                 </div>
-
-                <!-- Main Product Images -->
-                <div class="col-md-10">
-                    <div class="bg-light rounded-2 position-relative ribbon-box overflow-hidden">
-                        <div class="ribbon ribbon-danger ribbon-shape trending-ribbon">
-                            <span class="trending-ribbon-text">Trending</span>
-                            <i class="ri-flashlight-fill text-white align-bottom float-end ms-1"></i>
-                        </div>
-                        <div class="swiper productSwiper2">
-                            <div class="swiper-wrapper" id="main-view-wrapper">
-                              @foreach($product->base_images as $image)
-                              <div class="swiper-slide base-image">
-                                  <img src="{{ asset('storage/' . $image) }}" alt="Product Image" class="img-fluid" />
-                              </div>
-                          @endforeach
-
-                          @if($colors && !empty($colors->images))
-                          @foreach($colors->images as $index => $image)
-                                  <div class="swiper-slide color-image"data-color="{{ strtolower($colors->color[$index]) }}">
-                                      <img src="{{ asset('storage/' . $image) }}" alt="Color Variation Image" class="img-fluid" />
-                                  </div>
-                              @endforeach
-                          @endif
-                            </div>
-
-
-                            <div class="swiper-button-next bg-transparent"></div>
-                            <div class="swiper-button-prev bg-transparent"></div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <!-- Product Action Buttons -->
-            <div class="col-lg-12">
-                <div class="mt-3">
-                    <div class="hstack gap-2">
-                        <button type="button" class="btn btn-success btn-hover w-100">
-                            <i class="bi bi-basket2 me-2"></i> Add To Cart
-                        </button>
-                        <button type="button" class="btn btn-primary btn-hover w-100">
-                            <i class="bi bi-cart2 me-2"></i> Buy Now
-                        </button>
-                        <button class="btn btn-soft-danger custom-toggle btn-hover" data-bs-toggle="button" aria-pressed="true">
-                            <span class="icon-on"><i class="ri-heart-line"></i></span>
-                            <span class="icon-off"><i class="ri-heart-fill"></i></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!--end row-->
-        </div>
+              </div>
+              
+              <script>
+                let currentIndex = 0;
+                const thumbnails = document.querySelectorAll('.thumbnail');
+              
+                function changeImage(element) {
+                  const mainImage = document.getElementById('mainImage');
+              
+                  // Update main image source
+                  mainImage.src = element.src;
+              
+                  // Remove active class from all thumbnails
+                  thumbnails.forEach(thumbnail => thumbnail.classList.remove('active'));
+              
+                  // Add active class to the clicked thumbnail
+                  element.classList.add('active');
+              
+                  // Update current index
+                  currentIndex = Array.from(thumbnails).indexOf(element);
+                }
+              
+                function changeSlide(direction) {
+                  currentIndex += direction;
+              
+                  if (currentIndex < 0) {
+                    currentIndex = thumbnails.length - 1;
+                  } else if (currentIndex >= thumbnails.length) {
+                    currentIndex = 0;
+                  }
+              
+                  changeImage(thumbnails[currentIndex]);
+                }
+              </script>
+              
+        
         <!--end col-->
         <div class="col-lg-8 ms-auto">
 
@@ -1207,7 +1249,7 @@ background-position: center;
                 const priceValue = parseFloat(priceElement.getAttribute('data-price')); // Get the price value
 
                 if (priceValue === calculatedPrice) {
-                    priceElement.style.backgroundColor = "#1D4B8F";
+                    priceElement.style.backgroundColor = "#F7B708";
                     priceElement.style.color = "#fff";
                 } else {
                     priceElement.style.backgroundColor = "";
