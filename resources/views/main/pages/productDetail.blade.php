@@ -692,6 +692,7 @@ background-position: center;
     .slider-container {
       width: 300px;
       text-align: center;
+
       position: relative;
     }
 
@@ -725,29 +726,32 @@ background-position: center;
       border-color: #ff9900;
     }
 
-    .arrow {
-      position: absolute;
-      top: calc(13% - 100px);
-      transform: translateY(50%);
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    }
 
-    .arrow.left {
-      left: -40px;
-    }
 
-    .arrow.right {
-      right: -40px;
-    }
+.arrow {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  top: 0%;
+}
+
+.arrow.left {
+  left: -40px; 
+}
+
+.arrow.right {
+  right: -40px;
+}
+
+
   </style>
 
 <section class="section" >
