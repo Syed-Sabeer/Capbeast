@@ -659,6 +659,8 @@
     transition: all .5s
 }
 
+
+
 [data-footer=dark] .footer-landing .footer-link a:hover {
     color: #F7B708;
     -webkit-transition: all .5s;
@@ -5129,11 +5131,11 @@ button {
 }
 
 .btn-soft-primary {
-    --tb-btn-color: #4b93ff;
-    --tb-btn-bg: rgba(75, 147, 255, 0.1);
+    --tb-btn-color: #F7B708;
+    --tb-btn-bg: rgba(247, 183, 8, 0.1);
     --tb-btn-border-color: transparent;
     --tb-btn-hover-color: #fff;
-    --tb-btn-hover-bg: #4484e6;
+    --tb-btn-hover-bg: #F7B708;
     --tb-btn-hover-border-color: transparent;
     --tb-btn-focus-shadow-rgb: 75, 147, 255;
     --tb-btn-active-color: var(--tb-btn-hover-color);
