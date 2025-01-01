@@ -96,7 +96,7 @@ background-position: center;
                                   <i class="fas fa-star"></i>
                               </div>
 
-                              @php
+                              {{-- @php
                                   if ($product->productPricing && is_array($product->productPricing->pricing)) {
                                       $minPrice = (float)min($product->productPricing->pricing);
                                       $maxPrice = (float)max($product->productPricing->pricing);
@@ -106,7 +106,7 @@ background-position: center;
                                   }
                               @endphp
 
-                              <div class="price">${{ number_format($minPrice, 2) }} ~ ${{ number_format($maxPrice, 2) }}</div>
+                              <div class="price">${{ number_format($minPrice, 2) }} ~ ${{ number_format($maxPrice, 2) }}</div> --}}
                               <form action="{{ route('product.detail', ['id' => $product->id]) }}" method="GET">
                                   <button type="submit" class="add-to-cart-btn font-weight-bold">
                                       <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;Customize
