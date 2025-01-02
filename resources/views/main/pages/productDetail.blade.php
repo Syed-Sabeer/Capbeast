@@ -916,24 +916,46 @@ background-position: center;
                       <div class="container my-5" id="artwork-upload">
                         <h2 class="text-center mb-4">Upload Your Artwork</h2>
 
-                        <!-- Artwork Type -->
-                        <div class="mb-3">
-                            <label for="artworkType" class="form-label fw-bold">Artwork Type</label>
-                            <select id="artworkType" class="form-select">
-                                <option value="upload">Upload my Artwork</option>
-                                <option value="message">Enter Your Message</option>
-                            </select>
-                        </div>
+                     <!-- Artwork Type -->
+<div class="mb-3">
+    <label for="artworkType" class="form-label fw-bold">Artwork Type</label>
+    <select id="artworkType" class="form-select">
+        <option value="upload">Upload my Artwork</option>
+        <option value="message">Enter Your Message</option>
+    </select>
+</div>
 
-                        <!-- File Upload -->
-                        <div class="mb-3">
-                            <label for="fileUpload" class="form-label fw-bold">Browse Files To Upload</label>
-                            <input type="file" id="fileUpload" class="form-control">
-                            <div class="form-text">
-                                File Accepted: JPEG, JPG, GIF, PNG, EPS, PDF, PSD, AI, BMP, TIF, TIFF<br>
-                                <strong>Preferred File Type for Better Quality Product:</strong> AI, EPS, PSD, PDF
-                            </div>
-                        </div>
+<!-- File Upload -->
+<div class="mb-3" id="fileUploadContainer">
+    <label for="fileUpload" class="form-label fw-bold">Browse Files To Upload</label>
+    <input type="file" id="fileUpload" class="form-control">
+    <div class="form-text">
+        File Accepted: JPEG, JPG, GIF, PNG, EPS, PDF, PSD, AI, BMP, TIF, TIFF<br>
+        <strong>Preferred File Type for Better Quality Product:</strong> AI, EPS, PSD, PDF
+    </div>
+</div>
+
+<!-- Message Input -->
+<div class="mb-3" id="messageInputContainer" style="display: none;">
+    <label for="messageInput" class="form-label fw-bold">Enter Your Message</label>
+    <input type="text" id="messageInput" class="form-control" placeholder="Type your message here">
+</div>
+
+<script>
+    document.getElementById('artworkType').addEventListener('change', function () {
+        const fileUploadContainer = document.getElementById('fileUploadContainer');
+        const messageInputContainer = document.getElementById('messageInputContainer');
+        
+        if (this.value === 'upload') {
+            fileUploadContainer.style.display = 'block';
+            messageInputContainer.style.display = 'none';
+        } else if (this.value === 'message') {
+            fileUploadContainer.style.display = 'none';
+            messageInputContainer.style.display = 'block';
+        }
+    });
+</script>
+
 
                         <!-- Patch Dimensions -->
                         <div class="row mb-3">

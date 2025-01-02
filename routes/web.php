@@ -9,6 +9,7 @@ use App\Http\Controllers\Main\ProductController;
 use App\Http\Controllers\Main\AboutController;
 use App\Http\Controllers\Main\HomeController;
 use App\Http\Controllers\Main\ContactController;
+use App\Http\Controllers\Main\AuthController;
 use App\Http\Controllers\Main\FAQsController;
 
 use App\Http\Controllers\Admin\apps\EcommercePrintingList;
@@ -23,16 +24,31 @@ Route::get('/', function () {
 });
 
 Route::prefix('main')->group(function () {
-  Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
+  // Routes that require authentication
+  Route::middleware('auth')->group(function () {
+      Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
+      
+  });
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/about', [AboutController::class, 'index'])->name('about');
   Route::get('/home', [HomeController::class, 'index'])->name('home');
   Route::get('/contact', [ContactController::class, 'index'])->name('contact');
   Route::get('/faqs', [FAQsController::class, 'index'])->name('faqs');
+  // Routes for registration that do not require authentication
+// Registration Routes
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('user.register');
+Route::post('/register', [AuthController::class, 'register'])->name('user.register.post');
+
+// Login Routes
+// Login Routes
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('user.login'); // Ensure this is defined as 'user.login'
+Route::post('/login', [AuthController::class, 'login'])->name('user.login.post'); // Make sure 'user.login.post' is used here
+
+// Logout Routes
+Route::post('/logout', [AuthController::class, 'logout'])->name('user.logout');
 
 
 });
-
 
 // Route::prefix('admin')->middleware('auth:admin')->group(function () {
   Route::prefix('admin')->group(function () {
