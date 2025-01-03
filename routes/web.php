@@ -15,6 +15,7 @@ use App\Http\Controllers\Main\FAQsController;
 use App\Http\Controllers\Admin\apps\EcommercePrintingList;
 use App\Http\Controllers\Admin\apps\EcommerceProductAdd;
 use App\Http\Controllers\Admin\apps\EcommerceProductList;
+use App\Http\Controllers\Admin\apps\EcommerceAuthController;
 use App\Http\Controllers\Admin\apps\EcommercePrintingAdd;
 use App\Http\Controllers\Admin\apps\EcommerceDeliveryAdd;
 use App\Http\Controllers\Admin\apps\EcommerceDeliveryList;
@@ -50,28 +51,34 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('user.logout');
 
 });
 
-// Route::prefix('admin')->middleware('auth:admin')->group(function () {
-  Route::prefix('admin')->group(function () {
-    Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');
-    Route::post('/delivery/add', [EcommerceDeliveryAdd::class, 'store'])->name('app-ecommerce-delivery-store');
-    Route::get('/delivery/list', [EcommerceDeliveryList::class, 'index'])->name('app-ecommerce-delivery-list');
 
-    Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name('app-ecommerce-printing-add');
-    Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name('app-ecommerce-printing-store');
-    Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name('app-ecommerce-printing-list');
-
-    Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
-    Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
-    Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
-    Route::delete('/product/{id}', [EcommerceProductList::class, 'destroy'])->name('products.destroy');
-    Route::get('/product/edit/{id}', [EcommerceProductAdd::class, 'edit'])->name('app-ecommerce-product-edit');
-Route::post('/product/edit/{id}', [EcommerceProductAdd::class, 'update'])->name('app-ecommerce-product-update');
-
-
-    Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
-
+// Routes for unauthenticated admin
+Route::prefix('admin')->middleware('guest:admin')->group(function () {
+  Route::get('login', [EcommerceAuthController::class, 'showLoginForm'])->name('admin.login');
+  Route::post('login', [EcommerceAuthController::class, 'login'])->name('admin.login.post');
 });
 
+// Admin routes (only accessible for authenticated admins)
+Route::prefix('admin')->middleware('auth:admin')->group(function () {
+  Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');
+  Route::post('/delivery/add', [EcommerceDeliveryAdd::class, 'store'])->name('app-ecommerce-delivery-store');
+  Route::get('/delivery/list', [EcommerceDeliveryList::class, 'index'])->name('app-ecommerce-delivery-list');
+
+  Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name('app-ecommerce-printing-add');
+  Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name('app-ecommerce-printing-store');
+  Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name('app-ecommerce-printing-list');
+
+  Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
+  Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
+  Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
+  Route::delete('/product/{id}', [EcommerceProductList::class, 'destroy'])->name('products.destroy');
+  Route::get('/product/edit/{id}', [EcommerceProductAdd::class, 'edit'])->name('app-ecommerce-product-edit');
+  Route::post('/product/edit/{id}', [EcommerceProductAdd::class, 'update'])->name('app-ecommerce-product-update');
+  Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
+
+  // Admin logout route
+  Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name('admin.logout');
+});
 
 
 

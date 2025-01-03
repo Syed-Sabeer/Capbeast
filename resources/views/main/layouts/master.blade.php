@@ -33,7 +33,9 @@
     <body>
 
 
-        @include('main.layouts.nav')
+        @if (!in_array(request()->route()->getName(), ['user.register', 'user.login']))
+            @include('main.layouts.nav')
+        @endif
 
 
 
@@ -47,7 +49,11 @@
 
 
 
-    @include('main.layouts.footer')
+    @if (!in_array(request()->route()->getName(), ['user.register', 'user.login']))
+            @include('main.layouts.footer')
+        @endif
+
+        
 
          <!-- JAVASCRIPT -->
          <script src="{{ asset('assetsMain/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
