@@ -12,7 +12,6 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->text('base_images');
             $table->integer('visibility')->default(1);
             $table->timestamps();
         });

@@ -11,7 +11,7 @@ class ProductController extends Controller
     public function index()
     {
         // Retrieve all products with their associated colors and pricing
-        $products = Product::with(['productColors', 'productPricing'])->get();
+        $products = Product::with(['productColors', 'productPricing', 'productBaseImages'])->get();
 
         // Pass products to the view
         return view('main.pages.products', compact('products'));

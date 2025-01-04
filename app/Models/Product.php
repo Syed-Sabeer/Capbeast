@@ -10,23 +10,20 @@ class Product extends Model
     use HasFactory;
 
     protected $table = 'products'; // Define the table name
-    protected $fillable = ['title', 'description', 'base_images', 'visibility'];
-
-    protected $casts = [
-        'base_images' => 'array', // Automatically cast base_images as an array
-    ];
+    protected $fillable = ['title', 'description', 'visibility'];
 
     public function productColors()
     {
-        return $this->hasOne(ProductColor::class, 'product_id');
+        return $this->hasMany(ProductColor::class, 'product_id'); // Updated to hasMany for multiple colors
     }
 
-    // Keep the hasOne relationship if only one pricing record per product
     public function productPricing()
     {
-        return $this->hasOne(ProductPricing::class, 'product_id');
+        return $this->hasMany(ProductPricing::class, 'product_id'); // Updated to hasMany for multiple pricing options
     }
 
-
-
+    public function productBaseImages()
+    {
+        return $this->hasMany(ProductBaseImage::class, 'product_id'); // Relationship with base images
+    }
 }

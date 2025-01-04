@@ -11,8 +11,8 @@ class CreateProductColorTable extends Migration
         Schema::create('product_color', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->text('color');
-            $table->text('images');
+            $table->string('color'); // Store single color value
+            $table->string('image')->nullable(); // Store a single image path
             $table->timestamps();
         });
     }

@@ -37,18 +37,18 @@
                     <div class="col-md-6 col-lg-3 mb-4">
                         <div class="product-card">
                             <div class="badge">HOT</div>
-                            <img src="{{ '../storage/' . ($product->base_images[0] ?? 'default.jpg') }}" alt="product" style="max-height: 215px; max-width: 100%;">
+                            <img src="{{ asset('storage/' . ($product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" alt="product" class="img-fluid">
                             <div class="color-slider-container">
                                 <span class="arrow left">&lt;</span>
-                                <div class="color-slider" id="colorSlider">
-                                    @php
-                                        $colors = is_array($product->productColors->color)
-                                                  ? $product->productColors->color
-                                                  : json_decode($product->productColors->color ?? '[]', true);
-                                    @endphp
-                                    @foreach ($colors as $color)
-                                        <div class="color-option" style="background-color: {{ $color }};"></div>
-                                    @endforeach
+                                <div class="color-slider" id="colorSlider{{ $product->id }}">
+                                    {{-- Check if colors exist before looping --}}
+                                    @if ($product->productColors->isNotEmpty())
+                                        @foreach ($product->productColors as $color)
+                                            <div class="color-option" style="background-color: {{ $color->color }};" title="Color: {{ $color->color }}"></div>
+                                        @endforeach
+                                    @else
+                                        <p>No colors available</p>
+                                    @endif
                                 </div>
                                 <span class="arrow right">&gt;</span>
                             </div>

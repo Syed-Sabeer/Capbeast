@@ -8,37 +8,37 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 
-
 class EcommerceProductList extends Controller
 {
-  public function index()
-  {
-      // Fetch all products and their pricing information
-      $products = Product::with('productPricing')->get();
-
-      // Calculate min_price and max_price in the controller
-      foreach ($products as $product) {
-          // Ensure product has pricing data
-          if ($product->productPricing && is_array($product->productPricing->pricing)) {
-              // Calculate min and max prices based on the pricing array
-              $minPrice = (float)min($product->productPricing->pricing);
-              $maxPrice = (float)max($product->productPricing->pricing);
-          } else {
-              // Set default values if no valid pricing data exists
-              $minPrice = 0;
-              $maxPrice = 0;
-          }
-
-          // Assign the calculated values to the product
-          $product->min_price = $minPrice;
-          $product->max_price = $maxPrice;
-      }
-
-      // Return the view with the products and their pricing
-      return view('admin.content.apps.app-ecommerce-product-list', compact('products'));
-  }
-
-
+    public function index()
+    {
+        // Fetch all products and their pricing information
+        $products = Product::with('productPricing', 'productBaseImages')->get(); // Include the base images and pricing in the query
+    
+        // Calculate min_price and max_price in the controller
+        foreach ($products as $product) {
+            // Check if there are any associated pricing records
+            if ($product->productPricing->isNotEmpty()) {
+                // Get the pricing values from all pricing records (not just the first one)
+                $pricing = $product->productPricing->pluck('pricing')->flatten(); // Flatten pricing to a single collection
+    
+                // Calculate min and max prices based on the pricing array
+                $minPrice = (float)$pricing->min();
+                $maxPrice = (float)$pricing->max();
+            } else {
+                // Set default values if no product pricing exists
+                $minPrice = 0;
+                $maxPrice = 0;
+            }
+    
+            // Assign the calculated values to the product
+            $product->min_price = $minPrice;
+            $product->max_price = $maxPrice;
+        }
+    
+        // Return the view with the products and their pricing
+        return view('admin.content.apps.app-ecommerce-product-list', compact('products'));
+    }
 
     public function updateVisibility($id, Request $request)
     {
@@ -53,9 +53,6 @@ class EcommerceProductList extends Controller
 
         return response()->json(['success' => true]);
     }
-
-
-    
 
     public function destroy($id)
     {
@@ -79,8 +76,4 @@ class EcommerceProductList extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
-        
-    
-    
-
 }

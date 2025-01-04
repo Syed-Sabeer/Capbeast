@@ -11,6 +11,7 @@ use App\Http\Controllers\Main\HomeController;
 use App\Http\Controllers\Main\ContactController;
 use App\Http\Controllers\Main\AuthController;
 use App\Http\Controllers\Main\FAQsController;
+use App\Http\Controllers\Main\CartController;
 
 use App\Http\Controllers\Admin\apps\EcommercePrintingList;
 use App\Http\Controllers\Admin\apps\EcommerceProductAdd;
@@ -27,9 +28,9 @@ Route::get('/', function () {
 Route::prefix('main')->group(function () {
   // Routes that require authentication
   Route::middleware('auth')->group(function () {
-      Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
-      
-  });
+    Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
+    
+});
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/about', [AboutController::class, 'index'])->name('about');
   Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -73,7 +74,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
   Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
   Route::delete('/product/{id}', [EcommerceProductList::class, 'destroy'])->name('products.destroy');
   Route::get('/product/edit/{id}', [EcommerceProductAdd::class, 'edit'])->name('app-ecommerce-product-edit');
-  Route::post('/product/edit/{id}', [EcommerceProductAdd::class, 'update'])->name('app-ecommerce-product-update');
+Route::post('/product/edit/{id}', [EcommerceProductAdd::class, 'update'])->name('app-ecommerce-product-update');
+
   Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
 
   // Admin logout route

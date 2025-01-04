@@ -10,12 +10,7 @@ class ProductColor extends Model
     use HasFactory;
 
     protected $table = 'product_color';
-    protected $fillable = ['product_id', 'color', 'images'];
-
-    protected $casts = [
-        'color' => 'array',   // Automatically cast color as an array
-        'images' => 'array',  // Automatically cast images as an array
-    ];
+    protected $fillable = ['product_id', 'color', 'image'];
 
     public function product()
     {
