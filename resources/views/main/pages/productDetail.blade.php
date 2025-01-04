@@ -885,6 +885,24 @@ background-position: center;
                         @endif
                     </select>
 
+                    <label for="beanie-color" class="section-header mt-4">Select Beanies Type</label>
+<div class="d-flex " style="justify-content: space-between">
+                    <div>
+                      <input type="radio" id="beanie1" name="beanie" value="beanie1">
+                      <label for="beanie1">
+                        <img src="{{ asset('assetsCommon/images/flipbeanie.jpg') }}" alt="Beanie Type 1" style="width: 150px; height: auto;"> Flipped Beanies
+                      </label>
+                    </div>
+                    
+                    <div>
+                      <input type="radio" id="beanie2" name="beanie" value="beanie2">
+                      <label for="beanie2">
+                        <img src="{{ asset('assetsCommon/images/unflipbeanie.png') }}" alt="Beanie Type 2" style="width: 150px; height: auto;"> UnFlipped Beanies
+                      </label>
+                    </div>
+                    
+                </div>
+
 
 
 
@@ -957,19 +975,45 @@ background-position: center;
 </script>
 
 
-                        <!-- Patch Dimensions -->
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="patchLength" class="form-label fw-bold">Patch Length</label>
-                                <input type="text" id="patchLength" class="form-control" placeholder="Patch Length">
-                                <small class="form-text text-muted">Min Length - 1", Max Length - 4"</small>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="patchHeight" class="form-label fw-bold">Patch Height</label>
-                                <input type="text" id="patchHeight" class="form-control" placeholder="Patch Height">
-                                <small class="form-text text-muted">Max Height - 2"</small>
-                            </div>
-                        </div>
+                       <!-- Patch Dimensions -->
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label for="patchLength" class="form-label fw-bold">Patch Length</label>
+        <input type="text" id="patchLength" class="form-control" placeholder="Patch Length">
+        <small class="form-text text-muted">Min Length - 1", Max Length - 4"</small>
+        <div id="patchLengthError" style="color: red; display: none;">Length must be between 1 and 4 inches.</div>
+    </div>
+    <div class="col-md-6">
+        <label for="patchHeight" class="form-label fw-bold">Patch Height</label>
+        <input type="text" id="patchHeight" class="form-control" placeholder="Patch Height">
+        <small class="form-text text-muted">Max Height - 2.5"</small>
+        <div id="patchHeightError" style="color: red; display: none;">Height cannot exceed 2.5 inches.</div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('patchLength').addEventListener('input', function () {
+        const patchLength = parseFloat(this.value);
+        const errorElement = document.getElementById('patchLengthError');
+        if (isNaN(patchLength) || patchLength < 1 || patchLength > 4) {
+            errorElement.style.display = 'block';
+        } else {
+            errorElement.style.display = 'none';
+        }
+    });
+
+    document.getElementById('patchHeight').addEventListener('input', function () {
+        const patchHeight = parseFloat(this.value);
+        const errorElement = document.getElementById('patchHeightError');
+        if (isNaN(patchHeight) || patchHeight > 2.5) {
+            errorElement.style.display = 'block';
+        } else {
+            errorElement.style.display = 'none';
+        }
+    });
+</script>
+
+                        
 
                         <!-- Font Style -->
                         <div class="mb-3">
@@ -985,12 +1029,40 @@ background-position: center;
                         <div class="mb-3">
                             <label for="imprintColors" class="form-label fw-bold">Select Number Of Imprint Colors</label>
                             <select id="imprintColors" class="form-select">
+                                <option value="0">Full Color Imprint</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
-                                <option value="4">4</option>
                             </select>
                         </div>
+                        
+                        <div id="additionalDropdowns"></div>
+                        
+                        <script>
+                            const imprintColors = document.getElementById('imprintColors');
+                            const additionalDropdowns = document.getElementById('additionalDropdowns');
+                        
+                            imprintColors.addEventListener('change', function() {
+                                const numColors = parseInt(imprintColors.value);
+                                additionalDropdowns.innerHTML = ''; // Clear previous dropdowns
+                        
+                                if (numColors !== 0) { // Exclude Full Color Imprint (value = 0)
+                                    for (let i = 1; i <= numColors; i++) {
+                                        const newSelect = document.createElement('div');
+                                        newSelect.classList.add('mb-3');
+                                        newSelect.innerHTML = `
+                                            <label for="color${i}" class="form-label fw-bold">Select Color ${i}</label>
+                                            <select id="color${i}" class="form-select">
+                                                <option value="color${i}">Color ${i}</option>
+                                            </select>
+                                        `;
+                                        additionalDropdowns.appendChild(newSelect);
+                                    }
+                                }
+                            });
+                        </script>
+                        
+                        
 
                   </div>
                 </div>
