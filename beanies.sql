@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2025 at 07:49 PM
+-- Generation Time: Jan 05, 2025 at 05:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,17 +50,68 @@ INSERT INTO `admins` (`id`, `email`, `password`, `created_at`, `updated_at`) VAL
 
 CREATE TABLE `cart` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `color_id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
-  `beaniestype` tinyint(4) NOT NULL,
+  `beanie_type` int(11) NOT NULL,
   `printing_id` bigint(20) UNSIGNED NOT NULL,
-  `printing_price` decimal(10,2) NOT NULL,
-  `product_price` decimal(10,2) NOT NULL,
-  `delivery_price` decimal(10,2) NOT NULL,
+  `printing_price` decimal(8,2) NOT NULL,
+  `product_price` decimal(8,2) NOT NULL,
+  `delivery_price` decimal(8,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `user_id`, `product_id`, `color_id`, `quantity`, `beanie_type`, `printing_id`, `printing_price`, `product_price`, `delivery_price`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 2, 12, 2, 2, 10.00, 13.21, 20.00, '2025-01-05 06:59:38', '2025-01-05 06:59:38'),
+(2, 1, 1, 2, 12, 2, 2, 10.00, 13.21, 20.00, '2025-01-05 06:59:38', '2025-01-05 06:59:38'),
+(3, 1, 1, 3, 24, 2, 3, 20.00, 13.21, 20.00, '2025-01-05 07:00:03', '2025-01-05 07:00:03'),
+(4, 1, 1, 3, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 07:26:44', '2025-01-05 07:26:44'),
+(5, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 07:34:03', '2025-01-05 07:34:03'),
+(6, 1, 1, 1, 12, 2, 2, 10.00, 13.21, 20.00, '2025-01-05 08:18:41', '2025-01-05 08:18:41'),
+(7, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 08:28:04', '2025-01-05 08:28:04'),
+(14, 1, 1, 2, 12, 2, 1, 0.00, 13.21, 20.00, '2025-01-05 08:34:20', '2025-01-05 08:34:20'),
+(15, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 08:45:10', '2025-01-05 08:45:10'),
+(16, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-05 09:22:52', '2025-01-05 09:22:52'),
+(17, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 09:23:24', '2025-01-05 09:23:24'),
+(18, 1, 1, 3, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 09:39:45', '2025-01-05 09:39:45'),
+(19, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 09:42:35', '2025-01-05 09:42:35'),
+(20, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 09:45:28', '2025-01-05 09:45:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart_artwork`
+--
+
+CREATE TABLE `cart_artwork` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `cart_id` bigint(20) UNSIGNED NOT NULL,
+  `artwork_type` int(11) NOT NULL,
+  `artwork_data` text NOT NULL,
+  `patch_length` decimal(8,2) NOT NULL,
+  `patch_height` decimal(8,2) NOT NULL,
+  `font_style` varchar(255) NOT NULL,
+  `num_of_imprint` int(11) NOT NULL,
+  `imprint_color` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cart_artwork`
+--
+
+INSERT INTO `cart_artwork` (`id`, `cart_id`, `artwork_type`, `artwork_data`, `patch_length`, `patch_height`, `font_style`, `num_of_imprint`, `imprint_color`, `created_at`, `updated_at`) VALUES
+(1, 7, 2, '2323', 3.00, 2.00, 'times', 2, '[\"color1\",\"color2\"]', '2025-01-05 08:28:04', '2025-01-05 08:28:04'),
+(4, 15, 2, 'wewe', 3.00, 2.00, 'times', 3, '[\"color1\",\"color2\",\"color3\"]', '2025-01-05 08:45:10', '2025-01-05 08:45:10'),
+(5, 19, 1, '', 1.00, 1.00, 'arial', 2, '[\"color1\",\"color2\"]', '2025-01-05 09:42:35', '2025-01-05 09:42:35'),
+(6, 20, 1, '', 1.00, 1.00, 'arial', 3, '[\"color1\",\"color2\",\"color3\"]', '2025-01-05 09:45:28', '2025-01-05 09:45:28');
 
 -- --------------------------------------------------------
 
@@ -106,7 +157,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2024_12_26_094812_create_product_delivery_table', 1),
 (10, '2025_01_02_135324_create_admins_table', 1),
 (11, '2025_01_04_090228_create_product_baseimages_table', 1),
-(12, '2025_01_04_114633_create_cart_table', 1);
+(12, '2025_01_04_114633_create_cart_table', 1),
+(13, '2025_01_05_130138_create_cart_artwork_table', 2);
 
 -- --------------------------------------------------------
 
@@ -327,7 +379,15 @@ ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`),
   ADD KEY `cart_product_id_foreign` (`product_id`),
   ADD KEY `cart_color_id_foreign` (`color_id`),
-  ADD KEY `cart_printing_id_foreign` (`printing_id`);
+  ADD KEY `cart_printing_id_foreign` (`printing_id`),
+  ADD KEY `cart_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `cart_artwork`
+--
+ALTER TABLE `cart_artwork`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cart_artwork_cart_id_foreign` (`cart_id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -416,7 +476,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `cart_artwork`
+--
+ALTER TABLE `cart_artwork`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -428,7 +494,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -488,7 +554,14 @@ ALTER TABLE `users`
 ALTER TABLE `cart`
   ADD CONSTRAINT `cart_color_id_foreign` FOREIGN KEY (`color_id`) REFERENCES `product_color` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cart_printing_id_foreign` FOREIGN KEY (`printing_id`) REFERENCES `product_printing` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `cart_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `cart_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `cart_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `cart_artwork`
+--
+ALTER TABLE `cart_artwork`
+  ADD CONSTRAINT `cart_artwork_cart_id_foreign` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `product_baseimages`
