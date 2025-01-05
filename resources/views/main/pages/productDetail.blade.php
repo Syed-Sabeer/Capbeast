@@ -430,7 +430,7 @@ background-position: center;
                       </div>
                       <div id="pickYourselfBox" class="option-box">
                           <ul class="dselects">
-                              <li>
+                              <li class="shippingCharging">
                                   <span class="check">
 
                                       <i class="fa-solid fa-truck"></i>
@@ -458,7 +458,7 @@ background-position: center;
 
                             @if ($quantitiesdelivery && $pricesDelivery && count($quantitiesdelivery) === count($pricesDelivery))
                                 @foreach ($quantitiesdelivery as $index => $quantitydelivery)
-                                    <li>
+                                    <li class="shippingCharging">
                                         <span class="check"><i class="fa-solid fa-truck"></i></span>
                                         <div class="delivery_date w3_bg">Qty: {{ $quantitydelivery }}</div>
                                         <div class="delivery_price w3_bg">Price: ${{ number_format($pricesDelivery[$index], 2) }}</div>
@@ -616,33 +616,56 @@ background-position: center;
     
         // Update delivery price and total cost for "View Shipping Bundle"
         function updateDeliveryPriceAndTotal() {
-            const enteredQty = parseInt(quantityInput.value) || 0;
-            const deliveryPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
-            const totalDelivery = deliveryPrice * enteredQty;
-            totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
+    const enteredQty = parseInt(quantityInput.value) || 0;
+    const deliveryPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
+    const totalDelivery = deliveryPrice * enteredQty;
+
+    // Update the delivery price display
+    totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
+
+    // Highlight the corresponding shippingCharging element
+    document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
+        const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
+        const priceValue = parseFloat(priceText.replace("Price: $", ""));
+
+        if (priceValue === deliveryPrice) {
+            shippingElement.style.backgroundColor = "#F7B708";
+            shippingElement.style.color = "#fff";
+        } else {
+            shippingElement.style.backgroundColor = "";
+            shippingElement.style.color = "";
         }
-    
-        // Toggle between "Pick Yourself" and "View Shipping Bundle"
-        function toggleOptions() {
-            const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
-    
-            if (selectedOption === 'pickYourself') {
-                pickYourselfBox.style.display = 'block';
-                viewBundleBox.style.display = 'none';
-                totalPriceDelivery.textContent = '$0.00';
-                resetTotalPrice();
-            } else {
-                pickYourselfBox.style.display = 'none';
-                viewBundleBox.style.display = 'block';
-    
-                // Calculate and log the shipping price
-                const enteredQty = parseInt(quantityInput.value) || 0;
-                const shippingPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
-                console.log("Shipping Price (View Shipping Bundle):", shippingPrice);
-    
-                updateDeliveryPriceAndTotal();
-            }
-        }
+    });
+}
+
+// Toggle between "Pick Yourself" and "View Shipping Bundle"
+function toggleOptions() {
+    const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+
+    if (selectedOption === 'pickYourself') {
+        pickYourselfBox.style.display = 'block';
+        viewBundleBox.style.display = 'none';
+        totalPriceDelivery.textContent = '$0.00';
+        resetTotalPrice();
+
+        // Reset highlights for shippingCharging elements
+        document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
+            shippingElement.style.backgroundColor = "";
+            shippingElement.style.color = "";
+        });
+    } else {
+        pickYourselfBox.style.display = 'none';
+        viewBundleBox.style.display = 'block';
+
+        // Calculate and log the shipping price
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        const shippingPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
+        console.log("Shipping Price (View Shipping Bundle):", shippingPrice);
+
+        updateDeliveryPriceAndTotal();
+    }
+}
+
     
         // Reset the total price to $0 for "Pick Yourself"
         function resetTotalPrice() {
