@@ -59,23 +59,30 @@ background-position: center;
                               <div class="badge">HOT</div>
                               
                               {{-- Check if base_images exists and use default if not --}}
-                              <img src="{{ asset('storage/' . ($product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" alt="product" class="img-fluid">
-
-                              
-                              <div class="color-slider-container">
-                                <span class="arrow left">&lt;</span>
-                                <div class="color-slider" id="colorSlider{{ $product->id }}">
-                                    {{-- Check if colors exist before looping --}}
-                                    @if ($product->productColors->isNotEmpty())
-                                        @foreach ($product->productColors as $color)
-                                            <div class="color-option" style="background-color: {{ $color->color }};" title="Color: {{ $color->color }}"></div>
-                                        @endforeach
-                                    @else
-                                        <p>No colors available</p>
-                                    @endif
-                                </div>
-                                <span class="arrow right">&gt;</span>
-                            </div>
+                              <img src="{{ asset('storage/' . ($product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" 
+                              alt="product" 
+                              class="img-fluid" 
+                              id="mainImage{{ $product->id }}">
+                         
+                         <div class="color-slider-container">
+                             <span class="arrow left">&lt;</span>
+                             <div class="color-slider" id="colorSlider{{ $product->id }}">
+                                 {{-- Check if colors exist before looping --}}
+                                 @if ($product->productColors->isNotEmpty())
+                                     @foreach ($product->productColors as $color)
+                                         <div class="color-option" 
+                                              style="background-color: {{ $color->color }};" 
+                                              title="Color: {{ $color->color }}" 
+                                              data-image="{{ asset('storage/' . $color->image) }}">
+                                         </div>
+                                     @endforeach
+                                 @else
+                                     <p>No colors available</p>
+                                 @endif
+                             </div>
+                             <span class="arrow right">&gt;</span>
+                         </div>
+                         
                             
                             
 
@@ -129,55 +136,66 @@ background-position: center;
 </div>
 
 <script>
-// Get all cards and enable slider functionality
-const cards = document.querySelectorAll(".product-card");
+    // Get all product cards
+    const cards = document.querySelectorAll(".product-card");
 
-cards.forEach((card) => {
-    const colorSlider = card.querySelector(".color-slider");
-    const leftArrow = card.querySelector(".arrow.left");
-    const rightArrow = card.querySelector(".arrow.right");
-    const colorOptions = card.querySelectorAll(".color-option");
-    let scrollAmount = 0;
+    cards.forEach((card) => {
+        const colorSlider = card.querySelector(".color-slider");
+        const leftArrow = card.querySelector(".arrow.left");
+        const rightArrow = card.querySelector(".arrow.right");
+        const colorOptions = card.querySelectorAll(".color-option");
+        const mainImage = card.querySelector(".img-fluid"); // Main image
 
-    leftArrow.addEventListener("click", () => {
-        scrollAmount -= 80;
-        colorSlider.scrollTo({
-            left: scrollAmount,
-            behavior: "smooth",
+        let scrollAmount = 0;
+
+        // Handle slider navigation
+        leftArrow.addEventListener("click", () => {
+            scrollAmount -= 80;
+            colorSlider.scrollTo({
+                left: scrollAmount,
+                behavior: "smooth",
+            });
+            toggleArrows(colorSlider, leftArrow, rightArrow);
         });
+
+        rightArrow.addEventListener("click", () => {
+            scrollAmount += 80;
+            colorSlider.scrollTo({
+                left: scrollAmount,
+                behavior: "smooth",
+            });
+            toggleArrows(colorSlider, leftArrow, rightArrow);
+        });
+
+        function toggleArrows(slider, left, right) {
+            left.classList.toggle(
+                "disabled",
+                slider.scrollLeft === 0
+            );
+            right.classList.toggle(
+                "disabled",
+                slider.scrollLeft >= slider.scrollWidth - slider.clientWidth
+            );
+        }
+
+        // Handle color selection
+        colorOptions.forEach((color) => {
+            color.addEventListener("click", () => {
+                // Remove active class from all options
+                colorOptions.forEach((option) => option.classList.remove("active"));
+                // Add active class to the selected color
+                color.classList.add("active");
+                // Update the main image
+                const imageUrl = color.dataset.image;
+                if (imageUrl) {
+                    mainImage.src = imageUrl;
+                }
+            });
+        });
+
         toggleArrows(colorSlider, leftArrow, rightArrow);
     });
-
-    rightArrow.addEventListener("click", () => {
-        scrollAmount += 80;
-        colorSlider.scrollTo({
-            left: scrollAmount,
-            behavior: "smooth",
-        });
-        toggleArrows(colorSlider, leftArrow, rightArrow);
-    });
-
-    function toggleArrows(slider, left, right) {
-        left.classList.toggle(
-            "disabled",
-            slider.scrollLeft === 0
-        );
-        right.classList.toggle(
-            "disabled",
-            slider.scrollLeft >= slider.scrollWidth - slider.clientWidth
-        );
-    }
-
-    // Make color options selectable
-    colorOptions.forEach((color) => {
-        color.addEventListener("click", () => {
-            colorOptions.forEach((option) => option.classList.remove("active"));
-            color.classList.add("active");
-        });
-    });
-
-    toggleArrows(colorSlider, leftArrow, rightArrow);
-});
 </script>
+
 
 @endsection

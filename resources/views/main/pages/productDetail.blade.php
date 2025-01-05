@@ -126,11 +126,13 @@ background-position: center;
                         <!-- Display color-related images if available -->
                         @if($product->productColors && $product->productColors->isNotEmpty())
                         @foreach($product->productColors as $color)
-                            <img src="{{ asset('storage/' . $color->image) }}" 
-                                 alt="Color Thumbnail" 
-                                 class="thumbnail" 
-                                 onclick="changeImage(this)">
-                        @endforeach
+                        <img src="{{ asset('storage/' . $color->image) }}" 
+                             alt="Color Thumbnail" 
+                             class="thumbnail" 
+                             data-color-id="{{ $color->id }}" 
+                             onclick="changeImage(this)">
+                    @endforeach
+                    
                     @endif                    
                     
                     </div>
@@ -141,6 +143,7 @@ background-position: center;
             </div>
             
             
+       
               
         
         <!--end col-->
@@ -202,11 +205,12 @@ background-position: center;
                         <option>Select Beanie Color</option>
                         
                         @if(!empty($colorNames))
-    @foreach($colors as $index => $color) <!-- Use $colors here -->
-        <option value="{{ $color->id }}" data-color-name="{{ $colorNames[$index] }}">
-            {{ ucfirst($colorNames[$index]) }}
-        </option>
-    @endforeach
+                        @foreach($colors as $index => $color)
+                        <option value="{{ $color->id }}" data-color-id="{{ $color->id }}">
+                            {{ ucfirst($colorNames[$index]) }}
+                        </option>
+                    @endforeach
+                    
 @else
     <option>No colors available</option>
 @endif
@@ -733,28 +737,47 @@ background-position: center;
     });
 </script>
 
-
-
-
 <script>
-    let currentIndex = 0;
+    const mainImage = document.getElementById('mainImage');
     const thumbnails = document.querySelectorAll('.thumbnail');
-  
+    const colorDropdown = document.getElementById('beanie-color');
+    let currentIndex = 0;
+
+    // Change the main image based on the clicked thumbnail
     function changeImage(element) {
-      const mainImage = document.getElementById('mainImage');
-      mainImage.src = element.src;
-      thumbnails.forEach(thumbnail => thumbnail.classList.remove('active'));
-      element.classList.add('active');
-      currentIndex = Array.from(thumbnails).indexOf(element);
+        mainImage.src = element.src;
+        thumbnails.forEach(thumbnail => thumbnail.classList.remove('active'));
+        element.classList.add('active');
+        currentIndex = Array.from(thumbnails).indexOf(element);
+
+        // Synchronize the dropdown with the selected image
+        const colorId = element.dataset.colorId;
+        if (colorId) {
+            colorDropdown.value = colorId;
+        }
     }
+
+    // Change the main image when navigating through the slider
     function changeSlide(direction) {
-      currentIndex += direction;
-       if (currentIndex < 0) {
-        currentIndex = thumbnails.length - 1;
-      } else if (currentIndex >= thumbnails.length) {
-        currentIndex = 0;
-      }
-  changeImage(thumbnails[currentIndex]);
+        currentIndex += direction;
+        if (currentIndex < 0) {
+            currentIndex = thumbnails.length - 1;
+        } else if (currentIndex >= thumbnails.length) {
+            currentIndex = 0;
+        }
+        changeImage(thumbnails[currentIndex]);
     }
-  </script>
+
+    // Change the image when selecting a color from the dropdown
+    colorDropdown.addEventListener('change', () => {
+        const selectedColorId = colorDropdown.value;
+        const targetThumbnail = Array.from(thumbnails).find(thumbnail => thumbnail.dataset.colorId == selectedColorId);
+        if (targetThumbnail) {
+            changeImage(targetThumbnail);
+        }
+    });
+</script>
+
+
+
 @endsection
