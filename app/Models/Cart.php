@@ -12,6 +12,7 @@ class Cart extends Model
 
     protected $fillable = [
         'product_id',
+        'user_id',
         'color_id',
         'quantity',
         'beanie_type',

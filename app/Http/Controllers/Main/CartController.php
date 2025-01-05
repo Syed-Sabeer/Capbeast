@@ -19,6 +19,7 @@ class CartController extends Controller
             // Validate the incoming request data
             $validated = $request->validate([
                 'productId' => 'required|integer',
+                'userId' => 'required|integer',
                 'colorId' => 'required|integer',
                 'quantity' => 'required|integer|min:1',
                 'beanieType' => 'nullable|integer',
@@ -38,6 +39,7 @@ class CartController extends Controller
             // Create a new Cart item
             $cartItem = Cart::create([
                 'product_id' => $validated['productId'],
+                'user_id' => $validated['userId'],
                 'color_id' => $validated['colorId'],
                 'quantity' => $validated['quantity'],
                 'beanie_type' => $validated['beanieType'],

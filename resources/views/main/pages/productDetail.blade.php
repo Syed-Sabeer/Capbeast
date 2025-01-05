@@ -476,8 +476,10 @@ background-position: center;
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const productId = {{ $product->id }}; // Replace with the actual server-side variable for product ID
-            console.log("Product ID:", productId);
+            const productId = {{ $product->id }};
+        const userId = {{ auth()->id() ?? 'null' }};
+        console.log("Product ID:", productId);
+        console.log("User ID:", userId);
 
             const quantityInput = document.getElementById("quantity-input");
             const totalQtyElements = document.querySelectorAll(".total-qty");
@@ -724,6 +726,7 @@ background-position: center;
 
     const data = {
         productId,
+        userId,
         colorId,
         quantity,
         beanieType,
