@@ -16,8 +16,7 @@ class ProductDetailController extends Controller
         $product = Product::findOrFail($id);
     
         // Fetch related product colors
-        $productColor = $product->productColors;
-        $productColors = $productColor ? $productColor : []; 
+        $productColors = $product->productColors ?? [];  // Ensure it's initialized as an array
     
         // Load the color_api.json file
         $colorApi = json_decode(file_get_contents(public_path('assetsCommon/api/color_api.json')), true);
@@ -56,7 +55,7 @@ class ProductDetailController extends Controller
         // Pass all data to the view
         return view('main.pages.productDetail', [
             'product' => $product,
-            'colors' => $productColor,
+            'colors' => $productColors,  // Use correct variable name here
             'colorNames' => $colorNames,
             'quantities' => $quantities,
             'prices' => $prices,
@@ -67,6 +66,4 @@ class ProductDetailController extends Controller
             'pricesDelivery' => $pricesDelivery,  // Pass pricesDelivery
         ]);
     }
-    
-    
 }

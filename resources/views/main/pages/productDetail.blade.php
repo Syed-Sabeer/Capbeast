@@ -199,16 +199,20 @@ background-position: center;
                   <div class="form-group">
                     <label for="beanie-color" class="section-header">Select Beanies Color</label>
                     <select id="beanie-color" class="form-control">
-                        <option>Select Beanies Color</option>
+                        <option>Select Beanie Color</option>
                         
                         @if(!empty($colorNames))
-                            @foreach($colorNames as $colorName)
-                                <option value="{{ strtolower($colorName) }}">{{ ucfirst($colorName) }}</option>
-                            @endforeach
-                        @else
-                            <option>No colors available</option>
-                        @endif
+    @foreach($colors as $index => $color) <!-- Use $colors here -->
+        <option value="{{ $color->id }}" data-color-name="{{ $colorNames[$index] }}">
+            {{ ucfirst($colorNames[$index]) }}
+        </option>
+    @endforeach
+@else
+    <option>No colors available</option>
+@endif
+
                     </select>
+                    
 
                     <label for="beanie-color" class="section-header mt-4">Select Beanies Type</label>
 <div class="d-flex " style="justify-content: space-between">
@@ -682,53 +686,53 @@ background-position: center;
     
         // Add to Cart button functionality
         document.getElementById("add-to-cart-button").addEventListener("click", function () {
-    const quantity = parseInt(quantityInput.value) || 0;
-    const colorId = document.getElementById("beanie-color").value;
-    const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
-    const printingId = document.querySelector(".printing-option.active")?.getAttribute("data-id") || null;
-    const printingPrice = selectedPrintingPrice;
-    const productPrice = calculatePrice(quantity, quantities, prices);
-    const deliveryPrice = calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
+            const quantity = parseInt(quantityInput.value) || 0;
+            const colorId = document.getElementById("beanie-color").value;
+            const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
+            const printingId = document.querySelector(".printing-option.active")?.getAttribute("data-id") || null;
+            const printingPrice = selectedPrintingPrice;
+            const productPrice = calculatePrice(quantity, quantities, prices);
+            const deliveryPrice = calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
 
-    const data = {
-        productId,
-        colorId,
-        quantity,
-        beanieType,
-        printingId,
-        printingPrice,
-        productPrice,
-        deliveryPrice,
-    };
+            const data = {
+                productId,
+                colorId,
+                quantity,
+                beanieType,
+                printingId,
+                printingPrice,
+                productPrice,
+                deliveryPrice,
+            };
 
-    console.log("Cart Data:", data); // Debugging
+            console.log("Cart Data:", data); // Debugging
 
-    // Send data via AJAX to the server
-    fetch("{{ route('cart.add') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}", // Include CSRF token for security
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(result => {
-        console.log("Server Response:", result);
-        if (result.success) {
-            alert("Product added to cart successfully!");
-        } else {
-            alert("Failed to add product to cart.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
+            // Send data via AJAX to the server
+            fetch("{{ route('cart.add') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}", // Include CSRF token for security
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log("Server Response:", result);
+                if (result.success) {
+                    alert("Product added to cart successfully!");
+                } else {
+                    alert("Failed to add product to cart.");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        });
+
     });
-});
+</script>
 
-    });
-    </script>
-    
 
 
 

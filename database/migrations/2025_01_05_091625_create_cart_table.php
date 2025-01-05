@@ -13,12 +13,12 @@ class CreateCartsTable extends Migration
      */
     public function up()
     {
-        Schema::create('carts', function (Blueprint $table) {
+        Schema::create('cart', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->string('color_id');
+            $table->unsignedBigInteger('color_id');
             $table->integer('quantity');
-            $table->string('beanie_type');
+            $table->integer('beanie_type');
             $table->unsignedBigInteger('printing_id');
             $table->decimal('printing_price', 8, 2);
             $table->decimal('product_price', 8, 2);
@@ -28,6 +28,7 @@ class CreateCartsTable extends Migration
             // Foreign key constraints (ensure these columns exist in their respective tables)
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('printing_id')->references('id')->on('product_printings')->onDelete('cascade');
+            $table->foreign('color_id')->references('id')->on('product_color')->onDelete('cascade');
         });
     }
 
@@ -38,6 +39,6 @@ class CreateCartsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carts');
+        Schema::dropIfExists('cart');
     }
 }

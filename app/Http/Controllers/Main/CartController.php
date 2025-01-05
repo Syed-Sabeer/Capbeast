@@ -17,9 +17,9 @@ class CartController extends Controller
             // Validate the incoming request data
             $validated = $request->validate([
                 'productId' => 'required|integer',
-                'colorId' => 'required|string',
+                'colorId' => 'required|integer',
                 'quantity' => 'required|integer|min:1',
-                'beanieType' => 'nullable|string',
+                'beanieType' => 'nullable|integer',
                 'printingId' => 'nullable|integer',
                 'printingPrice' => 'required|numeric',
                 'productPrice' => 'required|numeric',
