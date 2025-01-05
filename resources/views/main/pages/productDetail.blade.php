@@ -134,10 +134,13 @@ background-position: center;
                     @endif                    
                     
                     </div>
+                    <div class="mt-5">
+                        <button class="btn btn-success btnAddToCart">Add to Cart</button>
+                      </div>
+                           
             </div>
             
-              
-             
+            
               
         
         <!--end col-->
@@ -156,7 +159,7 @@ background-position: center;
 
                         <!-- Total quantity and price on the right -->
                         <div class="price-details">
-                            Total Qty: <span id="total-qty">0</span> | Price: <span id="total-price">$0.00</span>
+                            Total Qty: <span class="total-qty">0</span> | Price: <span id="total-price">$0.00</span>
                         </div>
                     </div>
 
@@ -187,7 +190,7 @@ background-position: center;
 
                     <!-- Total quantity and price on the right -->
                     <div class="price-details">
-                        Total Qty: <span id="total-qty2">0</span> | Price: <span id="total-price2">$0.00</span>
+                        Total Qty: <span class="total-qty">0</span> | Price: <span id="total-price2">$0.00</span>
                     </div>
                 </div>
 
@@ -197,7 +200,7 @@ background-position: center;
                     <label for="beanie-color" class="section-header">Select Beanies Color</label>
                     <select id="beanie-color" class="form-control">
                         <option>Select Beanies Color</option>
-                        <option value="all">All Colors</option>
+                        
                         @if(!empty($colorNames))
                             @foreach($colorNames as $colorName)
                                 <option value="{{ strtolower($colorName) }}">{{ ucfirst($colorName) }}</option>
@@ -210,16 +213,16 @@ background-position: center;
                     <label for="beanie-color" class="section-header mt-4">Select Beanies Type</label>
 <div class="d-flex " style="justify-content: space-between">
                     <div>
-                      <input type="radio" id="beanie1" name="beanie" value="beanie1">
-                      <label for="beanie1">
-                        <img src="{{ asset('assetsCommon/images/flipbeanie.jpg') }}" alt="Beanie Type 1" style="width: 150px; height: auto;"> Flipped Beanies
+                      <input type="radio" id="flipped" name="beanie" value="flipped">
+                      <label for="flipped">
+                        <img src="{{ asset('assetsCommon/images/flipbeanie.jpg') }}" alt="flipped" style="width: 150px; height: auto;"> Flipped Beanies
                       </label>
                     </div>
                     
                     <div>
-                      <input type="radio" id="beanie2" name="beanie" value="beanie2">
-                      <label for="beanie2">
-                        <img src="{{ asset('assetsCommon/images/unflipbeanie.png') }}" alt="Beanie Type 2" style="width: 150px; height: auto;"> UnFlipped Beanies
+                      <input type="radio" id="unflipped" name="beanie" value="unflipped">
+                      <label for="unflipped">
+                        <img src="{{ asset('assetsCommon/images/unflipbeanie.png') }}" alt="unflipped" style="width: 150px; height: auto;"> UnFlipped Beanies
                       </label>
                     </div>
                     
@@ -406,7 +409,7 @@ background-position: center;
                           </div>
                           <h2 class="h4 mb-0 ml-2">Shipping</h2>
                           <div class="price-details">
-                              Total Qty: <span id="total-qty3"></span> | Price: <span id="total-price3">$168.12</span>
+                              Total Qty: <span class="total-qty"></span> | Price: <span id="total-price3">$168.12</span>
                           </div>
                       </div>
                       <div class="radio-options">
@@ -465,114 +468,12 @@ background-position: center;
 
                       </div>
 
-
-
-
-
-                      <div class="col-md-12 content-outer delivery-outer-box review-order-detail mt-2 w3_bg">
-                          <div class="review_order w3_bg">
-                              <div class="order_details_review order-detail w3_bg">
-                                  <div class="row w3_bg">
-                                      <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
-                                          <p class="order-overview-selected-product"> Product:</p>
-                                          <p></p>
-                                      </div>
-                                      <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
-                                          <p><span class="s3-total-product-name">  {{ $product->title }}</span>
-                                          </p>
-                                      </div>
-                                      <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
-                                          <p> Total Quantity: </p>
-                                      </div>
-                                      <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
-                                          <p><span class="s3-total-qty">12</span><span
-                                                  class="get_free_offer_qty text-warning text_theme_color"></span><span
-                                                  class="amount" style="display: none;"></span></p>
-                                      </div>
-                                      <div style="display:none"
-                                          class="s3-increment-on-total-parent col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
-                                          <p> Setup Charge: </p>
-                                          <p></p>
-                                      </div>
-                                      <div style="display:none"
-                                          class="s3-increment-on-total-parent col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
-                                          <p><span class="dollar_sign">$</span><span
-                                                  class="amount s3-increment-on-total">0.00</span><span
-                                                  class="dollar_sign"></span></p>
-                                      </div>
-                                      <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
-                                        <p> Amount Calculaion: </p>
-                                        <p></p>
-                                    </div>
-                                    <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
-                                        <p><span class="amount s3-total-price">Product Price: &nbsp;</span>
-                                          <span class="dollar_sign">$</span><span id="product_price">2430.32</span></p>
-
-                                          <p><span class="amount s3-total-price">Customization: &nbsp;</span>
-                                            <span class="dollar_sign">$</span><span id="customization_price">2430.32</span></p>
-
-
-                                          <p><span class="amount s3-total-price">Delivery Price: &nbsp;</span>
-                                            <span class="dollar_sign">$</span><span id="delivery_price">2430.32</span></p>
-
-                                    </div>
-                                      <div class="col-md-5 my-1 col-4 pr-0 px-md-1 w3_bg">
-                                          <p> Total Amount: </p>
-                                          <p></p>
-                                      </div>
-                                      <div class="col-md-7 col-8 my-1 pr-0 pr-md-1 w3_bg">
-                                          <p><span class="dollar_sign">$</span><span
-                                                  class="amount s3-total-price">130.32</span><span
-                                                  class="dollar_sign"></span> (All Inclusive)</p>
-                                      </div>
-
-
-                                  </div>
-
-
-                                  <div class="form-group w3_bg" id="other_reason_div" style="display: none">
-                                      <div class="text-left mb-1 mt-3 w3_bg">
-                                          <input type="text" class="form-control" name="other_reason"
-                                              onchange="selectOrderFor(this,'input')" id="other_reason"
-                                              placeholder="Enter details...." value="">
-                                      </div>
-                                  </div>
-
-                              </div>
-                          </div>
-                          <input type="radio" class="d-none" name="product_id" checked="" value="716">
-                          <input type="hidden" name="action" value="addToCart">
-                          <input type="hidden" name="sample" value="true" class="d-none smp-contents">
-                          <div class="order-button-box w3_bg">
-                              <div class="order-button-payment text-center w3_bg">
-                                <button type="button" class="btn btn-success btnAddToCart" aria-hidden="true">
-                                    <svg style="margin-right: 10px; margin-bottom: 5px;" width="23" height="22"
-                                         viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1 1H4.81818L7.37636 13.7524C7.46365 14.1909 7.70273 14.5847 8.05175 14.865C8.40077 15.1454 8.83748 15.2943 9.28545 15.2857H18.5636C19.0116 15.2943 19.4483 15.1454 19.7973 14.865C20.1464 14.5847 20.3854 14.1909 20.4727 13.7524L22 5.7619H5.77273M9.59091 20.0476C9.59091 20.5736 9.16354 21 8.63636 21C8.10918 21 7.68182 20.5736 7.68182 20.0476C7.68182 19.5216 8.10918 19.0952 8.63636 19.0952C9.16354 19.0952 9.59091 19.5216 9.59091 20.0476ZM20.0909 20.0476C20.0909 20.5736 19.6635 21 19.1364 21C18.6092 21 18.1818 20.5736 18.1818 20.0476C18.1818 19.5216 18.6092 19.0952 19.1364 19.0952C19.6635 19.0952 20.0909 19.5216 20.0909 20.0476Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                    Add To Cart
-                                </button>
-                                
-                                  <div class="cartLoad ximgLoading w3_bg" style="display:none;"><img
-                                          data-class="LazyLoad" src="https://www.imprintnow.ca/cache/blank.png"
-                                          data-src="https://d3ngdnua5h1yvk.cloudfront.net/images/mload.gif"></div>
-                              </div>
-                          </div>
-                      </div>
-
                   </div>
                   </div>
-
-
-
 
 
             </div>
         </div>
-        <!--end col-->
-
-
-
 
 
     </div>
@@ -582,170 +483,209 @@ background-position: center;
 </section>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const quantityInput = document.getElementById("quantity-input");
-        const totalQty = document.getElementById("total-qty");
-        const totalQtyCustomization = document.getElementById("total-qty2");
-        const totalQtyDelivery = document.getElementById("total-qty3");
-        const totalPrice = document.getElementById("total-price");
-        const totalPriceCustomization = document.getElementById("total-price2");
-        const totalPriceDelivery = document.getElementById("total-price3");
-        const printingOptions = document.querySelectorAll(".printing-option");
-        const shippingOptions = document.querySelectorAll('input[name="shippingOption"]');
-        const pickYourselfBox = document.getElementById('pickYourselfBox');
-        const viewBundleBox = document.getElementById('viewBundleBox');
-        const artworkSelection = document.getElementById("artwork-upload");
+ document.addEventListener("DOMContentLoaded", function () {
+    const productId = {{$product->id}}; // Replace with the actual server-side variable for product ID
+    console.log("Product ID:", productId);
 
-        let selectedPrintingPrice = 0;
-        let selectedPrintingQuantities = [];
-        let pricesForSelectedPrinting = [];
+    const quantityInput = document.getElementById("quantity-input");
+    const totalQtyElements = document.querySelectorAll(".total-qty");
+    const totalPrice = document.getElementById("total-price");
+    const totalPriceCustomization = document.getElementById("total-price2");
+    const totalPriceDelivery = document.getElementById("total-price3");
+    const printingOptions = document.querySelectorAll(".printing-option");
+    const shippingOptions = document.querySelectorAll('input[name="shippingOption"]');
+    const pickYourselfBox = document.getElementById("pickYourselfBox");
+    const viewBundleBox = document.getElementById("viewBundleBox");
+    const artworkSelection = document.getElementById("artwork-upload");
+    const beanieColorSelect = document.getElementById("beanie-color");
+    const beanieOptions = document.querySelectorAll('input[name="beanie"]');
 
-        // Quantities and prices from server (ensure they are numbers)
-        const quantities = @json($quantities).map(Number);
-        const prices = @json($prices).map(Number);
-        const quantitiesDelivery = @json($quantitiesdelivery).map(Number); // Pass quantitiesdelivery here
-        const pricesDelivery = @json($pricesDelivery).map(Number); // Pass pricesDelivery here
+    let selectedPrintingPrice = 0;
+    let selectedPrintingQuantities = [];
+    let pricesForSelectedPrinting = [];
 
-        // Handle printing option selection
-        printingOptions.forEach(option => {
-            option.addEventListener("click", function () {
-                printingOptions.forEach(opt => opt.classList.remove("active"));
-                this.classList.add("active");
+    // Quantities and prices from server (ensure they are numbers)
+    const quantities = @json($quantities).map(Number);
+    const prices = @json($prices).map(Number);
+    const quantitiesDelivery = @json($quantitiesdelivery).map(Number);
+    const pricesDelivery = @json($pricesDelivery).map(Number);
 
-                try {
-                    selectedPrintingQuantities = JSON.parse(this.dataset.quantities).map(Number);
-                    pricesForSelectedPrinting = JSON.parse(this.dataset.prices).map(Number);
-                    updatePrintingPriceAndTotal();
-                } catch (error) {
-                    console.error("Error parsing quantities or prices data:", error);
-                }
-            });
+    // Handle printing option selection
+    printingOptions.forEach(option => {
+    option.addEventListener("click", function () {
+        printingOptions.forEach(opt => opt.classList.remove("active"));
+        this.classList.add("active");
+
+        // Log the selected printing ID
+        const selectedPrintingId = this.getAttribute("data-id");
+        console.log("Selected Printing ID:", selectedPrintingId);
+
+        try {
+            selectedPrintingQuantities = JSON.parse(this.dataset.quantities).map(Number);
+            pricesForSelectedPrinting = JSON.parse(this.dataset.prices).map(Number);
+            updatePrintingPriceAndTotal();
+        } catch (error) {
+            console.error("Error parsing quantities or prices data:", error);
+        }
+    });
+});
+
+
+    // Log selected beanie color ID instead of name
+    beanieColorSelect.addEventListener("change", function () {
+        console.log("Selected Beanie Color ID:", this.value);
+    });
+
+    // Log selected beanie type
+    beanieOptions.forEach(option => {
+        option.addEventListener("change", function () {
+            console.log("Selected Beanie Type:", this.value);
+        });
+    });
+
+    // Function to calculate printing price based on quantity
+    function calculatePrice(quantity, quantities, prices) {
+        quantity = parseInt(quantity);
+        if (isNaN(quantity)) return 0;
+
+        let price = 0;
+        for (let i = quantities.length - 1; i >= 0; i--) {
+            if (quantity >= quantities[i]) {
+                price = prices[i];
+                break;
+            }
+        }
+        return price;
+    }
+
+    // Update printing price and total price
+    function updatePrintingPriceAndTotal() {
+        const enteredQty = parseInt(quantityInput.value) || 0;
+
+        // Update all quantity displays
+        totalQtyElements.forEach(element => {
+            element.textContent = enteredQty;
         });
 
-        // Function to calculate printing price based on quantity
-        function calculatePrice(quantity, quantities, prices) {
-            quantity = parseInt(quantity);
-            if (isNaN(quantity)) return 0;
+        selectedPrintingPrice = calculatePrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
+        calculateTotalPrice();
+    }
 
-            let price = 0;
-            for (let i = quantities.length - 1; i >= 0; i--) {
-                if (quantity >= quantities[i]) {
-                    price = prices[i];
-                    break;
-                }
-            }
-            return price;
+    // Update total price based on quantity and selected printing option
+    function calculateTotalPrice() {
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        let calculatedPrice = calculatePrice(enteredQty, quantities, prices);
+        const total = calculatedPrice * enteredQty;
+
+        // Log prices to console
+        console.log("Quantity:", enteredQty);
+        console.log("Printing ID:", selectedPrintingQuantities);
+        console.log("Printing Price:", selectedPrintingPrice);
+        console.log("Product Price:", calculatedPrice);
+        console.log("Delivery Price:", calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery));
+
+        totalPrice.textContent = `$${total.toFixed(2)}`;
+        totalPriceCustomization.textContent = `$${(selectedPrintingPrice * enteredQty).toFixed(2)}`;
+
+        if (selectedPrintingPrice === 0 && total >= 1) {
+            artworkSelection.style.display = "none";
+        } else {
+            artworkSelection.style.display = "block";
         }
 
-        // Update printing price and total price
-        function updatePrintingPriceAndTotal() {
-            const enteredQty = parseInt(quantityInput.value) || 0;
-            totalQty.textContent = enteredQty;
-            totalQtyCustomization.textContent = enteredQty;
-            totalQtyDelivery.textContent = enteredQty;
+        // Update background color based on calculated price
+        document.querySelectorAll('[id^="pricing-"]').forEach(function (priceElement) {
+            const priceValue = parseFloat(priceElement.getAttribute('data-price'));
 
-            selectedPrintingPrice = calculatePrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
+            if (priceValue === calculatedPrice) {
+                priceElement.style.backgroundColor = "#F7B708";
+                priceElement.style.color = "#fff";
+            } else {
+                priceElement.style.backgroundColor = "";
+                priceElement.style.color = "black";
+            }
+        });
+    }
+
+    // Update delivery price and total cost for "View Shipping Bundle"
+    function updateDeliveryPriceAndTotal() {
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        const deliveryPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
+        const totalDelivery = deliveryPrice * enteredQty;
+        totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
+    }
+
+    // Toggle between "Pick Yourself" and "View Shipping Bundle"
+    function toggleOptions() {
+    const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+
+    if (selectedOption === 'pickYourself') {
+        pickYourselfBox.style.display = 'block';
+        viewBundleBox.style.display = 'none';
+        totalPriceDelivery.textContent = '$0.00';
+        resetTotalPrice();
+    } else {
+        pickYourselfBox.style.display = 'none';
+        viewBundleBox.style.display = 'block';
+
+        // Calculate and log the shipping price
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        const shippingPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
+        console.log("Shipping Price (View Shipping Bundle):", shippingPrice);
+
+        updateDeliveryPriceAndTotal();
+    }
+}
+
+
+    // Reset the total price to $0 for "Pick Yourself"
+    function resetTotalPrice() {
+        totalPrice.textContent = "$0.00";
+        totalPriceCustomization.textContent = "$0.00";
+    }
+
+    // Listen to changes in shipping options and update the view
+    shippingOptions.forEach(option => {
+        option.addEventListener('change', toggleOptions);
+    });
+
+    // Recalculate total price and update view on quantity change
+    quantityInput.addEventListener("input", function () {
+        const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+
+        if (selectedOption === 'pickYourself') {
+            totalPriceDelivery.textContent = '$0.00';
+            resetTotalPrice();
+        } else {
+            updateDeliveryPriceAndTotal();
+        }
+
+        updatePrintingPriceAndTotal();
+    });
+
+    // Ensure correct view on page load
+    toggleOptions();
+
+    // Prevent entering a value below the minimum quantity and update the UI accordingly
+    quantityInput.addEventListener("blur", function () {
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        const minQty = Math.min(...quantities);
+
+        if (enteredQty < minQty) {
+            quantityInput.value = minQty;
             calculateTotalPrice();
         }
 
-        // Update total price based on quantity and selected printing option
-        function calculateTotalPrice() {
-            const enteredQty = parseInt(quantityInput.value) || 0;
-            let calculatedPrice = calculatePrice(enteredQty, quantities, prices);
-            const total = calculatedPrice * enteredQty;
-
-            totalPrice.textContent = `$${total.toFixed(2)}`;
-            totalPriceCustomization.textContent = `$${(selectedPrintingPrice * enteredQty).toFixed(2)}`;
-
-            if (selectedPrintingPrice === 0 && total >= 1) {
-                artworkSelection.style.display = "none";
-            } else {
-                artworkSelection.style.display = "block";
-            }
-
-            // Update background color based on calculated price
-            document.querySelectorAll('[id^="pricing-"]').forEach(function(priceElement) {
-                const priceValue = parseFloat(priceElement.getAttribute('data-price'));
-
-                if (priceValue === calculatedPrice) {
-                    priceElement.style.backgroundColor = "#F7B708";
-                    priceElement.style.color = "#fff";
-                } else {
-                    priceElement.style.backgroundColor = "";
-                    priceElement.style.color = "black";
-                }
-            });
-        }
-
-        // Update delivery price and total cost for "View Shipping Bundle"
-        function updateDeliveryPriceAndTotal() {
-            const enteredQty = parseInt(quantityInput.value) || 0;
-            const deliveryPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
-            const totalDelivery = deliveryPrice * enteredQty;
-            totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
-        }
-
-        // Toggle between "Pick Yourself" and "View Shipping Bundle"
-        function toggleOptions() {
-            const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
-
-            if (selectedOption === 'pickYourself') {
-                pickYourselfBox.style.display = 'block';
-                viewBundleBox.style.display = 'none';
-                totalPriceDelivery.textContent = '$0.00';
-                resetTotalPrice();
-            } else {
-                pickYourselfBox.style.display = 'none';
-                viewBundleBox.style.display = 'block';
-                updateDeliveryPriceAndTotal();
-            }
-        }
-
-        // Reset the total price to $0 for "Pick Yourself"
-        function resetTotalPrice() {
-            totalPrice.textContent = "$0.00";
-            totalPriceCustomization.textContent = "$0.00";
-        }
-
-        // Listen to changes in shipping options and update the view
-        shippingOptions.forEach(option => {
-            option.addEventListener('change', toggleOptions);
-        });
-
-        // Recalculate total price and update view on quantity change
-        quantityInput.addEventListener("input", function () {
-            const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
-            
-            if (selectedOption === 'pickYourself') {
-                totalPriceDelivery.textContent = '$0.00';
-                resetTotalPrice();
-            } else {
-                updateDeliveryPriceAndTotal();
-            }
-
-            updatePrintingPriceAndTotal();
-        });
-
-        // Ensure correct view on page load
-        toggleOptions();
-
-        // Prevent entering a value below the minimum quantity and update the UI accordingly
-        quantityInput.addEventListener("blur", function () {
-            const enteredQty = parseInt(quantityInput.value) || 0;
-            const minQty = Math.min(...quantities);
-            
-            if (enteredQty < minQty) {
-                quantityInput.value = minQty;
-                calculateTotalPrice();
-            }
-
-            // Ensure the total quantity and price are updated
-            totalQty.textContent = quantityInput.value;
-            totalQtyCustomization.textContent = quantityInput.value;
-            totalQtyDelivery.textContent = quantityInput.value;
+        // Ensure the total quantity and price are updated
+        totalQtyElements.forEach(element => {
+            element.textContent = quantityInput.value;
         });
     });
+});
+
 </script>
+
+
 
 <script>
     let currentIndex = 0;
@@ -768,5 +708,4 @@ background-position: center;
   changeImage(thumbnails[currentIndex]);
     }
   </script>
-
 @endsection
