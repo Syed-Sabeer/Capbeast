@@ -29,7 +29,8 @@ Route::prefix('main')->group(function () {
   // Routes that require authentication
   Route::middleware('auth')->group(function () {
     Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
-    
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+
 });
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/about', [AboutController::class, 'index'])->name('about');
