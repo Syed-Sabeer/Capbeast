@@ -274,7 +274,9 @@ background-position: center;
                                     <!-- File Upload -->
                                     <div class="mb-3" id="fileUploadContainer">
                                         <label for="fileUpload" class="form-label fw-bold">Browse Files To Upload</label>
+                                        <form enctype="multipart/form-data">
                                         <input type="file" id="fileUpload" class="form-control">
+                                    </form>
                                         <div class="form-text">
                                             File Accepted: JPEG, JPG, GIF, PNG, EPS, PDF, PSD, AI, BMP, TIF, TIFF<br>
                                             <strong>Preferred File Type for Better Quality Product:</strong> AI, EPS, PSD,
@@ -700,71 +702,75 @@ background-position: center;
             });
 
             // Add to Cart button functionality
-            document.getElementById("add-to-cart-button").addEventListener("click", function() {
+          // Add to Cart button functionality
+document.getElementById("add-to-cart-button").addEventListener("click", function () {
     const quantity = parseInt(quantityInput.value) || 0;
     const colorId = document.getElementById("beanie-color").value;
     const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
-    const printingId = document.querySelector(".printing-option.active")?.getAttribute("data-id") || null;
+    const printingId = parseInt(document.querySelector(".printing-option.active")?.getAttribute("data-id")) || null;
     const printingPrice = selectedPrintingPrice;
     const productPrice = calculatePrice(quantity, quantities, prices);
     const deliveryPrice = calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
 
     // Artwork fields
-    const artworkType = document.getElementById("artworkType").value;
-    const artworkData =
-        artworkType === "upload"
-            ? document.getElementById("fileUpload").value // File path or file name
-            : document.getElementById("messageInput").value;
+    const artworkType = parseInt(document.getElementById("artworkType").value) || null;
+    const artworkDataText = document.getElementById("messageInput").value || null;
+    const artworkDataImage = document.getElementById("fileUpload").files[0] || null;
 
-    const patchLength = parseFloat(document.getElementById("patchLength").value) || null;
-    const patchHeight = parseFloat(document.getElementById("patchHeight").value) || null;
-    const fontStyle = document.getElementById("fontStyle").value;
-    const numOfImprint = parseInt(document.getElementById("imprintColors").value) || null;
+    // Only include artwork data if available
+    const formData = new FormData();
+    formData.append("productId", productId);
+    formData.append("userId", userId);
+    formData.append("colorId", colorId);
+    formData.append("quantity", quantity);
+    formData.append("beanieType", beanieType);
+    formData.append("printingId", printingId);
+    formData.append("printingPrice", printingPrice);
+    formData.append("productPrice", productPrice);
+    formData.append("deliveryPrice", deliveryPrice);
+
+    // Only append artwork data if artworkType is selected or artwork data exists
+    if (artworkType || artworkDataText || artworkDataImage) {
+        formData.append("artworkType", artworkType);
+        formData.append("artworkDataText", artworkDataText);
+        if (artworkDataImage) {
+            formData.append("artworkDataImage", artworkDataImage); // Include the file if available
+        }
+    }
+
+    // Additional product customization data
+    const patchLength = document.getElementById("patchLength").value ? parseFloat(document.getElementById("patchLength").value) : null;
+    const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document.getElementById("patchHeight").value) : null;
+    const fontStyle = document.getElementById("fontStyle").value || null;
+    const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document.getElementById("imprintColors").value) : null;
     const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns select")).map(
         dropdown => dropdown.value
     );
 
-    const data = {
-        productId,
-        userId,
-        colorId,
-        quantity,
-        beanieType,
-        printingId,
-        printingPrice,
-        productPrice,
-        deliveryPrice,
-        artworkType,
-        artworkData,
-        patchLength,
-        patchHeight,
-        fontStyle,
-        numOfImprint,
-        imprintColors,
-    };
-
-    console.log("Cart Data:", data);
+    imprintColors.forEach((color, index) => {
+        formData.append(`imprintColors[${index}]`, color); // Handle array fields
+    });
 
     fetch("{{ route('cart.add') }}", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
             "X-CSRF-TOKEN": "{{ csrf_token() }}",
         },
-        body: JSON.stringify(data),
+        body: formData,
     })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                alert("Product added to cart successfully!");
-            } else {
-                alert("Failed to add product to cart.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            alert("Product added to cart successfully!");
+        } else {
+            alert("Failed to add product to cart.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
 });
+
 
 
         });

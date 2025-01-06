@@ -24,7 +24,8 @@ class CartArtwork extends Model
     protected $fillable = [
         'cart_id',
         'artwork_type',
-        'artwork_data',
+        'artwork_dataText',
+        'artwork_dataImage',
         'patch_length',
         'patch_height',
         'font_style',
