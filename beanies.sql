@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2025 at 05:30 PM
+-- Generation Time: Jan 06, 2025 at 05:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,20 +68,31 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `product_id`, `color_id`, `quantity`, `beanie_type`, `printing_id`, `printing_price`, `product_price`, `delivery_price`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 2, 12, 2, 2, 10.00, 13.21, 20.00, '2025-01-05 06:59:38', '2025-01-05 06:59:38'),
-(2, 1, 1, 2, 12, 2, 2, 10.00, 13.21, 20.00, '2025-01-05 06:59:38', '2025-01-05 06:59:38'),
-(3, 1, 1, 3, 24, 2, 3, 20.00, 13.21, 20.00, '2025-01-05 07:00:03', '2025-01-05 07:00:03'),
-(4, 1, 1, 3, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 07:26:44', '2025-01-05 07:26:44'),
-(5, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 07:34:03', '2025-01-05 07:34:03'),
-(6, 1, 1, 1, 12, 2, 2, 10.00, 13.21, 20.00, '2025-01-05 08:18:41', '2025-01-05 08:18:41'),
-(7, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 08:28:04', '2025-01-05 08:28:04'),
-(14, 1, 1, 2, 12, 2, 1, 0.00, 13.21, 20.00, '2025-01-05 08:34:20', '2025-01-05 08:34:20'),
-(15, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 08:45:10', '2025-01-05 08:45:10'),
-(16, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-05 09:22:52', '2025-01-05 09:22:52'),
-(17, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 09:23:24', '2025-01-05 09:23:24'),
-(18, 1, 1, 3, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 09:39:45', '2025-01-05 09:39:45'),
-(19, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 09:42:35', '2025-01-05 09:42:35'),
-(20, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-05 09:45:28', '2025-01-05 09:45:28');
+(55, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 05:50:00', '2025-01-06 05:50:00'),
+(56, 1, 1, 3, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 05:53:15', '2025-01-06 05:53:15'),
+(57, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 05:55:26', '2025-01-06 05:55:26'),
+(58, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 05:58:25', '2025-01-06 05:58:25'),
+(59, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:03:11', '2025-01-06 06:03:11'),
+(60, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:03:59', '2025-01-06 06:03:59'),
+(61, 1, 1, 2, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 06:04:30', '2025-01-06 06:04:30'),
+(62, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:19:27', '2025-01-06 06:19:27'),
+(63, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:19:59', '2025-01-06 06:19:59'),
+(64, 1, 1, 2, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 06:28:35', '2025-01-06 06:28:35'),
+(65, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 06:37:51', '2025-01-06 06:37:51'),
+(66, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:38:21', '2025-01-06 06:38:21'),
+(67, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 06:39:34', '2025-01-06 06:39:34'),
+(68, 1, 1, 2, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 06:40:29', '2025-01-06 06:40:29'),
+(69, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:40:48', '2025-01-06 06:40:48'),
+(70, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 07:16:59', '2025-01-06 07:16:59'),
+(71, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 07:17:15', '2025-01-06 07:17:15'),
+(72, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 07:17:27', '2025-01-06 07:17:27'),
+(73, 1, 1, 2, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 07:36:22', '2025-01-06 07:36:22'),
+(74, 1, 1, 3, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 07:37:05', '2025-01-06 07:37:05'),
+(75, 1, 1, 3, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 07:37:05', '2025-01-06 07:37:05'),
+(76, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 07:38:25', '2025-01-06 07:38:25'),
+(77, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 07:38:47', '2025-01-06 07:38:47'),
+(78, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 08:26:47', '2025-01-06 08:26:47'),
+(79, 1, 1, 1, 12, 2, 2, 10.00, 13.21, 20.00, '2025-01-06 08:27:18', '2025-01-06 08:27:18');
 
 -- --------------------------------------------------------
 
@@ -93,9 +104,10 @@ CREATE TABLE `cart_artwork` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `cart_id` bigint(20) UNSIGNED NOT NULL,
   `artwork_type` int(11) NOT NULL,
-  `artwork_data` text NOT NULL,
-  `patch_length` decimal(8,2) NOT NULL,
-  `patch_height` decimal(8,2) NOT NULL,
+  `artwork_dataText` text DEFAULT NULL,
+  `artwork_dataImage` text DEFAULT NULL,
+  `patch_length` decimal(8,2) DEFAULT NULL,
+  `patch_height` decimal(8,2) DEFAULT NULL,
   `font_style` varchar(255) NOT NULL,
   `num_of_imprint` int(11) NOT NULL,
   `imprint_color` text NOT NULL,
@@ -107,11 +119,22 @@ CREATE TABLE `cart_artwork` (
 -- Dumping data for table `cart_artwork`
 --
 
-INSERT INTO `cart_artwork` (`id`, `cart_id`, `artwork_type`, `artwork_data`, `patch_length`, `patch_height`, `font_style`, `num_of_imprint`, `imprint_color`, `created_at`, `updated_at`) VALUES
-(1, 7, 2, '2323', 3.00, 2.00, 'times', 2, '[\"color1\",\"color2\"]', '2025-01-05 08:28:04', '2025-01-05 08:28:04'),
-(4, 15, 2, 'wewe', 3.00, 2.00, 'times', 3, '[\"color1\",\"color2\",\"color3\"]', '2025-01-05 08:45:10', '2025-01-05 08:45:10'),
-(5, 19, 1, '', 1.00, 1.00, 'arial', 2, '[\"color1\",\"color2\"]', '2025-01-05 09:42:35', '2025-01-05 09:42:35'),
-(6, 20, 1, '', 1.00, 1.00, 'arial', 3, '[\"color1\",\"color2\",\"color3\"]', '2025-01-05 09:45:28', '2025-01-05 09:45:28');
+INSERT INTO `cart_artwork` (`id`, `cart_id`, `artwork_type`, `artwork_dataText`, `artwork_dataImage`, `patch_length`, `patch_height`, `font_style`, `num_of_imprint`, `imprint_color`, `created_at`, `updated_at`) VALUES
+(6, 59, 1, 'null', 'CustomerArtworkImages/mGwfPyVtdFfq4kdmP7Yj3CyELFWlFJuwyGoZFgEw.jpg', 1.00, 1.00, 'arial', 2, '[\"color1\",\"color2\"]', '2025-01-06 06:03:11', '2025-01-06 06:03:11'),
+(7, 60, 2, 'sdsd', NULL, 1.00, 1.00, 'arial', 1, '[\"color1\"]', '2025-01-06 06:03:59', '2025-01-06 06:03:59'),
+(8, 61, 2, 'sdsd', NULL, 1.00, 1.00, 'arial', 1, '[\"color1\"]', '2025-01-06 06:04:30', '2025-01-06 06:04:30'),
+(9, 62, 1, 'null', 'CustomerArtworkImages/UEOWzLXgOusrgtQqaZ3s1io9Z6pS5Wkgv2z99SwL.jpg', 1.00, 1.00, 'arial', 2, '[\"color1\",\"color2\"]', '2025-01-06 06:19:28', '2025-01-06 06:19:28'),
+(10, 63, 2, 'sdf', NULL, 1.00, 1.00, 'arial', 2, '[\"color1\",\"color2\"]', '2025-01-06 06:19:59', '2025-01-06 06:19:59'),
+(11, 64, 1, 'null', NULL, 1.00, 1.00, 'arial', 0, '[]', '2025-01-06 06:28:35', '2025-01-06 06:28:35'),
+(12, 68, 1, 'null', NULL, NULL, NULL, '', 1, '[]', '2025-01-06 06:40:29', '2025-01-06 06:40:29'),
+(13, 69, 1, 'null', 'CustomerArtworkImages/B1TidWzwyyHbhCSfneJrzdhIIxiUDnxQaUPjwRid.jpg', NULL, NULL, '', 1, '[\"color1\",\"color2\"]', '2025-01-06 06:40:48', '2025-01-06 06:40:48'),
+(14, 70, 1, 'null', 'CustomerArtworkImages/9MaoiaEI5WsansiJG9GHguYKZxewSYqoKsJSXkct.jpg', 2.00, 1.00, 'courier', 1, '[\"color1\"]', '2025-01-06 07:16:59', '2025-01-06 07:16:59'),
+(15, 71, 2, 'sds', 'CustomerArtworkImages/t7YyjaCg7rdA3UVr0cXLhHfZQ1YKwiQwer7cHP1W.jpg', 2.00, 1.00, 'courier', 1, '[\"color1\"]', '2025-01-06 07:17:15', '2025-01-06 07:17:15'),
+(16, 72, 2, 'sds', 'CustomerArtworkImages/X34hyGKu4OEYd5Chd854a3Ynu3g0tw9VyBKYyUCJ.jpg', 2.00, 1.00, 'courier', 1, '[\"color1\"]', '2025-01-06 07:17:27', '2025-01-06 07:17:27'),
+(17, 75, 2, 'dsd', NULL, 1.00, 1.00, 'courier', 3, '[\"color1\",\"color2\",\"color3\"]', '2025-01-06 07:37:06', '2025-01-06 07:37:06'),
+(18, 74, 2, 'dsd', NULL, 1.00, 1.00, 'courier', 3, '[\"color1\",\"color2\",\"color3\"]', '2025-01-06 07:37:06', '2025-01-06 07:37:06'),
+(19, 76, 1, 'null', 'CustomerArtworkImages/orEX8GNWXwGMLpe2amItgjXTwBqnnBwhWoqHiQ0N.jpg', 1.00, 1.00, 'arial', 2, '[\"color1\",\"color2\"]', '2025-01-06 07:38:25', '2025-01-06 07:38:25'),
+(20, 79, 1, 'null', 'CustomerArtworkImages/YaV5zeiMnS8s9tX6gaWUBeIAm28QyCASumgoODfJ.jpg', 1.00, 1.00, 'arial', 1, '[\"color1\"]', '2025-01-06 08:27:18', '2025-01-06 08:27:18');
 
 -- --------------------------------------------------------
 
@@ -211,7 +234,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `title`, `description`, `visibility`, `created_at`, `updated_at`) VALUES
-(1, 'Custom Classic Polyester Cotton Beanies', 'We believe that you’ll find our Custom Classic Polyester Cotton Beanies an excellent value and may be used for promotional purposes. Oh. We got you covered, we have more styles for you to choose from, and you can customize this too! You can have your logos, graphic designs, or text embroidered right on them. Enjoy adding to your cart, and see you at the checkout!\r\n\r\n\r\nMaterial: Polyester Cotton\r\nSize: 20cm x 21cm, brim: 7cm\r\nHead Circumference:  54cm-60cm\r\nColors: Black, Blue, Brown, Caramel, Cream, Dark Gray, Dark Green, Hot Pink, Khaki, Light Gray, Light Pink, Maroon, Medium Gray, Navy Blue, Purple, Red, Royal blue, Turquoise, White, Yellow', 1, '2025-01-04 13:29:16', '2025-01-04 13:29:16');
+(1, 'Custom Classic Polyester Cotton Beanies', 'We believe that you’ll find our Custom Classic Polyester Cotton Beanies an excellent value and may be used for promotional purposes. Oh. We got you covered, we have more styles for you to choose from, and you can customize this too! You can have your logos, graphic designs, or text embroidered right on them. Enjoy adding to your cart, and see you at the checkout!\r\n\r\n\r\nMaterial: Polyester Cotton\r\nSize: 20cm x 21cm, brim: 7cm\r\nHead Circumference:  54cm-60cm\r\nColors: Black, Blue, Brown, Caramel, Cream, Dark Gray, Dark Green, Hot Pink, Khaki, Light Gray, Light Pink, Maroon, Medium Gray, Navy Blue, Purple, Red, Royal blue, Turquoise, White, Yellow', 1, '2025-01-04 13:29:16', '2025-01-06 04:12:41');
 
 -- --------------------------------------------------------
 
@@ -476,13 +499,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `cart_artwork`
 --
 ALTER TABLE `cart_artwork`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`

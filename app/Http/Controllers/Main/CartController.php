@@ -10,6 +10,42 @@ use Illuminate\Support\Facades\Log;
 
 class CartController extends Controller
 {
+
+    public function index()
+    {
+        $userId = auth()->id(); // Get the authenticated user's ID
+    
+        // Fetch cart items belonging to the authenticated user, including the color
+        $cart = Cart::with(['product', 'color', 'printing']) // Eager load color
+                    ->where('user_id', $userId)
+                    ->get();
+    
+        // Pass the cart data to the view
+        return view('main.pages.cart', compact('cart'));
+    }
+    
+    
+
+// For Cart and ArtWork Relation
+/*
+public function index()
+{
+    $userId = auth()->id(); // Get the authenticated user's ID
+
+    // Fetch cart artwork items for the authenticated user
+    $cart = CartArtwork::with(['cart.product', 'cart.color', 'cart.printing'])
+                ->whereHas('cart', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->get();
+
+    // Pass the cart data to the view
+    return view('main.pages.cart', compact('cart'));
+}
+*/
+    
+
+
     public function add(Request $request)
     {
         // Log the incoming request data
@@ -84,4 +120,31 @@ if (!empty($validated['artworkType']) && (!empty($validated['artworkDataText']) 
             return response()->json(['success' => false, 'message' => 'Failed to add item to cart.'], 500);
         }
     }
+    public function remove($itemId)
+    {
+        try {
+            // Log the incoming item ID
+            Log::info('Attempting to remove item with ID: ' . $itemId);
+        
+            // Find the cart item by ID
+            $cartItem = Cart::findOrFail($itemId);
+        
+            // Delete the cart item
+            $cartItem->delete();
+        
+            // Log successful removal
+            Log::info('Item removed successfully with ID: ' . $itemId);
+        
+            // Return success response
+            return response()->json(['success' => true, 'message' => 'Item removed from cart!']);
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error removing item from cart: ' . $e->getMessage());
+        
+            // Return failure response
+            return response()->json(['success' => false, 'message' => 'Failed to remove item from cart.'], 500);
+        }
+    }
+    
+
 }

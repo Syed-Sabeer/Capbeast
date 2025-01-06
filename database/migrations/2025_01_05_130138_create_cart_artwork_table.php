@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cart_id')->constrained('cart')->onDelete('cascade');
             $table->integer('artwork_type');
-            $table->text('artwork_data');
+            $table->text('artwork_dataText')->nullable();
+            $table->text('artwork_dataImage')->nullable();
             $table->decimal('patch_length', 8, 2);
             $table->decimal('patch_height', 8, 2);
             $table->string('font_style');

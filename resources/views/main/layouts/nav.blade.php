@@ -36,22 +36,39 @@
                 </li>
             </ul>
         </div>
-        <div class="bg-overlay navbar-overlay" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent.show"></div>
+        <div class="bg-overlay navbar-overlay" data-bs-toggle="collapse"  data-bs-target="#navbarSupportedContent.show"></div>
 
         <div class="d-flex align-items-center">
-            <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
-                data-bs-toggle="modal" data-bs-target="#searchModal">
+            <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" data-bs-toggle="modal" data-bs-target="#searchModal">
                 <i class="bx bx-search fs-22"></i>
             </button>
-
-            <div class="dropdown header-item dropdown-hover-end">
-                <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="{{ asset('assetsMain/images/users/avatar-1.jpg') }}"
-                        alt="Header Avatar" />
+            <div class="topbar-head-dropdown ms-1 header-item">
+                <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" 
+                        data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" 
+                        aria-controls="ecommerceCart" onclick="window.location.href='{{ route('cart') }}';">
+                    <i class="ph-shopping-cart fs-18"></i>
+                    <span class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">4</span>
                 </button>
+            </div>
+            
 
+            {{-- <div class="dropdown topbar-head-dropdown ms-2 header-item dropdown-hover-end">
+                <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bi bi-sun align-middle fs-20"></i>
+                </button>
+                <div class="dropdown-menu p-2 dropdown-menu-end" id="light-dark-mode">
+                    <a href="#!" class="dropdown-item" data-mode="light"><i class="bi bi-sun align-middle me-2"></i> Default (light mode)</a>
+                    <a href="#!" class="dropdown-item" data-mode="dark"><i class="bi bi-moon align-middle me-2"></i> Dark</a>
+                    <a href="#!" class="dropdown-item" data-mode="auto"><i class="bi bi-moon-stars align-middle me-2"></i> Auto (system default)</a>
+                </div>
+            </div> --}}
+            <div class="dropdown header-item dropdown-hover-end">
+                <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle header-profile-user" src="../assets/images/users/avatar-1.jpg" alt="Header Avatar">
+                </button>
+                <!-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="ph-user-circle fs-22"></i>
+                </button>    -->
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
                     @auth

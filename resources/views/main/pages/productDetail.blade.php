@@ -761,6 +761,7 @@ background-position: center;
         .then(result => {
             if (result.success) {
                 alert("Product added to cart successfully!");
+                window.location.href = "{{ route('cart') }}";
             } else {
                 alert("Failed to add product to cart.");
             }

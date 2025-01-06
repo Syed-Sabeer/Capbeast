@@ -232,7 +232,7 @@ function isCustomDropdown() {
             var shipping = (subtotal > 0 ? shippingRate : 0);
             var total = subtotal + tax + shipping - discount;
 
-            elm.querySelector(".cart-subtotal").innerHTML = currencySign + subtotal.toFixed(2);
+        elm.querySelector(".cart-subtotal").innerHTML = currencySign + subtotal.toFixed(2);
             elm.querySelector(".cart-tax").innerHTML = currencySign + tax.toFixed(2);
             elm.querySelector(".cart-shipping").innerHTML = currencySign + shipping.toFixed(2);
             elm.querySelector(".cart-total").innerHTML = currencySign + total.toFixed(2);

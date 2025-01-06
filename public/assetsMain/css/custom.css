@@ -84,7 +84,7 @@ object-fit: cover;
 border-radius: 10px;
 }
 
-.badge {
+.ProductCardBadge {
 background-color: green;
 color: white;
 font-size: 12px;
@@ -334,3 +334,9 @@ left: -40px;
 .ProductSliderArrow.right {
 right: -40px;
 }
+.fixed-size-cartImage {
+  width: 100px; 
+  height: 100px;
+  object-fit: cover;
+  }
+  

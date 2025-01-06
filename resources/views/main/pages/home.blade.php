@@ -36,7 +36,7 @@
                 @foreach ($visibleProducts as $product)
                     <div class="col-md-6 col-lg-3 mb-4">
                         <div class="product-card">
-                            <div class="badge">HOT</div>
+                            <div class="ProductCardBadge">HOT</div>
                             <img src="{{ asset('storage/' . ($product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" 
                             alt="product" 
                             class="img-fluid" 

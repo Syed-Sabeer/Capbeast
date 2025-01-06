@@ -30,6 +30,11 @@ Route::prefix('main')->group(function () {
   Route::middleware('auth')->group(function () {
     Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
+
+
+
 
 });
   Route::get('/products', [ProductController::class, 'index'])->name('products');

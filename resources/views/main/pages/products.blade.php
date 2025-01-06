@@ -56,7 +56,7 @@ background-position: center;
                   @foreach ($products as $product)
                       <div class="col-md-4 col-lg-3 mb-4">
                           <div class="product-card">
-                              <div class="badge">HOT</div>
+                              <div class="ProductCardBadge">HOT</div>
                               
                               {{-- Check if base_images exists and use default if not --}}
                               <img src="{{ asset('storage/' . ($product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" 
