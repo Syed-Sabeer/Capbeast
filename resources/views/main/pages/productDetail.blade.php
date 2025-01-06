@@ -710,20 +710,6 @@ background-position: center;
     const productPrice = calculatePrice(quantity, quantities, prices);
     const deliveryPrice = calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
 
-    // Artwork fields
-    const artworkType = parseInt(document.getElementById("artworkType").value) || null;
-    const artworkDataText = document.getElementById("messageInput").value || null;
-    const artworkDataImage = document.getElementById("fileUpload").files[0] || null;
-
-    // Ensure patchLength, patchHeight, and numOfImprint are null if they are empty
-    const patchLength = document.getElementById("patchLength").value ? parseFloat(document.getElementById("patchLength").value) : null;
-    const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document.getElementById("patchHeight").value) : null;
-    const fontStyle = document.getElementById("fontStyle").value || null;
-    const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document.getElementById("imprintColors").value) : null;
-    const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns select")).map(
-        dropdown => dropdown.value
-    );
-
     const formData = new FormData();
     formData.append("productId", productId);
     formData.append("userId", userId);
@@ -734,18 +720,35 @@ background-position: center;
     formData.append("printingPrice", printingPrice);
     formData.append("productPrice", productPrice);
     formData.append("deliveryPrice", deliveryPrice);
-    formData.append("artworkType", artworkType);
-    formData.append("artworkDataText", artworkDataText);
-    if (artworkDataImage) {
-        formData.append("artworkDataImage", artworkDataImage); // Include the file if available
+
+    // Only include artwork data if the artwork form is visible
+    if (artworkSelection.style.display !== "none") {
+        const artworkType = parseInt(document.getElementById("artworkType").value) || null;
+        const artworkDataText = document.getElementById("messageInput").value || null;
+        const artworkDataImage = document.getElementById("fileUpload").files[0] || null;
+
+        formData.append("artworkType", artworkType);
+        formData.append("artworkDataText", artworkDataText);
+        if (artworkDataImage) {
+            formData.append("artworkDataImage", artworkDataImage);
+        }
+
+        const patchLength = document.getElementById("patchLength").value ? parseFloat(document.getElementById("patchLength").value) : null;
+        const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document.getElementById("patchHeight").value) : null;
+        const fontStyle = document.getElementById("fontStyle").value || null;
+        const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document.getElementById("imprintColors").value) : null;
+        const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns select")).map(
+            dropdown => dropdown.value
+        );
+
+        formData.append("patchLength", patchLength);
+        formData.append("patchHeight", patchHeight);
+        formData.append("fontStyle", fontStyle);
+        formData.append("numOfImprint", numOfImprint);
+        imprintColors.forEach((color, index) => {
+            formData.append(`imprintColors[${index}]`, color);
+        });
     }
-    formData.append("patchLength", patchLength);
-    formData.append("patchHeight", patchHeight);
-    formData.append("fontStyle", fontStyle);
-    formData.append("numOfImprint", numOfImprint);
-    imprintColors.forEach((color, index) => {
-        formData.append(`imprintColors[${index}]`, color); // Handle array fields
-    });
 
     fetch("{{ route('cart.add') }}", {
         method: "POST",
@@ -766,8 +769,6 @@ background-position: center;
             console.error("Error:", error);
         });
 });
-
-
 
         });
     </script>
