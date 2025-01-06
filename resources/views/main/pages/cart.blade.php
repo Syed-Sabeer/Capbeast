@@ -38,7 +38,7 @@ background-position: center;
             <div class="row">
                 <div class="col-lg-12">
                     <div class="alert alert-danger text-center text-capitalize mb-4 fs-14">
-                        These is no <b>Refund</b> for any Order 
+                        There are <b>No Refunds</b> for any Order 
                     </div>
                 </div>
             </div>

@@ -42,14 +42,22 @@
             <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" data-bs-toggle="modal" data-bs-target="#searchModal">
                 <i class="bx bx-search fs-22"></i>
             </button>
-            <div class="topbar-head-dropdown ms-1 header-item">
-                <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" 
-                        data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" 
-                        aria-controls="ecommerceCart" onclick="window.location.href='{{ route('cart') }}';">
-                    <i class="ph-shopping-cart fs-18"></i>
-                    <span class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">4</span>
-                </button>
-            </div>
+            @php
+            // Assuming you have a Cart model that associates items with the user
+            $cartItemCount = Auth::check() ? \App\Models\Cart::where('user_id', Auth::id())->count() : 0;
+        @endphp
+        
+        <div class="topbar-head-dropdown ms-1 header-item">
+            <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" 
+                    data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" 
+                    aria-controls="ecommerceCart" onclick="window.location.href='{{ route('cart') }}';">
+                <i class="ph-shopping-cart fs-18"></i>
+                <span class="position-absolute topbar-badge  fs-10 translate-middle badge rounded-pill bg-danger">
+                    {{ $cartItemCount }}
+                </span>
+            </button>
+        </div>
+        
             
 
             {{-- <div class="dropdown topbar-head-dropdown ms-2 header-item dropdown-hover-end">
@@ -64,7 +72,7 @@
             </div> --}}
             <div class="dropdown header-item dropdown-hover-end">
                 <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="../assets/images/users/avatar-1.jpg" alt="Header Avatar">
+                    <img class="rounded-circle header-profile-user" src="{{asset('assetsMain/images/users/avatar-1.jpg')}}" alt="Header Avatar">
                 </button>
                 <!-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="ph-user-circle fs-22"></i>
