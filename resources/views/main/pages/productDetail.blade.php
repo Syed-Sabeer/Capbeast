@@ -701,9 +701,7 @@ background-position: center;
                 });
             });
 
-            // Add to Cart button functionality
-          // Add to Cart button functionality
-document.getElementById("add-to-cart-button").addEventListener("click", function () {
+            document.getElementById("add-to-cart-button").addEventListener("click", function () {
     const quantity = parseInt(quantityInput.value) || 0;
     const colorId = document.getElementById("beanie-color").value;
     const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
@@ -717,7 +715,15 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
     const artworkDataText = document.getElementById("messageInput").value || null;
     const artworkDataImage = document.getElementById("fileUpload").files[0] || null;
 
-    // Only include artwork data if available
+    // Ensure patchLength, patchHeight, and numOfImprint are null if they are empty
+    const patchLength = document.getElementById("patchLength").value ? parseFloat(document.getElementById("patchLength").value) : null;
+    const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document.getElementById("patchHeight").value) : null;
+    const fontStyle = document.getElementById("fontStyle").value || null;
+    const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document.getElementById("imprintColors").value) : null;
+    const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns select")).map(
+        dropdown => dropdown.value
+    );
+
     const formData = new FormData();
     formData.append("productId", productId);
     formData.append("userId", userId);
@@ -728,25 +734,15 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
     formData.append("printingPrice", printingPrice);
     formData.append("productPrice", productPrice);
     formData.append("deliveryPrice", deliveryPrice);
-
-    // Only append artwork data if artworkType is selected or artwork data exists
-    if (artworkType || artworkDataText || artworkDataImage) {
-        formData.append("artworkType", artworkType);
-        formData.append("artworkDataText", artworkDataText);
-        if (artworkDataImage) {
-            formData.append("artworkDataImage", artworkDataImage); // Include the file if available
-        }
+    formData.append("artworkType", artworkType);
+    formData.append("artworkDataText", artworkDataText);
+    if (artworkDataImage) {
+        formData.append("artworkDataImage", artworkDataImage); // Include the file if available
     }
-
-    // Additional product customization data
-    const patchLength = document.getElementById("patchLength").value ? parseFloat(document.getElementById("patchLength").value) : null;
-    const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document.getElementById("patchHeight").value) : null;
-    const fontStyle = document.getElementById("fontStyle").value || null;
-    const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document.getElementById("imprintColors").value) : null;
-    const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns select")).map(
-        dropdown => dropdown.value
-    );
-
+    formData.append("patchLength", patchLength);
+    formData.append("patchHeight", patchHeight);
+    formData.append("fontStyle", fontStyle);
+    formData.append("numOfImprint", numOfImprint);
     imprintColors.forEach((color, index) => {
         formData.append(`imprintColors[${index}]`, color); // Handle array fields
     });
@@ -758,17 +754,17 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
         },
         body: formData,
     })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            alert("Product added to cart successfully!");
-        } else {
-            alert("Failed to add product to cart.");
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert("Product added to cart successfully!");
+            } else {
+                alert("Failed to add product to cart.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
 });
 
 

@@ -30,13 +30,17 @@ class CartController extends Controller
                 'artworkType' => 'nullable|integer',
                 'artworkDataText' => 'nullable|string',
                 'artworkDataImage' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-               'patchLength' => 'nullable|numeric|min:1|max:4',
-                'patchHeight' => 'nullable|numeric|max:2.5',
+                'patchLength' => 'nullable|numeric|min:1|max:4', // Ensure it's nullable
+                'patchHeight' => 'nullable|numeric|max:2.5', // Ensure it's nullable
                 'fontStyle' => 'nullable|string',
                 'numOfImprint' => 'nullable|integer',
                 'imprintColors' => 'nullable|array',
             ]);
-            
+
+            // Handle patchLength and patchHeight to ensure they are null if the string "null" is passed
+            $patchLength = ($validated['patchLength'] === 'null' || empty($validated['patchLength'])) ? null : $validated['patchLength'];
+            $patchHeight = ($validated['patchHeight'] === 'null' || empty($validated['patchHeight'])) ? null : $validated['patchHeight'];
+            $numOfImprint = ($validated['numOfImprint'] === 'null' || empty($validated['numOfImprint'])) ? null : $validated['numOfImprint'];
 
             // Create a new Cart item
             $cartItem = Cart::create([
@@ -45,45 +49,32 @@ class CartController extends Controller
                 'color_id' => $validated['colorId'],
                 'quantity' => $validated['quantity'],
                 'beanie_type' => $validated['beanieType'],
-                'printing_id' => $validated['printingId'],
+                'printing_id' => $validated['printingId'] ?? null, // Only insert if printingId exists
                 'printing_price' => $validated['printingPrice'],
                 'product_price' => $validated['productPrice'],
                 'delivery_price' => $validated['deliveryPrice'],
             ]);
 
-            // Check if artwork data is provided and save it
-         // Check if artwork data image is provided and save it
-if ($request->hasFile('artworkDataImage')) {
-    $validated['artworkDataImage'] = $request->file('artworkDataImage')->store('CustomerArtworkImages', 'public');
-}
+            // Only insert artwork data if it exists
+            if (!empty($validated['artworkType']) && (!empty($validated['artworkDataText']) || !empty($validated['artworkDataImage']))) {
+                // Check if artwork data image is provided and save it
+                if ($request->hasFile('artworkDataImage')) {
+                    $validated['artworkDataImage'] = $request->file('artworkDataImage')->store('CustomerArtworkImages', 'public');
+                }
 
-// Check if artwork data is provided and save it
-if (!empty($validated['artworkType']) && (!empty($validated['artworkDataText']) || !empty($validated['artworkDataImage']))) {
-    if (!empty($validated['fontStyle'])) {
-        $fontStyle = $validated['fontStyle'];
-    } else {
-        $fontStyle = ''; // Or some default value
-    }
-    
-    $numOfImprint = isset($validated['numOfImprint']) ? $validated['numOfImprint'] : 1; // Default to 1 if not set
-
-    CartArtwork::create([
-        'cart_id' => $cartItem->id,
-        'artwork_type' => $validated['artworkType'],
-        'artwork_dataText' => $validated['artworkDataText'] ?? null,
-        'artwork_dataImage' => $validated['artworkDataImage'] ?? null,
-        'patch_length' => $validated['patchLength'] ?? null,
-        'patch_height' => $validated['patchHeight'] ?? null,
-        'font_style' => $validated['fontStyle'] ?? '',
-        'num_of_imprint' => $numOfImprint,
-        'imprint_color' => $validated['imprintColors'] ?? [],
-    ]);
-    
-    
-}
-
-            
-            
+                // Insert artwork data into the CartArtwork table
+                CartArtwork::create([
+                    'cart_id' => $cartItem->id,
+                    'artwork_type' => $validated['artworkType'],
+                    'artwork_dataText' => $validated['artworkDataText'] ?? null,
+                    'artwork_dataImage' => $validated['artworkDataImage'] ?? null,
+                    'patch_length' => $patchLength, // Will be null if not provided
+                    'patch_height' => $patchHeight, // Will be null if not provided
+                    'font_style' => $validated['fontStyle'] ?? null, // Will be null if not provided
+                    'num_of_imprint' => $numOfImprint, // Will be null if not provided
+                    'imprint_color' => $validated['imprintColors'] ?? [], // Will be empty array if not provided
+                ]);
+            }
 
             // Return a success response
             return response()->json(['success' => true, 'message' => 'Item added to cart!', 'cartItem' => $cartItem]);
