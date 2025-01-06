@@ -37,21 +37,30 @@
                     <div class="col-md-6 col-lg-3 mb-4">
                         <div class="product-card">
                             <div class="badge">HOT</div>
-                            <img src="{{ asset('storage/' . ($product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" alt="product" class="img-fluid">
-                            <div class="color-slider-container">
-                                <span class="arrow left">&lt;</span>
-                                <div class="color-slider" id="colorSlider{{ $product->id }}">
-                                    {{-- Check if colors exist before looping --}}
-                                    @if ($product->productColors->isNotEmpty())
-                                        @foreach ($product->productColors as $color)
-                                            <div class="color-option" style="background-color: {{ $color->color }};" title="Color: {{ $color->color }}"></div>
-                                        @endforeach
-                                    @else
-                                        <p>No colors available</p>
-                                    @endif
-                                </div>
-                                <span class="arrow right">&gt;</span>
-                            </div>
+                            <img src="{{ asset('storage/' . ($product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" 
+                            alt="product" 
+                            class="img-fluid" 
+                            id="mainImage{{ $product->id }}">
+                       
+                       <div class="color-slider-container">
+                           <span class="arrow left">&lt;</span>
+                           <div class="color-slider" id="colorSlider{{ $product->id }}">
+                               {{-- Check if colors exist before looping --}}
+                               @if ($product->productColors->isNotEmpty())
+                                   @foreach ($product->productColors as $color)
+                                       <div class="color-option" 
+                                            style="background-color: {{ $color->color }};" 
+                                            title="Color: {{ $color->color }}" 
+                                            data-image="{{ asset('storage/' . $color->image) }}">
+                                       </div>
+                                   @endforeach
+                               @else
+                                   <p>No colors available</p>
+                               @endif
+                           </div>
+                           <span class="arrow right">&gt;</span>
+                       </div>
+                       
 
                             <h5 class="card-title">{{ $product->title }}</h5>
                             <div class="stars">
@@ -118,4 +127,5 @@
 </section>
 <!-- END INSTAGRAM -->
 
+<script src="{{ asset('assetsMain/js/frontend/productcardcolorchange.js') }}"></script>
 @endsection
