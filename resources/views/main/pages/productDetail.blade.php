@@ -415,7 +415,7 @@ background-position: center;
                             </div>
                             <div id="pickYourselfBox" class="option-box">
                                 <ul class="dselects">
-                                    <li class="shippingCharging">
+                                    <li  style="background-color: #F7B708">
                                         <span class="check">
 
                                             <i class="fa-solid fa-truck"></i>
@@ -614,18 +614,21 @@ background-position: center;
                 totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
 
                 // Highlight the corresponding shippingCharging element
-                document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
-                    const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
-                    const priceValue = parseFloat(priceText.replace("Price: $", ""));
+             // Highlight the corresponding shippingCharging element
+document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
+    const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
+    const priceMatch = priceText.match(/\d+(\.\d+)?/); // Extract numeric value
+    const priceValue = priceMatch ? parseFloat(priceMatch[0]) : null;
 
-                    if (priceValue === deliveryPrice) {
-                        shippingElement.style.backgroundColor = "#F7B708";
-                        shippingElement.style.color = "#fff";
-                    } else {
-                        shippingElement.style.backgroundColor = "";
-                        shippingElement.style.color = "";
-                    }
-                });
+    if (priceValue !== null && Math.abs(priceValue - deliveryPrice) < 0.01) {
+        shippingElement.style.backgroundColor = "#F7B708";
+        shippingElement.style.color = "#fff";
+    } else {
+        shippingElement.style.backgroundColor = "";
+        shippingElement.style.color = "";
+    }
+});
+
             }
 
             // Toggle between "Pick Yourself" and "View Shipping Bundle"
