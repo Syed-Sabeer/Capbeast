@@ -708,7 +708,10 @@ background-position: center;
     const printingId = parseInt(document.querySelector(".printing-option.active")?.getAttribute("data-id")) || null;
     const printingPrice = selectedPrintingPrice;
     const productPrice = calculatePrice(quantity, quantities, prices);
-    const deliveryPrice = calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
+
+    // Check which shipping option is selected
+    const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+    const deliveryPrice = selectedOption === "pickYourself" ? 0 : calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
 
     const formData = new FormData();
     formData.append("productId", productId);
