@@ -10,6 +10,7 @@
 @endcomponent
 
 
+
 <div class="position-relative section">
     <div class="container">
         <div class="ecommerce-product gap-4">
