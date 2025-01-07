@@ -13,7 +13,8 @@
                         <ol class="breadcrumb breadcrumb-light justify-content-center mt-4">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                             <li class="breadcrumb-item" aria-current="page">
-                                <a class="white-color font-weight-bold" href="{{ route($pageRoute) }}">{{ $pageTitle }}</a>
+                                <a class="white-color font-weight-bold" href="{{ $pageRoute ? route($pageRoute) : '#' }}">{{ $pageTitle }}</a>
+
                             </li>
                         </ol>
                     </nav>

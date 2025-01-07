@@ -3,35 +3,15 @@
 @section('main-container')
 
 
+@component('main.components.breadcrumb', [
+    'pageTitle' => 'Product Details',
+    'pageRoute' => '' ,
+    'imageURL' => asset('assetsMain/images/profile-bg.jpg') // Evaluated here
+])
+@endcomponent
 
 
-    <section class="ecommerce-about"
-        style="
-background-image: url('{{ asset('assetsMain/images/profile-bg.jpg') }}');
-background-size: cover;
-background-position: center;
-">
-        <div class="bg-overlay bg-primary-about" style="opacity: 0.7"></div>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="text-center">
-                        <h1 class="text-white mb-0">Product Details</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb breadcrumb-light justify-content-center mt-4">
-                                <li class="breadcrumb-item"><a href="#">Product</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    <a href="{{ route('product.detail', ['id' => $product->id]) }}">
-                                        {{ $product->title }}
-                                    </a>
-                                </li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <section class="section pt-0 pb-0">
         <h4 class="lh-base mb-1 p-3 mt-3"
