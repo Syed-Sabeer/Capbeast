@@ -21,6 +21,10 @@ use App\Http\Controllers\Admin\apps\EcommercePrintingAdd;
 use App\Http\Controllers\Admin\apps\EcommerceDeliveryAdd;
 use App\Http\Controllers\Admin\apps\EcommerceDeliveryList;
 
+use App\Http\Controllers\Admin\components\ProductColorController;
+use App\Http\Controllers\Admin\components\FontController;
+use App\Http\Controllers\Admin\components\EmbroideryColorController;
+
 Route::get('/', function () {
   return redirect()->route('home');
 });
@@ -67,6 +71,30 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
 
 // Admin routes (only accessible for authenticated admins)
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
+
+  Route::prefix('/component')->group(function () {
+    // For Product Color
+    Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name('content-product-color-add');
+    Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name('content-product-color-store');
+    Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name('content-product-color-list');
+    Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name('content-product-color-edit');
+    Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name('content-product-color-update');
+    Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name('content-product-color-delete');
+
+    // For Embroidery Color
+    Route::get('/embroiderycolor/add', [EmbroideryColorController::class, 'index'])->name('content-embroidery-color-add');
+    Route::post('/embroiderycolor/add', [EmbroideryColorController::class, 'store'])->name('content-embroidery-color-store');
+    Route::get('/embroiderycolor/list', [EmbroideryColorController::class, 'list'])->name('content-embroidery-color-list');
+    Route::get('/embroiderycolor/edit/{id}', [EmbroideryColorController::class, 'edit'])->name('content-embroidery-color-edit');
+    Route::post('/embroiderycolor/update/{id}', [EmbroideryColorController::class, 'update'])->name('content-embroidery-color-update');
+    Route::delete('/embroiderycolor/delete/{id}', [EmbroideryColorController::class, 'destroy'])->name('content-embroidery-color-delete');
+});
+
+
+
+  Route::get('/component/embroiderycolor/add', [EmbroideryColorController::class, 'index'])->name('app-ecommerce-printing-add');
+  Route::get('/component/font/add', [FontController::class, 'index'])->name('app-ecommerce-printing-add');
+
   Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');
   Route::post('/delivery/add', [EcommerceDeliveryAdd::class, 'store'])->name('app-ecommerce-delivery-store');
   Route::get('/delivery/list', [EcommerceDeliveryList::class, 'index'])->name('app-ecommerce-delivery-list');

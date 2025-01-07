@@ -1,11 +1,6 @@
 {
-  "menu": [
 
-    {
-      "name": "eCommerce",
-      "icon": "menu-icon tf-icons ti ti-building-factory-2",
-      "slug": "app-ecommerce",
-      "submenu": [
+      "menu": [
         {
           "url": "app/ecommerce/dashboard",
           "name": "Dashboard",
@@ -113,6 +108,61 @@
             }
           ]
         },
+          {
+          "name": "Components",
+          "slug": "app-ecommerce-customer",
+          "submenu": [
+           
+            {
+              "name": "Product Color",
+              "slug": "app-ecommerce-customer-details",
+              "submenu": [
+                {
+                  "url": "admin/component/productcolor/add",
+                  "name": "Add Color",
+                  "slug": "app-ecommerce-customer-details-overview"
+                },
+                {
+                  "url": "admin/component/productcolor/list",
+                  "name": "View Color",
+                  "slug": "app-ecommerce-customer-details-security"
+                }
+              ]
+            },
+            {
+              "name": "Embroidery Color",
+              "slug": "app-ecommerce-customer-details",
+              "submenu": [
+                {
+                  "url": "admin/component/embroiderycolor/add",
+                  "name": "Add Embroidery Color",
+                  "slug": "app-ecommerce-customer-details-overview"
+                },
+                {
+                  "url": "admin/component/embroiderycolor/list",
+                  "name": "View Embroidery Color",
+                  "slug": "app-ecommerce-customer-details-security"
+                }
+              ]
+            },
+            {
+              "name": "Fonts",
+              "slug": "app-ecommerce-customer-details",
+              "submenu": [
+                {
+                  "url": "admin/component/font/add",
+                  "name": "Add Font",
+                  "slug": "app-ecommerce-customer-details-overview"
+                },
+                {
+                  "url": "admin/component/font/add",
+                  "name": "View Font",
+                  "slug": "app-ecommerce-customer-details-security"
+                }
+              ]
+            }
+          ]
+        },
         {
           "url": "app/ecommerce/manage/reviews",
           "name": "Manage Reviews",
@@ -124,6 +174,5 @@
           "slug": "app-ecommerce-referrals"
         }
       ]
-    }
-  ]
+ 
 }
