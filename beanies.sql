@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2025 at 05:38 PM
+-- Generation Time: Jan 07, 2025 at 02:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -68,31 +68,8 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id`, `user_id`, `product_id`, `color_id`, `quantity`, `beanie_type`, `printing_id`, `printing_price`, `product_price`, `delivery_price`, `created_at`, `updated_at`) VALUES
-(55, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 05:50:00', '2025-01-06 05:50:00'),
-(56, 1, 1, 3, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 05:53:15', '2025-01-06 05:53:15'),
-(57, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 05:55:26', '2025-01-06 05:55:26'),
-(58, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 05:58:25', '2025-01-06 05:58:25'),
-(59, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:03:11', '2025-01-06 06:03:11'),
-(60, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:03:59', '2025-01-06 06:03:59'),
-(61, 1, 1, 2, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 06:04:30', '2025-01-06 06:04:30'),
-(62, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:19:27', '2025-01-06 06:19:27'),
-(63, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:19:59', '2025-01-06 06:19:59'),
-(64, 1, 1, 2, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 06:28:35', '2025-01-06 06:28:35'),
-(65, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 06:37:51', '2025-01-06 06:37:51'),
-(66, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:38:21', '2025-01-06 06:38:21'),
-(67, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 06:39:34', '2025-01-06 06:39:34'),
-(68, 1, 1, 2, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 06:40:29', '2025-01-06 06:40:29'),
-(69, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 06:40:48', '2025-01-06 06:40:48'),
-(70, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 07:16:59', '2025-01-06 07:16:59'),
-(71, 1, 1, 1, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 07:17:15', '2025-01-06 07:17:15'),
-(72, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 07:17:27', '2025-01-06 07:17:27'),
-(73, 1, 1, 2, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 07:36:22', '2025-01-06 07:36:22'),
-(74, 1, 1, 3, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 07:37:05', '2025-01-06 07:37:05'),
-(75, 1, 1, 3, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 07:37:05', '2025-01-06 07:37:05'),
-(76, 1, 1, 2, 12, 1, 2, 10.00, 13.21, 20.00, '2025-01-06 07:38:25', '2025-01-06 07:38:25'),
-(77, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 07:38:47', '2025-01-06 07:38:47'),
-(78, 1, 1, 1, 12, 1, 1, 0.00, 13.21, 20.00, '2025-01-06 08:26:47', '2025-01-06 08:26:47'),
-(79, 1, 1, 1, 12, 2, 2, 10.00, 13.21, 20.00, '2025-01-06 08:27:18', '2025-01-06 08:27:18');
+(95, 1, 1, 2, 12, 1, 1, 0.00, 13.21, 0.00, '2025-01-07 01:41:07', '2025-01-07 01:41:07'),
+(96, 1, 1, 2, 777, 2, 2, 2.00, 5.91, 10.00, '2025-01-07 04:38:58', '2025-01-07 04:38:58');
 
 -- --------------------------------------------------------
 
@@ -120,21 +97,50 @@ CREATE TABLE `cart_artwork` (
 --
 
 INSERT INTO `cart_artwork` (`id`, `cart_id`, `artwork_type`, `artwork_dataText`, `artwork_dataImage`, `patch_length`, `patch_height`, `font_style`, `num_of_imprint`, `imprint_color`, `created_at`, `updated_at`) VALUES
-(6, 59, 1, 'null', 'CustomerArtworkImages/mGwfPyVtdFfq4kdmP7Yj3CyELFWlFJuwyGoZFgEw.jpg', 1.00, 1.00, 'arial', 2, '[\"color1\",\"color2\"]', '2025-01-06 06:03:11', '2025-01-06 06:03:11'),
-(7, 60, 2, 'sdsd', NULL, 1.00, 1.00, 'arial', 1, '[\"color1\"]', '2025-01-06 06:03:59', '2025-01-06 06:03:59'),
-(8, 61, 2, 'sdsd', NULL, 1.00, 1.00, 'arial', 1, '[\"color1\"]', '2025-01-06 06:04:30', '2025-01-06 06:04:30'),
-(9, 62, 1, 'null', 'CustomerArtworkImages/UEOWzLXgOusrgtQqaZ3s1io9Z6pS5Wkgv2z99SwL.jpg', 1.00, 1.00, 'arial', 2, '[\"color1\",\"color2\"]', '2025-01-06 06:19:28', '2025-01-06 06:19:28'),
-(10, 63, 2, 'sdf', NULL, 1.00, 1.00, 'arial', 2, '[\"color1\",\"color2\"]', '2025-01-06 06:19:59', '2025-01-06 06:19:59'),
-(11, 64, 1, 'null', NULL, 1.00, 1.00, 'arial', 0, '[]', '2025-01-06 06:28:35', '2025-01-06 06:28:35'),
-(12, 68, 1, 'null', NULL, NULL, NULL, '', 1, '[]', '2025-01-06 06:40:29', '2025-01-06 06:40:29'),
-(13, 69, 1, 'null', 'CustomerArtworkImages/B1TidWzwyyHbhCSfneJrzdhIIxiUDnxQaUPjwRid.jpg', NULL, NULL, '', 1, '[\"color1\",\"color2\"]', '2025-01-06 06:40:48', '2025-01-06 06:40:48'),
-(14, 70, 1, 'null', 'CustomerArtworkImages/9MaoiaEI5WsansiJG9GHguYKZxewSYqoKsJSXkct.jpg', 2.00, 1.00, 'courier', 1, '[\"color1\"]', '2025-01-06 07:16:59', '2025-01-06 07:16:59'),
-(15, 71, 2, 'sds', 'CustomerArtworkImages/t7YyjaCg7rdA3UVr0cXLhHfZQ1YKwiQwer7cHP1W.jpg', 2.00, 1.00, 'courier', 1, '[\"color1\"]', '2025-01-06 07:17:15', '2025-01-06 07:17:15'),
-(16, 72, 2, 'sds', 'CustomerArtworkImages/X34hyGKu4OEYd5Chd854a3Ynu3g0tw9VyBKYyUCJ.jpg', 2.00, 1.00, 'courier', 1, '[\"color1\"]', '2025-01-06 07:17:27', '2025-01-06 07:17:27'),
-(17, 75, 2, 'dsd', NULL, 1.00, 1.00, 'courier', 3, '[\"color1\",\"color2\",\"color3\"]', '2025-01-06 07:37:06', '2025-01-06 07:37:06'),
-(18, 74, 2, 'dsd', NULL, 1.00, 1.00, 'courier', 3, '[\"color1\",\"color2\",\"color3\"]', '2025-01-06 07:37:06', '2025-01-06 07:37:06'),
-(19, 76, 1, 'null', 'CustomerArtworkImages/orEX8GNWXwGMLpe2amItgjXTwBqnnBwhWoqHiQ0N.jpg', 1.00, 1.00, 'arial', 2, '[\"color1\",\"color2\"]', '2025-01-06 07:38:25', '2025-01-06 07:38:25'),
-(20, 79, 1, 'null', 'CustomerArtworkImages/YaV5zeiMnS8s9tX6gaWUBeIAm28QyCASumgoODfJ.jpg', 1.00, 1.00, 'arial', 1, '[\"color1\"]', '2025-01-06 08:27:18', '2025-01-06 08:27:18');
+(26, 96, 1, 'null', 'CustomerArtworkImages/3uX8FQyvy5ndU5m88IHbLsRoZZEiz9DVvH1ebsLB.jpg', 2.00, 2.00, 'times', 2, '[\"color1\",\"color2\"]', '2025-01-07 04:38:58', '2025-01-07 04:38:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `component_embroidery_color`
+--
+
+CREATE TABLE `component_embroidery_color` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `color_name` varchar(255) NOT NULL,
+  `color_code` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `component_embroidery_color`
+--
+
+INSERT INTO `component_embroidery_color` (`id`, `color_name`, `color_code`, `created_at`, `updated_at`) VALUES
+(2, '4656', '#a91919', '2025-01-07 08:21:02', '2025-01-07 08:21:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `component_product_color`
+--
+
+CREATE TABLE `component_product_color` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `color_name` varchar(255) NOT NULL,
+  `color_code` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `component_product_color`
+--
+
+INSERT INTO `component_product_color` (`id`, `color_name`, `color_code`, `created_at`, `updated_at`) VALUES
+(2, 'taimoor lala', '#ff0000', '2025-01-07 07:04:16', '2025-01-07 07:04:16'),
+(3, 'sabeer new color', '#28c76f', '2025-01-07 07:50:43', '2025-01-07 07:50:43');
 
 -- --------------------------------------------------------
 
@@ -181,7 +187,52 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2025_01_02_135324_create_admins_table', 1),
 (11, '2025_01_04_090228_create_product_baseimages_table', 1),
 (12, '2025_01_04_114633_create_cart_table', 1),
-(13, '2025_01_05_130138_create_cart_artwork_table', 2);
+(13, '2025_01_05_130138_create_cart_artwork_table', 2),
+(15, '2025_01_07_092956_create_order_artwork_table', 3),
+(16, '2025_01_07_110724_create__component_product_color_table', 4),
+(17, '2025_01_07_110753_create_component_embroidery_color_table', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order`
+--
+
+CREATE TABLE `order` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `color_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `beanie_type` int(11) NOT NULL,
+  `printing_id` bigint(20) UNSIGNED NOT NULL,
+  `printing_price` decimal(8,2) NOT NULL,
+  `product_price` decimal(8,2) NOT NULL,
+  `delivery_price` decimal(8,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_artwork`
+--
+
+CREATE TABLE `order_artwork` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `artwork_type` int(11) NOT NULL,
+  `artwork_dataText` text DEFAULT NULL,
+  `artwork_dataImage` text DEFAULT NULL,
+  `patch_length` decimal(8,2) NOT NULL,
+  `patch_height` decimal(8,2) NOT NULL,
+  `font_style` varchar(255) NOT NULL,
+  `num_of_imprint` int(11) NOT NULL,
+  `imprint_color` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -413,6 +464,18 @@ ALTER TABLE `cart_artwork`
   ADD KEY `cart_artwork_cart_id_foreign` (`cart_id`);
 
 --
+-- Indexes for table `component_embroidery_color`
+--
+ALTER TABLE `component_embroidery_color`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `component_product_color`
+--
+ALTER TABLE `component_product_color`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -424,6 +487,23 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_user_id_foreign` (`user_id`),
+  ADD KEY `order_product_id_foreign` (`product_id`),
+  ADD KEY `order_color_id_foreign` (`color_id`),
+  ADD KEY `order_printing_id_foreign` (`printing_id`);
+
+--
+-- Indexes for table `order_artwork`
+--
+ALTER TABLE `order_artwork`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_artwork_order_id_foreign` (`order_id`);
 
 --
 -- Indexes for table `password_reset_tokens`
@@ -499,13 +579,25 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `cart_artwork`
 --
 ALTER TABLE `cart_artwork`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `component_embroidery_color`
+--
+ALTER TABLE `component_embroidery_color`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `component_product_color`
+--
+ALTER TABLE `component_product_color`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -517,7 +609,19 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `order`
+--
+ALTER TABLE `order`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order_artwork`
+--
+ALTER TABLE `order_artwork`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -585,6 +689,21 @@ ALTER TABLE `cart`
 --
 ALTER TABLE `cart_artwork`
   ADD CONSTRAINT `cart_artwork_cart_id_foreign` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order`
+--
+ALTER TABLE `order`
+  ADD CONSTRAINT `order_color_id_foreign` FOREIGN KEY (`color_id`) REFERENCES `product_color` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_printing_id_foreign` FOREIGN KEY (`printing_id`) REFERENCES `product_printing` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_artwork`
+--
+ALTER TABLE `order_artwork`
+  ADD CONSTRAINT `order_artwork_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `product_baseimages`
