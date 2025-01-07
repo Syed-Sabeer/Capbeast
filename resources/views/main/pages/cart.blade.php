@@ -1,10 +1,6 @@
 @extends('main.layouts.master')
 
 @section('main-container')
-<style>
-
-
-</style>
 
 <section class="ecommerce-about" style="
 background-image: url('../assetsMain/images/about.jpg');
@@ -50,7 +46,15 @@ background-position: center;
                             <a href="#!" class="text-decoration-underline link-secondary">Clear Cart</a>
                         </div>
                     </div>
-                    @foreach($cart as $item)
+                    @php
+                    $subtotal = 0;
+                @endphp
+
+                @foreach($cart as $item)
+                @php
+                    $itemTotal = ($item->product_price + $item->printing_price + $item->delivery_price) * $item->quantity;
+                    $subtotal += $itemTotal;
+                @endphp
                     <div class="card product">
                         <div class="card-body p-4">
                             <div class="row gy-3">
@@ -63,9 +67,10 @@ background-position: center;
                                 </div>
                                 
                                 <div class="col-sm">
-                                    <a href="#!">
+                                    <a href="{{ route('product.detail', ['id' => $item->product->id]) }}">
                                         <h5 class="fs-16 lh-base mb-1">{{ $item->product->title }}</h5>
                                     </a>
+                                    
                                     <ul class="list-inline text-muted fs-13 mb-3">
                                         <li class="list-inline-item">Color : <span class="fw-medium">{{ $item->color->title }}</span></li>
                                         <br>
@@ -153,17 +158,17 @@ background-position: center;
                                         <tbody>
                                             <tr>
                                                 <td>Sub Total :</td>
-                                                <td class="text-end subtotal-cart"></td>
+                                                <td class="text-end">${{ number_format($subtotal, 2) }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Discount <span class="text-muted">(Toner15)</span>:</td>
-                                                <td class="text-end cart-discount"></td>
+                                                <td class="text-end "></td>
                                             </tr>
                                        
                                             <tr class="table-active">
                                                 <th>Total (USD) :</th>
                                                 <td class="text-end">
-                                                    <span class="fw-semibold cart-total"></span>
+                                                    <span class="fw-semibold ">${{ number_format($subtotal, 2) }}</span>
                                                 </td>
                                             </tr>
                                         </tbody>

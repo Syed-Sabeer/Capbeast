@@ -415,12 +415,12 @@ background-position: center;
                             </div>
                             <div id="pickYourselfBox" class="option-box">
                                 <ul class="dselects">
-                                    <li  style="background-color: #F7B708">
-                                        <span class="check">
+                                    <li  style="background-color: #F7B708;">
+                                        <span class="check"> 
 
-                                            <i class="fa-solid fa-truck"></i>
+                                            <i class="fa-solid fa-truck white-color"></i>
                                         </span>
-                                        <div class="delivery_date w3_bg">Pick Yourself
+                                        <div class="delivery_date w3_bg white-color">Pick Yourself
 
 
                                         </div>
