@@ -105,11 +105,7 @@
         </div>
     </div>
 </div>
-<style>
-    .brand-logo{
-        width: 10px !important
-    }
-</style>
+
 <div class="logo_wrapper mt-5">
     
     <div class="container">
