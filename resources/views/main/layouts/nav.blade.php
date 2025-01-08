@@ -20,19 +20,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}" data-key="t-home">Home</a>
+                    <a class="nav-link {{ request()->routeIs('home') ? 'active-tab' : '' }}" href="{{ route('home') }}" data-key="t-home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('about') }}" data-key="t-about">About Us</a>
+                    <a class="nav-link {{ request()->routeIs('about') ? 'active-tab' : '' }}" href="{{ route('about') }}" data-key="t-about">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('products') }}" data-key="t-shop">Shop</a>
+                    <a class="nav-link {{ request()->routeIs('products') ? 'active-tab' : '' }}" href="{{ route('products') }}" data-key="t-shop">Shop</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('faqs') }}" data-key="t-faqs">FAQs</a>
+                    <a class="nav-link {{ request()->routeIs('faqs') ? 'active-tab' : '' }}" href="{{ route('faqs') }}" data-key="t-faqs">FAQs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('contact') }}" data-key="t-contact">Contact</a>
+                    <a class="nav-link {{ request()->routeIs('contact') ? 'active-tab' : '' }}" href="{{ route('contact') }}" data-key="t-contact">Contact</a>
                 </li>
             </ul>
         </div>
