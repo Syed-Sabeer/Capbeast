@@ -1,9 +1,5 @@
 @extends('main.layouts.master')
-<style>
-    body {
-        overflow-y: hidden;
-    }
-</style>
+
 
 @section('main-container')
 <section class="auth-page-wrapper position-relative bg-light min-vh-100 d-flex align-items-center justify-content-between" >

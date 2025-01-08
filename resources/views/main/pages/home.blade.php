@@ -1,4 +1,7 @@
 @extends('main.layouts.master')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{{ asset('assetsMain/js/frontend/owl.carousel.min.js')}}"></script>
+<link href="{{ asset('assetsMain/css/owl.carousel.min.css')}}" rel="stylesheet" type="text/css" />
 
 @section('main-container')
 
@@ -88,6 +91,38 @@
 </section>
 <!-- END PRODUCT -->
 
+
+
+<div class="container">
+    <div class="row justify-content-center g-0">
+        <div class="col-lg-7">
+            <div class="text-center">
+                <h3 class="mb-3">Our Valuable Partners</h3>
+                <p class="text-muted fs-15">
+                    The most common approach that peoples use to say follow me on Instagram is by sending a direct message.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="logo_wrapper mt-5">
+    
+    <div class="container">
+        <div class="owl-carousel logo_active">
+            <img class="img-fluid" src="{{ asset('img/logo01.png')}}" alt="logo">
+            <img class="img-fluid" src="{{ asset('img/logo02.png')}}" alt="logo">
+            
+            <img class="img-fluid" src="{{ asset('img/logo04.png')}}" alt="logo">
+            <img class="img-fluid" src="{{ asset('img/logo05.png')}}" alt="logo">
+            <img class="img-fluid" src="{{ asset('img/logo06.png')}}" alt="logo">
+        </div>
+    </div>
+</div>
+
+
+    
+    
+  
 <!-- START INSTAGRAM -->
 <section class="section pb-0">
     <div class="container">
@@ -128,4 +163,35 @@
 <!-- END INSTAGRAM -->
 
 <script src="{{ asset('assetsMain/js/frontend/productcardcolorchange.js') }}"></script>
+<script type="text/javascript">
+        
+    function logo_carouselInit() {
+        $('.owl-carousel.logo_active').owlCarousel({
+            dots: false,
+            loop: true,
+            margin: 30,
+            stagePadding: 2,
+            smartSpeed: 1000,
+            autoplay: true,
+            autoplayTimeout: 1500,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                576: {
+                    items: 3,
+                },
+                768: {
+                    items: 4,
+                },
+                992: {
+                    items: 5
+                }
+            }
+        });
+    }
+    logo_carouselInit();
+
+</script>
 @endsection

@@ -19,7 +19,7 @@
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <h1 class="fw-bold mb-3">👋 About Us</h1>
-                <p class="fs-16 text-muted mb-5 mb-lg-3">We’re impartial and independent, and every day we create distinctive, world-class programmes and content which inform, educate and entertain millions of people in the around the world. The thought process that led to the items being created and sold.</p>
+                <p class="fs-16 text-muted mb-5 mb-lg-3">Monkey Beanies presents a unique selection of beanies crafted in Montreal, Canada. We prioritize your comfort and ensure the highest quality to withstand North American weather conditions. We cater directly to consumers while also welcoming reseller partnerships.</p>
             </div>
             <div class="col-lg-6">
                 <div>
@@ -175,25 +175,7 @@
     </div>
 </section>
 
-<section class="section" style="background-image: url('../assetsMain/images/profile-bg.jpg'); background-size: cover;background-position: center;">
-    <div class="bg-overlay bg-primary" style="opacity: 0.85;"></div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="text-center">
-                    <h1 class="text-white lh-base text-capitalize">Don't miss out on special offers</h1>
-                    <p class="text-white-75 fs-15 mb-4 pb-2">Never Miss Anything From Toner By Signing Up To Our Newsletter.</p>
-                    <form action="#!">
-                        <div class="position-relative ecommerce-subscript">
-                            <input type="email" class="form-control rounded-pill border-0" placeholder="Enter your email">
-                            <button type="submit" class="btn btn-darken-primary rounded-pill">Subscript Now</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 
 <section class="position-relative py-5 border-bottom">
     <div class="container">

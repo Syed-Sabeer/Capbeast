@@ -6,10 +6,7 @@
         <meta charset="utf-8">
         <title>Monkey Beanies</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Toner - eCommerce + Admin HTML Template Build with HTML, React, Laravel, Nodejs" name="description">
-        <meta content="Themesbrand" name="author">
-        <!-- App favicon -->
-        <link rel="shortcut icon" href="../assets/images/favicon.ico">
+      
 
         <!--Swiper slider css-->
         <link href="{{ asset('assetsMain/libs/swiper/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css" />

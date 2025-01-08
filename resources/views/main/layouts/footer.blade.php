@@ -9,15 +9,16 @@
 
                     <div class="footer-social mt-4">
                         <ul class="list-inline mb-0">
-                            <li class="list-inline-item">
+                            {{-- <li class="list-inline-item">
                                 <a href="#!" class="text-reset"><i class="mdi mdi-facebook"></i></a>
+                            </li> --}}
+                            <li class="list-inline-item">
+                                <a href="#!" class="text-reset"><i class="fa-brands fa-instagram"></i></a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="#!" class="text-reset"><i class="mdi mdi-twitter"></i></a>
+                                <a href="#!" class="text-reset"><i class="fa-solid fa-x"></i></a>
                             </li>
-                            <li class="list-inline-item">
-                                <a href="#!" class="text-reset"><i class="mdi mdi-google"></i></a>
-                            </li>
+                           
                             <li class="list-inline-item">
                                 <a href="#!" class="text-reset"><i class="mdi mdi-pinterest"></i></a>
                             </li>
@@ -29,13 +30,13 @@
                 <div class="row ps-0 ps-lg-3">
                     <div class="col-md-4">
                         <div class="mt-lg-0 mt-4">
-                            <h5 class="footer-title">Categories</h5>
+                            <h5 class="footer-title">Quick Link</h5>
                             <ul class="list-unstyled footer-link mt-3">
-                                <li><a href="#!">Beanies 1</a></li>
-                                <li><a href="#!">Beanies 2</a></li>
-                                <li><a href="#!">Beanies 3</a></li>
-                                <li><a href="#!">Beanies 4</a></li>
-                                <li><a href="#!">Beanies 5</a></li>
+                                <li><a href="{{ route('home') }}">Home</a></li>
+                                <li><a href="{{ route('about') }}">About Us</a></li>
+                                <li><a href="{{ route('products') }}">Products</a></li>
+                                <li><a href="{{ route('faqs') }}">FAQs</a></li>
+                                <li><a href="{{ route('contact') }}">Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -44,11 +45,12 @@
                         <div class="mt-lg-0 mt-4">
                             <h5 class="footer-title">My Account</h5>
                             <ul class="list-unstyled footer-link mt-3 ">
-                                <li><a href="#!">Sign In</a></li>
-                                <li><a href="#!">View Cart</a></li>
+                                <li><a href="{{ route('user.register') }}">Sign In</a></li>
+
+                                <li><a href="{{ route('cart') }}">View Cart</a></li>
                                 <li><a href="#!">My Wishlist</a></li>
                                 <li><a href="#!">Track My Order</a></li>
-                                <li><a href="#!">Help</a></li>
+                                {{-- <li><a href="#!">Help</a></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -57,9 +59,9 @@
                         <div class="mt-lg-0 mt-4">
                             <h5 class="footer-title">Information</h5>
                             <ul class="list-unstyled footer-link mt-3">
-                                <li><a href="#!">1 (888)
+                                <li><a href="tel:18888822780"><i class="fa-solid fa-phone white-color">&nbsp; </i>  1 (888)
                                         882-2780</a></li>
-                                <li><a href="#!">info@monkeybeanies.com</a></li>
+                                <li><a href="mailto:info@monkeybeanies.com"><i class="white-color fa-solid fa-envelope">&nbsp;</i>  info@monkeybeanies.com</a></li>
                             </ul>
                         </div>
                     </div>
