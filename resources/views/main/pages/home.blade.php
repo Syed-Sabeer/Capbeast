@@ -105,16 +105,24 @@
         </div>
     </div>
 </div>
+<style>
+    .brand-logo{
+        width: 10px !important
+    }
+</style>
 <div class="logo_wrapper mt-5">
     
     <div class="container">
         <div class="owl-carousel logo_active">
-            <img class="img-fluid" src="{{ asset('img/logo01.png')}}" alt="logo">
-            <img class="img-fluid" src="{{ asset('img/logo02.png')}}" alt="logo">
+            <img class="img-fluid brand-logo" src="{{ asset('img/capbeast.png')}}" alt="logo">
+            <img class="img-fluid brand-logo" src="{{ asset('img/47.png')}}" alt="logo">
             
-            <img class="img-fluid" src="{{ asset('img/logo04.png')}}" alt="logo">
-            <img class="img-fluid" src="{{ asset('img/logo05.png')}}" alt="logo">
-            <img class="img-fluid" src="{{ asset('img/logo06.png')}}" alt="logo">
+            <img class="img-fluid brand-logo" src="{{ asset('img/adidas.png')}}" alt="logo">
+            <img class="img-fluid brand-logo" src="{{ asset('img/flexfit.png')}}" alt="logo">
+            <img class="img-fluid brand-logo" src="{{ asset('img/oaklay.png')}}" alt="logo">
+            <img class="img-fluid brand-logo" src="{{ asset('img/carhartt.png')}}" alt="logo">
+            <img class="img-fluid brand-logo" src="{{ asset('img/the-north-face.png')}}" alt="logo">
+            <img class="img-fluid brand-logo" src="{{ asset('img/yapoong.png')}}" alt="logo">
         </div>
     </div>
 </div>
@@ -144,7 +152,7 @@
                 <div class="col {{ $i > 2 ? 'd-none d-lg-block' : '' }}">
                     <div class="insta-img">
                         <a href="#!" class="stretched-link">
-                            <img src="../assetsMain/images/ecommerce/instagram/img-{{ $i }}.jpg" class="img-fluid" alt />
+                            <img src="../assetsMain/images/ecommerce/instagram/img-{{ $i }}.png" class="img-fluid ig-img" alt />
                             <i class="ri-instagram-line"></i>
                         </a>
                     </div>
