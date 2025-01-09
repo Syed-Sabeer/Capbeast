@@ -26,7 +26,7 @@
                     <a class="nav-link {{ request()->routeIs('about') ? 'active-tab' : '' }}" href="{{ route('about') }}" data-key="t-about">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('products') ? 'active-tab' : '' }}" href="{{ route('products') }}" data-key="t-shop">Shop</a>
+                    <a class="nav-link {{ request()->routeIs('products') ? 'active-tab' : '' }}" href="{{ route('products') }}" data-key="t-shop">Products</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('faqs') ? 'active-tab' : '' }}" href="{{ route('faqs') }}" data-key="t-faqs">FAQs</a>
