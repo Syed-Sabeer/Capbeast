@@ -160,7 +160,8 @@
                         </div>
                         <div class="hstack gap-2 justify-content-end">
                             <button type="button" class="btn btn-hover btn-danger">Continue Shopping</button>
-                            <button type="button" class="btn btn-hover btn-success" id="checkoutButton">Check Out <i class="ri-logout-box-r-line align-bottom ms-1"></i></button>
+                            <a href="{{ route('checkout') }}" class="btn btn-hover btn-success" >Check Out <i class="ri-logout-box-r-line align-bottom ms-1"></i></a>
+                            {{-- <button type="button" class="btn btn-hover btn-success" id="checkoutButton">Check Out <i class="ri-logout-box-r-line align-bottom ms-1"></i></button> --}}
 
                         </div>
                     </div>
@@ -211,31 +212,6 @@ document.querySelectorAll('.remove-item-btn').forEach(button => {
 
 
 </script>
-<script>
-    document.getElementById('checkoutButton').addEventListener('click', function () {
-    if (confirm('Are you sure you want to proceed to checkout?')) {
-        fetch("{{ route('checkout') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Content-Type": "application/json"
-            },
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                alert(result.message);
-                window.location.href = `/orders/${result.orderId}`; // Redirect to order summary
-            } else {
-                alert(result.message);
-            }
-        })
-        .catch(error => {
-            alert('An error occurred during checkout. Please try again.');
-        });
-    }
-});
 
-</script>
 
     @endsection

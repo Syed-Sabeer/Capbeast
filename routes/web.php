@@ -37,7 +37,8 @@ Route::prefix('main')->group(function () {
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
+    Route::post('/checkout/add', [OrderController::class, 'add'])->name('checkout.add');
 
 
 

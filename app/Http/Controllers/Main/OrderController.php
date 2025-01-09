@@ -14,7 +14,23 @@ use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
-    public function checkout(Request $request)
+
+    public function index()
+    {
+        $userId = auth()->id(); // Get the authenticated user's ID
+    
+        // Fetch cart items belonging to the authenticated user, including the color
+        $cart = Cart::with(['product', 'color', 'printing']) // Eager load color
+                    ->where('user_id', $userId)
+                    ->get();
+    
+        // Pass the cart data to the view
+        return view('main.pages.checkout', compact('cart'));
+        // Pass products to the view
+        
+    }
+
+    public function add(Request $request)
     {
         $userId = auth()->id();
 
