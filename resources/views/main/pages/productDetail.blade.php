@@ -90,13 +90,14 @@
         <div class="container">
             <div class="row gx-2">
                 <div class="slider-container mt-3">
-                    <button class="ProductSliderArrow left" onclick="changeSlide(-1)">&lt;</button>
+                               @foreach ($product->productColors as $color)
+                    <button class="ProductSliderArrow left" onclick="changeSlide(-1)"><i class="fa-solid fa-circle-chevron-left" ></i></button>
 
                     <!-- Display main product image (first base image) -->
                     <img src="{{ asset('storage/' . ($product->productBaseImages->first()->base_image ?? 'placeholder.png')) }}"
                         alt="Main Product" class="main-image" id="mainImage">
 
-                    <button class="ProductSliderArrow right" onclick="changeSlide(1)">&gt;</button>
+                    <button class="ProductSliderArrow right" onclick="changeSlide(1)"><i class="fa-solid fa-circle-chevron-right" ></i></button>
 
                     <div class="thumbnail-container">
                         <!-- Display all product base images as thumbnails -->
