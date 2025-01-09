@@ -33,7 +33,7 @@
                             <h5 class="footer-title">Quick Link</h5>
                             <ul class="list-unstyled footer-link mt-3">
                                 <li><a href="{{ route('home') }}">Home</a></li>
-                                <li><a href="{{ route('about') }}">About Us</a></li>
+                                <li><a href="{{ route('about') }}">About</a></li>
                                 <li><a href="{{ route('products') }}">Products</a></li>
                                 <li><a href="{{ route('faqs') }}">FAQs</a></li>
                                 <li><a href="{{ route('contact') }}">Contact Us</a></li>

@@ -23,7 +23,7 @@
                     <a class="nav-link {{ request()->routeIs('home') ? 'active-tab' : '' }}" href="{{ route('home') }}" data-key="t-home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('about') ? 'active-tab' : '' }}" href="{{ route('about') }}" data-key="t-about">About Us</a>
+                    <a class="nav-link {{ request()->routeIs('about') ? 'active-tab' : '' }}" href="{{ route('about') }}" data-key="t-about">About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('products') ? 'active-tab' : '' }}" href="{{ route('products') }}" data-key="t-shop">Products</a>
