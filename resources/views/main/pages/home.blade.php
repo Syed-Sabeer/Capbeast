@@ -29,59 +29,61 @@
         </div>
 
         <div class="row justify-content-center mt-5">
-            @php
-                $visibleProducts = $products->filter(fn($product) => $product->visibility == 1)->take(4); // Limit to 4 products
-            @endphp
-
-            @if ($visibleProducts->isEmpty())
-                <p class="text-center">No product found.</p>
-            @else
-                @foreach ($visibleProducts as $product)
-                    <div class="col-md-6 col-lg-3 mb-4">
-                        <div class="product-card">
-                            <div class="ProductCardBadge">HOT</div>
-                            <img src="{{ asset('storage/' . ($product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" 
-                            alt="product" 
-                            class="img-fluid" 
-                            id="mainImage{{ $product->id }}">
-                       
-                       <div class="color-slider-container">
-                           <span class="arrow left">&lt;</span>
-                           <div class="color-slider" id="colorSlider{{ $product->id }}">
-                               {{-- Check if colors exist before looping --}}
-                               @if ($product->productColors->isNotEmpty())
-                                   @foreach ($product->productColors as $color)
-                                       <div class="color-option" 
-                                            style="background-color: {{ $color->color }};" 
-                                            title="Color: {{ $color->color }}" 
-                                            data-image="{{ asset('storage/' . $color->image) }}">
-                                       </div>
-                                   @endforeach
-                               @else
-                                   <p>No colors available</p>
-                               @endif
-                           </div>
-                           <span class="arrow right">&gt;</span>
+            @foreach ($products as $product)
+                <div class="col-md-4 col-lg-3 mb-4">
+                    <div class="product-card">
+                        <div class="ProductCardBadge">HOT</div>
+                        
+                        {{-- Check if base_images exists and use default if not --}}
+                        <img src="{{ asset('storage/' . ($product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" 
+                        alt="product" 
+                        class="img-fluid" 
+                        id="mainImage{{ $product->id }}">
+                   
+                   <div class="color-slider-container">
+                       <span class="arrow left">&lt;</span>
+                       <div class="color-slider" id="colorSlider{{ $product->id }}">
+                           {{-- Check if colors exist before looping --}}
+                           @if ($product->productColors->isNotEmpty())
+                               @foreach ($product->productColors as $color)
+                                   <div class="color-option" 
+                                        style="background-color: {{ $color->color }};" 
+                                        title="Color: {{ $color->color }}" 
+                                        data-image="{{ asset('storage/' . $color->image) }}">
+                                   </div>
+                               @endforeach
+                           @else
+                               <p>No colors available</p>
+                           @endif
                        </div>
-                       
+                       <span class="arrow right">&gt;</span>
+                   </div>
+                   
+                      
+                      
 
-                            <h5 class="card-title">{{ $product->title }}</h5>
-                            <div class="stars">
+                        <h5 class="card-title">{{ $product->title }}</h5>
+                        <div class="stars">
+                            @for ($i = 0; $i < 5; $i++)
                                 <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <form action="{{ route('product.detail', ['id' => $product->id]) }}" method="GET">
-                                <button type="submit" class="add-to-cart-btn font-weight-bold">
-                                    <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;Customize
-                                </button>
-                            </form>
+                            @endfor
                         </div>
+
+                        {{-- Handle pricing --}}
+                        {{-- @php
+                            $minPrice = $product->prices->min('price') ?? 0;
+                            $maxPrice = $product->prices->max('price') ?? 0;
+                        @endphp
+                        <div class="price">${{ number_format($minPrice, 2) }} ~ ${{ number_format($maxPrice, 2) }}</div> --}}
+
+                        <form action="{{ route('product.detail', ['id' => $product->id]) }}" method="GET">
+                            <button type="submit" class="add-to-cart-btn font-weight-bold">
+                                <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;Customize
+                            </button>
+                        </form>
                     </div>
-                @endforeach
-            @endif
+                </div>
+            @endforeach
         </div>
 
         <div class="mt-4 text-center">
