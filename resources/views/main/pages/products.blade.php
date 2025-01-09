@@ -49,7 +49,7 @@
                               id="mainImage{{ $product->id }}">
                          
                          <div class="color-slider-container">
-                             <span class="arrow left"><i class="fa-solid fa-circle-chevron-left" style="color: #FFD43B;"></i></span>
+                             <span class="arrow left"><i class="fa-regular fa-circle-chevron-left" style="color: #FFD43B;"></i></span>
                              <div class="color-slider" id="colorSlider{{ $product->id }}">
                                  {{-- Check if colors exist before looping --}}
                                  @if ($product->productColors->isNotEmpty())
@@ -64,7 +64,7 @@
                                      <p>No colors available</p>
                                  @endif
                              </div>
-                             <span class="arrow right"><i class="fa-solid fa-circle-chevron-right" style="color: #FFD43B;"></i></span>
+                             <span class="arrow right"><i class="fa-regular fa-circle-chevron-right" style="color: #FFD43B;"></i></span>
                          </div>
                          
                             
