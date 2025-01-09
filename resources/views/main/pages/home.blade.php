@@ -113,12 +113,12 @@
     <div class="container">
         <div class="owl-carousel logo_active">
             <img class="img-fluid brand-logo" src="{{ asset('img/capbeast.png')}}" alt="logo">
-            <img class="img-fluid brand-logo" src="{{ asset('img/47.png')}}" alt="logo">
+            {{-- <img class="img-fluid brand-logo" src="{{ asset('img/47.png')}}" alt="logo"> --}}
             
-            <img class="img-fluid brand-logo" src="{{ asset('img/adidas.png')}}" alt="logo">
+            {{-- <img class="img-fluid brand-logo" src="{{ asset('img/adidas.png')}}" alt="logo"> --}}
             <img class="img-fluid brand-logo" src="{{ asset('img/flexfit.png')}}" alt="logo">
             <img class="img-fluid brand-logo" src="{{ asset('img/oaklay.png')}}" alt="logo">
-            <img class="img-fluid brand-logo" src="{{ asset('img/carhartt.png')}}" alt="logo">
+            {{-- <img class="img-fluid brand-logo" src="{{ asset('img/carhartt.png')}}" alt="logo"> --}}
             <img class="img-fluid brand-logo" src="{{ asset('img/the-north-face.png')}}" alt="logo">
             <img class="img-fluid brand-logo" src="{{ asset('img/yapoong.png')}}" alt="logo">
         </div>
