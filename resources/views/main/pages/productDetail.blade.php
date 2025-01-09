@@ -115,7 +115,7 @@
 
                     </div>
                     <div class="mt-5">
-                        <button class="btn btn-success" id="add-to-cart-button">Add to Cart</button>
+                        <button class="btn btn-success" id="add-to-cart-button"><i class="fa-solid fa-cart-shopping"></i> &nbsp;&nbsp;Add to Cart  </button>
                     </div>
 
                 </div>
