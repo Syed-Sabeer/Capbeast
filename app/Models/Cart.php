@@ -64,4 +64,13 @@ class Cart extends Model
     {
         return $this->product->productBaseImages(); // Use the product's productBaseImages method
     }
+
+    /**
+     * Relationship with CartArtwork
+     * Fetch all artworks associated with this cart
+     */
+    public function artworks()
+    {
+        return $this->hasMany(CartArtwork::class, 'cart_id');
+    }
 }

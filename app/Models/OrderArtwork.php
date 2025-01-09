@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CartArtwork extends Model
+class OrderArtwork extends Model
 {
     use HasFactory;
 
-    protected $table = 'cart_artwork'; // Specify the correct table name
+    protected $table = 'order_artwork';
 
     protected $fillable = [
-        'cart_id',
+        'order_id',
         'artwork_type',
         'artwork_dataText',
         'artwork_dataImage',
@@ -23,9 +23,6 @@ class CartArtwork extends Model
         'imprint_color',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     */
     protected $casts = [
         'imprint_color' => 'array',
         'patch_length' => 'float',
@@ -33,11 +30,10 @@ class CartArtwork extends Model
     ];
 
     /**
-     * Relationship with Cart
-     * Fetch the cart associated with this artwork
+     * Relationship with Order Item
      */
-    public function cart()
+    public function orderItem()
     {
-        return $this->belongsTo(Cart::class, 'cart_id');
+        return $this->belongsTo(OrderItem::class, 'order_item_id');
     }
 }
