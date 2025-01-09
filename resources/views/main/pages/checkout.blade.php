@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="alert alert-danger alert-modern alert-dismissible fade show" role="alert">
-                    <i class="bi bi-box-arrow-in-right icons"></i>Returning customer?<a href="auth-signin-basic.html" class="link-danger"><strong> Click here to login</strong>.</a>
+                    <i class="bi bi-box-arrow-in-right icons"></i>No Cancellation of Orders after<a href="auth-signin-basic.html" class="link-danger"><strong> 48 hours</strong>.</a>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div><!--end col-->
@@ -261,7 +261,7 @@
                                 <h6 class="mb-3 fs-14">Have a <span class="fw-semibold">promo</span> code ?</h6>
                             </div>
                             <div class="hstack gap-3 px-3 mx-n3">
-                                <input class="form-control me-auto" type="text" placeholder="Enter coupon code" value="Toner15" aria-label="Add Promo Code here...">
+                                <input class="form-control me-auto" type="text" placeholder="Enter coupon code" value="" aria-label="Add Promo Code here...">
                                 <button type="button" class="btn btn-success w-xs">Apply</button>
                             </div>
                         </div>

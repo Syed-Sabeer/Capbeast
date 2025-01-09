@@ -124,7 +124,7 @@
                                     <h6 class="mb-3 fs-15">Have a <span class="fw-semibold">promo</span> code ?</h6>
                                 </div>
                                 <div class="hstack gap-3 px-3 mx-n3">
-                                    <input class="form-control me-auto" type="text" placeholder="Enter coupon code" value="Toner15" aria-label="Add Promo Code here...">
+                                    <input class="form-control me-auto" type="text" placeholder="Enter coupon code" value="" aria-label="Add Promo Code here...">
                                     <button type="button" class="btn btn-primary w-xs">Apply</button>
                                 </div>
                             </div>
@@ -142,7 +142,7 @@
                                                 <td class="text-end">${{ number_format($subtotal, 2) }}</td>
                                             </tr>
                                             <tr>
-                                                <td>Discount <span class="text-muted">(Toner15)</span>:</td>
+                                                <td>Discount <span class="text-muted"></span>:</td>
                                                 <td class="text-end "></td>
                                             </tr>
                                        
