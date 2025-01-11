@@ -38,7 +38,7 @@
     <body>
 
 
-        @if (!in_array(request()->route()->getName(), ['user.register', 'user.login']))
+        @if (!in_array(request()->route()->getName(), ['user.register', 'user.login','main.pages.success']))
             @include('main.layouts.nav')
         @endif
 
@@ -54,7 +54,7 @@
 
 
 
-    @if (!in_array(request()->route()->getName(), ['user.register', 'user.login']))
+    @if (!in_array(request()->route()->getName(), ['user.register', 'user.login','main.pages.success']))
             @include('main.layouts.footer')
         @endif
 

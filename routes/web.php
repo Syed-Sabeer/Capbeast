@@ -39,6 +39,11 @@ Route::prefix('main')->group(function () {
     Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
     Route::post('/checkout/add', [OrderController::class, 'add'])->name('checkout.add');
+    Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
+
+
+
+
 
 
 

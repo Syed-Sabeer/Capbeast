@@ -317,7 +317,7 @@
 
 
 <script>
-    document.getElementById('checkoutButton').addEventListener('click', function () {
+ document.getElementById('checkoutButton').addEventListener('click', function () {
     if (confirm('Are you sure you want to proceed to checkout?')) {
         fetch("{{ route('checkout.add') }}", {
             method: "POST",
@@ -330,7 +330,9 @@
         .then(result => {
             if (result.success) {
                 alert(result.message);
-                window.location.href = `/orders/${result.orderId}`; // Redirect to order summary
+                // Redirect with the order ID
+                const url = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
+                window.location.href = url;
             } else {
                 alert(result.message);
             }
@@ -340,6 +342,7 @@
         });
     }
 });
+
 
 </script>
 
