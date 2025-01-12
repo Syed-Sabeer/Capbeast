@@ -1,27 +1,25 @@
 @extends('main.layouts.master')
 
 @section('main-container')
-
-<div class="text-center" style="padding: 1rem;">
-    <a href="{{ route('home') }}" class="btn btn-hover btn-soft-info w-auto">
-        Back To Home <i class="ri-arrow-right-line label-icon align-middle ms-1"></i>
-    </a>
-</div>
+    <div class="text-center" style="padding: 1rem;">
+        <a href="{{ route('home') }}" class="btn btn-hover btn-soft-info w-auto">
+            Back To Home <i class="ri-arrow-right-line label-icon align-middle ms-1"></i>
+        </a>
+    </div>
 
 
     <section
         style="font-family: 'Inter', sans-serif; box-sizing: border-box; font-size: 15px; width: 100%; background-color: transparent; margin: 35px 0;color: #06283D;">
-        
+
         <div
             style="max-width: 650px;margin:auto; box-shadow: rgba(135, 138, 153, 0.10) 0 5px 20px -6px;border-radius: 6px;border: 1px solid #eef1f5;overflow: hidden;background-color: #fff;">
-         
+
             <div style="padding: 1.5rem;background-color: #fafafa;">
                 <a href="index.html"><img src="{{ asset('assetsMain/images/logo-dark.png') }}" alt="" height="50"
                         style="display: block;margin: 0 auto;"></a>
             </div>
             <div style="padding: 1.5rem;">
                 <h5
-                
                     style="font-size: 18px;font-family: 'Inter', sans-serif;font-weight: 600;margin-bottom: 18px;margin-top: 0px;line-height: 1.2;">
                     Your Order Confirmed!</h5>
 
@@ -35,7 +33,8 @@
                             <p
                                 style="color: #878a99 !important; margin-bottom: 12px; font-size: 13px; text-transform: uppercase;font-weight: 500;margin-top: 0px;">
                                 Order Time</p>
-                            <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">{{ $order->created_at }}</h6>
+                            <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
+                                {{ $order->created_at }}</h6>
                         </td>
                         <td style="padding: 5px; vertical-align: top;">
                             <p
@@ -51,7 +50,7 @@
                             <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
                                 PayPal</h6>
                         </td>
-                      
+
                     </tr>
                 </table>
 
@@ -60,56 +59,66 @@
                     Her'e what you ordered:</h6>
                 <table style="width: 100%;border-collapse: collapse;" cellspacing="0" cellpadding="0">
                     @php
-                    $subtotal = 0;
-                @endphp
-                
-                @foreach($order->items as $item)
-                @php
-                    // Calculate the total price for each item
-                    $itemTotal = ($item->product_price + $item->printing_price + $item->delivery_price) * $item->quantity;
-                    $subtotal += $itemTotal; // Add to subtotal
-                @endphp
-                <tr>
-                    <td style="padding: 12px 5px; vertical-align: top;width: 65px;">
-                        <div
-                            style="border: 1px solid #eaeef4;height: 64px;width: 64px;display: flex; align-items: center;justify-content: center;border-radius: 6px;">
-                            <img src="{{ asset('storage/' . ($item->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" alt="" class="avatar-xs">
+                        $subtotal = 0;
+                    @endphp
 
-
-                        </div>
-                    </td>
-                    <td style="padding: 12px 5px; vertical-align: top;">
-                        <h6 style="font-size: 15px; margin: 0px;font-weight: 500; font-family: 'Inter', sans-serif;">
-                            {{ $item->product->title ?? 'Product Name' }}
-                        </h6>
-                        <p style="color: #878a99 !important; margin-bottom: 10px; font-size: 13px;font-weight: 500;margin-top: 6px;">
-                            {{  $item->printing->title  ?? 'Embroidery' }}
-                        </p>
-                        <p style="color: #878a99 !important; margin-bottom: 0px; font-size: 13px;font-weight: 500;margin-top: 0;">
-                            <span>Color: {{ $item->color->title ?? 'N/A' }}</span>
-                            @php
-                            // Ensure beanie_type is checked properly
-                            $type = ($item->beanie_type === 1 || $item->beanie_type === '1') 
-                                        ? "Flipped" 
-                                        : (($item->beanie_type === 0 || $item->beanie_type === '0') 
-                                            ? "Unflipped" 
-                                            : "Not Specified");
+                    @foreach ($order->items as $item)
+                        @php
+                            // Calculate the total price for each item
+                            $itemTotal =
+                                ($item->product_price + $item->printing_price + $item->delivery_price) *
+                                $item->quantity;
+                            $subtotal += $itemTotal; // Add to subtotal
                         @endphp
-                        
-                            <span style="margin-left: 15px;">Type: {{ $type ?? 'N/A' }}</span>
-                        </p>
-                    </td>
-                    <td style="padding: 12px 5px; vertical-align: top;">
-                        <h6 style="font-size: 15px; margin: 0px;font-weight: 400; font-family: 'Inter', sans-serif;">Qty
-                            {{ $item->quantity }}</h6>
-                    </td>
-                    <td style="padding: 12px 5px; vertical-align: top;text-align: end;">
-                        <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
-                            ${{ number_format($itemTotal, 2) }}
-                        </h6>
-                    </td>
-                </tr>
-                @endforeach
+                        <tr>
+                            <td style="padding: 12px 5px; vertical-align: top;width: 65px;">
+                                <div
+                                    style="border: 1px solid #eaeef4;height: 64px;width: 64px;display: flex; align-items: center;justify-content: center;border-radius: 6px;">
+                                    <img src="{{ asset('storage/' . ($item->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}"
+                                        alt="" class="avatar-xs">
+
+
+                                </div>
+                            </td>
+                            <td style="padding: 12px 5px; vertical-align: top;">
+                                <h6
+                                    style="font-size: 15px; margin: 0px;font-weight: 500; font-family: 'Inter', sans-serif;">
+                                    {{ $item->product->title ?? 'Product Name' }}
+                                </h6>
+                                <p
+                                    style="color: #878a99 !important; margin-bottom: 10px; font-size: 13px;font-weight: 500;margin-top: 6px;">
+                                    {{ $item->printing->title ?? 'Embroidery' }}
+                                </p>
+                                <p
+                                    style="color: #878a99 !important; margin-bottom: 0px; font-size: 13px;font-weight: 500;margin-top: 0;">
+                                    <span>Color: {{ $item->color->title ?? 'N/A' }}</span>
+                                    @php
+                                        // Ensure beanie_type is checked properly
+                                        $type =
+                                            $item->beanie_type === 1 || $item->beanie_type === '1'
+                                                ? 'Flipped'
+                                                : ($item->beanie_type === 0 || $item->beanie_type === '0'
+                                                    ? 'Unflipped'
+                                                    : 'Not Specified');
+                                    @endphp
+
+                                    <span style="margin-left: 15px;">Type: {{ $type ?? 'N/A' }}</span>
+                                </p>
+                            </td>
+                            <td style="padding: 12px 5px; vertical-align: top;">
+                                <h6
+                                    style="font-size: 15px; margin: 0px;font-weight: 400; font-family: 'Inter', sans-serif;">
+                                    Qty
+                                    {{ $item->quantity }}</h6>
+                            </td>
+                            <td style="padding: 12px 5px; vertical-align: top;text-align: end;">
+                                <h6
+                                    style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
+                                    ${{ number_format($itemTotal, 2) }}
+                                </h6>
+                            </td>
+                        </tr>
+                    @endforeach
 
 
 
@@ -122,7 +131,7 @@
                                 ${{ number_format($subtotal, 2) }}</h6>
                         </td>
                     </tr>
-             
+
                     <tr>
                         <td colspan="3" style="padding: 12px 8px; font-size: 15px;">
                             Discount
@@ -160,7 +169,7 @@
                     </p>
                 </div>
             </div>
-            
+
         </div>
     </section>
 @endsection

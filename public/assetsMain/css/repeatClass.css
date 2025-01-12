@@ -1,9 +1,11 @@
-.text-align-center{
-    text-align: center;
-  }
-  .font-weight-bold{
-    font-weight: bold;
-  }
-  .white-color{
-    color: #fff !important;
-  }
+.text-align-center {
+  text-align: center;
+}
+
+.font-weight-bold {
+  font-weight: bold;
+}
+
+.white-color {
+  color: #fff !important;
+}

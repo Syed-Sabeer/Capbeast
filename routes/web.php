@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,33 +42,24 @@ Route::prefix('main')->group(function () {
     Route::post('/checkout/add', [OrderController::class, 'add'])->name('checkout.add');
     Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
     Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
-
-
-
-
-
-
-
-});
+  });
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/about', [AboutController::class, 'index'])->name('about');
   Route::get('/home', [HomeController::class, 'index'])->name('home');
   Route::get('/contact', [ContactController::class, 'index'])->name('contact');
   Route::get('/faqs', [FAQsController::class, 'index'])->name('faqs');
   // Routes for registration that do not require authentication
-// Registration Routes
-Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('user.register');
-Route::post('/register', [AuthController::class, 'register'])->name('user.register.post');
+  // Registration Routes
+  Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('user.register');
+  Route::post('/register', [AuthController::class, 'register'])->name('user.register.post');
 
-// Login Routes
-// Login Routes
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('user.login'); // Ensure this is defined as 'user.login'
-Route::post('/login', [AuthController::class, 'login'])->name('user.login.post'); // Make sure 'user.login.post' is used here
+  // Login Routes
+  // Login Routes
+  Route::get('/login', [AuthController::class, 'showLoginForm'])->name('user.login'); // Ensure this is defined as 'user.login'
+  Route::post('/login', [AuthController::class, 'login'])->name('user.login.post'); // Make sure 'user.login.post' is used here
 
-// Logout Routes
-Route::post('/logout', [AuthController::class, 'logout'])->name('user.logout');
-
-
+  // Logout Routes
+  Route::post('/logout', [AuthController::class, 'logout'])->name('user.logout');
 });
 
 
@@ -96,7 +88,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/embroiderycolor/edit/{id}', [EmbroideryColorController::class, 'edit'])->name('content-embroidery-color-edit');
     Route::post('/embroiderycolor/update/{id}', [EmbroideryColorController::class, 'update'])->name('content-embroidery-color-update');
     Route::delete('/embroiderycolor/delete/{id}', [EmbroideryColorController::class, 'destroy'])->name('content-embroidery-color-delete');
-});
+  });
 
 
 
@@ -116,7 +108,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
   Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
   Route::delete('/product/{id}', [EcommerceProductList::class, 'destroy'])->name('products.destroy');
   Route::get('/product/edit/{id}', [EcommerceProductAdd::class, 'edit'])->name('app-ecommerce-product-edit');
-Route::post('/product/edit/{id}', [EcommerceProductAdd::class, 'update'])->name('app-ecommerce-product-update');
+  Route::post('/product/edit/{id}', [EcommerceProductAdd::class, 'update'])->name('app-ecommerce-product-update');
 
   Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
 

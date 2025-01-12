@@ -3,15 +3,15 @@
 @section('main-container')
 
 
-@component('main.components.breadcrumb', [
-    'pageTitle' => 'Product Details',
-    'pageRoute' => '' ,
-    'imageURL' => asset('assetsMain/images/about.jpg') // Evaluated here
-])
-@endcomponent
+    @component('main.components.breadcrumb', [
+        'pageTitle' => 'Product Details',
+        'pageRoute' => '',
+        'imageURL' => asset('assetsMain/images/about.jpg'), // Evaluated here
+    ])
+    @endcomponent
 
 
-    
+
 
     <section class="section pt-0 pb-0">
         <h4 class="lh-base mb-1 p-3 mt-3"
@@ -115,7 +115,8 @@
 
                     </div>
                     <div class="mt-5">
-                        <button class="btn btn-success" id="add-to-cart-button"><i class="fa-solid fa-cart-shopping"></i> &nbsp;&nbsp;Add to Cart  </button>
+                        <button class="btn btn-success" id="add-to-cart-button"><i class="fa-solid fa-cart-shopping"></i>
+                            &nbsp;&nbsp;Add to Cart </button>
                     </div>
 
                 </div>
@@ -255,8 +256,8 @@
                                     <div class="mb-3" id="fileUploadContainer">
                                         <label for="fileUpload" class="form-label fw-bold">Browse Files To Upload</label>
                                         <form enctype="multipart/form-data">
-                                        <input type="file" id="fileUpload" class="form-control">
-                                    </form>
+                                            <input type="file" id="fileUpload" class="form-control">
+                                        </form>
                                         <div class="form-text">
                                             File Accepted: JPEG, JPG, GIF, PNG, EPS, PDF, PSD, AI, BMP, TIF, TIFF<br>
                                             <strong>Preferred File Type for Better Quality Product:</strong> AI, EPS, PSD,
@@ -395,8 +396,8 @@
                             </div>
                             <div id="pickYourselfBox" class="option-box">
                                 <ul class="dselects">
-                                    <li  style="background-color: #F7B708;">
-                                        <span class="check"> 
+                                    <li style="background-color: #F7B708;">
+                                        <span class="check">
 
                                             <i class="fa-solid fa-truck white-color"></i>
                                         </span>
@@ -459,9 +460,9 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const productId = {{ $product->id }};
-        const userId = {{ auth()->id() ?? 'null' }};
-        console.log("Product ID:", productId);
-        console.log("User ID:", userId);
+            const userId = {{ auth()->id() ?? 'null' }};
+            console.log("Product ID:", productId);
+            console.log("User ID:", userId);
 
             const quantityInput = document.getElementById("quantity-input");
             const totalQtyElements = document.querySelectorAll(".total-qty");
@@ -498,7 +499,7 @@
 
                     try {
                         selectedPrintingQuantities = JSON.parse(this.dataset.quantities).map(
-                        Number);
+                            Number);
                         pricesForSelectedPrinting = JSON.parse(this.dataset.prices).map(Number);
                         updatePrintingPriceAndTotal();
                     } catch (error) {
@@ -594,20 +595,20 @@
                 totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
 
                 // Highlight the corresponding shippingCharging element
-             // Highlight the corresponding shippingCharging element
-document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
-    const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
-    const priceMatch = priceText.match(/\d+(\.\d+)?/); // Extract numeric value
-    const priceValue = priceMatch ? parseFloat(priceMatch[0]) : null;
+                // Highlight the corresponding shippingCharging element
+                document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
+                    const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
+                    const priceMatch = priceText.match(/\d+(\.\d+)?/); // Extract numeric value
+                    const priceValue = priceMatch ? parseFloat(priceMatch[0]) : null;
 
-    if (priceValue !== null && Math.abs(priceValue - deliveryPrice) < 0.01) {
-        shippingElement.style.backgroundColor = "#F7B708";
-        shippingElement.style.color = "#fff";
-    } else {
-        shippingElement.style.backgroundColor = "";
-        shippingElement.style.color = "";
-    }
-});
+                    if (priceValue !== null && Math.abs(priceValue - deliveryPrice) < 0.01) {
+                        shippingElement.style.backgroundColor = "#F7B708";
+                        shippingElement.style.color = "#fff";
+                    } else {
+                        shippingElement.style.backgroundColor = "";
+                        shippingElement.style.color = "";
+                    }
+                });
 
             }
 
@@ -684,78 +685,84 @@ document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
                 });
             });
 
-            document.getElementById("add-to-cart-button").addEventListener("click", function () {
-    const quantity = parseInt(quantityInput.value) || 0;
-    const colorId = document.getElementById("beanie-color").value;
-    const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
-    const printingId = parseInt(document.querySelector(".printing-option.active")?.getAttribute("data-id")) || null;
-    const printingPrice = selectedPrintingPrice;
-    const productPrice = calculatePrice(quantity, quantities, prices);
+            document.getElementById("add-to-cart-button").addEventListener("click", function() {
+                const quantity = parseInt(quantityInput.value) || 0;
+                const colorId = document.getElementById("beanie-color").value;
+                const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
+                const printingId = parseInt(document.querySelector(".printing-option.active")?.getAttribute(
+                    "data-id")) || null;
+                const printingPrice = selectedPrintingPrice;
+                const productPrice = calculatePrice(quantity, quantities, prices);
 
-    // Check which shipping option is selected
-    const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
-    const deliveryPrice = selectedOption === "pickYourself" ? 0 : calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
+                // Check which shipping option is selected
+                const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+                const deliveryPrice = selectedOption === "pickYourself" ? 0 : calculatePrice(quantity,
+                    quantitiesDelivery, pricesDelivery);
 
-    const formData = new FormData();
-    formData.append("productId", productId);
-    formData.append("userId", userId);
-    formData.append("colorId", colorId);
-    formData.append("quantity", quantity);
-    formData.append("beanieType", beanieType);
-    formData.append("printingId", printingId);
-    formData.append("printingPrice", printingPrice);
-    formData.append("productPrice", productPrice);
-    formData.append("deliveryPrice", deliveryPrice);
+                const formData = new FormData();
+                formData.append("productId", productId);
+                formData.append("userId", userId);
+                formData.append("colorId", colorId);
+                formData.append("quantity", quantity);
+                formData.append("beanieType", beanieType);
+                formData.append("printingId", printingId);
+                formData.append("printingPrice", printingPrice);
+                formData.append("productPrice", productPrice);
+                formData.append("deliveryPrice", deliveryPrice);
 
-    // Only include artwork data if the artwork form is visible
-    if (artworkSelection.style.display !== "none") {
-        const artworkType = parseInt(document.getElementById("artworkType").value) || null;
-        const artworkDataText = document.getElementById("messageInput").value || null;
-        const artworkDataImage = document.getElementById("fileUpload").files[0] || null;
+                // Only include artwork data if the artwork form is visible
+                if (artworkSelection.style.display !== "none") {
+                    const artworkType = parseInt(document.getElementById("artworkType").value) || null;
+                    const artworkDataText = document.getElementById("messageInput").value || null;
+                    const artworkDataImage = document.getElementById("fileUpload").files[0] || null;
 
-        formData.append("artworkType", artworkType);
-        formData.append("artworkDataText", artworkDataText);
-        if (artworkDataImage) {
-            formData.append("artworkDataImage", artworkDataImage);
-        }
+                    formData.append("artworkType", artworkType);
+                    formData.append("artworkDataText", artworkDataText);
+                    if (artworkDataImage) {
+                        formData.append("artworkDataImage", artworkDataImage);
+                    }
 
-        const patchLength = document.getElementById("patchLength").value ? parseFloat(document.getElementById("patchLength").value) : null;
-        const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document.getElementById("patchHeight").value) : null;
-        const fontStyle = document.getElementById("fontStyle").value || null;
-        const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document.getElementById("imprintColors").value) : null;
-        const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns select")).map(
-            dropdown => dropdown.value
-        );
+                    const patchLength = document.getElementById("patchLength").value ? parseFloat(document
+                        .getElementById("patchLength").value) : null;
+                    const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document
+                        .getElementById("patchHeight").value) : null;
+                    const fontStyle = document.getElementById("fontStyle").value || null;
+                    const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document
+                        .getElementById("imprintColors").value) : null;
+                    const imprintColors = Array.from(document.querySelectorAll(
+                        "#additionalDropdowns select")).map(
+                        dropdown => dropdown.value
+                    );
 
-        formData.append("patchLength", patchLength);
-        formData.append("patchHeight", patchHeight);
-        formData.append("fontStyle", fontStyle);
-        formData.append("numOfImprint", numOfImprint);
-        imprintColors.forEach((color, index) => {
-            formData.append(`imprintColors[${index}]`, color);
-        });
-    }
+                    formData.append("patchLength", patchLength);
+                    formData.append("patchHeight", patchHeight);
+                    formData.append("fontStyle", fontStyle);
+                    formData.append("numOfImprint", numOfImprint);
+                    imprintColors.forEach((color, index) => {
+                        formData.append(`imprintColors[${index}]`, color);
+                    });
+                }
 
-    fetch("{{ route('cart.add') }}", {
-        method: "POST",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-        },
-        body: formData,
-    })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                alert("Product added to cart successfully!");
-                window.location.href = "{{ route('cart') }}";
-            } else {
-                alert("Failed to add product to cart.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-        });
-});
+                fetch("{{ route('cart.add') }}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        },
+                        body: formData,
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            alert("Product added to cart successfully!");
+                            window.location.href = "{{ route('cart') }}";
+                        } else {
+                            alert("Failed to add product to cart.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+            });
 
         });
     </script>

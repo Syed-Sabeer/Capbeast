@@ -14,51 +14,59 @@
             <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0" id="navigation-menu">
                 <li class="nav-item d-block d-lg-none">
                     <a class="d-block p-3 h-auto text-center" href="{{ route('home') }}">
-                        <img src="{{ asset('assetsMain/images/logo-dark.png') }}" alt height="25" class="card-logo-dark mx-auto" />
+                        <img src="{{ asset('assetsMain/images/logo-dark.png') }}" alt height="25"
+                            class="card-logo-dark mx-auto" />
                         <img src="{{ asset('assetsMain/images/logo-light.png') }}" alt height="25"
                             class="card-logo-light mx-auto" />
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('home') ? 'active-tab' : '' }}" href="{{ route('home') }}" data-key="t-home">Home</a>
+                    <a class="nav-link {{ request()->routeIs('home') ? 'active-tab' : '' }}" href="{{ route('home') }}"
+                        data-key="t-home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('about') ? 'active-tab' : '' }}" href="{{ route('about') }}" data-key="t-about">About</a>
+                    <a class="nav-link {{ request()->routeIs('about') ? 'active-tab' : '' }}"
+                        href="{{ route('about') }}" data-key="t-about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('products') ? 'active-tab' : '' }}" href="{{ route('products') }}" data-key="t-shop">Products</a>
+                    <a class="nav-link {{ request()->routeIs('products') ? 'active-tab' : '' }}"
+                        href="{{ route('products') }}" data-key="t-shop">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('faqs') ? 'active-tab' : '' }}" href="{{ route('faqs') }}" data-key="t-faqs">FAQs</a>
+                    <a class="nav-link {{ request()->routeIs('faqs') ? 'active-tab' : '' }}"
+                        href="{{ route('faqs') }}" data-key="t-faqs">FAQs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('contact') ? 'active-tab' : '' }}" href="{{ route('contact') }}" data-key="t-contact">Contact</a>
+                    <a class="nav-link {{ request()->routeIs('contact') ? 'active-tab' : '' }}"
+                        href="{{ route('contact') }}" data-key="t-contact">Contact</a>
                 </li>
             </ul>
         </div>
-        <div class="bg-overlay navbar-overlay" data-bs-toggle="collapse"  data-bs-target="#navbarSupportedContent.show"></div>
+        <div class="bg-overlay navbar-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show">
+        </div>
 
         <div class="d-flex align-items-center">
-            <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" data-bs-toggle="modal" data-bs-target="#searchModal">
+            <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
+                data-bs-toggle="modal" data-bs-target="#searchModal">
                 <i class="bx bx-search fs-22"></i>
             </button>
             @php
-            // Assuming you have a Cart model that associates items with the user
-            $cartItemCount = Auth::check() ? \App\Models\Cart::where('user_id', Auth::id())->count() : 0;
-        @endphp
-        
-        <div class="topbar-head-dropdown ms-1 header-item">
-            <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" 
-                    data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" 
-                    aria-controls="ecommerceCart" onclick="window.location.href='{{ route('cart') }}';">
-                <i class="ph-shopping-cart fs-18"></i>
-                <span class="position-absolute topbar-badge  fs-10 translate-middle badge rounded-pill bg-danger">
-                    {{ $cartItemCount }}
-                </span>
-            </button>
-        </div>
-        
-            
+                // Assuming you have a Cart model that associates items with the user
+                $cartItemCount = Auth::check() ? \App\Models\Cart::where('user_id', Auth::id())->count() : 0;
+            @endphp
+
+            <div class="topbar-head-dropdown ms-1 header-item">
+                <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
+                    data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart"
+                    onclick="window.location.href='{{ route('cart') }}';">
+                    <i class="ph-shopping-cart fs-18"></i>
+                    <span class="position-absolute topbar-badge  fs-10 translate-middle badge rounded-pill bg-danger">
+                        {{ $cartItemCount }}
+                    </span>
+                </button>
+            </div>
+
+
 
             {{-- <div class="dropdown topbar-head-dropdown ms-2 header-item dropdown-hover-end">
                 <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -71,8 +79,10 @@
                 </div>
             </div> --}}
             <div class="dropdown header-item dropdown-hover-end">
-                <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="{{asset('assetsMain/images/users/avatar-1.jpg')}}" alt="Header Avatar">
+                <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <img class="rounded-circle header-profile-user"
+                        src="{{ asset('assetsMain/images/users/avatar-1.jpg') }}" alt="Header Avatar">
                 </button>
                 <!-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="ph-user-circle fs-22"></i>
@@ -80,12 +90,12 @@
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
                     @auth
-                    <h6 class="dropdown-header">Welcome  {{ Auth::user()->email }}</h6>
-                   
-                    <a class="dropdown-item" href="{{route ('main.pages.orderhistory')}}"><i
-                            class="bi bi-cart4 text-muted fs-16 align-middle me-1"></i>
-                        <span class="align-middle">Order History</span></a>
-                    {{-- <a class="dropdown-item" href="track-order.html"><i
+                        <h6 class="dropdown-header">Welcome {{ Auth::user()->email }}</h6>
+
+                        <a class="dropdown-item" href="{{ route('main.pages.orderhistory') }}"><i
+                                class="bi bi-cart4 text-muted fs-16 align-middle me-1"></i>
+                            <span class="align-middle">Order History</span></a>
+                        {{-- <a class="dropdown-item" href="track-order.html"><i
                             class="bi bi-truck text-muted fs-16 align-middle me-1"></i>
                         <span class="align-middle">Track Orders</span></a>
                     <a class="dropdown-item" href="../backend/index.html"><i
@@ -94,28 +104,26 @@
                     <a class="dropdown-item" href="ecommerce-faq.html"><i
                             class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>
                         <span class="align-middle">Help</span></a> --}}
-                    <div class="dropdown-divider"></div>
-                    {{-- <a class="dropdown-item" href="account.html"><i
+                        <div class="dropdown-divider"></div>
+                        {{-- <a class="dropdown-item" href="account.html"><i
                             class="bi bi-coin text-muted fs-16 align-middle me-1"></i>
                         <span class="align-middle">Balance : <b>$8451.36</b></span></a>
                     <a class="dropdown-item" href="account.html">
                         <i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>
                         <span class="align-middle">Settings</span></a> --}}
 
-                    <!-- Logout Form -->
-                    <form action="{{ route('user.logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="dropdown-item">
-                            <i class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i>
-                            <span class="align-middle" data-key="t-logout">Logout</span>
-                        </button>
-                    </form>
-
+                        <!-- Logout Form -->
+                        <form action="{{ route('user.logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item">
+                                <i class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i>
+                                <span class="align-middle" data-key="t-logout">Logout</span>
+                            </button>
+                        </form>
                     @else
-
-                    <a href="{{ route('user.login') }}" class="dropdown-item"><i
-                            class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i>
-                        <span class="align-middle" data-key="t-logout">Login</span></a>
+                        <a href="{{ route('user.login') }}" class="dropdown-item"><i
+                                class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i>
+                            <span class="align-middle" data-key="t-logout">Login</span></a>
                     @endauth
 
                 </div>

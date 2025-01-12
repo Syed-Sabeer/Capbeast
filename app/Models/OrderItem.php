@@ -35,13 +35,13 @@ class OrderItem extends Model
     /**
      * Relationship with Artwork
      */
- // In OrderItem model
- public function orderArtwork()
- {
-     return $this->hasOne(OrderArtwork::class);
- }
- 
-    
+    // In OrderItem model
+    public function orderArtwork()
+    {
+        return $this->hasOne(OrderArtwork::class);
+    }
+
+
 
     /**
      * Relationship with Product

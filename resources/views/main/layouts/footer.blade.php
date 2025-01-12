@@ -4,7 +4,8 @@
             <div class="col-lg-4">
                 <div class="footer-info">
 
-                    <img src="{{ asset('assetsMain/images/logo-light.png') }}" alt="logo image" height="160" alt="logo">
+                    <img src="{{ asset('assetsMain/images/logo-light.png') }}" alt="logo image" height="160"
+                        alt="logo">
 
 
                     <div class="footer-social mt-4">
@@ -18,7 +19,7 @@
                             <li class="list-inline-item">
                                 <a href="#!" class="text-reset"><i class="fa-solid fa-x"></i></a>
                             </li>
-                           
+
                             <li class="list-inline-item">
                                 <a href="#!" class="text-reset"><i class="mdi mdi-pinterest"></i></a>
                             </li>
@@ -59,9 +60,12 @@
                         <div class="mt-lg-0 mt-4">
                             <h5 class="footer-title">Information</h5>
                             <ul class="list-unstyled footer-link mt-3">
-                                <li><a href="tel:18888822780"><i class="fa-solid fa-phone white-color">&nbsp; </i>  1 (888)
+                                <li><a href="tel:18888822780"><i class="fa-solid fa-phone white-color">&nbsp; </i> 1
+                                        (888)
                                         882-2780</a></li>
-                                <li><a href="mailto:info@monkeybeanies.com"><i class="white-color fa-solid fa-envelope">&nbsp;</i>  info@monkeybeanies.com</a></li>
+                                <li><a href="mailto:info@monkeybeanies.com"><i
+                                            class="white-color fa-solid fa-envelope">&nbsp;</i>
+                                        info@monkeybeanies.com</a></li>
                             </ul>
                         </div>
                     </div>
@@ -82,16 +86,17 @@
                                     height="30" /></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('assetsMain/images/ecommerce/payment/discover.png') }}" alt
+                            <a href="#!"><img src="{{ asset('assetsMain/images/ecommerce/payment/discover.png') }}"
+                                    alt height="30" /></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#!"><img
+                                    src="{{ asset('assetsMain/images/ecommerce/payment/american-express.png') }}" alt
                                     height="30" /></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('assetsMain/images/ecommerce/payment/american-express.png') }}" alt
-                                    height="30" /></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#!"><img src="{{ asset('assetsMain/images/ecommerce/payment/paypal.png') }}" alt
-                                    height="30" /></a>
+                            <a href="#!"><img src="{{ asset('assetsMain/images/ecommerce/payment/paypal.png') }}"
+                                    alt height="30" /></a>
                         </li>
                     </ul>
                 </div>
