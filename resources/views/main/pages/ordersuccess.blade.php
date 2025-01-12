@@ -1,10 +1,20 @@
 @extends('main.layouts.master')
 
 @section('main-container')
+
+<div class="text-center" style="padding: 1rem;">
+    <a href="{{ route('home') }}" class="btn btn-hover btn-soft-info w-auto">
+        Back To Home <i class="ri-arrow-right-line label-icon align-middle ms-1"></i>
+    </a>
+</div>
+
+
     <section
         style="font-family: 'Inter', sans-serif; box-sizing: border-box; font-size: 15px; width: 100%; background-color: transparent; margin: 35px 0;color: #06283D;">
+        
         <div
             style="max-width: 650px;margin:auto; box-shadow: rgba(135, 138, 153, 0.10) 0 5px 20px -6px;border-radius: 6px;border: 1px solid #eef1f5;overflow: hidden;background-color: #fff;">
+         
             <div style="padding: 1.5rem;background-color: #fafafa;">
                 <a href="index.html"><img src="{{ asset('assetsMain/images/logo-dark.png') }}" alt="" height="50"
                         style="display: block;margin: 0 auto;"></a>
@@ -141,17 +151,16 @@
                     <p style="color: #878a99; margin-bottom: 0;margin-top: 8px;">Monkey Beanies</p>
                 </div>
             </div>
-            <div style="padding: 1.5rem;background-color: #fafafa;">
-                <div style="display: flex;gap: 5px;justify-content: space-between;">
-                    {{-- <p style="color: #878a99; margin: 0;">Questions? Contact Our <a href="#!"
-                            style="text-decoration: none;"> Customer Support</a></p> --}}
-                    <p style="color: #878a99; margin: 0;">
+            <div style="padding: 1.5rem; background-color: #fafafa;">
+                <div style="display: flex; gap: 5px; justify-content: center; width: 100%;">
+                    <p style="color: #878a99; text-align: center; margin: 0;">
                         <script>
                             document.write(new Date().getFullYear())
                         </script> © Monkey Beanies.
                     </p>
                 </div>
             </div>
+            
         </div>
     </section>
 @endsection
