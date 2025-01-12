@@ -38,9 +38,10 @@ class OrderController extends Controller
             $query->with('orderArtwork');
         }, 'user'])->where('user_id', $userId)->get();
         
-        Log::info('Order History:', $orderhistory->toArray());
-
-    
+        
+        // Log::info('Order History:', $orderhistory->toArray());
+// 
+    // dd($orderhistory);
         return view('main.pages.orderhistory', ['orderhistory' => $orderhistory]);
 
     }

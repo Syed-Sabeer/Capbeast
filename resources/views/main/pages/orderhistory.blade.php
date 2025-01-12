@@ -108,7 +108,6 @@
                                 <div class="d-sm-flex">
                                     <div class="flex-grow-1">
                                         <img src="{{ asset('assetsMain/images/logo-dark.png') }}" class="card-logo card-logo-dark" alt="logo dark" height="100">
-                                        
                                         <div class="mt-sm-5 mt-4">
                                             <h6 class="text-muted text-uppercase fw-semibold fs-14">Address</h6>
                                             <p class="text-muted mb-1" id="address-details">Av. Lausanne, Montréal, QC, Canada</p>
@@ -173,7 +172,6 @@
                                             <tr class="table-active">
                                                 <th scope="col" style="width: 50px;">#</th>
                                                 <th scope="col">Product Details</th>
-                                                {{-- <th scope="col">Rate</th> --}}
                                                 <th scope="col">Quantity</th>
                                                 <th scope="col" class="text-end">Amount</th>
                                             </tr>
@@ -204,7 +202,6 @@
                                 <div class="mt-3">
                                     <h6 class="text-muted text-uppercase fw-semibold mb-3">Payment Details:</h6>
                                     <p class="text-muted mb-1">Payment Method: <span class="fw-medium" id="payment-method">PayPal</span></p>
-                                   
                                 </div>
                                 <div class="mt-4">
                                     <div class="alert alert-info">
@@ -227,15 +224,13 @@
 </div>
 
 <script>
-  
     // Populating the "View" modal with dynamic order details
-// Populating the "View" modal with dynamic order details
-// Populating the "View" modal with dynamic order details
+ // Populating the "View" modal with dynamic order details
 document.querySelectorAll('.btn-success').forEach((button) => {
     button.addEventListener('click', function () {
         const row = this.closest('tr');
         const products = JSON.parse(row.getAttribute('data-bs-products'));
-        console.log('Products data:', products); // Log the entire products object
+        console.log('Products data:', products);
 
         const viewModalBody = document.getElementById('viewModal-products-list');
         
@@ -244,9 +239,6 @@ document.querySelectorAll('.btn-success').forEach((button) => {
 
         // Generate the rows and append them to the modal
         const rows = products.map((item) => {
-            console.log('Item orderartwork:', item.orderartwork); // Log orderartwork to verify data
-
-            // Basic product details row
             let productRow = `
                 <tr>
                     <td>${item.product.title}</td>
@@ -260,46 +252,43 @@ document.querySelectorAll('.btn-success').forEach((button) => {
                 </tr>
             `;
 
-            // Check if orderartwork exists and then include artwork details
-            if (item.orderartwork) {
-    const artworkDetails = `
-        <tr>
-            <td colspan="8">
-                <table class="table table-sm table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Font Style</th>
-                            <th>Artwork Type</th>
-                            <th>Imprint Color</th>
-                            <th>Patch Dimensions</th>
-                            <th>Additional Info</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>${item.orderartwork.font_style || 'N/A'}</td>
-                            <td>${item.orderartwork.artwork_type || 'N/A'}</td>
-                            <td>${(item.orderartwork.imprint_color || []).join(', ') || 'N/A'}</td>
-                            <td>${item.orderartwork.patch_length || 'N/A'} x ${item.orderartwork.patch_height || 'N/A'}</td>
-                            <td>${item.orderartwork.artwork_dataText || 'No additional text data available.'}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-    `;
-    productRow += artworkDetails;
-}
+            // Check if artwork data exists and append it
+            if (item.order_artwork) {
+                const artworkDetails = `
+                    <tr>
+                        <td colspan="8">
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Font Style</th>
+                                        <th>Artwork Type</th>
+                                        
+                                        <th>Patch Dimensions</th>
+                                        <th>Additional Info</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${item.order_artwork.font_style || 'N/A'}</td>
+                                        <td>${item.order_artwork.artwork_type || 'N/A'}</td>
+                                        <td>${item.order_artwork.patch_length || 'N/A'} x ${item.order_artwork.patch_height || 'N/A'}</td>
+                                        <td>${item.order_artwork.artwork_dataText || 'No additional text data available.'}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                `;
+                 productRow += artworkDetails;
 
+            }
 
             return productRow;
         });
 
-        // Update the modal content
         viewModalBody.innerHTML = rows.join('');
     });
 });
-
 
 
     // Populating the "Invoice" modal with dynamic invoice details
@@ -308,41 +297,34 @@ document.querySelectorAll('.btn-success').forEach((button) => {
         const button = event.relatedTarget;
         const row = button.closest('tr');
 
-        // Get data attributes from the table row
         const orderId = row.getAttribute('data-bs-order-id');
         const date = row.getAttribute('data-bs-date');
         const subtotal = row.getAttribute('data-bs-subtotal');
+        const completetotal = row.getAttribute('data-bs-subtotal');
         const billingName = row.getAttribute('data-bs-billing-name');
         const billingAddress = row.getAttribute('data-bs-billing-address');
         const shippingName = row.getAttribute('data-bs-shipping-name');
         const shippingAddress = row.getAttribute('data-bs-shipping-address');
         const products = JSON.parse(row.getAttribute('data-bs-products'));
 
-        // Populate the invoice modal
         document.getElementById('invoice-no').textContent = orderId;
         document.getElementById('invoice-date').textContent = date;
-        document.getElementById('total-amount').textContent = subtotal;
+        document.getElementById('total-amount').textContent = completetotal;
+        document.getElementById('sub-total').textContent = subtotal;
         document.getElementById('billing-name').textContent = billingName;
         document.getElementById('billing-address-line-1').textContent = billingAddress;
         document.getElementById('shipping-name').textContent = shippingName;
         document.getElementById('shipping-address-line-1').textContent = shippingAddress;
 
+        // Add invoice products
         const invoiceProductsList = document.getElementById('invoice-products-list');
-        invoiceProductsList.innerHTML = '';
-
-        // Populate products in the invoice modal
-        products.forEach((item, index) => {
-            const productRow = `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${item.product.title}</td>
-                    <td>${item.quantity}</td>
-                    <td>$${(item.product_price * item.quantity + item.printing_price * item.quantity + item.delivery_price * item.quantity).toFixed(2)}</td>
-                </tr>
-            `;
-            invoiceProductsList.innerHTML += productRow;
-        });
+        invoiceProductsList.innerHTML = products.map((item, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.product.title}</td>
+                <td>${item.quantity}</td>
+                <td class="text-end">$${(item.product_price * item.quantity).toFixed(2)}</td>
+            </tr>
+        `).join('');
     });
 </script>
-
-@endsection
