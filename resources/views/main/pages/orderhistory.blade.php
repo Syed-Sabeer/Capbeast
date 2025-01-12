@@ -2,10 +2,9 @@
 
 @section('main-container')
 
-
 @component('main.components.breadcrumb', [
-    'pageTitle' => 'Order History',
-    'pageRoute' => 'main.pages.orderhistory',
+    'pageTitle' => 'About',
+    'pageRoute' => 'about',
     'imageURL' => asset('assetsMain/images/about.jpg') // Evaluated here
 ])
 @endcomponent
@@ -41,7 +40,7 @@
                                         <td><span class="text-muted">{{ $order->created_at->format('d M, Y') }}</span></td>
                                         <td class="fw-medium">${{ number_format($order->total_price, 2) }}</td>
                                         <td>
-                                            <a href="#invoiceModal" class="btn btn-secondary btn-sm" data-bs-toggle="modal">Invoice</a>
+                                            <a href="#invoiceModal" class="btn btn-secondary btn-sm" data-bs-toggle="modal">Order Invoice</a>
                                             <a href="#viewModal" class="btn btn-success btn-sm" data-bs-toggle="modal">View</a>
                                         </td>
                                     </tr>
@@ -109,6 +108,7 @@
                                 <div class="d-sm-flex">
                                     <div class="flex-grow-1">
                                         <img src="{{ asset('assetsMain/images/logo-dark.png') }}" class="card-logo card-logo-dark" alt="logo dark" height="100">
+                                        
                                         <div class="mt-sm-5 mt-4">
                                             <h6 class="text-muted text-uppercase fw-semibold fs-14">Address</h6>
                                             <p class="text-muted mb-1" id="address-details">Av. Lausanne, Montréal, QC, Canada</p>
@@ -173,6 +173,7 @@
                                             <tr class="table-active">
                                                 <th scope="col" style="width: 50px;">#</th>
                                                 <th scope="col">Product Details</th>
+                                                {{-- <th scope="col">Rate</th> --}}
                                                 <th scope="col">Quantity</th>
                                                 <th scope="col" class="text-end">Amount</th>
                                             </tr>
@@ -203,6 +204,7 @@
                                 <div class="mt-3">
                                     <h6 class="text-muted text-uppercase fw-semibold mb-3">Payment Details:</h6>
                                     <p class="text-muted mb-1">Payment Method: <span class="fw-medium" id="payment-method">PayPal</span></p>
+                                   
                                 </div>
                                 <div class="mt-4">
                                     <div class="alert alert-info">
@@ -226,6 +228,7 @@
 
 <script>
   
+ 
 document.querySelectorAll('.btn-success').forEach((button) => {
     button.addEventListener('click', function () {
         const row = this.closest('tr');
@@ -307,12 +310,15 @@ document.querySelectorAll('.btn-success').forEach((button) => {
 });
 
 
+
+
     // Populating the "Invoice" modal with dynamic invoice details
     const invoiceModal = document.getElementById('invoiceModal');
     invoiceModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
         const row = button.closest('tr');
 
+        // Get data attributes from the table row
         const orderId = row.getAttribute('data-bs-order-id');
         const date = row.getAttribute('data-bs-date');
         const subtotal = row.getAttribute('data-bs-subtotal');
@@ -322,25 +328,34 @@ document.querySelectorAll('.btn-success').forEach((button) => {
         const shippingName = row.getAttribute('data-bs-shipping-name');
         const shippingAddress = row.getAttribute('data-bs-shipping-address');
         const products = JSON.parse(row.getAttribute('data-bs-products'));
-
+        
+        // Populate the invoice modal
         document.getElementById('invoice-no').textContent = orderId;
         document.getElementById('invoice-date').textContent = date;
-        document.getElementById('total-amount').textContent = completetotal;
         document.getElementById('sub-total').textContent = subtotal;
+        document.getElementById('total-amount').textContent = completetotal;
+        document.getElementById('total-amount-summary').textContent = completetotal;
         document.getElementById('billing-name').textContent = billingName;
         document.getElementById('billing-address-line-1').textContent = billingAddress;
         document.getElementById('shipping-name').textContent = shippingName;
         document.getElementById('shipping-address-line-1').textContent = shippingAddress;
 
-        // Add invoice products
         const invoiceProductsList = document.getElementById('invoice-products-list');
-        invoiceProductsList.innerHTML = products.map((item, index) => `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${item.product.title}</td>
-                <td>${item.quantity}</td>
-                <td class="text-end">$${(item.product_price * item.quantity).toFixed(2)}</td>
-            </tr>
-        `).join('');
+        invoiceProductsList.innerHTML = '';
+
+        // Populate products in the invoice modal
+        products.forEach((item, index) => {
+            const productRow = `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item.product.title}</td>
+                    <td>${item.quantity}</td>
+                    <td>$${(item.product_price * item.quantity + item.printing_price * item.quantity + item.delivery_price * item.quantity).toFixed(2)}</td>
+                </tr>
+            `;
+            invoiceProductsList.innerHTML += productRow;
+        });
     });
 </script>
+
+@endsection
