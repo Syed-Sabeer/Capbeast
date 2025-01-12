@@ -33,6 +33,18 @@ class OrderItem extends Model
     }
 
     /**
+     * Relationship with Artwork
+     */
+ // In OrderItem model
+ public function orderArtwork()
+ {
+     return $this->hasOne(OrderArtwork::class);
+ }
+ 
+
+    
+
+    /**
      * Relationship with Product
      */
     public function product()
@@ -40,9 +52,13 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class, 'product_id')
             ->select(['id', 'title', 'description']);
     }
+
+    /**
+     * Relationship with ProductBaseImages
+     */
     public function productBaseImages()
     {
-        return $this->hasMany(ProductBaseImage::class, 'product_id'); 
+        return $this->hasMany(ProductBaseImage::class, 'product_id');
     }
 
     /**

@@ -13,7 +13,7 @@
         {
             Schema::create('order_artwork', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('order_id')->constrained('order')->onDelete('cascade');
+                $table->foreignId('order_item_id ')->constrained('order_items')->onDelete('cascade');
                 $table->integer('artwork_type');
                 $table->text('artwork_dataText')->nullable();
                 $table->text('artwork_dataImage')->nullable();

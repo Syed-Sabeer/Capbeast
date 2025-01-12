@@ -32,13 +32,19 @@ class OrderController extends Controller
     public function orderHistory()
     {
         $userId = auth()->id(); // Get the authenticated user's ID
-
+    
         // Fetch cart items belonging to the authenticated user, including the color
-        $orderhistory = Order::with(['items', 'user']) // Eager load color
-            ->where('user_id', $userId)
-            ->get();
-        return view('main.pages.orderhistory', compact('orderhistory'));
+        $orderhistory = Order::with(['items' => function ($query) {
+            $query->with('orderArtwork');
+        }, 'user'])->where('user_id', $userId)->get();
+        
+        Log::info('Order History:', $orderhistory->toArray());
+
+    
+        return view('main.pages.orderhistory', ['orderhistory' => $orderhistory]);
+
     }
+    
 
     public function index()
     {
@@ -109,7 +115,7 @@ class OrderController extends Controller
                         Log::info('Artwork data: ' . json_encode($artwork));
     
                         OrderArtwork::create([
-                            'order_id' => $order->id,
+                            'order_item_id' => $orderItem->id, // Associate with the created OrderItem
                             'artwork_type' => $artwork->artwork_type,
                             'artwork_dataText' => $artwork->artwork_dataText,
                             'artwork_dataImage' => $artwork->artwork_dataImage ?? null,

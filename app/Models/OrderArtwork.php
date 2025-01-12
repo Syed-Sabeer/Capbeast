@@ -12,7 +12,7 @@ class OrderArtwork extends Model
     protected $table = 'order_artwork';
 
     protected $fillable = [
-        'order_id',
+        'order_item_id',
         'artwork_type',
         'artwork_dataText',
         'artwork_dataImage',
@@ -30,7 +30,7 @@ class OrderArtwork extends Model
     ];
 
     /**
-     * Relationship with Order Item
+     * Relationship with OrderItem
      */
     public function orderItem()
     {

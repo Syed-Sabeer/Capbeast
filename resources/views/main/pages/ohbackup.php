@@ -2,12 +2,14 @@
 
 @section('main-container')
 
+
 @component('main.components.breadcrumb', [
     'pageTitle' => 'About',
     'pageRoute' => 'about',
     'imageURL' => asset('assetsMain/images/about.jpg') // Evaluated here
 ])
 @endcomponent
+
 
 <section class="section">
     <div class="container">
@@ -26,22 +28,77 @@
                             </thead>
                             <tbody>
                                 @foreach($orderhistory as $order)
-                                    <tr data-bs-order-id="{{ $order->order_id }}" 
-                                        data-bs-invoice-no="{{ $order->invoice_no }}"
-                                        data-bs-date="{{ $order->created_at->format('d M, Y') }}"
-                                        data-bs-subtotal="{{ number_format($order->total_price, 2) }}"
-                                        data-bs-billing-name="{{ $order->billing_name }}"
-                                        data-bs-billing-address="{{ $order->billing_address }}"
-                                        data-bs-shipping-name="{{ $order->shipping_name }}"
-                                        data-bs-shipping-address="{{ $order->shipping_address }}"
-                                        data-bs-products="{{ json_encode($order->items) }}">
-
-                                        <td><a href="#" class="text-body">{{ $order->order_id }}</a></td>
+                                    <tr>
+                                        <td>
+                                            <a href="#" class="text-body">{{ $order->order_id }}</a>
+                                        </td>
                                         <td><span class="text-muted">{{ $order->created_at->format('d M, Y') }}</span></td>
                                         <td class="fw-medium">${{ number_format($order->total_price, 2) }}</td>
+                                     
                                         <td>
-                                            <a href="#invoiceModal" class="btn btn-secondary btn-sm" data-bs-toggle="modal">Invoice</a>
-                                            <a href="#viewModal" class="btn btn-success btn-sm" data-bs-toggle="modal">View</a>
+                                            <a href="#invoiceModal" 
+                                               class="btn btn-secondary btn-sm" 
+                                               data-bs-toggle="modal"
+                                               data-bs-order-id="{{ $order->order_id }}"
+                                               data-bs-invoice-no="{{ $order->invoice_no }}"
+                                               data-bs-date="{{ $order->created_at->format('d M, Y') }}"
+                                               data-bs-subtotal="{{ number_format($order->total_price, 2) }}"
+                                               data-bs-billing-name="{{ $order->billing_name }}"
+                                               data-bs-billing-address="{{ $order->billing_address }}"
+                                               data-bs-shipping-name="{{ $order->shipping_name }}"
+                                               data-bs-shipping-address="{{ $order->shipping_address }}"
+                                               data-bs-products="{{ json_encode($order->items) }}">
+                                               Invoice
+                                            </a>
+
+                                            <a href="#invoiceModal" 
+                                               class="btn btn-success btn-sm" 
+                                               data-bs-toggle="modal"> View </a>
+                                        </td>
+                                        
+                                    </tr>
+
+                                    <!-- Sub-table for products -->
+                                    <tr class="collapse" id="order{{ $order->id }}Details">
+                                        <td colspan="5">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Product</th>
+                                                            <th scope="col">Quantity</th>
+                                                            <th scope="col">Color</th>
+                                                            <th scope="col">Embroidery</th>
+                                                            <th scope="col">Type</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($order->items as $item)
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="d-flex gap-3">
+                                                                        <div class="avatar-sm flex-shrink-0">
+                                                                            <div class="avatar-title bg-light rounded">
+                                                                                <img src="{{ asset('assets/images/products/'.$item->product->image) }}" alt="" class="avatar-xs">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="flex-grow-1">
+                                                                            <a >
+                                                                                <h6 class="fs-15 mb-1">{{ $item->product->name }}</h6>
+                                                                            </a>
+                                                                            <p class="mb-0 text-muted fs-13">{{ $item->product->category }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{ $item->quantity }}</td>
+                                                                <td>{{ $item->color->title  }}</td>
+                                                                <td>{{ $item->printing->title }}</td>
+                                                                <td>{{ $item->printing->title }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -59,40 +116,9 @@
     <!--end container-->
 </section>
 
-<!-- Modal for View Order Details -->
-<div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="viewModalLabel">Order Items</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Color</th>
-                                <th scope="col">Embroidery</th>
-                                <th scope="col">Delivery Price</th>
-                                <th scope="col">Embroidery Price</th>
-                                <th scope="col">Product Price</th>
-                                <th scope="col">Type</th>
-                            </tr>
-                        </thead>
-                        <tbody id="viewModal-products-list">
-                            <!-- Dynamic content will be inserted here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Modal for Invoice -->
+
+<!-- Modal -->
 <div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-custom-size">
         <div class="modal-content">
@@ -178,7 +204,7 @@
                                                 <th scope="col" class="text-end">Amount</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="invoice-products-list"></tbody>
+                                        <tbody id="products-list"></tbody>
                                     </table>
                                 </div>
                                 <div class="border-top border-top-dashed mt-2">
@@ -226,123 +252,81 @@
     </div>
 </div>
 
+
+<!-- Fullscreen Modals -->
+<div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-fullscreen">
+    
+</div>
+</div>
+
+
 <script>
-  
-    // Populating the "View" modal with dynamic order details
-// Populating the "View" modal with dynamic order details
-// Populating the "View" modal with dynamic order details
-document.querySelectorAll('.btn-success').forEach((button) => {
-    button.addEventListener('click', function () {
-        const row = this.closest('tr');
-        const products = JSON.parse(row.getAttribute('data-bs-products'));
-        console.log('Products data:', products); // Log the entire products object
-
-        const viewModalBody = document.getElementById('viewModal-products-list');
-        
-        // Clear the modal body
-        viewModalBody.innerHTML = '';
-
-        // Generate the rows and append them to the modal
-        const rows = products.map((item) => {
-            console.log('Item orderartwork:', item.orderartwork); // Log orderartwork to verify data
-
-            // Basic product details row
-            let productRow = `
-                <tr>
-                    <td>${item.product.title}</td>
-                    <td>${item.quantity}</td>
-                    <td>${item.color.color}</td>
-                    <td>${item.printing.title}</td>
-                    <td>${item.delivery_price}</td>
-                    <td>${item.printing_price}</td>
-                    <td>${item.product_price}</td>
-                    <td>${item.beanie_type}</td>
-                </tr>
-            `;
-
-            // Check if orderartwork exists and then include artwork details
-            if (item.orderartwork) {
-    const artworkDetails = `
-        <tr>
-            <td colspan="8">
-                <table class="table table-sm table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Font Style</th>
-                            <th>Artwork Type</th>
-                            <th>Imprint Color</th>
-                            <th>Patch Dimensions</th>
-                            <th>Additional Info</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>${item.orderartwork.font_style || 'N/A'}</td>
-                            <td>${item.orderartwork.artwork_type || 'N/A'}</td>
-                            <td>${(item.orderartwork.imprint_color || []).join(', ') || 'N/A'}</td>
-                            <td>${item.orderartwork.patch_length || 'N/A'} x ${item.orderartwork.patch_height || 'N/A'}</td>
-                            <td>${item.orderartwork.artwork_dataText || 'No additional text data available.'}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-    `;
-    productRow += artworkDetails;
-}
-
-
-            return productRow;
-        });
-
-        // Update the modal content
-        viewModalBody.innerHTML = rows.join('');
-    });
-});
-
-
-
-    // Populating the "Invoice" modal with dynamic invoice details
+    // When the modal is shown, populate it with dynamic data
     const invoiceModal = document.getElementById('invoiceModal');
     invoiceModal.addEventListener('show.bs.modal', function (event) {
+        // Get the link that triggered the modal
         const button = event.relatedTarget;
-        const row = button.closest('tr');
+        
+        // Extract data attributes from the button
+        const orderId = button.getAttribute('data-bs-order-id');
+        const date = button.getAttribute('data-bs-date');
+        const subtotal = button.getAttribute('data-bs-subtotal');
+        const billingName = button.getAttribute('data-bs-billing-name');
+        const billingAddress = button.getAttribute('data-bs-billing-address');
+        const shippingName = button.getAttribute('data-bs-shipping-name');
+        const shippingAddress = button.getAttribute('data-bs-shipping-address');
+        const products = JSON.parse(button.getAttribute('data-bs-products'));
 
-        // Get data attributes from the table row
-        const orderId = row.getAttribute('data-bs-order-id');
-        const date = row.getAttribute('data-bs-date');
-        const subtotal = row.getAttribute('data-bs-subtotal');
-        const billingName = row.getAttribute('data-bs-billing-name');
-        const billingAddress = row.getAttribute('data-bs-billing-address');
-        const shippingName = row.getAttribute('data-bs-shipping-name');
-        const shippingAddress = row.getAttribute('data-bs-shipping-address');
-        const products = JSON.parse(row.getAttribute('data-bs-products'));
-
-        // Populate the invoice modal
+        // Update the modal's content
+        document.getElementById('invoiceModalLabel').textContent = `Order Invoice #${orderId}`;
         document.getElementById('invoice-no').textContent = orderId;
         document.getElementById('invoice-date').textContent = date;
-        document.getElementById('total-amount').textContent = subtotal;
+        document.getElementById('sub-total').textContent = `${subtotal}`;
+        document.getElementById('total-amount-summary').textContent = `${subtotal}`;
+        
+        // document.getElementById('total-amount').textContent = `${total}`;
+        document.getElementById('total-amount').textContent = `${subtotal}`;
+        
+        // Billing and Shipping Info
         document.getElementById('billing-name').textContent = billingName;
         document.getElementById('billing-address-line-1').textContent = billingAddress;
         document.getElementById('shipping-name').textContent = shippingName;
         document.getElementById('shipping-address-line-1').textContent = shippingAddress;
 
-        const invoiceProductsList = document.getElementById('invoice-products-list');
-        invoiceProductsList.innerHTML = '';
-
-        // Populate products in the invoice modal
+        // Populate product details in the modal
+        let productRows = '';
         products.forEach((item, index) => {
-            const productRow = `
+            productRows += `
                 <tr>
-                    <td>${index + 1}</td>
-                    <td>${item.product.title}</td>
+                    <th scope="row">${index + 1}</th>
+                    <td class="text-start">
+                        <span class="fw-medium">${item.product.title}</span>
+                        <p class="text-muted mb-0">${item.product.category}</p>
+                    </td>
+                    
                     <td>${item.quantity}</td>
-                    <td>$${(item.product_price * item.quantity + item.printing_price * item.quantity + item.delivery_price * item.quantity).toFixed(2)}</td>
+                    <td class="text-end">$${(item.product_price*item.quantity + item.printing_price*item.quantity + item.delivery_price*item.quantity).toFixed(2)}</td>
                 </tr>
             `;
-            invoiceProductsList.innerHTML += productRow;
+        });
+        document.getElementById('products-list').innerHTML = productRows;
+    });
+</script>
+
+
+<script>
+    document.querySelectorAll('.table tbody tr').forEach(row => {
+        row.addEventListener('click', function() {
+            let detailsRow = row.nextElementSibling;
+            if (detailsRow.classList.contains('collapse')) {
+                detailsRow.classList.remove('collapse');
+            } else {
+                detailsRow.classList.add('collapse');
+            }
         });
     });
+    
 </script>
 
 @endsection
