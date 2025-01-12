@@ -40,6 +40,7 @@ Route::prefix('main')->group(function () {
     Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
     Route::post('/checkout/add', [OrderController::class, 'add'])->name('checkout.add');
     Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
+    Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
 
 
 

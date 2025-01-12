@@ -29,6 +29,17 @@ class OrderController extends Controller
     }
     
 
+    public function orderHistory()
+    {
+        $userId = auth()->id(); // Get the authenticated user's ID
+
+        // Fetch cart items belonging to the authenticated user, including the color
+        $orderhistory = Order::with(['items', 'user']) // Eager load color
+            ->where('user_id', $userId)
+            ->get();
+        return view('main.pages.orderhistory', compact('orderhistory'));
+    }
+
     public function index()
     {
         $userId = auth()->id(); // Get the authenticated user's ID

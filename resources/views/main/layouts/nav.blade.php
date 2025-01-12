@@ -82,7 +82,7 @@
                     @auth
                     <h6 class="dropdown-header">Welcome  {{ Auth::user()->email }}</h6>
                    
-                    <a class="dropdown-item" href="order-history.html"><i
+                    <a class="dropdown-item" href="{{route ('main.pages.orderhistory')}}"><i
                             class="bi bi-cart4 text-muted fs-16 align-middle me-1"></i>
                         <span class="align-middle">Order History</span></a>
                     {{-- <a class="dropdown-item" href="track-order.html"><i
