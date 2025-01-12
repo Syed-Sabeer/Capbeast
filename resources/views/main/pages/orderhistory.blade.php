@@ -248,7 +248,7 @@ document.querySelectorAll('.btn-success').forEach((button) => {
                     <td>${item.delivery_price}</td>
                     <td>${item.printing_price}</td>
                     <td>${item.product_price}</td>
-                    <td>${item.beanie_type}</td>
+                    <td>${item.beanie_type == 1 ? 'Flipped' : 'Unflipped'}</td>
                 </tr>
             `;
 
@@ -256,28 +256,44 @@ document.querySelectorAll('.btn-success').forEach((button) => {
             if (item.order_artwork) {
                 const artworkDetails = `
                     <tr>
-                        <td colspan="8">
-                            <table class="table table-sm table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Font Style</th>
-                                        <th>Artwork Type</th>
-                                        
-                                        <th>Patch Dimensions</th>
-                                        <th>Additional Info</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>${item.order_artwork.font_style || 'N/A'}</td>
-                                        <td>${item.order_artwork.artwork_type || 'N/A'}</td>
-                                        <td>${item.order_artwork.patch_length || 'N/A'} x ${item.order_artwork.patch_height || 'N/A'}</td>
-                                        <td>${item.order_artwork.artwork_dataText || 'No additional text data available.'}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
+            <td colspan="8">
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Font Style</th>
+                            
+                            <th>Patch Length </th>
+                            <th>Patch Height </th>
+                             <th>Num of imprint </th>
+                             <th>Imprint Colors</th>
+                            ${item.order_artwork.artwork_type == 1 ? '<th>Artwork Image</th>' : '<th>Artwork Text</th>'}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${item.order_artwork.font_style || 'N/A'}</td>
+                           
+                            <td>${item.order_artwork.patch_length || 'N/A'} </td>
+                             <td> ${item.order_artwork.patch_height || 'N/A'}</td>
+                              <td> ${item.order_artwork.num_of_imprint || 'N/A'}</td>
+                              <td>
+    ${item.order_artwork.imprint_color ? JSON.parse(item.order_artwork.imprint_color).join(', ') : 'N/A'}
+</td>
+
+<td>
+    ${item.order_artwork.artwork_type == 1
+        ? `<img src="http://localhost/Beanies/public/storage/${item.order_artwork.artwork_dataImage || 'CustomerArtworkImages/images/default.jpg'}" alt="Artwork Image" class="img-fluid" />`
+        : (item.order_artwork.artwork_dataText || 'No additional text data available.')
+    }
+</td>
+
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
                 `;
                  productRow += artworkDetails;
 
