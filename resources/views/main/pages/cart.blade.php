@@ -51,11 +51,20 @@
                                     <a href="{{ route('product.detail', ['id' => $item->product->id]) }}">
                                         <h5 class="fs-16 lh-base mb-1">{{ $item->product->title }}</h5>
                                     </a>
+                                    @php
+                                    // Ensure beanie_type is checked properly
+                                    $type = ($item->beanie_type === 1 || $item->beanie_type === '1') 
+                                                ? "Flipped" 
+                                                : (($item->beanie_type === 0 || $item->beanie_type === '0') 
+                                                    ? "Unflipped" 
+                                                    : "Not Specified");
+                                @endphp
+                                
                                     
                                     <ul class="list-inline text-muted fs-13 mb-3">
                                         <li class="list-inline-item">Color : <span class="fw-medium">{{ $item->color->title }}</span></li>
                                         <br>
-                                        <li class="list-inline-item">Type : <span class="fw-medium">{{ $item->beanie_type }}</span></li>
+                                        <li class="list-inline-item">Type: <span class="fw-medium">{{ $type }}</span></li>
                                         <br>
                                         <li class="list-inline-item">Embroidery : <span class="fw-medium">{{ $item->printing->title }}</span></li>
                                         
@@ -159,7 +168,7 @@
                             </div>
                         </div>
                         <div class="hstack gap-2 justify-content-end">
-                            <button type="button" class="btn btn-hover btn-danger">Continue Shopping</button>
+                            <a href="{{ route('products') }}" class="btn btn-hover btn-danger">Continue Shopping</a>
                             <a href="{{ route('checkout') }}" class="btn btn-hover btn-success" >Check Out <i class="ri-logout-box-r-line align-bottom ms-1"></i></a>
                             {{-- <button type="button" class="btn btn-hover btn-success" id="checkoutButton">Check Out <i class="ri-logout-box-r-line align-bottom ms-1"></i></button> --}}
 

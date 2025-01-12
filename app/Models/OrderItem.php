@@ -40,6 +40,10 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class, 'product_id')
             ->select(['id', 'title', 'description']);
     }
+    public function productBaseImages()
+    {
+        return $this->hasMany(ProductBaseImage::class, 'product_id'); 
+    }
 
     /**
      * Relationship with Color

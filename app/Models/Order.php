@@ -31,6 +31,6 @@ class Order extends Model
      */
     public function items()
     {
-        return $this->hasMany(OrderItem::class, 'order_id');
+        return $this->hasMany(OrderItem::class, 'order_id')->with(['product', 'color', 'productBaseImages']);
     }
 }

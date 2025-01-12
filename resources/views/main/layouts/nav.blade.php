@@ -85,7 +85,7 @@
                     <a class="dropdown-item" href="order-history.html"><i
                             class="bi bi-cart4 text-muted fs-16 align-middle me-1"></i>
                         <span class="align-middle">Order History</span></a>
-                    <a class="dropdown-item" href="track-order.html"><i
+                    {{-- <a class="dropdown-item" href="track-order.html"><i
                             class="bi bi-truck text-muted fs-16 align-middle me-1"></i>
                         <span class="align-middle">Track Orders</span></a>
                     <a class="dropdown-item" href="../backend/index.html"><i
@@ -93,14 +93,14 @@
                         <span class="align-middle">Dashboard</span></a>
                     <a class="dropdown-item" href="ecommerce-faq.html"><i
                             class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>
-                        <span class="align-middle">Help</span></a>
+                        <span class="align-middle">Help</span></a> --}}
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="account.html"><i
+                    {{-- <a class="dropdown-item" href="account.html"><i
                             class="bi bi-coin text-muted fs-16 align-middle me-1"></i>
                         <span class="align-middle">Balance : <b>$8451.36</b></span></a>
                     <a class="dropdown-item" href="account.html">
                         <i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>
-                        <span class="align-middle">Settings</span></a>
+                        <span class="align-middle">Settings</span></a> --}}
 
                     <!-- Logout Form -->
                     <form action="{{ route('user.logout') }}" method="POST">

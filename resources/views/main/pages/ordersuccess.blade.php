@@ -11,6 +11,7 @@
             </div>
             <div style="padding: 1.5rem;">
                 <h5
+                
                     style="font-size: 18px;font-family: 'Inter', sans-serif;font-weight: 600;margin-bottom: 18px;margin-top: 0px;line-height: 1.2;">
                     Your Order Confirmed!</h5>
 
@@ -38,15 +39,9 @@
                                 style="color: #878a99 !important; margin-bottom: 12px; font-size: 13px; text-transform: uppercase;font-weight: 500;margin-top: 0px;">
                                 Payment</p>
                             <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
-                                Cash On Delivery</h6>
+                                PayPal</h6>
                         </td>
-                        <td style="padding: 5px; vertical-align: top;">
-                            <p
-                                style="color: #878a99 !important; margin-bottom: 12px; font-size: 13px; text-transform: uppercase;font-weight: 500;margin-top: 0px;">
-                                Address</p>
-                            <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">USA
-                            </h6>
-                        </td>
+                      
                     </tr>
                 </table>
 
@@ -54,40 +49,67 @@
                     style="font-family: 'Inter', sans-serif; font-size: 15px;font-weight: 600; text-decoration-line: underline;margin-bottom: 16px;margin-top: 20px;">
                     Her'e what you ordered:</h6>
                 <table style="width: 100%;border-collapse: collapse;" cellspacing="0" cellpadding="0">
-                  
-                    <tr>
-                        <td style="padding: 12px 5px; vertical-align: top;width: 65px;">
-                            <div
-                                style="border: 1px solid #eaeef4;height: 64px;width: 64px;display: flex; align-items: center;justify-content: center;border-radius: 6px;">
-                                <img src="../assets/images/products/img-4.png" alt="" height="38">
-                            </div>
-                        </td>
-                        <td style="padding: 12px 5px; vertical-align: top;">
-                            <h6 style="font-size: 15px; margin: 0px;font-weight: 500; font-family: 'Inter', sans-serif;">
-                                Girls Mint Green Solid Open Flats</h6>
-                            <p
-                                style="color: #878a99 !important; margin-bottom: 10px; font-size: 13px;font-weight: 500;margin-top: 6px;">
-                                Women Footwear</p>
-                            <p
-                                style="color: #878a99 !important; margin-bottom: 0px; font-size: 13px;font-weight: 500;margin-top: 0;">
-                                <span>Color: Mint Green</span> <span style="margin-left: 15px;">Size: 10 (US)</span></p>
-                        </td>
-                        <td style="padding: 12px 5px; vertical-align: top;">
-                            <h6 style="font-size: 15px; margin: 0px;font-weight: 400; font-family: 'Inter', sans-serif;">Qty
-                                3</h6>
-                        </td>
-                        <td style="padding: 12px 5px; vertical-align: top;text-align: end;">
-                            <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
-                                $43.00</h6>
-                        </td>
-                    </tr>
+                    @php
+                    $subtotal = 0;
+                @endphp
+                
+                @foreach($order->items as $item)
+                @php
+                    // Calculate the total price for each item
+                    $itemTotal = ($item->product_price + $item->printing_price + $item->delivery_price) * $item->quantity;
+                    $subtotal += $itemTotal; // Add to subtotal
+                @endphp
+                <tr>
+                    <td style="padding: 12px 5px; vertical-align: top;width: 65px;">
+                        <div
+                            style="border: 1px solid #eaeef4;height: 64px;width: 64px;display: flex; align-items: center;justify-content: center;border-radius: 6px;">
+                            <img src="{{ asset('storage/' . ($item->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" alt="" class="avatar-xs">
+
+
+                        </div>
+                    </td>
+                    <td style="padding: 12px 5px; vertical-align: top;">
+                        <h6 style="font-size: 15px; margin: 0px;font-weight: 500; font-family: 'Inter', sans-serif;">
+                            {{ $item->product->title ?? 'Product Name' }}
+                        </h6>
+                        <p style="color: #878a99 !important; margin-bottom: 10px; font-size: 13px;font-weight: 500;margin-top: 6px;">
+                            {{  $item->printing->title  ?? 'Embroidery' }}
+                        </p>
+                        <p style="color: #878a99 !important; margin-bottom: 0px; font-size: 13px;font-weight: 500;margin-top: 0;">
+                            <span>Color: {{ $item->color->title ?? 'N/A' }}</span>
+                            @php
+                            // Ensure beanie_type is checked properly
+                            $type = ($item->beanie_type === 1 || $item->beanie_type === '1') 
+                                        ? "Flipped" 
+                                        : (($item->beanie_type === 0 || $item->beanie_type === '0') 
+                                            ? "Unflipped" 
+                                            : "Not Specified");
+                        @endphp
+                        
+                            <span style="margin-left: 15px;">Type: {{ $type ?? 'N/A' }}</span>
+                        </p>
+                    </td>
+                    <td style="padding: 12px 5px; vertical-align: top;">
+                        <h6 style="font-size: 15px; margin: 0px;font-weight: 400; font-family: 'Inter', sans-serif;">Qty
+                            {{ $item->quantity }}</h6>
+                    </td>
+                    <td style="padding: 12px 5px; vertical-align: top;text-align: end;">
+                        <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
+                            ${{ number_format($itemTotal, 2) }}
+                        </h6>
+                    </td>
+                </tr>
+                @endforeach
+
+
+
                     <tr>
                         <td colspan="3" style="padding: 12px 8px; font-size: 15px;border-top: 1px solid #e9ebec;">
                             Subtotal
                         </td>
                         <td style="padding: 12px 8px; font-size: 15px;text-align: end; border-top: 1px solid #e9ebec;">
                             <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
-                                $334.97</h6>
+                                ${{ number_format($subtotal, 2) }}</h6>
                         </td>
                     </tr>
              
@@ -106,27 +128,27 @@
                         </td>
                         <td style="padding: 12px 8px; font-size: 15px;text-align: end; border-top: 1px solid #e9ebec;">
                             <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
-                                $338.95</h6>
+                                ${{ number_format($subtotal, 2) }}</h6>
                         </td>
                     </tr>
                 </table>
-                <p style="color: #878a99; margin-bottom: 20px;margin-top: 15px;">We'll send you shipping Confirmation when
-                    your item(s) are on the way! We appreciate your business, and hope you enjoy your purchase.</p>
+                <p style="color: #878a99; margin-bottom: 20px;margin-top: 15px;">
+                    Your item(s) are on the way! We appreciate your business, and hope you enjoy your purchase.</p>
                 <div style="text-align: right;">
                     <h6
                         style="font-size: 15px; margin: 0px;font-weight: 500;font-size: 17px; font-family: 'Inter', sans-serif;">
                         Thank you!</h6>
-                    <p style="color: #878a99; margin-bottom: 0;margin-top: 8px;">Themesbrand</p>
+                    <p style="color: #878a99; margin-bottom: 0;margin-top: 8px;">Monkey Beanies</p>
                 </div>
             </div>
             <div style="padding: 1.5rem;background-color: #fafafa;">
                 <div style="display: flex;gap: 5px;justify-content: space-between;">
-                    <p style="color: #878a99; margin: 0;">Questions? Contact Our <a href="#!"
-                            style="text-decoration: none;"> Customer Support</a></p>
+                    {{-- <p style="color: #878a99; margin: 0;">Questions? Contact Our <a href="#!"
+                            style="text-decoration: none;"> Customer Support</a></p> --}}
                     <p style="color: #878a99; margin: 0;">
                         <script>
                             document.write(new Date().getFullYear())
-                        </script> © Toner.
+                        </script> © Monkey Beanies.
                     </p>
                 </div>
             </div>

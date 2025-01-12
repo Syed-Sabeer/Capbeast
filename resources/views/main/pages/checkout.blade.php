@@ -303,7 +303,7 @@
                         </div>
                     </div>
                     <div class="hstack gap-2 justify-content-between justify-content-end">
-                        <a href="shop-cart.html" class="btn btn-hover btn-soft-info w-100">Back To Cart <i class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
+                        <a href="{{ route('cart') }}" class="btn btn-hover btn-soft-info w-100">Back To Cart <i class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
                                                     <button type="button" class="btn  w-100 btn-hover btn-primary" id="checkoutButton">Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i></button>
                         {{-- <a href="payment.html" class="btn btn-hover btn-primary w-100"></a> --}}
                     </div>
