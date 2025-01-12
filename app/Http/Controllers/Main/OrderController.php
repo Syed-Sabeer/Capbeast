@@ -39,9 +39,7 @@ class OrderController extends Controller
         }, 'user'])->where('user_id', $userId)->get();
         
         
-        // Log::info('Order History:', $orderhistory->toArray());
-// 
-    // dd($orderhistory);
+        
         return view('main.pages.orderhistory', ['orderhistory' => $orderhistory]);
 
     }

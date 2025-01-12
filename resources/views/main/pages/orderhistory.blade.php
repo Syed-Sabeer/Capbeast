@@ -2,9 +2,10 @@
 
 @section('main-container')
 
+
 @component('main.components.breadcrumb', [
-    'pageTitle' => 'About',
-    'pageRoute' => 'about',
+    'pageTitle' => 'Order History',
+    'pageRoute' => 'main.pages.orderhistory',
     'imageURL' => asset('assetsMain/images/about.jpg') // Evaluated here
 ])
 @endcomponent
@@ -224,8 +225,7 @@
 </div>
 
 <script>
-    // Populating the "View" modal with dynamic order details
- // Populating the "View" modal with dynamic order details
+  
 document.querySelectorAll('.btn-success').forEach((button) => {
     button.addEventListener('click', function () {
         const row = this.closest('tr');
