@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2025 at 02:27 PM
+-- Generation Time: Jan 12, 2025 at 02:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,8 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `email`, `password`, `created_at`, `updated_at`) VALUES
-(1, 'sabeer@gmail.com', '$2y$10$GDIj3rw4oV72BOFWB.juCOy/dWSlwIX.HdvC1gotslctTRzrwIM9O', '2025-01-04 18:24:23', '2025-01-04 18:24:23');
+(1, 'sabeer@gmail.com', '$2y$10$GDIj3rw4oV72BOFWB.juCOy/dWSlwIX.HdvC1gotslctTRzrwIM9O', '2025-01-04 18:24:23', '2025-01-04 18:24:23'),
+(2, 'taimoorkhan@lala.com', '$2y$10$GDIj3rw4oV72BOFWB.juCOy/dWSlwIX.HdvC1gotslctTRzrwIM9O', '2025-01-10 04:57:42', '2025-01-10 04:57:42');
 
 -- --------------------------------------------------------
 
@@ -63,14 +64,6 @@ CREATE TABLE `cart` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`id`, `user_id`, `product_id`, `color_id`, `quantity`, `beanie_type`, `printing_id`, `printing_price`, `product_price`, `delivery_price`, `created_at`, `updated_at`) VALUES
-(95, 1, 1, 2, 12, 1, 1, 0.00, 13.21, 0.00, '2025-01-07 01:41:07', '2025-01-07 01:41:07'),
-(96, 1, 1, 2, 777, 2, 2, 2.00, 5.91, 10.00, '2025-01-07 04:38:58', '2025-01-07 04:38:58');
-
 -- --------------------------------------------------------
 
 --
@@ -91,13 +84,6 @@ CREATE TABLE `cart_artwork` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `cart_artwork`
---
-
-INSERT INTO `cart_artwork` (`id`, `cart_id`, `artwork_type`, `artwork_dataText`, `artwork_dataImage`, `patch_length`, `patch_height`, `font_style`, `num_of_imprint`, `imprint_color`, `created_at`, `updated_at`) VALUES
-(26, 96, 1, 'null', 'CustomerArtworkImages/3uX8FQyvy5ndU5m88IHbLsRoZZEiz9DVvH1ebsLB.jpg', 2.00, 2.00, 'times', 2, '[\"color1\",\"color2\"]', '2025-01-07 04:38:58', '2025-01-07 04:38:58');
 
 -- --------------------------------------------------------
 
@@ -140,7 +126,8 @@ CREATE TABLE `component_product_color` (
 
 INSERT INTO `component_product_color` (`id`, `color_name`, `color_code`, `created_at`, `updated_at`) VALUES
 (2, 'taimoor lala', '#ff0000', '2025-01-07 07:04:16', '2025-01-07 07:04:16'),
-(3, 'sabeer new color', '#28c76f', '2025-01-07 07:50:43', '2025-01-07 07:50:43');
+(3, 'sabeer new color', '#28c76f', '2025-01-07 07:50:43', '2025-01-07 07:50:43'),
+(5, 'taimoor', '#e20808', '2025-01-08 08:40:59', '2025-01-08 08:40:59');
 
 -- --------------------------------------------------------
 
@@ -190,27 +177,23 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2025_01_05_130138_create_cart_artwork_table', 2),
 (15, '2025_01_07_092956_create_order_artwork_table', 3),
 (16, '2025_01_07_110724_create__component_product_color_table', 4),
-(17, '2025_01_07_110753_create_component_embroidery_color_table', 5);
+(17, '2025_01_07_110753_create_component_embroidery_color_table', 5),
+(18, '2025_01_07_092943_create_order_table', 6),
+(19, '2025_01_09_105027_create_order_artwork_table', 7);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order`
+-- Table structure for table `orders`
 --
 
-CREATE TABLE `order` (
+CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `product_id` bigint(20) UNSIGNED NOT NULL,
-  `color_id` bigint(20) UNSIGNED NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `beanie_type` int(11) NOT NULL,
-  `printing_id` bigint(20) UNSIGNED NOT NULL,
-  `printing_price` decimal(8,2) NOT NULL,
-  `product_price` decimal(8,2) NOT NULL,
-  `delivery_price` decimal(8,2) NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `order_id` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -221,7 +204,7 @@ CREATE TABLE `order` (
 
 CREATE TABLE `order_artwork` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `order_item_id` bigint(20) UNSIGNED NOT NULL,
   `artwork_type` int(11) NOT NULL,
   `artwork_dataText` text DEFAULT NULL,
   `artwork_dataImage` text DEFAULT NULL,
@@ -230,6 +213,27 @@ CREATE TABLE `order_artwork` (
   `font_style` varchar(255) NOT NULL,
   `num_of_imprint` int(11) NOT NULL,
   `imprint_color` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `color_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `beanie_type` int(11) DEFAULT NULL,
+  `printing_id` bigint(20) UNSIGNED NOT NULL,
+  `printing_price` decimal(8,2) DEFAULT NULL,
+  `product_price` decimal(8,2) DEFAULT NULL,
+  `delivery_price` decimal(8,2) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -285,7 +289,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `title`, `description`, `visibility`, `created_at`, `updated_at`) VALUES
-(1, 'Custom Classic Polyester Cotton Beanies', 'We believe that you’ll find our Custom Classic Polyester Cotton Beanies an excellent value and may be used for promotional purposes. Oh. We got you covered, we have more styles for you to choose from, and you can customize this too! You can have your logos, graphic designs, or text embroidered right on them. Enjoy adding to your cart, and see you at the checkout!\r\n\r\n\r\nMaterial: Polyester Cotton\r\nSize: 20cm x 21cm, brim: 7cm\r\nHead Circumference:  54cm-60cm\r\nColors: Black, Blue, Brown, Caramel, Cream, Dark Gray, Dark Green, Hot Pink, Khaki, Light Gray, Light Pink, Maroon, Medium Gray, Navy Blue, Purple, Red, Royal blue, Turquoise, White, Yellow', 1, '2025-01-04 13:29:16', '2025-01-06 04:12:41');
+(1, 'Custom Classic Polyester Cotton Beanies', 'We believe that you’ll find our Custom Classic Polyester Cotton Beanies an excellent value and may be used for promotional purposes. Oh. We got you covered, we have more styles for you to choose from, and you can customize this too! You can have your logos, graphic designs, or text embroidered right on them. Enjoy adding to your cart, and see you at the checkout!\r\n\r\n\r\nMaterial: Polyester Cotton\r\nSize: 20cm x 21cm, brim: 7cm\r\nHead Circumference:  54cm-60cm\r\nColors: Black, Blue, Brown, Caramel, Cream, Dark Gray, Dark Green, Hot Pink, Khaki, Light Gray, Light Pink, Maroon, Medium Gray, Navy Blue, Purple, Red, Royal blue, Turquoise, White, Yellow', 0, '2025-01-04 13:29:16', '2025-01-09 13:45:58'),
+(3, 'YP Classics® cuffed knit beanie', 'Cuffed-style beanie with dense weaving for easy embroidery.\r\n\r\nClassic Knit. Esteemed since 1974\r\nSuper dense knit for easy embroidery\r\n100% Hypoallergenic Acrylic\r\nLength is approx. 12\" Uncuffed', 1, '2025-01-10 00:38:09', '2025-01-10 00:38:09'),
+(4, 'YP Classics® cuffed knit beanie', 'Cuffed-style beanie with dense weaving for easy embroidery.\r\n\r\nClassic Knit. Esteemed since 1974\r\nSuper dense knit for easy embroidery\r\n100% Hypoallergenic Acrylic\r\nLength is approx. 12\" Uncuffed', 1, '2025-01-10 00:44:03', '2025-01-10 00:44:03'),
+(5, 'YP Classics® cuffed waffle knit beanie', 'Waffle Knit Cuffed-style beanie with dense weaving for easy embroidery.\r\n\r\nClassic Knit. Esteemed since 1974\r\nSuper dense knit for easy embroidery\r\n100% Hypoallergenic Acrylic\r\nLength is approx. 12\" Uncuffed', 1, '2025-01-10 00:45:24', '2025-01-10 00:45:24'),
+(6, 'YP Classics® knit beanie', 'Classic knit beanie with dense weaving for easy embroidery.\r\n\r\nClassic Knit. Esteemed since 1974\r\nSuper dense knit for easy embroidery\r\n100% Hypoallergenic Acrylic\r\nLength is approx. 8 ¬Ω\"', 1, '2025-01-10 00:47:27', '2025-01-10 00:47:27');
 
 -- --------------------------------------------------------
 
@@ -307,7 +315,11 @@ CREATE TABLE `product_baseimages` (
 
 INSERT INTO `product_baseimages` (`id`, `product_id`, `base_image`, `created_at`, `updated_at`) VALUES
 (1, 1, 'ProductImages/XsFZBlkkkz5KmydUdds4ztBD72jjGY5BZZkJgR8v.jpg', '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
-(2, 1, 'ProductImages/uohWCL47JgbQd0VANXUtU1q9yRSD124M8vrDo4Br.jpg', '2025-01-04 13:29:17', '2025-01-04 13:29:17');
+(2, 1, 'ProductImages/uohWCL47JgbQd0VANXUtU1q9yRSD124M8vrDo4Br.jpg', '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(4, 3, 'ProductImages/21280JG1KEUfOoAkO9LaPVvW7SZ3B8Eol0RZOJr5.png', '2025-01-10 00:38:09', '2025-01-10 00:38:09'),
+(5, 4, 'ProductImages/O7281LTyvslBoxSiQXXVIheYfjPDjHquojYjXpY8.png', '2025-01-10 00:44:03', '2025-01-10 00:44:03'),
+(6, 5, 'ProductImages/51uLb2lpZmcu06nn3cicwRMYl8FBfDPUsLHuHWJU.png', '2025-01-10 00:45:24', '2025-01-10 00:45:24'),
+(7, 6, 'ProductImages/imstTB22u8smdRvABR5UBZwe9Ko5Lfm4RDYFgAXJ.png', '2025-01-10 00:47:27', '2025-01-10 00:47:27');
 
 -- --------------------------------------------------------
 
@@ -331,7 +343,23 @@ CREATE TABLE `product_color` (
 INSERT INTO `product_color` (`id`, `product_id`, `color`, `image`, `created_at`, `updated_at`) VALUES
 (1, 1, '#FF0000', 'ProductImages/ColorVariations/jHffPORmmp232oIy0b3q6qSi55lEK6cDOAEMtHXL.jpg', '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
 (2, 1, '#000000', 'ProductImages/ColorVariations/pFdEqXtF4QYHthoAr8z7atfxRd4I2AazJERJEFwu.jpg', '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
-(3, 1, '#4169E1', 'ProductImages/ColorVariations/9DIs5SFHp67OKk63SvmgEc9wIjke4m5v6lpDpW9J.jpg', '2025-01-04 13:29:17', '2025-01-04 13:29:17');
+(3, 1, '#4169E1', 'ProductImages/ColorVariations/9DIs5SFHp67OKk63SvmgEc9wIjke4m5v6lpDpW9J.jpg', '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(9, 3, '#FF0000', 'ProductImages/ColorVariations/gUIvJ8kDgOdu54qhZj9gmZiI8vp4uaxAcolKcR7q.png', '2025-01-10 00:38:09', '2025-01-10 00:38:09'),
+(10, 3, '#000080', 'ProductImages/ColorVariations/0OGiDcdK3SzIdi4jK9as3XkNGxY8G3aVAimZTdVv.png', '2025-01-10 00:38:09', '2025-01-10 00:38:09'),
+(11, 3, '#808000', 'ProductImages/ColorVariations/yl8gcpI7CRhYsueSvJPlqkaRZitcPnCkrtdgDP4n.png', '2025-01-10 00:38:10', '2025-01-10 00:38:10'),
+(12, 3, '#FFFFFF', 'ProductImages/ColorVariations/DB7M9sqAPMqiFUVAFTMWzGJmvkBYwwOwICUupBQ5.png', '2025-01-10 00:38:10', '2025-01-10 00:38:10'),
+(13, 4, '#FF0000', 'ProductImages/ColorVariations/Su3dhJ6fPfGohZfI80avQKGa882NRqKITemhSqn0.png', '2025-01-10 00:44:03', '2025-01-10 00:44:03'),
+(14, 4, '#FFFF00', 'ProductImages/ColorVariations/CuNAohHEXVVGe4jrkVwsd6owCuvEdEUf34rLFmuZ.png', '2025-01-10 00:44:03', '2025-01-10 00:44:03'),
+(15, 4, '#000080', 'ProductImages/ColorVariations/toQ40L87e1Imp8RZWm5dHFyGW7e8ku7KNNBwogu2.png', '2025-01-10 00:44:03', '2025-01-10 00:44:03'),
+(16, 4, '#808000', 'ProductImages/ColorVariations/kdIYxl4mLMRnZFN04C6ppa09UVqInYko6z8hHrpD.png', '2025-01-10 00:44:03', '2025-01-10 00:44:03'),
+(17, 5, '#FF0000', 'ProductImages/ColorVariations/2DaxC9LMJOPZnPat3lGSZ2fS4FawC7pAe8B9j8kX.png', '2025-01-10 00:45:24', '2025-01-10 00:45:24'),
+(18, 5, '#000080', 'ProductImages/ColorVariations/yvbe5IQQsil2dn9wOwFkcHWH7gVcApc2Lchn7ePH.png', '2025-01-10 00:45:24', '2025-01-10 00:45:24'),
+(19, 5, '#000000', 'ProductImages/ColorVariations/ckisBBVsDvlE1u7N7BCdYkVgM9DcMqNRmi0uMWLQ.png', '2025-01-10 00:45:24', '2025-01-10 00:45:24'),
+(20, 5, '#FFFFFF', 'ProductImages/ColorVariations/unqvTThUrbDBynQEW2Rg5Z9QcilV2Z2nHv6FkMXH.png', '2025-01-10 00:45:24', '2025-01-10 00:45:24'),
+(21, 6, '#FF0000', 'ProductImages/ColorVariations/rhAtRs9brlilI0QITb75mpBzB6vPKD0A3BG7EgRF.png', '2025-01-10 00:47:27', '2025-01-10 00:47:27'),
+(22, 6, '#FFD700', 'ProductImages/ColorVariations/9IOBiDahFVwvX2qxixzdxMUNLR6T4vo8a6M6KWZ7.png', '2025-01-10 00:47:27', '2025-01-10 00:47:27'),
+(23, 6, '#000080', 'ProductImages/ColorVariations/je1IitR5hRUiL2JMuJJqoNxN2mk4X3hv2axkQTHD.png', '2025-01-10 00:47:27', '2025-01-10 00:47:27'),
+(24, 6, '#000000', 'ProductImages/ColorVariations/q2OInWBXs4VsKJe2dtf0cDByGK3FxFjqX9HbYpun.png', '2025-01-10 00:47:27', '2025-01-10 00:47:27');
 
 -- --------------------------------------------------------
 
@@ -374,16 +402,56 @@ CREATE TABLE `product_pricing` (
 --
 
 INSERT INTO `product_pricing` (`id`, `product_id`, `pricing`, `quantity`, `created_at`, `updated_at`) VALUES
-(1, 1, 13.21, 12, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
-(2, 1, 9.69, 25, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
-(3, 1, 9.01, 50, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(1, 1, 13.00, 12, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(2, 1, 9.50, 25, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(3, 1, 8.95, 50, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
 (4, 1, 6.55, 100, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
-(5, 1, 6.21, 250, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
-(6, 1, 5.91, 500, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
-(7, 1, 5.62, 1000, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
-(8, 1, 5.36, 2500, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
-(9, 1, 5.08, 5000, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
-(10, 1, 4.81, 10000, '2025-01-04 13:29:17', '2025-01-04 13:29:17');
+(5, 1, 6.00, 250, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(6, 1, 5.85, 500, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(7, 1, 5.50, 1000, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(8, 1, 5.30, 2500, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(9, 1, 5.10, 5000, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(10, 1, 4.95, 10000, '2025-01-04 13:29:17', '2025-01-04 13:29:17'),
+(28, 3, 13.00, 12, '2025-01-09 19:40:58', '2025-01-09 19:40:58'),
+(29, 3, 9.50, 25, '2025-01-09 19:40:58', '2025-01-09 19:40:58'),
+(30, 3, 8.95, 50, '2025-01-09 19:40:58', '2025-01-09 19:40:58'),
+(31, 3, 6.55, 100, '2025-01-09 19:40:58', '2025-01-09 19:40:58'),
+(32, 3, 6.00, 250, '2025-01-09 19:40:58', '2025-01-09 19:40:58'),
+(33, 3, 5.85, 500, '2025-01-09 19:40:58', '2025-01-09 19:40:58'),
+(34, 3, 5.50, 1000, '2025-01-09 19:40:58', '2025-01-09 19:40:58'),
+(35, 3, 5.30, 2500, '2025-01-09 19:40:58', '2025-01-09 19:40:58'),
+(36, 3, 5.10, 5000, '2025-01-09 19:40:58', '2025-01-09 19:40:58'),
+(37, 3, 4.95, 10000, '2025-01-09 19:40:58', '2025-01-09 19:40:58'),
+(45, 4, 13.00, 12, '2025-01-09 19:46:14', '2025-01-09 19:46:14'),
+(46, 4, 9.50, 25, '2025-01-09 19:46:14', '2025-01-09 19:46:14'),
+(47, 4, 8.95, 50, '2025-01-09 19:46:14', '2025-01-09 19:46:14'),
+(48, 4, 6.55, 100, '2025-01-09 19:46:14', '2025-01-09 19:46:14'),
+(49, 4, 6.00, 250, '2025-01-09 19:46:14', '2025-01-09 19:46:14'),
+(50, 4, 5.85, 500, '2025-01-09 19:46:14', '2025-01-09 19:46:14'),
+(51, 4, 5.50, 1000, '2025-01-09 19:46:14', '2025-01-09 19:46:14'),
+(52, 4, 5.30, 2500, '2025-01-09 19:46:14', '2025-01-09 19:46:14'),
+(53, 4, 5.10, 5000, '2025-01-09 19:46:14', '2025-01-09 19:46:14'),
+(54, 4, 4.95, 10000, '2025-01-09 19:46:14', '2025-01-09 19:46:14'),
+(60, 5, 13.00, 12, '2025-01-09 19:46:21', '2025-01-09 19:46:21'),
+(61, 5, 9.50, 25, '2025-01-09 19:46:21', '2025-01-09 19:46:21'),
+(62, 5, 8.95, 50, '2025-01-09 19:46:21', '2025-01-09 19:46:21'),
+(63, 5, 6.55, 100, '2025-01-09 19:46:21', '2025-01-09 19:46:21'),
+(64, 5, 6.00, 250, '2025-01-09 19:46:21', '2025-01-09 19:46:21'),
+(65, 5, 5.85, 500, '2025-01-09 19:46:21', '2025-01-09 19:46:21'),
+(66, 5, 5.50, 1000, '2025-01-09 19:46:21', '2025-01-09 19:46:21'),
+(67, 5, 5.30, 2500, '2025-01-09 19:46:21', '2025-01-09 19:46:21'),
+(68, 5, 5.10, 5000, '2025-01-09 19:46:21', '2025-01-09 19:46:21'),
+(69, 5, 4.95, 10000, '2025-01-09 19:46:21', '2025-01-09 19:46:21'),
+(91, 6, 13.00, 12, '2025-01-09 19:50:32', '2025-01-09 19:50:32'),
+(92, 6, 9.50, 25, '2025-01-09 19:50:32', '2025-01-09 19:50:32'),
+(93, 6, 8.95, 50, '2025-01-09 19:50:32', '2025-01-09 19:50:32'),
+(94, 6, 6.55, 100, '2025-01-09 19:50:32', '2025-01-09 19:50:32'),
+(95, 6, 6.00, 250, '2025-01-09 19:50:32', '2025-01-09 19:50:32'),
+(96, 6, 5.85, 500, '2025-01-09 19:50:32', '2025-01-09 19:50:32'),
+(97, 6, 5.50, 1000, '2025-01-09 19:50:32', '2025-01-09 19:50:32'),
+(98, 6, 5.30, 2500, '2025-01-09 19:50:32', '2025-01-09 19:50:32'),
+(99, 6, 5.10, 5000, '2025-01-09 19:50:32', '2025-01-09 19:50:32'),
+(100, 6, 4.95, 10000, '2025-01-09 19:50:32', '2025-01-09 19:50:32');
 
 -- --------------------------------------------------------
 
@@ -407,8 +475,8 @@ CREATE TABLE `product_printing` (
 
 INSERT INTO `product_printing` (`id`, `title`, `image`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
 (1, 'No Imprint - Blank', 'ProductPrintingImages/17tPqe1kUK1fiefujT0CQVvCY5VuUuAV1te7BZ35.png', '[\"0\"]', '[\"0\"]', '2025-01-04 13:29:43', '2025-01-04 13:29:43'),
-(2, 'Direct Embroidery', 'ProductPrintingImages/1nrwWJByIqf0j4qPVB91bJhttpniSsd5Mqze9fu5.png', '[\"12\",\"25\",\"50\",\"100\",\"250\"]', '[\"10\",\"8\",\"6\",\"4\",\"2\"]', '2025-01-04 13:30:38', '2025-01-04 13:30:38'),
-(3, 'Direct 3D Embroidery', 'ProductPrintingImages/fRf2XpPethECgtr9dfAnAO38O4ScDZiqlplC2cqZ.png', '[\"12\",\"25\",\"50\",\"100\",\"250\"]', '[\"20\",\"18\",\"16\",\"14\",\"12\"]', '2025-01-04 13:31:28', '2025-01-04 13:31:28');
+(2, 'Direct Embroidery', 'ProductPrintingImages/1nrwWJByIqf0j4qPVB91bJhttpniSsd5Mqze9fu5.png', '[\"12\",\"25\",\"50\",\"100\",\"250\",\"500\",\"1000\",\"2500\",\"5000\",\"10000\"]', '[\"6.5\",\"4.75\",\"4.35\",\"3.2\",\"3.1\",\"2.9\",\"2.9\",\"2.652\",\"2.65\",\"2.5\"]', '2025-01-04 13:30:38', '2025-01-04 13:30:38'),
+(3, 'Direct 3D Embroidery', 'ProductPrintingImages/fRf2XpPethECgtr9dfAnAO38O4ScDZiqlplC2cqZ.png', '[\"12\",\"25\",\"50\",\"100\",\"250\",\"500\",\"1000\",\"2500\",\"5000\",\"10000\"]', '[\"6.825\",\"4.9875\",\"4.5675\",\"3.36\",\"3.255\",\"3.045\",\"3.045\",\"2.7846\",\"2.7825\",\"2.625\"]', '2025-01-04 13:31:28', '2025-01-04 13:31:28');
 
 -- --------------------------------------------------------
 
@@ -433,7 +501,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `is_reseller`, `neq_number`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'syedsabeer@gmail.com', NULL, '$2y$10$GDIj3rw4oV72BOFWB.juCOy/dWSlwIX.HdvC1gotslctTRzrwIM9O', 0, NULL, NULL, '2025-01-04 13:24:03', '2025-01-04 13:24:03');
+(1, 'syedsabeer@gmail.com', NULL, '$2y$10$GDIj3rw4oV72BOFWB.juCOy/dWSlwIX.HdvC1gotslctTRzrwIM9O', 0, NULL, NULL, '2025-01-04 13:24:03', '2025-01-04 13:24:03'),
+(2, 'taimoorlala@gmail.com', NULL, '$2y$10$c8Txyz/ptLCeq4FLdVGtaunyeOlpWWSeiEsdeZE4kbPPPjNP45dAO', 0, NULL, NULL, '2025-01-08 04:50:32', '2025-01-08 04:50:32');
 
 --
 -- Indexes for dumped tables
@@ -489,21 +558,29 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `order`
+-- Indexes for table `orders`
 --
-ALTER TABLE `order`
+ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `order_user_id_foreign` (`user_id`),
-  ADD KEY `order_product_id_foreign` (`product_id`),
-  ADD KEY `order_color_id_foreign` (`color_id`),
-  ADD KEY `order_printing_id_foreign` (`printing_id`);
+  ADD UNIQUE KEY `order_id` (`order_id`),
+  ADD KEY `order_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `order_artwork`
 --
 ALTER TABLE `order_artwork`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `order_artwork_order_id_foreign` (`order_id`);
+  ADD KEY `order_artwork_fk` (`order_item_id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_items_fk_color` (`color_id`),
+  ADD KEY `order_items_fk_printing` (`printing_id`),
+  ADD KEY `order_items_fk_product` (`product_id`),
+  ADD KEY `order_items_fk_order` (`order_id`);
 
 --
 -- Indexes for table `password_reset_tokens`
@@ -573,19 +650,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT for table `cart_artwork`
 --
 ALTER TABLE `cart_artwork`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `component_embroidery_color`
@@ -597,7 +674,7 @@ ALTER TABLE `component_embroidery_color`
 -- AUTO_INCREMENT for table `component_product_color`
 --
 ALTER TABLE `component_product_color`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -609,19 +686,25 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT for table `order`
+-- AUTO_INCREMENT for table `orders`
 --
-ALTER TABLE `order`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `order_artwork`
 --
 ALTER TABLE `order_artwork`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -633,19 +716,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `product_baseimages`
 --
 ALTER TABLE `product_baseimages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `product_color`
 --
 ALTER TABLE `product_color`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `product_delivery`
@@ -657,7 +740,7 @@ ALTER TABLE `product_delivery`
 -- AUTO_INCREMENT for table `product_pricing`
 --
 ALTER TABLE `product_pricing`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT for table `product_printing`
@@ -669,7 +752,7 @@ ALTER TABLE `product_printing`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -691,19 +774,25 @@ ALTER TABLE `cart_artwork`
   ADD CONSTRAINT `cart_artwork_cart_id_foreign` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `order`
+-- Constraints for table `orders`
 --
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_color_id_foreign` FOREIGN KEY (`color_id`) REFERENCES `product_color` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `order_printing_id_foreign` FOREIGN KEY (`printing_id`) REFERENCES `product_printing` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `order_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+ALTER TABLE `orders`
   ADD CONSTRAINT `order_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `order_artwork`
 --
 ALTER TABLE `order_artwork`
-  ADD CONSTRAINT `order_artwork_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `order_artwork_fk` FOREIGN KEY (`order_item_id`) REFERENCES `order_items` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_fk_color` FOREIGN KEY (`color_id`) REFERENCES `product_color` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_items_fk_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_items_fk_printing` FOREIGN KEY (`printing_id`) REFERENCES `product_printing` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_items_fk_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `product_baseimages`
