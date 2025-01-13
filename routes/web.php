@@ -23,7 +23,9 @@ use App\Http\Controllers\Admin\apps\EcommercePrintingAdd;
 use App\Http\Controllers\Admin\apps\EcommerceDeliveryAdd;
 use App\Http\Controllers\Admin\apps\EcommerceDeliveryList;
 use App\Http\Controllers\Admin\apps\EcommerceOrderList;
+use App\Http\Controllers\Admin\apps\EcommerceCustomerDetailsOverview;
 use App\Http\Controllers\Admin\apps\EcommerceOrderDetails;
+use App\Http\Controllers\Admin\apps\EcommerceCustomerAll;
 
 use App\Http\Controllers\Admin\components\ProductColorController;
 use App\Http\Controllers\Admin\components\FontController;
@@ -107,6 +109,11 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
   Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name('app-ecommerce-order-list');
   Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name('app-ecommerce-order-detail');
+
+  Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name('app-ecommerce-customer-all');
+  Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name('app-ecommerce-customer-detail');
+  Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name('update.status');
+
 
   Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
   Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
