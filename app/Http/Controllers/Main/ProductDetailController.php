@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\ComponentEmbroideryColor;
 use App\Models\Product;
 use App\Models\ProductPrinting;
 use App\Models\ProductDelivery;
@@ -15,6 +16,9 @@ class ProductDetailController extends Controller
         // Fetch product details using Eloquent
         $product = Product::findOrFail($id);
     
+        $embroideryColors = ComponentEmbroideryColor::get(['color_name', 'color_code']);
+
+
         // Fetch related product colors
         $productColors = $product->productColors ?? [];  // Ensure it's initialized as an array
     
@@ -64,6 +68,7 @@ class ProductDetailController extends Controller
             'baseImages' => $baseImages,
             'quantitiesdelivery' => $quantitiesdelivery,  // Pass quantitiesdelivery
             'pricesDelivery' => $pricesDelivery,  // Pass pricesDelivery
+            'embroideryColors' => $embroideryColors,
         ]);
     }
 }
