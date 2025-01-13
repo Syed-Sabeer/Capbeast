@@ -66,7 +66,9 @@
                   </label>
               </div>
           </td>
-          <td> <a href="{{ route('app-ecommerce-order-detail', $order->id) }}"  data-user-id="{{ $order->id }}" class="badge bg-label-info">View Profile</a></td>
+          <td>
+             {{-- <a href="{{ route('app-ecommerce-order-detail', $order->id) }}"  data-user-id="{{ $order->id }}" class="badge bg-label-info">View Profile</a> --}}
+            </td>
           
         </tr>
     @endforeach
