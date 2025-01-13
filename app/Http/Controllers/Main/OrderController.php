@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartArtwork;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderShippingDetail;
 use App\Models\OrderArtwork;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -65,11 +66,27 @@ class OrderController extends Controller
         DB::beginTransaction();
 
         try {
+
+            $request->validate([
+                'firstname' => 'required|string|max:255',
+                'lastname' => 'required|string|max:255',
+                'companyname' => 'nullable|string|max:255',
+                'address' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'phone' => 'required|string|max:20',
+                'additional_info' => 'nullable|string|max:500',
+            ]);
+
             // Generate a unique 5-character order ID
             $orderId = $this->generateOrderId();
 
             // Calculate total price
             $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
+
+            if ($cartItems->isEmpty()) {
+                return response()->json(['success' => false, 'message' => 'Cart is empty.'], 400);
+            }
+
             $totalPrice = $cartItems->reduce(function ($total, $item) {
                 return $total + ($item->product_price + $item->printing_price + $item->delivery_price) * $item->quantity;
             }, 0);
@@ -80,6 +97,18 @@ class OrderController extends Controller
                 'order_id' => $orderId,
                 'total_price' => $totalPrice,
             ]);
+
+            OrderShippingDetail::create([
+                'order_id' => $order->id,
+                'firstname' => $request->input('firstname'),
+                'lastname' => $request->input('lastname'),
+                'companyname' => $request->input('companyname'),
+                'address' => $request->input('address'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('phone'),
+                'additional_info' => $request->input('additional_info'),
+            ]);
+    
 
             // Log the created order ID
             Log::info('Created order with ID: ' . $order->id);

@@ -92,15 +92,15 @@
                                 <div class="row mb-4">
                                     <div class="col">
                                         <div data-mdb-input-init class="form-outline">
-                                            <label class="form-label" for="form6Example1">First name</label>
-                                            <input type="text" id="form6Example1" class="form-control" />
+                                            <label class="form-label" for="form6Example1">First name *</label>
+                                            <input type="text" id="firstname" name="firstname" class="form-control" />
 
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div data-mdb-input-init class="form-outline">
-                                            <label class="form-label" for="form6Example2">Last name</label>
-                                            <input type="text" id="form6Example2" class="form-control" />
+                                            <label class="form-label" for="form6Example2">Last name *</label>
+                                            <input type="text" id="lastname" name="lastname" class="form-control" />
 
                                         </div>
                                     </div>
@@ -108,36 +108,36 @@
 
                                 <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
-                                    <label class="form-label" for="form6Example3">Company name</label>
-                                    <input type="text" id="form6Example3" class="form-control" />
+                                    <label class="form-label" for="form6Example3">Company name *</label>
+                                    <input type="text" id="companyname" name="companyname"  class="form-control" />
 
                                 </div>
 
                                 <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
-                                    <label class="form-label" for="form6Example4">Address</label>
-                                    <input type="text" id="form6Example4" class="form-control" />
+                                    <label class="form-label" for="form6Example4">Address *</label>
+                                    <input type="text" id="address" name="address" class="form-control" />
 
                                 </div>
 
                                 <!-- Email input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
-                                    <label class="form-label" for="form6Example5">Email</label>
-                                    <input type="email" id="form6Example5" class="form-control" />
+                                    <label class="form-label" for="form6Example5">Email *</label>
+                                    <input type="email" id="email" name="email" class="form-control" />
 
                                 </div>
 
                                 <!-- Number input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
-                                    <label class="form-label" for="form6Example6">Phone</label>
-                                    <input type="number" id="form6Example6" class="form-control" />
+                                    <label class="form-label" for="form6Example6">Phone *</label>
+                                    <input type="number" id="phone" name="phone" class="form-control" />
 
                                 </div>
 
                                 <!-- Message input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example7">Additional information</label>
-                                    <textarea class="form-control" id="form6Example7" rows="4"></textarea>
+                                    <textarea class="form-control" id="additional_info" name="additional_info" rows="4"></textarea>
 
                                 </div>
 
@@ -338,30 +338,44 @@
 
 
     <script>
-        document.getElementById('checkoutButton').addEventListener('click', function() {
-            if (confirm('Are you sure you want to proceed to checkout?')) {
-                fetch("{{ route('checkout.add') }}", {
-                        method: "POST",
-                        headers: {
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                            "Content-Type": "application/json"
-                        },
-                    })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.success) {
-                            alert(result.message);
-                            // Redirect with the order ID
-                            const url = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
-                            window.location.href = url;
-                        } else {
-                            alert(result.message);
-                        }
-                    })
-                    .catch(error => {
-                        alert('An error occurred during checkout. Please try again.');
-                    });
+      document.getElementById('checkoutButton').addEventListener('click', function () {
+    if (confirm('Are you sure you want to proceed to checkout?')) {
+        // Gather form data
+        const formData = {
+            firstname: document.getElementById('firstname').value,
+            lastname: document.getElementById('lastname').value,
+            companyname: document.getElementById('companyname').value,
+            address: document.getElementById('address').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            additional_info: document.getElementById('additional_info').value,
+        };
+
+        // Send data via fetch
+        fetch("{{ route('checkout.add') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert(result.message);
+                // Redirect with the order ID
+                const url = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
+                window.location.href = url;
+            } else {
+                alert(result.message);
             }
+        })
+        .catch(error => {
+            alert('An error occurred during checkout. Please try again.');
         });
+    }
+});
+
     </script>
 @endsection

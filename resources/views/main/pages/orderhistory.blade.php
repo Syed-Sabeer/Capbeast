@@ -1,10 +1,10 @@
 @extends('main.layouts.master')
 
 @section('main-container')
-    @component('main.components.breadcrumb', [
-        'pageTitle' => 'About',
-        'pageRoute' => 'about',
-        'imageURL' => asset('assetsMain/images/about.jpg'), // Evaluated here
+    @component('main.components.minibreadcrumb', [
+        'pageTitle' => 'Order History',
+        'pageRoute' => 'main.pages.orderhistory',
+      
     ])
     @endcomponent
 

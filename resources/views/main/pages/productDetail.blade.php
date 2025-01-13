@@ -6,7 +6,7 @@
     @component('main.components.breadcrumb', [
         'pageTitle' => 'Product Details',
         'pageRoute' => '',
-        'imageURL' => asset('assetsMain/images/about.jpg'), // Evaluated here
+        'imageURL' => asset('assetsMain/images/PDetails.jpg'), // Evaluated here
     ])
     @endcomponent
 
@@ -318,64 +318,74 @@
                                     </div>
 
                                     <!-- Imprint Colors -->
-                                    <div class="mb-3">
-                                        <label for="imprintColors" class="form-label fw-bold">Select Number Of Imprint Colors</label>
-                                        <select id="imprintColors" class="form-select">
-                                            <option value="0">Full Color Imprint</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div id="additionalDropdowns"></div>
-                                    
-                                    <script>
-                                        const imprintColors = document.getElementById('imprintColors');
-                                        const additionalDropdowns = document.getElementById('additionalDropdowns');
-                                    
-                                        // Ensure embroideryColors is passed correctly as JSON from the server
-                                        const embroideryColors = @json($embroideryColors);
-                                    
-                                        imprintColors.addEventListener('change', function () {
-                                            const numColors = parseInt(imprintColors.value);
-                                            additionalDropdowns.innerHTML = ''; // Clear previous dropdowns
-                                    
-                                            if (numColors !== 0) { // Exclude Full Color Imprint (value = 0)
-                                                for (let i = 1; i <= numColors; i++) {
-                                                    const newSelect = document.createElement('div');
-                                                    newSelect.classList.add('mb-3');
-                                                    newSelect.innerHTML = `
-                                                        <label for="color${i}" class="form-label fw-bold">Select Color ${i}</label>
-<select id="color${i}" class="form-select" onchange="updateDropdownColor(this)">
-    <option value="" disabled selected>Select Color</option>
-    ${embroideryColors.map(color => `
-        <option value="${color.color_code}" style="background-color: ${color.color_code}; color: #fff;">
-            ${color.color_name} 
-        </option>
-    `).join('')}
-</select>
+<!-- Imprint Colors -->
+<div class="mb-3">
+    <label for="imprintColors" class="form-label fw-bold">Select Number Of Imprint Colors</label>
+    <select id="imprintColors" class="form-select">
+        <option value="0">Full Color Imprint</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+</div>
 
+<div id="additionalDropdowns"></div>
 
+<script>
+    const imprintColors = document.getElementById('imprintColors');
+    const additionalDropdowns = document.getElementById('additionalDropdowns');
 
+    // Ensure embroideryColors is passed correctly as JSON from the server
+    const embroideryColors = @json($embroideryColors);
 
-                                                    `;
-                                                    additionalDropdowns.appendChild(newSelect);
-                                                }
-                                            }
-                                        });
-                                    </script>
-                                    
-                                </div>
+    imprintColors.addEventListener('change', function () {
+        const numColors = parseInt(imprintColors.value);
+        additionalDropdowns.innerHTML = ''; // Clear previous dropdowns
 
+        if (numColors !== 0) { // Exclude Full Color Imprint (value = 0)
+            for (let i = 1; i <= numColors; i++) {
+                const newSelect = document.createElement('div');
+                newSelect.classList.add('mb-3');
+                newSelect.innerHTML = `
+                    <label for="color${i}" class="form-label fw-bold">Select Color ${i}</label>
+                    <select id="color${i}" class="form-select" onchange="updateDropdownColor(this)">
+                        <option value="" disabled selected>Select Color</option>
+                        ${embroideryColors.map(color => `
+                            <option value="${color.color_name}" style="background-color: ${color.color_code}; color: #fff;">
+                                ${color.color_name}
+                            </option>
+                        `).join('')}
+                    </select>
+                `;
+                additionalDropdowns.appendChild(newSelect);
+            }
+        }
+    });
 
-                                
+    function updateDropdownColor(selectElement) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const selectedColorName = selectedOption.value;
+        
+        // Find the color_code based on the selected color_name
+        const selectedColor = embroideryColors.find(color => color.color_name === selectedColorName);
+        if (selectedColor) {
+            selectElement.style.backgroundColor = selectedColor.color_code;
+            selectElement.style.color = '#fff'; // Ensure text remains visible
+        } else {
+            // Reset to default styles if no color is selected
+            selectElement.style.backgroundColor = '';
+            selectElement.style.color = '';
+        }
+    }
+</script>
 
-
-
-
-
-
+<style>
+    /* Make dropdown scrollable */
+    select.form-select {
+        overflow-y: auto;
+        max-height: 150px; /* Limit dropdown height */
+    }
+</style>
 
 
                             </div>
@@ -843,20 +853,5 @@
         });
     </script>
 
-<script>
-    function updateDropdownColor(selectElement) {
-        // Get the selected option
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
 
-        // Set the background color of the select element to the selected option's color code
-        if (selectedOption.value) {
-            selectElement.style.backgroundColor = selectedOption.value;
-            selectElement.style.color = '#fff'; // Ensure text remains visible
-        } else {
-            // Reset to default styles if no color is selected
-            selectElement.style.backgroundColor = '';
-            selectElement.style.color = '';
-        }
-    }
-</script>
 @endsection

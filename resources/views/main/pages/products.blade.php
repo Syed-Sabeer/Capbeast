@@ -3,8 +3,8 @@
 @section('main-container')
 
 @component('main.components.breadcrumb', [
-    'pageTitle' => 'Cart',
-    'pageRoute' => 'cart',
+    'pageTitle' => 'Products',
+    'pageRoute' => 'products',
     'imageURL' => asset('assetsMain/images/productbreadcrumb.jpg') // Evaluated here
 ])
 @endcomponent

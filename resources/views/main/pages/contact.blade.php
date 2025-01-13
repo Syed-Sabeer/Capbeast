@@ -2,35 +2,14 @@
 
 @section('main-container')
 
+@component('main.components.breadcrumb', [
+    'pageTitle' => 'Contact',
+    'pageRoute' => 'contact',
+    'imageURL' => asset('assetsMain/images/Contact.jpg') // Evaluated here
+])
+@endcomponent
 
 
-<section class="ecommerce-about" style="
-background-image: url('../assetsMain/images/about.jpg');
-background-size: cover;
-background-position: center;
-">
-    <div class="bg-overlay bg-primary-about" style="opacity: 0.7"></div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="text-center">
-                    <h1 class="text-white mb-0">Contact</h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb breadcrumb-light justify-content-center mt-4">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page" >
-                                Contact
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-            <!--end col-->
-        </div>
-        <!--end row-->
-    </div>
-    <!--end container-->
-</section>
 
 
 <section class="section">

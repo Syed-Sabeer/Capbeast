@@ -7,7 +7,7 @@
 @component('main.components.breadcrumb', [
     'pageTitle' => 'FAQs',
     'pageRoute' => 'faqs',
-    'imageURL' => asset('assetsMain/images/FAQ.jpg') // Evaluated here
+    'imageURL' => asset('assetsMain/images/Faqs.jpg') // Evaluated here
 ])
 @endcomponent
 
