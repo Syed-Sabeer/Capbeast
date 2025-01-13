@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 class ProductDetailController extends Controller
 {
+    
     public function index($id)
     {
         // Fetch product details using Eloquent

@@ -351,10 +351,11 @@
     <option value="" disabled selected>Select Color</option>
     ${embroideryColors.map(color => `
         <option value="${color.color_code}" style="background-color: ${color.color_code}; color: #fff;">
-            ${color.color_name} (${color.color_code})
+            ${color.color_name} 
         </option>
     `).join('')}
 </select>
+
 
 
 
