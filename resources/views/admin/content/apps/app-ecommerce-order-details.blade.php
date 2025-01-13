@@ -1,4 +1,4 @@
-@extends('layouts/layoutMaster')
+@extends('admin.layouts/layoutMaster')
 
 @section('title', 'eCommerce Order Details - Apps')
 
@@ -37,18 +37,112 @@
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
 
   <div class="d-flex flex-column justify-content-center gap-2 gap-sm-0">
-    <h5 class="mb-1 mt-3 d-flex flex-wrap gap-2 align-items-end">Order #32543 <span class="badge bg-label-success">Paid</span> <span class="badge bg-label-info">Ready to Pickup</span></h5>
-    <p class="text-body">Aug 17, <span id="orderYear"></span>, 5:48 (ET)</p>
+    <h5 class="mb-1 mt-3 d-flex flex-wrap gap-2 align-items-end">Order #{{$order->order_id}} <span class="badge bg-label-success">Paid</span> <span class="badge bg-label-info">Ready to Pickup</span></h5>
+    <p class="text-body">
+      Date: {{ \Carbon\Carbon::parse($order->created_at)->format('F j, Y') }}
+      {{-- Time: <span id="orderYear">{{ \Carbon\Carbon::parse($order->created_at)->timezone('America/New_York')->format('g:i A') }}</span> (ET) --}}
+  </p>
+  
+  
+  
+  
+  
+  
   </div>
   <div class="d-flex align-content-center flex-wrap gap-2">
     <button class="btn btn-label-danger delete-order">Delete Order</button>
   </div>
 </div>
+<style>
+  /* Ensuring all cards have the same height */
+.card-equal-height {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-body {
+  flex-grow: 1;
+}
+
+</style>
 
 <!-- Order Details Table -->
 
 <div class="row">
-  <div class="col-12 col-lg-8">
+  <div class="col-12 col-lg-12">
+    <!-- Row to display cards in a single row -->
+    <div class="row">
+  
+      <!-- Customer Details Card -->
+      <div class="col-md-4">
+        <div class="card mb-4 card-equal-height">
+          <div class="card-header">
+            <h6 class="card-title m-0">Customer details</h6>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-start align-items-center mb-4">
+              <div class="avatar me-2">
+                <img src="{{ asset('assets/img/avatars/1.png')}}" alt="Avatar" class="rounded-circle">
+              </div>
+              <div class="d-flex flex-column">
+                <a href="{{url('app/user/view/account')}}" class="text-body text-nowrap">
+                  <h6 class="mb-0">Shamus Tuttle</h6>
+                </a>
+                <small class="text-muted">Customer ID: #58909</small>
+              </div>
+            </div>
+            <div class="d-flex justify-content-start align-items-center mb-4">
+              <span class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i class='ti ti-shopping-cart ti-sm'></i></span>
+              <h6 class="text-body text-nowrap mb-0">12 Orders</h6>
+            </div>
+            <div class="d-flex justify-content-between">
+              <h6>Contact info</h6>
+              <h6><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#editUser">Edit</a></h6>
+            </div>
+            <p class="mb-1">Email: Shamus889@yahoo.com</p>
+            <p class="mb-0">Mobile: +1 (609) 972-22-22</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Shipping Address Card -->
+      <div class="col-md-4">
+        <div class="card mb-4 card-equal-height">
+          <div class="card-header d-flex justify-content-between">
+            <h6 class="card-title m-0">Shipping address</h6>
+            <h6 class="m-0"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewAddress">Edit</a></h6>
+          </div>
+          <div class="card-body">
+            <p class="mb-0">45 Roker Terrace <br>Latheronwheel <br>KW5 8NW, London <br>UK</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Order Details Card -->
+      <div class="col-md-4">
+        <div class="card mb-4 card-equal-height">
+          <div class="card-header d-flex justify-content-between">
+            <h6 class="card-title m-0">Order Details</h6>
+          </div>
+          <div class="card-body">
+            <div class="d-flex justify-content-start align-items-center">
+              <p class="text-body mb-0 me-3">
+                Date: {{ \Carbon\Carbon::parse($order->created_at)->format('F j, Y') }}
+              </p>
+              <p class="text-body mb-0">
+                Time: <span id="orderYear">{{ \Carbon\Carbon::parse($order->created_at)->timezone('America/New_York')->format('g:i A') }}</span> (ET)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  
+  <div class="col-12 col-lg-12 mt-5">
     <div class="card mb-4">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title m-0">Order details</h5>
@@ -89,7 +183,7 @@
         </div>
       </div>
     </div>
-    <div class="card mb-4">
+    {{-- <div class="card mb-4">
       <div class="card-header">
         <h5 class="card-title m-0">Shipping activity</h5>
       </div>
@@ -99,7 +193,7 @@
             <span class="timeline-point timeline-point-primary"></span>
             <div class="timeline-event">
               <div class="timeline-header">
-                <h6 class="mb-0">Order was placed (Order ID: #32543)</h6>
+                <h6 class="mb-0">Order was placed (Order ID: #{{$order->order_id}})</h6>
                 <span class="text-muted">Tuesday 11:29 AM</span>
               </div>
               <p class="mt-2">Your order has been placed successfully</p>
@@ -156,66 +250,14 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> --}}
   </div>
-  <div class="col-12 col-lg-4">
-    <div class="card mb-4">
-      <div class="card-header">
-        <h6 class="card-title m-0">Customer details</h6>
-      </div>
-      <div class="card-body">
-        <div class="d-flex justify-content-start align-items-center mb-4">
-          <div class="avatar me-2">
-            <img src="{{ asset('assets/img/avatars/1.png')}}" alt="Avatar" class="rounded-circle">
-          </div>
-          <div class="d-flex flex-column">
-            <a href="{{url('app/user/view/account')}}" class="text-body text-nowrap">
-              <h6 class="mb-0">Shamus Tuttle</h6>
-            </a>
-            <small class="text-muted">Customer ID: #58909</small></div>
-        </div>
-        <div class="d-flex justify-content-start align-items-center mb-4">
-          <span class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i class='ti ti-shopping-cart ti-sm'></i></span>
-          <h6 class="text-body text-nowrap mb-0">12 Orders</h6>
-        </div>
-        <div class="d-flex justify-content-between">
-          <h6>Contact info</h6>
-          <h6><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#editUser">Edit</a></h6>
-        </div>
-        <p class=" mb-1">Email: Shamus889@yahoo.com</p>
-        <p class=" mb-0">Mobile: +1 (609) 972-22-22</p>
-      </div>
-    </div>
-
-    <div class="card mb-4">
-
-      <div class="card-header d-flex justify-content-between">
-        <h6 class="card-title m-0">Shipping address</h6>
-        <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewAddress">Edit</a></h6>
-      </div>
-      <div class="card-body">
-        <p class="mb-0">45 Roker Terrace <br>Latheronwheel <br>KW5 8NW,London <br>UK</p>
-      </div>
-
-    </div>
-    <div class="card mb-4">
-      <div class="card-header d-flex justify-content-between">
-        <h6 class="card-title m-0">Billing address</h6>
-        <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewAddress">Edit</a></h6>
-      </div>
-      <div class="card-body">
-        <p class="mb-4">45 Roker Terrace <br>Latheronwheel <br>KW5 8NW,London <br>UK</p>
-        <h6 class="mb-0 pb-2">Mastercard</h6>
-        <p class="mb-0">Card Number: ******4291</p>
-      </div>
-
-    </div>
-  </div>
+  
 </div>
 
 <!-- Modals -->
-@include('_partials/_modals/modal-edit-user')
-@include('_partials/_modals/modal-add-new-address')
+@include('admin._partials/_modals/modal-edit-user')
+@include('admin._partials/_modals/modal-add-new-address')
 
 
 @endsection

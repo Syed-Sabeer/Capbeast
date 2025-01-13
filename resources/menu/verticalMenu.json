@@ -63,11 +63,6 @@
               "url": "app/ecommerce/order/list",
               "name": "Order List",
               "slug": "app-ecommerce-order-list"
-            },
-            {
-              "url": "app/ecommerce/order/details",
-              "name": "Order Details",
-              "slug": "app-ecommerce-order-details"
             }
           ]
         },

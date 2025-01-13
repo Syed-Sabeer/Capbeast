@@ -22,6 +22,8 @@ use App\Http\Controllers\Admin\apps\EcommerceAuthController;
 use App\Http\Controllers\Admin\apps\EcommercePrintingAdd;
 use App\Http\Controllers\Admin\apps\EcommerceDeliveryAdd;
 use App\Http\Controllers\Admin\apps\EcommerceDeliveryList;
+use App\Http\Controllers\Admin\apps\EcommerceOrderList;
+use App\Http\Controllers\Admin\apps\EcommerceOrderDetails;
 
 use App\Http\Controllers\Admin\components\ProductColorController;
 use App\Http\Controllers\Admin\components\FontController;
@@ -102,6 +104,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
   Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name('app-ecommerce-printing-add');
   Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name('app-ecommerce-printing-store');
   Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name('app-ecommerce-printing-list');
+
+  Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name('app-ecommerce-order-list');
+  Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name('app-ecommerce-order-detail');
 
   Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
   Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');

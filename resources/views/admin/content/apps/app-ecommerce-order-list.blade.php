@@ -1,4 +1,4 @@
-@extends('layouts/layoutMaster')
+@extends('admin.layouts/layoutMaster')
 
 @section('title', 'eCommerce Order List - Apps')
 
@@ -83,20 +83,37 @@
 <!-- Order List Table -->
 <div class="card">
   <div class="card-datatable table-responsive">
-    <table class="datatables-order table border-top">
+    <table class=" table border-top">
       <thead>
+
         <tr>
           <th></th>
-          <th></th>
-          <th>order</th>
+        
+          <th>order #</th>
           <th>date</th>
           <th>customers</th>
-          <th>payment</th>
-          <th>status</th>
-          <th>method</th>
+          <th>Total Amount</th>
+          {{-- <th>status</th>
+          <th>method</th> --}}
           <th>actions</th>
         </tr>
       </thead>
+      <tbody>
+        @foreach ($orders as $order)
+        <tr>
+          <td></td>
+        
+          <td>{{$order->order_id}}</td>
+          <td>{{$order->created_at}}</td>
+          <td>{{$order->user->email}}</td> <!-- Displaying user's email -->
+          <td>{{$order->total_price}} $</td>
+          <td>
+            <a href="{{ route('app-ecommerce-order-detail', $order->id) }}"  data-order-id="{{ $order->id }}" ><i class="fa-solid fa-eye"></i></a>
+          </td>
+      </tr>
+  
+        @endforeach
+      </tbody>
     </table>
   </div>
 </div>
