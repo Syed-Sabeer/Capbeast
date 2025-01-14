@@ -46,6 +46,10 @@ Route::prefix('main')->group(function () {
     Route::post('/checkout/add', [OrderController::class, 'add'])->name('checkout.add');
     Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
     Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
+    Route::get('/view-color-book', [ProductDetailController::class, 'showColorBook']);
+
+
+    
   });
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -109,6 +113,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
   Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name('app-ecommerce-order-list');
   Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name('app-ecommerce-order-detail');
+  Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name('admin.orders.updateStatus');
+
+
 
   Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name('app-ecommerce-customer-all');
   Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name('app-ecommerce-customer-detail');

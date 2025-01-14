@@ -8,16 +8,26 @@ use App\Models\Product;
 use App\Models\ProductPrinting;
 use App\Models\ProductDelivery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class ProductDetailController extends Controller
 {
-    
+    public function showColorBook()
+{
+    $file = public_path('assetsMain/pdf/ColorBook.pdf');
+    return Response::make(file_get_contents($file), 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="ColorBook.pdf"',
+    ]);
+}
+
+
     public function index($id)
     {
         // Fetch product details using Eloquent
         $product = Product::findOrFail($id);
     
-        $embroideryColors = ComponentEmbroideryColor::get(['color_name', 'color_code']);
+        // $embroideryColors = ComponentEmbroideryColor::get(['color_name', 'color_code']);
 
 
         // Fetch related product colors
@@ -69,7 +79,7 @@ class ProductDetailController extends Controller
             'baseImages' => $baseImages,
             'quantitiesdelivery' => $quantitiesdelivery,  // Pass quantitiesdelivery
             'pricesDelivery' => $pricesDelivery,  // Pass pricesDelivery
-            'embroideryColors' => $embroideryColors,
+            // 'embroideryColors' => $embroideryColors,
         ]);
     }
 }

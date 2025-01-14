@@ -20,6 +20,7 @@
                                         <th scope="col">Order ID</th>
                                         <th scope="col">Date</th>
                                         <th scope="col">Total Payment</th>
+                                        <th scope="col">Status</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -39,6 +40,10 @@
                                             <td><span class="text-muted">{{ $order->created_at->format('d M, Y') }}</span>
                                             </td>
                                             <td class="fw-medium">${{ number_format($order->total_price, 2) }}</td>
+                                            <td>
+                                                <!-- Using the OrderStatus component -->
+                                                <x-order-status :status="$order->status" />
+                                              </td>     
                                             <td>
                                                 <a href="#invoiceModal" class="btn btn-secondary btn-sm"
                                                     data-bs-toggle="modal">Order Invoice</a>

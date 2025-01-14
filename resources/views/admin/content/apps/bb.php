@@ -93,49 +93,44 @@
           <th>date</th>
           <th>customers</th>
           <th>Total Amount</th>
-           <th>status</th>
-         {{-- <th>method</th> --}}
+       
           <th>actions</th>
         </tr>
       </thead>
       <tbody>
         @foreach ($orders as $order)
         <tr>
-          <td></td>
-        
-          <td>{{$order->order_id}}</td>
-          <td>{{$order->created_at}}</td>
-          <td>{{$order->user->email}}</td> <!-- Displaying user's email -->
-          <td>{{$order->total_price}} $</td>
-          <td>
-            <!-- Using the OrderStatus component -->
-            <x-order-status :status="$order->status" />
-          </td>
-          
-          <td>
-            <a class="me-2" href=" {{ route('app-ecommerce-order-detail', $order->id) }}"  data-order-id="{{ $order->id }}" ><i class="fa-solid fa-eye"></i></a>
-            <a href="javascript:void(0);" class="me-2" onclick="toggleDropdown({{ $order->id }})">
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </a>
-            <div id="dropdownMenu-{{ $order->id }}" class="custom-dropdown-content">
-              @if ($order->status == 0)
-                <a href="javascript:void(0);" class="custom-dropdown-item" onclick="updateStatus({{ $order->id }}, 1)">Mark as In Production</a>
-              @elseif ($order->status == 1)
-                <a href="javascript:void(0);" class="custom-dropdown-item" onclick="updateStatus({{ $order->id }}, 0)">Mark as Processing</a>
-              @endif
-            </div>
-            
-          
-          </td>
-      </tr>
-
+            <td></td>
+            <td>{{$order->order_id}}</td>
+            <td>{{$order->created_at}}</td>
+            <td>{{$order->user->email}}</td>
+            <td>{{$order->total_price}} $</td>
+            <td>{{ $order->status == 0 ? 'Pending' : ($order->status == 1 ? 'In Production' : 'Processing') }}</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Actions
+                    </button>
+                    <ul class="dropdown-menu">
+                        @if ($order->status == 0)
+                        <li>
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="updateStatus({{ $order->id }}, 1)">Mark as In Production</a>
+                        </li>
+                        @elseif ($order->status == 1)
+                        <li>
+                            <a href="javascript:void(0);" class="dropdown-item" onclick="updateStatus({{ $order->id }}, 0)">Mark as Processing</a>
+                        </li>
+                        @endif
+                    </ul>
+                </div>
+            </td>
+        </tr>
         @endforeach
- 
-      </tbody>
+    </tbody>
+    
     </table>
   </div>
 </div>
-
 <style>
   /* Dropdown content (hidden by default) */
 .custom-dropdown-content {
@@ -147,7 +142,7 @@
   z-index: 1;
 }
 
-.custom-dropdown-content .custom-dropdown-item {
+.custom-dropdown-content a {
   color: #CBC9E0;
   padding: 12px 16px;
   text-decoration: none;
@@ -191,5 +186,4 @@ function updateStatus(orderId, newStatus) {
 
 
 </script>
-
 @endsection

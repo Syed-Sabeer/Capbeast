@@ -61,10 +61,6 @@
   height: 100%;
 }
 
-.card-body {
-  flex-grow: 1;
-}
-
 </style>
 
 <!-- Order Details Table -->

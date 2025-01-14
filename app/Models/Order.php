@@ -15,6 +15,7 @@ class Order extends Model
         'user_id',
         'order_id',
         'total_price',
+        'status',
     ];
 
     /**
@@ -28,7 +29,6 @@ class Order extends Model
     /**
      * Relationship with Order Items
      */
-    // In Order model
     public function items()
     {
         return $this->hasMany(OrderItem::class, 'order_id')

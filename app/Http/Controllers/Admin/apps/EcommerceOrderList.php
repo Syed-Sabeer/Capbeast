@@ -19,6 +19,14 @@ class EcommerceOrderList extends Controller
 
     return view('admin.content.apps.app-ecommerce-order-list', compact('orders'));
   }
-
+  public function updateStatus(Request $request, $id)
+  {
+      $order = Order::findOrFail($id);
+      $order->status = $request->status;
+      $order->save();
+  
+      return response()->json(['success' => true]);
+  }
+  
  
 }
