@@ -90,10 +90,10 @@
           <th></th>
         
           <th>order #</th>
-          <th>date</th>
+          <th>order placed at</th>
           <th>customers</th>
           <th>Total Amount</th>
-           <th>status</th>
+           <th>user status</th>
          {{-- <th>method</th> --}}
           <th>actions</th>
         </tr>

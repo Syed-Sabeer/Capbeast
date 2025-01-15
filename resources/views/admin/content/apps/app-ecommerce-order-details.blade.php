@@ -25,7 +25,7 @@
 
 @section('page-script')
     <script src="{{ asset('assets/js/app-ecommerce-order-details.js') }}"></script>
-    <script src="{{ asset('assets/js/modal-edit-user.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/modal-edit-user.js') }}"></script> --}}
     <script src="{{ asset('assets/js/modal-add-new-address.js') }}"></script>
 @endsection
 
@@ -161,7 +161,7 @@
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title m-0">Order details</h5>
-                    <h6 class="m-0"><a href=" javascript:void(0)">Edit</a></h6>
+                    {{-- <h6 class="m-0"><a href=" javascript:void(0)">Edit</a></h6> --}}
                 </div>
                 <div class="card-datatable table-responsive">
                     <table class=" table border-top">
@@ -336,8 +336,8 @@
                 </div>
             </div>
 
-            @include('admin._partials/_modals/modal-edit-user')
-            @include('admin._partials/_modals/modal-add-new-address')
+            {{-- @include('admin._partials/_modals/modal-edit-user')
+            @include('admin._partials/_modals/modal-add-new-address') --}}
         @endsection
 
 
