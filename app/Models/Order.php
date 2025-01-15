@@ -43,5 +43,5 @@ class Order extends Model
     {
         return $this->hasOne(OrderShippingDetail::class, 'order_id');
     }
-    
+  
 }

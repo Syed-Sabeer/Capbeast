@@ -17,12 +17,24 @@ class EcommerceOrderDetails extends Controller
         $order = Order::with(['user', 'Order_files', 'ShippingDetails', 'items' => function ($query) {
             $query->with('orderArtwork');
         }])->findOrFail($orderId);
-
+    
+        // Retrieve the latest internal status for this order based on updated_at
+        $latestStatus = OrderInternalStatus::where('order_id', $orderId)
+            ->orderBy('updated_at', 'desc')  // Order by most recent update timestamp
+            ->with('internalStatus')  // Include the related internal status
+            ->first();
+            $statusHistory = OrderInternalStatus::where('order_id', $orderId)
+            ->orderBy('updated_at', 'asc') // Order by ascending updated_at
+            ->with('internalStatus')  // Include the related internal status
+            ->get();
+    
         // Retrieve all internal statuses, including soft-deleted ones
         $statuses = InternalStatus::withTrashed()->get(); // Get all available statuses, including deleted ones
-
-        return view('admin.content.apps.app-ecommerce-order-details', compact('order', 'statuses'));
+    
+        return view('admin.content.apps.app-ecommerce-order-details', compact('order', 'statuses', 'latestStatus', 'statusHistory'));
     }
+    
+    
 
     public function updateOrderStatus(Request $request, $orderId)
     {
@@ -30,16 +42,16 @@ class EcommerceOrderDetails extends Controller
             'internal_status_id' => 'required|exists:internal_status,id',
         ]);
     
-        // Check if the status already exists for this order, if so, update it
+        // Check if the status already exists for this order
         $existingOrderStatus = OrderInternalStatus::where('order_id', $orderId)
             ->where('internal_status_id', $request->internal_status_id)
             ->first();
     
         if ($existingOrderStatus) {
-            // If it exists, update it
-            $existingOrderStatus->update([
-                'internal_status_id' => $request->internal_status_id,
-            ]);
+            // If the status exists and the same, just update the updated_at timestamp
+            if ($existingOrderStatus->internal_status_id == $request->internal_status_id) {
+                $existingOrderStatus->touch(); // This will update the updated_at field
+            }
         } else {
             // If it doesn't exist, insert a new record
             OrderInternalStatus::create([
@@ -50,7 +62,6 @@ class EcommerceOrderDetails extends Controller
     
         return redirect()->route('app-ecommerce-order-detail', $orderId)->with('success', 'Order status updated successfully.');
     }
-    
     
     
 

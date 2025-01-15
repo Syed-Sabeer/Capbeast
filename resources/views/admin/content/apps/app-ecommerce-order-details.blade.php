@@ -37,8 +37,14 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
 
         <div class="d-flex flex-column justify-content-center gap-2 gap-sm-0">
-            <h5 class="mb-1 mt-3 d-flex flex-wrap gap-2 align-items-end">Order #{{ $order->order_id }} <span
-                    class="badge bg-label-success">Paid</span> <span class="badge bg-label-info">Ready to Pickup</span></h5>
+            <h5 class="mb-1 mt-3 d-flex flex-wrap gap-2 align-items-end">Order #{{ $order->order_id }} 
+                    {{-- <span class="badge bg-label-success">Paid</span>  --}}
+                    @if ($latestStatus && $latestStatus->internalStatus)
+            <span class="badge bg-label-info">{{ $latestStatus->internalStatus->title }}</span>
+        @else
+            <span class="badge bg-label-warning">No Status Set</span>
+        @endif
+                  </h5>
             <p class="text-body">
                 Date: {{ \Carbon\Carbon::parse($order->created_at)->format('F j, Y') }}
                 {{-- Time: <span id="orderYear">{{ \Carbon\Carbon::parse($order->created_at)->timezone('America/New_York')->format('g:i A') }}</span> (ET) --}}
@@ -216,16 +222,34 @@
                 </div>
                 <div class="card-body">
                     <ul class="timeline pb-0 mb-0">
-                        <li class="timeline-item timeline-item-transparent border-primary">
-                            <span class="timeline-point timeline-point-primary"></span>
-                            <div class="timeline-event">
-                                <div class="timeline-header">
-                                    <h6 class="mb-0">Order was placed (Order ID: #{{ $order->order_id }})</h6>
-                                    <span class="text-muted">Tuesday 11:29 AM</span>
-                                </div>
-                                <p class="mt-2">Your order has been placed successfully</p>
-                            </div>
-                        </li>
+                      @foreach ($statusHistory as $status)
+                      @if ($status == $latestStatus)
+                          <!-- Last status (latest one) -->
+                          <li class="timeline-item timeline-item-transparent border-transparent pb-0">
+                              <span class="timeline-point timeline-point-primary"></span>
+                              <div class="timeline-event pb-0">
+                                  <div class="timeline-header">
+                                      <h6 class="mb-0">{{ $status->internalStatus->title }}</h6>
+                                      <span class="text-muted">{{ $status->updated_at->format('l h:i A') }}</span>
+                                  </div>
+                                  <p class="mt-2 mb-0">{{ $status->internalStatus->description }}</p>
+                              </div>
+                          </li>
+                      @else
+                          <!-- Other statuses -->
+                          <li class="timeline-item timeline-item-transparent border-primary">
+                              <span class="timeline-point timeline-point-primary"></span>
+                              <div class="timeline-event">
+                                  <div class="timeline-header">
+                                      <h6 class="mb-0">{{ $status->internalStatus->title }}</h6>
+                                      <span class="text-muted">{{ $status->updated_at->format('l h:i A') }}</span>
+                                  </div>
+                                  <p class="mt-2">{{ $status->internalStatus->description }}</p>
+                              </div>
+                          </li>
+                      @endif
+                  @endforeach
+
                     </ul>
                 </div>
             </div>
@@ -319,12 +343,4 @@
 
 
 
-        {{-- <li class="timeline-item timeline-item-transparent border-transparent pb-0">
-          <span class="timeline-point timeline-point-primary"></span>
-          <div class="timeline-event pb-0">
-            <div class="timeline-header">
-              <h6 class="mb-0">Delivery</h6>
-            </div>
-            <p class="mt-2 mb-0">Package will be delivered by tomorrow</p>
-          </div>
-        </li> --}}
+  
