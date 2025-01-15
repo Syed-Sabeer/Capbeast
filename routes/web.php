@@ -113,6 +113,9 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
   Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name('app-ecommerce-order-list');
   Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name('app-ecommerce-order-detail');
+  Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name('order.file.upload');
+
+
   Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name('admin.orders.updateStatus');
 
 
