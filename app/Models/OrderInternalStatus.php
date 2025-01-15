@@ -10,9 +10,29 @@ class OrderInternalStatus extends Model
 {
     use HasFactory, SoftDeletes;
 
-    // Specify the table name explicitly
-    protected $table = 'order_internal_status';
+    protected $table = 'order_internal_status'; // Define the table name if different
 
-    // Fields that can be mass-assigned
-    protected $fillable = ['title','description'];
+    protected $fillable = [
+        'order_id',
+        'internal_status_id',
+    ];
+
+    /**
+     * Define the relationship with the Order model.
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class); // Assuming you have an Order model
+    }
+
+    /**
+     * Define the relationship with the InternalStatus model.
+     */
+    public function internalStatus()
+    {
+        return $this->belongsTo(InternalStatus::class, 'internal_status_id'); // Assuming you have an InternalStatus model
+    }
+
+
+   
 }

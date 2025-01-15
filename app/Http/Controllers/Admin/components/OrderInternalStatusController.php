@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Admin\Components;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\OrderInternalStatus;
+use App\Models\InternalStatus;
 
 
-class OrderInternalStatusController extends Controller
+class InternalStatusController extends Controller
 {
     // Show list of statuses
     public function index()
     {
-        $statuses = OrderInternalStatus::all();  // Fetch all records (including soft-deleted ones)
+        $statuses = InternalStatus::all();  // Fetch all records (including soft-deleted ones)
         return view('admin.content.component.internalStatusList', compact('statuses'));
     }
 
@@ -30,18 +30,18 @@ class OrderInternalStatusController extends Controller
             'description' => 'required|string',
         ]);
 
-        OrderInternalStatus::create([
+        InternalStatus::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
         ]);
 
-        return redirect()->route('orderinternalstatus.index')->with('success', 'Status created successfully.');
+        return redirect()->route('InternalStatus.index')->with('success', 'Status created successfully.');
     }
 
     // Show edit form
     public function edit($id)
     {
-        $status = OrderInternalStatus::findOrFail($id);
+        $status = InternalStatus::findOrFail($id);
         return view('admin.content.component.internalStatusEdit', compact('status'));
     }
 
@@ -53,7 +53,7 @@ class OrderInternalStatusController extends Controller
             'description' => 'required|string',
         ]);
 
-        $status = OrderInternalStatus::findOrFail($id);
+        $status = InternalStatus::findOrFail($id);
         $status->update([
             'title' => $validated['title'],
             'description' => $validated['description'],
@@ -65,7 +65,7 @@ class OrderInternalStatusController extends Controller
     // Soft delete a status
     public function destroy($id)
     {
-        $status = OrderInternalStatus::findOrFail($id);
+        $status = InternalStatus::findOrFail($id);
         $status->delete();  // This will trigger soft delete
 
         return redirect()->route('order-internal-status.index')->with('success', 'Status deleted successfully.');
@@ -74,7 +74,7 @@ class OrderInternalStatusController extends Controller
     // Restore a soft-deleted status (optional)
     public function restore($id)
     {
-        $status = OrderInternalStatus::withTrashed()->findOrFail($id);
+        $status = InternalStatus::withTrashed()->findOrFail($id);
         $status->restore();
 
         return redirect()->route('order-internal-status.index')->with('success', 'Status restored successfully.');

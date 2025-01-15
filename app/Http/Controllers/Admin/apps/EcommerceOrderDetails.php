@@ -11,12 +11,12 @@ class EcommerceOrderDetails extends Controller
 {
     public function index($orderId)
     {
-        // Fetch the order with its related data (user, items, orderArtwork, etc.)
+        
         $order = Order::with(['user', 'Order_files','ShippingDetails', 'items' => function ($query) {
             $query->with('orderArtwork');
-        }])->findOrFail($orderId);// Find the order by ID or fail if not found
+        }])->findOrFail($orderId);
 
-        // Return the view with the order details
+        
         return view('admin.content.apps.app-ecommerce-order-details', compact('order'));
     }
 
@@ -24,8 +24,8 @@ class EcommerceOrderDetails extends Controller
     {
         // Validate the incoming request
         $request->validate([
-            'title' => 'required|string|max:255', // Title is required
-            'file' => 'required|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip|max:2048', // Adjust MIME types and size limit as needed
+            'title' => 'required|string|max:255', 
+            'file' => 'required|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip|max:2048', 
         ]);
     
         // Process the file upload if a file is provided
@@ -35,17 +35,17 @@ class EcommerceOrderDetails extends Controller
             // Generate a unique filename
             $fileName = time() . '_' . $file->getClientOriginalName();
     
-            // Define the path to store the file inside the public directory
+           
             $filePath = public_path('uploads/' . $fileName);
     
-            // Move the uploaded file to the public folder
+           
             $file->move(public_path('uploads'), $fileName);
     
-            // Save the file details in the database
+           
             OrderFiles::create([
                 'order_id' => $id,
-                'title' => $request->input('title'), // Save the title
-                'file' => 'uploads/' . $fileName, // Store the relative path
+                'title' => $request->input('title'), 
+                'file' => 'uploads/' . $fileName, 
             ]);
     
             $notification = [
@@ -56,7 +56,7 @@ class EcommerceOrderDetails extends Controller
             return back()->with($notification);
         }
     
-        // Handle the case where no file was uploaded
+        
         $notification = [
             'message' => 'No file was uploaded.',
             'alert-type' => 'error',

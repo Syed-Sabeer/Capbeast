@@ -29,7 +29,7 @@ use App\Http\Controllers\Admin\apps\EcommerceCustomerAll;
 
 use App\Http\Controllers\Admin\components\ProductColorController;
 use App\Http\Controllers\Admin\components\FontController;
-use App\Http\Controllers\Admin\components\OrderInternalStatusController;
+use App\Http\Controllers\Admin\components\InternalStatusController;
 
 
 Route::get('/', function () {
@@ -48,9 +48,6 @@ Route::prefix('main')->group(function () {
     Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
     Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
     Route::get('/view-color-book', [ProductDetailController::class, 'showColorBook']);
-
-
-    
   });
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -90,26 +87,25 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name('content-product-color-update');
     Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name('content-product-color-delete');
 
-    Route::get('/orderinternalstatus/list', [OrderInternalStatusController::class, 'index'])->name('content-embroidery-color-list');
-    Route::get('/orderinternalstatus/add', [OrderInternalStatusController::class, 'create'])->name('orderinternalstatus.index');
+    Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name('content-embroidery-color-list');
+    Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name('InternalStatus.index');
     // Store new color
-    Route::post('/orderinternalstatus/store', [OrderInternalStatusController::class, 'store'])->name('order-internal-status.store');
-    
+    Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name('order-internal-status.store');
+
     // Edit color (this can be a GET route to display the edit form)
-    Route::get('/orderinternalstatus/edit/{id}', [OrderInternalStatusController::class, 'edit'])->name('order-internal-status.edit');
-    
+    Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name('order-internal-status.edit');
+
     // Update color (this can be a POST or PATCH route to update the color)
-    Route::put('/orderinternalstatus/update/{id}', [OrderInternalStatusController::class, 'update'])->name('order-internal-status.update');
-    
+    Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name('order-internal-status.update');
+
     // Soft delete color
-    Route::delete('/orderinternalstatus/delete/{id}', [OrderInternalStatusController::class, 'destroy'])->name('order-internal-status.destroy');
-    Route::patch('/orderinternalstatus/restore/{id}', [OrderInternalStatusController::class, 'restore'])->name('order-internal-status.index');
-    
+    Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name('order-internal-status.destroy');
+    Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name('order-internal-status.index');
   });
 
 
 
- 
+
   Route::get('/component/font/add', [FontController::class, 'index'])->name('app-ecommerce-printing-add');
 
   Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');
