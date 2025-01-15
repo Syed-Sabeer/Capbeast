@@ -29,7 +29,8 @@ use App\Http\Controllers\Admin\apps\EcommerceCustomerAll;
 
 use App\Http\Controllers\Admin\components\ProductColorController;
 use App\Http\Controllers\Admin\components\FontController;
-use App\Http\Controllers\Admin\components\EmbroideryColorController;
+use App\Http\Controllers\Admin\components\OrderInternalStatusController;
+
 
 Route::get('/', function () {
   return redirect()->route('home');
@@ -89,18 +90,26 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name('content-product-color-update');
     Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name('content-product-color-delete');
 
-    // For Embroidery Color
-    Route::get('/embroiderycolor/add', [EmbroideryColorController::class, 'index'])->name('content-embroidery-color-add');
-    Route::post('/embroiderycolor/add', [EmbroideryColorController::class, 'store'])->name('content-embroidery-color-store');
-    Route::get('/embroiderycolor/list', [EmbroideryColorController::class, 'list'])->name('content-embroidery-color-list');
-    Route::get('/embroiderycolor/edit/{id}', [EmbroideryColorController::class, 'edit'])->name('content-embroidery-color-edit');
-    Route::post('/embroiderycolor/update/{id}', [EmbroideryColorController::class, 'update'])->name('content-embroidery-color-update');
-    Route::delete('/embroiderycolor/delete/{id}', [EmbroideryColorController::class, 'destroy'])->name('content-embroidery-color-delete');
+    Route::get('/orderinternalstatus/list', [OrderInternalStatusController::class, 'index'])->name('content-embroidery-color-list');
+    Route::get('/orderinternalstatus/add', [OrderInternalStatusController::class, 'create'])->name('orderinternalstatus.index');
+    // Store new color
+    Route::post('/orderinternalstatus/store', [OrderInternalStatusController::class, 'store'])->name('order-internal-status.store');
+    
+    // Edit color (this can be a GET route to display the edit form)
+    Route::get('/orderinternalstatus/edit/{id}', [OrderInternalStatusController::class, 'edit'])->name('order-internal-status.edit');
+    
+    // Update color (this can be a POST or PATCH route to update the color)
+    Route::put('/orderinternalstatus/update/{id}', [OrderInternalStatusController::class, 'update'])->name('order-internal-status.update');
+    
+    // Soft delete color
+    Route::delete('/orderinternalstatus/delete/{id}', [OrderInternalStatusController::class, 'destroy'])->name('order-internal-status.destroy');
+    Route::patch('/orderinternalstatus/restore/{id}', [OrderInternalStatusController::class, 'restore'])->name('order-internal-status.index');
+    
   });
 
 
 
-  Route::get('/component/embroiderycolor/add', [EmbroideryColorController::class, 'index'])->name('app-ecommerce-printing-add');
+ 
   Route::get('/component/font/add', [FontController::class, 'index'])->name('app-ecommerce-printing-add');
 
   Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');

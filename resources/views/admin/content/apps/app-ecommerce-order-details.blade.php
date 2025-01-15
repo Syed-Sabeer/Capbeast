@@ -49,9 +49,9 @@
   
   
   </div>
-  <div class="d-flex align-content-center flex-wrap gap-2">
+  {{-- <div class="d-flex align-content-center flex-wrap gap-2">
     <button class="btn btn-label-danger delete-order">Delete Order</button>
-  </div>
+  </div> --}}
 </div>
 <style>
   /* Ensuring all cards have the same height */
@@ -125,6 +125,23 @@
       </div>
   
       <!-- Order Details Card -->
+      <div class="col-md-4 col-lg-2">
+      <div class=" mb-6">
+        <label for="select2Basic" class="form-label">Update Internal Status</label>
+        <select id="select2Basic" class="select2 form-select form-select-lg" >
+       
+          <option value="RI">Rhode Island</option>
+          <option value="SC">South Carolina</option>
+          <option value="VT">Vermont</option>
+          <option value="VA">Virginia</option>
+          <option value="WV">West Virginia</option>
+        </select>
+      </div>
+    </div>
+
+
+
+    
       {{-- <div class="col-md-4">
         <div class="card mb-4 card-equal-height">
           <div class="card-header d-flex justify-content-between">
@@ -217,7 +234,7 @@
   <div class="col-8 col-lg-8 mt-4">
   <div class="card mb-4">
     <div class="card-header">
-      <h5 class="card-title m-0">Shipping activity</h5>
+      <h5 class="card-title m-0">Internal Status Activity</h5>
     </div>
     <div class="card-body">
       <ul class="timeline pb-0 mb-0">
@@ -231,55 +248,9 @@
             <p class="mt-2">Your order has been placed successfully</p>
           </div>
         </li>
-        <li class="timeline-item timeline-item-transparent border-primary">
-          <span class="timeline-point timeline-point-primary"></span>
-          <div class="timeline-event">
-            <div class="timeline-header">
-              <h6 class="mb-0">Pick-up</h6>
-              <span class="text-muted">Wednesday 11:29 AM</span>
-            </div>
-            <p class="mt-2">Pick-up scheduled with courier</p>
-          </div>
-        </li>
-        <li class="timeline-item timeline-item-transparent border-primary">
-          <span class="timeline-point timeline-point-primary"></span>
-          <div class="timeline-event">
-            <div class="timeline-header">
-              <h6 class="mb-0">Dispatched</h6>
-              <span class="text-muted">Thursday 11:29 AM</span>
-            </div>
-            <p class="mt-2">Item has been picked up by courier</p>
-          </div>
-        </li>
-        <li class="timeline-item timeline-item-transparent border-primary">
-          <span class="timeline-point timeline-point-primary"></span>
-          <div class="timeline-event">
-            <div class="timeline-header">
-              <h6 class="mb-0">Package arrived</h6>
-              <span class="text-muted">Saturday 15:20 AM</span>
-            </div>
-            <p class="mt-2">Package arrived at an Amazon facility, NY</p>
-          </div>
-        </li>
-        <li class="timeline-item timeline-item-transparent border-left-dashed">
-          <span class="timeline-point timeline-point-primary"></span>
-          <div class="timeline-event">
-            <div class="timeline-header">
-              <h6 class="mb-0">Dispatched for delivery</h6>
-              <span class="text-muted">Today 14:12 PM</span>
-            </div>
-            <p class="mt-2">Package has left an Amazon facility, NY</p>
-          </div>
-        </li>
-        <li class="timeline-item timeline-item-transparent border-transparent pb-0">
-          <span class="timeline-point timeline-point-secondary"></span>
-          <div class="timeline-event pb-0">
-            <div class="timeline-header">
-              <h6 class="mb-0">Delivery</h6>
-            </div>
-            <p class="mt-2 mb-0">Package will be delivered by tomorrow</p>
-          </div>
-        </li>
+      
+   
+      
       </ul>
     </div>
   </div>
@@ -369,3 +340,16 @@
 @include('admin._partials/_modals/modal-edit-user')
 @include('admin._partials/_modals/modal-add-new-address')
 @endsection
+
+
+
+
+  {{-- <li class="timeline-item timeline-item-transparent border-transparent pb-0">
+          <span class="timeline-point timeline-point-primary"></span>
+          <div class="timeline-event pb-0">
+            <div class="timeline-header">
+              <h6 class="mb-0">Delivery</h6>
+            </div>
+            <p class="mt-2 mb-0">Package will be delivered by tomorrow</p>
+          </div>
+        </li> --}}
