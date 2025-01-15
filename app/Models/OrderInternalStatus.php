@@ -1,14 +1,12 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderInternalStatus extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'order_internal_status'; // Define the table name if different
 
@@ -32,7 +30,4 @@ class OrderInternalStatus extends Model
     {
         return $this->belongsTo(InternalStatus::class, 'internal_status_id'); // Assuming you have an InternalStatus model
     }
-
-
-   
 }

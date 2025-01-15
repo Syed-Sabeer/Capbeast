@@ -159,7 +159,7 @@
         </div>
 
         <div class="insta-lable text-center">
-            <a href="#!" class="btn btn-primary btn-hover">
+            <a href="https://www.instagram.com/monkey_beanies/" class="btn btn-primary btn-hover">
                 <i class="ph-instagram-logo align-middle me-1"></i>
                 Follow In Instagram
             </a>

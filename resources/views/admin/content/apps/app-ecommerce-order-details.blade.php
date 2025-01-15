@@ -127,17 +127,26 @@
 
                 <!-- Order Details Card -->
                 <div class="col-md-4 col-lg-2">
-                    <div class=" mb-6">
-                        <label for="select2Basic" class="form-label">Update Internal Status</label>
-                        <select id="select2Basic" class="select2 form-select form-select-lg">
-                            <option value="RI">Rhode Island</option>
-                            <option value="SC">South Carolina</option>
-                            <option value="VT">Vermont</option>
-                            <option value="VA">Virginia</option>
-                            <option value="WV">West Virginia</option>
-                        </select>
-                    </div>
-                </div>
+                  <div class="mb-6">
+                      <label for="select2Basic" class="form-label">Update Internal Status</label>
+                      <form action="{{ route('order-status.update', $order->id) }}" method="POST">
+                          @csrf
+                          <select name="internal_status_id" id="select2Basic" class="select2 form-select form-select-lg">
+                              <option value="">Select Status</option>
+                              @foreach ($statuses as $status)
+                                  <option value="{{ $status->id }}" 
+                                      {{ old('internal_status_id', optional($order->internalStatus)->id) == $status->id ? 'selected' : '' }}>
+                                      {{ $status->title }}
+                                      @if ($status->trashed()) <span class="text-muted">(Deleted)</span> @endif
+                                  </option>
+                              @endforeach
+                          </select>
+                          <button type="submit" class="btn btn-primary mt-2">Update Status</button>
+                      </form>
+                  </div>
+              </div>
+              
+              
             </div>
         </div>
         

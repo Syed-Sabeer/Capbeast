@@ -26,7 +26,7 @@
                             </div>
                             <div class="ms-3 flex-grow-1">
                                 <h5 class="fs-17 lh-base mb-2">Location</h5>
-                                <p class="text-muted fs-14 mb-0">995 Av. Lausanne, Montreal-Nord, <br>Qc H1H 5A6 <br>Canada</p>
+                                <p class="text-muted fs-14 mb-0">9955 Av. Lausanne, Montreal-Nord, <br>Qc H1H 5A6 <br>Canada</p>
                             </div>
                         </div>
                     </div>

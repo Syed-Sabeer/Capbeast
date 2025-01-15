@@ -17,10 +17,13 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <h1 class="fw-bold mb-3">👋 About Us</h1>
-                    <p class="fs-16 text-muted mb-5 mb-lg-3">Monkey Beanies presents a unique selection of beanies crafted in
-                        Montreal, Canada. We prioritize your comfort and ensure the highest quality to withstand North
-                        American weather conditions. We cater directly to consumers while also welcoming
-                        reseller partnerships.</p>
+                    <p class="fs-16 text-muted mb-5 mb-lg-3">Monkey Beanies is a division of WebOrka Inc. Our commitment to maintain consistent quality for our customers has always been a priority. Just like a cozy slipper, a beanie needs to provide comfort to keep you warm during the frigid winters of North America.
+
+                        To ensure we meet these standards, we have chosen to produce our own beanies, hand-knitted in Montreal. This allows us to guarantee ample supply, durability, comfort, and rigorous quality control.
+                        
+                        Become a part of our journey and support our locally made products.
+                        <br>
+                        MADE BY US, FOR US!</p>
                 </div>
                 <div class="col-lg-6">
                     <div>
