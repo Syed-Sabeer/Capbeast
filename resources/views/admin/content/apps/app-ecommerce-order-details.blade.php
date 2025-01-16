@@ -221,36 +221,40 @@
                     <h5 class="card-title m-0">Internal Status Activity</h5>
                 </div>
                 <div class="card-body">
-                    <ul class="timeline pb-0 mb-0">
-                      @foreach ($statusHistory as $status)
-                      @if ($status == $latestStatus)
-                          <!-- Last status (latest one) -->
-                          <li class="timeline-item timeline-item-transparent border-transparent pb-0">
-                              <span class="timeline-point timeline-point-primary"></span>
-                              <div class="timeline-event pb-0">
-                                  <div class="timeline-header">
-                                      <h6 class="mb-0">{{ $status->internalStatus->title }}</h6>
-                                      <span class="text-muted">{{ $status->updated_at->format('l h:i A') }}</span>
-                                  </div>
-                                  <p class="mt-2 mb-0">{{ $status->internalStatus->description }}</p>
-                              </div>
-                          </li>
-                      @else
-                          <!-- Other statuses -->
-                          <li class="timeline-item timeline-item-transparent border-primary">
-                              <span class="timeline-point timeline-point-primary"></span>
-                              <div class="timeline-event">
-                                  <div class="timeline-header">
-                                      <h6 class="mb-0">{{ $status->internalStatus->title }}</h6>
-                                      <span class="text-muted">{{ $status->updated_at->format('l h:i A') }}</span>
-                                  </div>
-                                  <p class="mt-2">{{ $status->internalStatus->description }}</p>
-                              </div>
-                          </li>
-                      @endif
-                  @endforeach
-
+                    <ul class="timeline">
+                        @foreach ($statusHistory as $status)
+                            @php
+                                $internalStatus = $status->internalStatus;
+                            @endphp
+                    
+                            @if ($status == $latestStatus)
+                                <!-- Last status (latest one) -->
+                                <li class="timeline-item timeline-item-transparent border-transparent pb-0">
+                                    <span class="timeline-point timeline-point-primary"></span>
+                                    <div class="timeline-event pb-0">
+                                        <div class="timeline-header">
+                                            <h6 class="mb-0">{{ $internalStatus->title ?? 'Unknown Status' }}</h6>
+                                            <span class="text-muted">{{ $status->updated_at->format('l h:i A') }}</span>
+                                        </div>
+                                        <p class="mt-2 mb-0">{{ $internalStatus->description ?? 'No description available' }}</p>
+                                    </div>
+                                </li>
+                            @else
+                                <!-- Other statuses -->
+                                <li class="timeline-item timeline-item-transparent border-primary">
+                                    <span class="timeline-point timeline-point-primary"></span>
+                                    <div class="timeline-event">
+                                        <div class="timeline-header">
+                                            <h6 class="mb-0">{{ $internalStatus->title ?? 'Unknown Status' }}</h6>
+                                            <span class="text-muted">{{ $status->updated_at->format('l h:i A') }}</span>
+                                        </div>
+                                        <p class="mt-2">{{ $internalStatus->description ?? 'No description available' }}</p>
+                                    </div>
+                                </li>
+                            @endif
+                        @endforeach
                     </ul>
+                    
                 </div>
             </div>
         </div>

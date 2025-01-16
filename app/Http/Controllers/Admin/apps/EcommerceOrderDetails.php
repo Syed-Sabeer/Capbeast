@@ -12,27 +12,30 @@ use App\Models\OrderInternalStatus;
 class EcommerceOrderDetails extends Controller
 {
     public function index($orderId)
-    {
-        // Retrieve the order with related data
-        $order = Order::with(['user', 'Order_files', 'ShippingDetails', 'items' => function ($query) {
-            $query->with('orderArtwork');
-        }])->findOrFail($orderId);
-    
-        // Retrieve the latest internal status for this order based on updated_at
-        $latestStatus = OrderInternalStatus::where('order_id', $orderId)
-            ->orderBy('updated_at', 'desc')  // Order by most recent update timestamp
-            ->with('internalStatus')  // Include the related internal status
-            ->first();
-            $statusHistory = OrderInternalStatus::where('order_id', $orderId)
-            ->orderBy('updated_at', 'asc') // Order by ascending updated_at
-            ->with('internalStatus')  // Include the related internal status
-            ->get();
-    
-        // Retrieve all internal statuses, including soft-deleted ones
-        $statuses = InternalStatus::withTrashed()->get(); // Get all available statuses, including deleted ones
-    
-        return view('admin.content.apps.app-ecommerce-order-details', compact('order', 'statuses', 'latestStatus', 'statusHistory'));
-    }
+{
+    // Retrieve the order with related data
+    $order = Order::with(['user', 'Order_files', 'ShippingDetails', 'items' => function ($query) {
+        $query->with('orderArtwork');
+    }])->findOrFail($orderId);
+
+    // Retrieve the latest internal status for this order based on updated_at
+    $latestStatus = OrderInternalStatus::where('order_id', $orderId)
+        ->orderBy('updated_at', 'desc')  // Order by most recent update timestamp
+        ->with('internalStatus')  // Include the related internal status
+        ->first();
+
+    // Retrieve status history
+    $statusHistory = OrderInternalStatus::where('order_id', $orderId)
+        ->orderBy('updated_at', 'asc') // Order by ascending updated_at
+        ->with('internalStatus')  // Include the related internal status
+        ->get();
+
+    // Retrieve only active (non-soft-deleted) statuses for the dropdown
+    $statuses = InternalStatus::all(); // Exclude soft-deleted statuses
+
+    return view('admin.content.apps.app-ecommerce-order-details', compact('order', 'statuses', 'latestStatus', 'statusHistory'));
+}
+
     
     
 

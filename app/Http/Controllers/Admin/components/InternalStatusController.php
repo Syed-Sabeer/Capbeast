@@ -68,7 +68,7 @@ class InternalStatusController extends Controller
         $status = InternalStatus::findOrFail($id);
         $status->delete();  // This will trigger soft delete
 
-        return redirect()->route('order-internal-status.index')->with('success', 'Status deleted successfully.');
+        return view('admin.content.component.internalStatusList')->with('success', 'Status deleted successfully.');
     }
 
     // Restore a soft-deleted status (optional)

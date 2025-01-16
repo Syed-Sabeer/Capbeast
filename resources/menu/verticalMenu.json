@@ -125,17 +125,17 @@
               ]
             },
             {
-              "name": "Embroidery Color",
+              "name": "Internal Statuses",
               "slug": "app-ecommerce-customer-details",
               "submenu": [
                 {
-                  "url": "admin/component/embroiderycolor/add",
-                  "name": "Add Embroidery Color",
+                  "url": "admin/component/InternalStatus/add",
+                  "name": "Add Internal Status",
                   "slug": "app-ecommerce-customer-details-overview"
                 },
                 {
-                  "url": "admin/component/embroiderycolor/list",
-                  "name": "View Embroidery Color",
+                  "url": "admin/component/InternalStatus/list",
+                  "name": "View Internal Status",
                   "slug": "app-ecommerce-customer-details-security"
                 }
               ]

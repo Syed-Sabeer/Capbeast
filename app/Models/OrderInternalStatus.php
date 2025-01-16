@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,10 +25,10 @@ class OrderInternalStatus extends Model
     }
 
     /**
-     * Define the relationship with the InternalStatus model.
+     * Define the relationship with the InternalStatus model, including soft-deleted records.
      */
     public function internalStatus()
     {
-        return $this->belongsTo(InternalStatus::class, 'internal_status_id'); // Assuming you have an InternalStatus model
+        return $this->belongsTo(InternalStatus::class, 'internal_status_id')->withTrashed(); // Include soft-deleted statuses
     }
 }
