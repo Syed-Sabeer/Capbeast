@@ -19,51 +19,58 @@ class AuthController extends Controller
     }
 
     // Handle Registration Form Submission
-    public function register(Request $request)
-    {
-        // Log request data for debugging
-        Log::info('Register request data', $request->all());
+ // Handle Registration Form Submission
+public function register(Request $request)
+{
+    // Log request data for debugging
+    Log::info('Register request data', $request->all());
 
-        // Validate the request
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
-            'reseller' => 'required',
-            'neq_number' => 'nullable|required_if:reseller,yes',
-        ]);
+    // Validate the request
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:8|confirmed',
+        'reseller' => 'required',
+        'neq_number' => 'nullable|required_if:reseller,yes',
+    ]);
 
-        // If validation fails, return back with errors
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        // Check if reseller and set values accordingly
-        $isReseller = $request->reseller === 'yes' ? 1 : 0;
-        $neqNumber = $isReseller ? $request->neq_number : null;
-
-        // Log processed user data for debugging
-        Log::info('Processed user data', [
-            'is_reseller' => $isReseller,
-            'neq_number' => $neqNumber,
-        ]);
-
-        // Create the user
-        $user = User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'is_reseller' => $isReseller,
-            'neq_number' => $neqNumber,
-        ]);
-
-        // Log the created user
-        Log::info('Created user', ['user_id' => $user->id]);
-
-        // Log the user in
-        auth()->login($user);
-
-        // Redirect to the home page with success message
-        return redirect()->route('home')->with('success', 'Registration successful!');
+    // If validation fails, return back with errors
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
     }
+
+    // Check if reseller and set values accordingly
+    $isReseller = $request->reseller === 'yes' ? 1 : 0;
+    $neqNumber = $isReseller ? $request->neq_number : null;
+
+    // Determine user status
+    $status = $isReseller ? 0 : 1;
+
+    // Log processed user data for debugging
+    Log::info('Processed user data', [
+        'is_reseller' => $isReseller,
+        'neq_number' => $neqNumber,
+        'status' => $status,
+    ]);
+
+    // Create the user
+    $user = User::create([
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'is_reseller' => $isReseller,
+        'neq_number' => $neqNumber,
+        'status' => $status,
+    ]);
+
+    // Log the created user
+    Log::info('Created user', ['user_id' => $user->id]);
+
+    // Log the user in
+    auth()->login($user);
+
+    // Redirect to the home page with success message
+    return redirect()->route('home')->with('success', 'Registration successful!');
+}
+
 
     // Show Login Form
     public function showLoginForm()
