@@ -149,7 +149,7 @@
             @for ($i = 1; $i <= 6; $i++)
                 <div class="col {{ $i > 2 ? 'd-none d-lg-block' : '' }}">
                     <div class="insta-img">
-                        <a href="#!" class="stretched-link">
+                        <a href="https://www.instagram.com/monkey_beanies/" class="stretched-link">
                             <img src="../assetsMain/images/ecommerce/instagram/img-{{ $i }}.png" class="img-fluid ig-img" alt />
                             <i class="ri-instagram-line"></i>
                         </a>
