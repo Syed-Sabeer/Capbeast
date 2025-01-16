@@ -345,36 +345,80 @@
 
 
 <script>
-    const imprintColors = document.getElementById('imprintColors');
-    const additionalDropdowns = document.getElementById('additionalDropdowns');
-    
-    imprintColors.addEventListener('change', function() {
-        const numColors = parseInt(imprintColors.value);
-        additionalDropdowns.innerHTML = ''; // Clear previous inputs
-        if (numColors !== 0) { // Exclude Full Color Imprint (value = 0)
-            for (let i = 1; i <= numColors; i++) {
-                const newSelect = document.createElement('div');
-                newSelect.classList.add('mb-3');
-                newSelect.innerHTML = `
-                    <label for="color${i}" class="form-label fw-bold">Enter Color Code ${i}</label>
-                    <input id="color${i}" type="text" class="form-control" placeholder="Enter color code ${i}" 
-                        maxlength="4" oninput="validateColorCode(this)">
-                    <p id="error${i}" style="color: red; display: none;">Color code must be exactly 4 digits.</p>
-                `;
-                additionalDropdowns.appendChild(newSelect);
-            }
-        }
-    });
+ const imprintColors = document.getElementById('imprintColors');
+                                        const additionalDropdowns = document.getElementById('additionalDropdowns');
 
-    function validateColorCode(input) {
-        const errorMessage = input.nextElementSibling;
-        const value = input.value;
-        if (value.length !== 4 || isNaN(value)) {
-            errorMessage.style.display = 'block'; // Show error message
-        } else {
-            errorMessage.style.display = 'none'; // Hide error message
-        }
-    }
+                                        imprintColors.addEventListener('change', function() {
+                                            const numColors = parseInt(imprintColors.value);
+                                            additionalDropdowns.innerHTML = ''; // Clear previous dropdowns
+
+                                            if (numColors !== 0) { // Exclude Full Color Imprint (value = 0)
+                                                for (let i = 1; i <= numColors; i++) {
+                                                    const newSelect = document.createElement('div');
+                                                    newSelect.classList.add('mb-3');
+                                                    newSelect.innerHTML = `
+                                            <label for="color${i}" class="form-label fw-bold">Select Color ${i}</label>
+                                            // <select id="color${i}" class="form-select">
+                                            //     <option value="color${i}">Color ${i}</option>
+                                            // </select>
+                                              <input id="color${i}" type="number" class="form-control" placeholder="Enter color code ${i}" 
+                         maxlength="4" oninput="validateColorCode(this)">
+                                        `;
+                                                    additionalDropdowns.appendChild(newSelect);
+                                                }
+                                            }
+                                        });
+    
+    // const imprintColors = document.getElementById('imprintColors');
+    // const additionalDropdowns = document.getElementById('additionalDropdowns');
+    
+
+    // imprintColors.addEventListener('change', function() {
+    //                                         const numColors = parseInt(imprintColors.value);
+    //                                         additionalDropdowns.innerHTML = ''; // Clear previous dropdowns
+
+    //                                         if (numColors !== 0) { // Exclude Full Color Imprint (value = 0)
+    //                                             for (let i = 1; i <= numColors; i++) {
+    //                                                 const newSelect = document.createElement('div');
+    //                                                 newSelect.classList.add('mb-3');
+    //                                                 newSelect.innerHTML = `
+    //                                         <label for="color${i}" class="form-label fw-bold">Select Color ${i}</label>
+    //                                         <input id="color${i}" type="number" class="form-control" placeholder="Enter color code ${i}" 
+    //                     maxlength="4" oninput="validateColorCode(this)">
+    //                                     `;
+    //                                                 additionalDropdowns.appendChild(newSelect);
+    //                                             }
+    //                                         }
+    //                                     });
+
+
+    // imprintColors.addEventListener('change', function() {
+    //     const numColors = parseInt(imprintColors.value);
+    //     additionalDropdowns.innerHTML = ''; // Clear previous inputs
+    //     if (numColors !== 0) { // Exclude Full Color Imprint (value = 0)
+    //         for (let i = 1; i <= numColors; i++) {
+    //             const newSelect = document.createElement('div');
+    //             newSelect.classList.add('mb-3');
+    //             newSelect.innerHTML = `
+    //                 <label for="color${i}" class="form-label fw-bold">Enter Color Code ${i}</label>
+    //                 <input id="color${i}" type="number" class="form-control" placeholder="Enter color code ${i}" 
+    //                     maxlength="4" oninput="validateColorCode(this)">
+    //                 <p id="error${i}" style="color: red; display: none;">Color code must be exactly 4 digits.</p>
+    //             `;
+    //             additionalDropdowns.appendChild(newSelect);
+    //         }
+    //     }
+    // });
+
+    // function validateColorCode(input) {
+    //     const errorMessage = input.nextElementSibling;
+    //     const value = input.value;
+    //     if (value.length !== 4 || isNaN(value)) {
+    //         errorMessage.style.display = 'block'; // Show error message
+    //     } else {
+    //         errorMessage.style.display = 'none'; // Hide error message
+    //     }
+    // }
 </script>
 
 

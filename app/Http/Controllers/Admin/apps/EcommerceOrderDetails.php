@@ -73,7 +73,7 @@ class EcommerceOrderDetails extends Controller
         // Validate the incoming request
         $request->validate([
             'title' => 'required|string|max:255', 
-            'file' => 'required|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip|max:2048', 
+            'file' => 'required|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,xls,xlsm,xlsx,xltx|max:2048', 
         ]);
 
         // Process the file upload if a file is provided

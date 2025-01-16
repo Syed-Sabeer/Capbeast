@@ -204,9 +204,9 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>
-                                                            @if ($item->orderArtwork->artwork_type ?? 'N/A' == 1)
+                                                            @if ($item->orderArtwork->artwork_type == 1)
                                                                 Image
-                                                            @elseif ($item->orderArtwork->artwork_type ?? 'N/A' == 2)
+                                                                @elseif ($item->orderArtwork->artwork_type == 2)
                                                                 Text
                                                             @else
                                                                 N/A
@@ -229,10 +229,14 @@
                                                         <td>{{ $item->orderArtwork->font_style ?? 'N/A' }}</td>
                                                         <td>{{ implode(', ', $item->orderArtwork->imprint_color ?? []) }}</td>
                                                     </tr>
+                                                    
                                                 </tbody>
                                             </table>
                                         </td>
+                                        
                                     </tr>
+                                    
+                                    
                                 @endif
                             @endforeach
                         </tbody>
@@ -320,20 +324,30 @@
 
                         <div class="mb-2 d-flex align-items-center"> <!-- Use d-flex to align items horizontally -->
                             <!-- Dynamic icon based on file type -->
-                            @if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif']))
-                                <img src="{{ asset($item->file) }}" alt="img" class="wh-42" width="20%">
+                            @if (in_array($fileExtension, [ 'png']))
+                            <img width="45" src="{{ asset('assetsCommon/svgs/png.svg') }}" alt="">
+
                             @elseif(in_array($fileExtension, ['pdf']))
-                                <!-- Embed or provide a download link -->
-                                <a href="{{ asset($item->file) }}" class="fs-12 fw-500 color-primary"
-                                    target="_blank">View PDF</a>
+                                <img width="45" src="{{ asset('assetsCommon/svgs/pdf.svg') }}" alt="">
+                                @elseif(in_array($fileExtension, ['doc','docx']))
+                                <img width="45" src="{{ asset('assetsCommon/svgs/doc.svg') }}" alt="">
+                                
+
+                                @elseif(in_array($fileExtension, ['xls','xlsm','xlsx','xltx']))
+                                <img width="45" src="{{ asset('assetsCommon/svgs/excel.svg') }}" alt="">
+
+                                @elseif(in_array($fileExtension, ['jpg', 'jpeg',]))
+                                <img width="45" src="{{ asset('assetsCommon/svgs/jpg.svg') }}" alt="">
+
                             @elseif(in_array($fileExtension, ['zip']))
-                                <img src="{{ asset($item->file) }}" alt="img" class="wh-42">
+                            <img width="45" src="{{ asset('assetsCommon/svgs/zip.svg') }}" alt="">
+
                             @else
-                                <img src="{{ asset($item->file) }}" alt="img" class="wh-42">
+                            <img width="45" src="{{ asset('assetsCommon/svgs/defaultfile.svg') }}" alt="">
                             @endif
 
                             <div class="ms-3"> <!-- Add margin-left for spacing between the image and text -->
-                                <h4>{{ $item->title }}</h4>
+                                <h6>{{ $item->title }}</h6>
                                 <a href="{{ asset($item->file) }}" class="fs-12 fw-500 color-primary"
                                     download>Download</a>
                             </div>
