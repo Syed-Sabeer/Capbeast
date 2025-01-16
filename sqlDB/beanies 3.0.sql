@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2025 at 08:56 PM
+-- Generation Time: Jan 16, 2025 at 02:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -185,7 +185,9 @@ INSERT INTO `internal_status` (`id`, `title`, `description`, `deleted_at`, `crea
 (17, 'Payment Complete', 'Payment has been successfully completed for your order', NULL, '2025-01-15 13:00:26', '2025-01-15 13:00:26'),
 (18, 'Payment Failed', 'Payment for your order has failed. Please try again or contact support', NULL, '2025-01-15 13:00:36', '2025-01-15 13:00:36'),
 (19, 'Payment Pending', 'Payment is pending and is being processed', NULL, '2025-01-15 13:00:49', '2025-01-15 13:00:49'),
-(20, 'Refunded', 'Your payment has been refunded successfully', NULL, '2025-01-15 13:01:04', '2025-01-15 13:01:04');
+(20, 'Refunded', 'Your payment has been refunded successfully', NULL, '2025-01-15 13:01:04', '2025-01-15 13:01:04'),
+(23, 'temp', 'this is temporsd', '2025-01-16 02:48:44', '2025-01-16 02:48:00', '2025-01-16 02:48:44'),
+(25, 'HAMZA', 'FHTFT', '2025-01-16 04:46:59', '2025-01-16 04:46:25', '2025-01-16 04:46:59');
 
 -- --------------------------------------------------------
 
@@ -252,7 +254,8 @@ INSERT INTO `orders` (`id`, `user_id`, `total_price`, `status`, `created_at`, `u
 (55, 1, 0.00, 0, '2025-01-13 09:26:11', '2025-01-13 09:26:11', 'NWSBHG'),
 (56, 1, 156.00, 1, '2025-01-13 09:56:55', '2025-01-14 13:36:45', 'UIS4CI'),
 (57, 3, 10868.75, 1, '2025-01-13 11:21:41', '2025-01-15 08:50:19', 'IDMFNV'),
-(58, 1, 2339.25, 1, '2025-01-15 08:56:11', '2025-01-15 09:04:20', 'FCBUMQ');
+(58, 1, 2339.25, 0, '2025-01-15 08:56:11', '2025-01-16 06:50:50', 'FCBUMQ'),
+(59, 1, 1639.50, 0, '2025-01-16 07:16:46', '2025-01-16 07:16:46', 'UZET5H');
 
 -- --------------------------------------------------------
 
@@ -281,7 +284,8 @@ CREATE TABLE `order_artwork` (
 
 INSERT INTO `order_artwork` (`id`, `order_item_id`, `artwork_type`, `artwork_dataText`, `artwork_dataImage`, `patch_length`, `patch_height`, `font_style`, `num_of_imprint`, `imprint_color`, `created_at`, `updated_at`) VALUES
 (6, 22, 1, 'null', 'CustomerArtworkImages/M3fU82df2R8pRaICZTidDUztlkEKbr92ip5UBNGa.jpg', 2.00, 2.00, 'times', 4, '\"[]\"', '2025-01-15 08:56:11', '2025-01-15 08:56:11'),
-(7, 23, 2, 'My Name Is Sabeer', NULL, 3.00, 2.00, 'times', 2, '\"[]\"', '2025-01-15 08:56:11', '2025-01-15 08:56:11');
+(7, 23, 2, 'My Name Is Sabeer', NULL, 3.00, 2.00, 'times', 2, '\"[]\"', '2025-01-15 08:56:11', '2025-01-15 08:56:11'),
+(8, 24, 1, 'null', 'CustomerArtworkImages/Sqn9mI6Fsj2wpgUzUjE0YDVtzJHzjwYQ8z4O7Jet.jpg', 2.00, 2.00, 'courier', 2, '[\"4543\",\"3434\"]', '2025-01-16 07:16:46', '2025-01-16 07:16:46');
 
 -- --------------------------------------------------------
 
@@ -306,7 +310,8 @@ INSERT INTO `order_files` (`id`, `order_id`, `title`, `file`, `created_at`, `upd
 (1, 54, 'sdsd', 'uploads/1736942243_screencapture-localhost-accord-public-shipper-fromdrop2-2025-01-15-15_07_03.png', '2025-01-15 06:57:23', '2025-01-15 06:57:23'),
 (2, 54, 'sdsd', 'uploads/1736942253_screencapture-localhost-accord-public-shipper-fromdrop2-2025-01-15-15_07_03.png', '2025-01-15 06:57:33', '2025-01-15 06:57:33'),
 (3, 54, 'this is pdf file', 'uploads/1736945329_PACKING SLIP-2412978.pdf', '2025-01-15 07:48:49', '2025-01-15 07:48:49'),
-(4, 58, 'Art File', 'uploads/1736970283_2023-bentley-continental-gt-s-coupe.jpg', '2025-01-15 14:44:43', '2025-01-15 14:44:43');
+(4, 58, 'Art File', 'uploads/1736970283_2023-bentley-continental-gt-s-coupe.jpg', '2025-01-15 14:44:43', '2025-01-15 14:44:43'),
+(5, 58, 'ftfuf', 'uploads/1737028320_1 (1).pdf', '2025-01-16 06:52:00', '2025-01-16 06:52:00');
 
 -- --------------------------------------------------------
 
@@ -330,9 +335,15 @@ INSERT INTO `order_internal_status` (`id`, `order_id`, `internal_status_id`, `cr
 (1, 58, 2, '2025-01-15 13:59:46', '2025-01-15 14:32:43'),
 (6, 58, 3, '2025-01-15 14:40:08', '2025-01-15 14:40:18'),
 (7, 58, 5, '2025-01-15 14:40:13', '2025-01-15 14:40:13'),
-(8, 58, 19, '2025-01-15 14:48:09', '2025-01-15 14:48:09'),
+(8, 58, 19, '2025-01-15 14:48:09', '2025-01-16 04:51:58'),
 (9, 54, 2, '2025-01-15 14:48:33', '2025-01-15 14:48:33'),
-(10, 56, 5, '2025-01-15 14:48:46', '2025-01-15 14:48:46');
+(10, 56, 5, '2025-01-15 14:48:46', '2025-01-15 14:48:46'),
+(11, 56, 23, '2025-01-16 02:48:22', '2025-01-16 02:48:22'),
+(12, 58, 25, '2025-01-16 04:46:48', '2025-01-16 04:46:48'),
+(13, 58, 16, '2025-01-16 04:51:07', '2025-01-16 04:51:07'),
+(14, 54, 3, '2025-01-16 06:26:49', '2025-01-16 06:26:49'),
+(15, 54, 5, '2025-01-16 06:26:57', '2025-01-16 06:26:57'),
+(16, 58, 18, '2025-01-16 06:52:18', '2025-01-16 06:52:18');
 
 -- --------------------------------------------------------
 
@@ -363,7 +374,9 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `color_id`, `quantity
 (19, 56, 4, 13, 12, 1, 1, 0.00, 13.00, 0.00, '2025-01-13 09:56:55', '2025-01-13 09:56:55'),
 (21, 57, 6, 22, 25, 2, 1, 0.00, 9.50, 0.00, '2025-01-13 11:21:41', '2025-01-13 11:21:41'),
 (22, 58, 8, 43, 32, 1, 6, 1.00, 9.50, 18.00, '2025-01-15 08:56:11', '2025-01-15 08:56:11'),
-(23, 58, 12, 78, 55, 2, 7, 1.00, 8.95, 16.00, '2025-01-15 08:56:11', '2025-01-15 08:56:11');
+(23, 58, 12, 78, 55, 2, 7, 1.00, 8.95, 16.00, '2025-01-15 08:56:11', '2025-01-15 08:56:11'),
+(24, 59, 8, 39, 42, 1, 5, 4.75, 9.50, 18.00, '2025-01-16 07:16:46', '2025-01-16 07:16:46'),
+(25, 59, 12, 71, 30, 1, 1, 0.00, 9.50, 0.00, '2025-01-16 07:16:46', '2025-01-16 07:16:46');
 
 -- --------------------------------------------------------
 
@@ -394,7 +407,8 @@ INSERT INTO `order_shipping_detail` (`id`, `order_id`, `firstname`, `lastname`, 
 (3, 54, 'Syed', 'Sabeer', 'SRC Technologies', 'karachi, Pakistan, Asia, Earth, Solar System, Milkyway', 'sabeer@gmail.com', '03123456789', 'this is test additional information for the website testing let see if it works or not', '2025-01-13 11:21:41', '2025-01-13 11:21:41'),
 (4, 55, 'Syed', 'Sabeer', 'SRC Technologies', 'karachi, Pakistan, Asia, Earth, Solar System, Milkyway', 'sabeer@gmail.com', '03123456789', 'this is test additional information for the website testing let see if it works or not', '2025-01-13 11:21:41', '2025-01-13 11:21:41'),
 (5, 56, 'Syed', 'Sabeer', 'SRC Technologies', 'karachi, Pakistan, Asia, Earth, Solar System, Milkyway', 'sabeer@gmail.com', '03123456789', 'this is test additional information for the website testing let see if it works or not', '2025-01-13 11:21:41', '2025-01-13 11:21:41'),
-(6, 58, 'Lavinia', 'Thomas', 'Little Olsen Associates', 'Pariatur Rerum corr', 'rowozy@mailinator.com', '2545353435', 'Ad porro non est mol', '2025-01-15 08:56:11', '2025-01-15 08:56:11');
+(6, 58, 'Lavinia', 'Thomas', 'Little Olsen Associates', 'Pariatur Rerum corr', 'rowozy@mailinator.com', '2545353435', 'Ad porro non est mol', '2025-01-15 08:56:11', '2025-01-15 08:56:11'),
+(7, 59, 'Paki', 'Bentley', 'Vance Justice Inc', 'Velit voluptatem se', 'tywaj@mailinator.com', '60', 'Porro fugiat laborum', '2025-01-16 07:16:46', '2025-01-16 07:16:46');
 
 -- --------------------------------------------------------
 
@@ -792,7 +806,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `email`, `email_verified_at`, `password`, `is_reseller`, `neq_number`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'syedsabeer@gmail.com', NULL, '$2y$10$GDIj3rw4oV72BOFWB.juCOy/dWSlwIX.HdvC1gotslctTRzrwIM9O', 1, '6193', 1, NULL, '2025-01-04 13:24:03', '2025-01-13 13:11:35'),
 (2, 'taimoorlala@gmail.com', NULL, '$2y$10$c8Txyz/ptLCeq4FLdVGtaunyeOlpWWSeiEsdeZE4kbPPPjNP45dAO', 0, NULL, 0, NULL, '2025-01-08 04:50:32', '2025-01-13 13:11:27'),
-(3, 'testuser@gmail.com', NULL, '$2y$10$faeMJWUJMFyfr3fwAS/jMe0.myYHtVOhe41Z98CxayKbFBXNgT956', 0, NULL, 1, NULL, '2025-01-13 11:18:40', '2025-01-13 11:18:40');
+(3, 'testuser@gmail.com', NULL, '$2y$10$faeMJWUJMFyfr3fwAS/jMe0.myYHtVOhe41Z98CxayKbFBXNgT956', 0, NULL, 1, NULL, '2025-01-13 11:18:40', '2025-01-13 11:18:40'),
+(4, 'b.torres@weborka.com', NULL, '$2y$10$c534M1g.z515j6WPNOxKJeYBCotHeto523I7sZRWA0hPNWZm7VU4W', 0, NULL, 1, NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -974,13 +989,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
 -- AUTO_INCREMENT for table `cart_artwork`
 --
 ALTER TABLE `cart_artwork`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `component_embroidery_color`
@@ -1004,7 +1019,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `internal_status`
 --
 ALTER TABLE `internal_status`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1016,37 +1031,37 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `order_artwork`
 --
 ALTER TABLE `order_artwork`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `order_files`
 --
 ALTER TABLE `order_files`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `order_internal_status`
 --
 ALTER TABLE `order_internal_status`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `order_shipping_detail`
 --
 ALTER TABLE `order_shipping_detail`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1094,7 +1109,7 @@ ALTER TABLE `product_printing`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
