@@ -164,12 +164,12 @@
                     {{-- <h6 class="m-0"><a href=" javascript:void(0)">Edit</a></h6> --}}
                 </div>
                 <div class="card-datatable table-responsive">
-                    <table class=" table border-top">
+                    <table class="table border-top">
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>products</th>
-                                <th>qty</th>
+                                <th>Products</th>
+                                <th>Qty</th>
                                 <th>Color</th>
                                 <th>Product Price</th>
                                 <th>Printing Price</th>
@@ -179,18 +179,66 @@
                         <tbody>
                             @foreach ($order->items as $item)
                                 <tr>
-                                    <td></td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->product->title }}</td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ $item->color->color }}</td>
                                     <td>{{ $item->product_price * $item->quantity }} $</td>
                                     <td>{{ $item->printing_price * $item->quantity }} $</td>
                                     <td>{{ $item->delivery_price * $item->quantity }} $</td>
-                                    <td></td>
                                 </tr>
+                                @if ($item->orderArtwork)
+                                    <tr>
+                                        <td colspan="7" style="text-align: center;">
+                                            <table style="width: 100%; border: none;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Artwork Type</th>
+                                                        <th>Details</th>
+                                                        <th>Patch Height</th>
+                                                        <th>Patch Length</th>
+                                                        <th>Font Style</th>
+                                                        <th>Imprint Color</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            @if ($item->orderArtwork->artwork_type ?? 'N/A' == 1)
+                                                                Image
+                                                            @elseif ($item->orderArtwork->artwork_type ?? 'N/A' == 2)
+                                                                Text
+                                                            @else
+                                                                N/A
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($item->orderArtwork->artwork_type == 1)
+                                                            <a href="{{ asset('storage/' . ($item->orderArtwork->artwork_dataImage ?? 'ProductImages/default.jpg')) }}" download>
+                                                                <img src="{{ asset('storage/' . ($item->orderArtwork->artwork_dataImage ?? 'ProductImages/default.jpg')) }}" alt="Artwork Image" width="50">
+                                                            </a>
+                                                            
+                                                            @elseif ($item->orderArtwork->artwork_type == 2)
+                                                                {{ $item->orderArtwork->artwork_dataText ?? 'No Text Available' }}
+                                                            @else
+                                                                No Artwork
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ $item->orderArtwork->patch_height ?? 'N/A' }}</td>
+                                                        <td>{{ $item->orderArtwork->patch_length ?? 'N/A' }}</td>
+                                                        <td>{{ $item->orderArtwork->font_style ?? 'N/A' }}</td>
+                                                        <td>{{ implode(', ', $item->orderArtwork->imprint_color ?? []) }}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
+                        
                     </table>
+                    
                     <div class="d-flex justify-content-end align-items-center m-3 mb-2 p-1">
                         <div class="order-calculations">
                             <div class="d-flex justify-content-between mb-2">
