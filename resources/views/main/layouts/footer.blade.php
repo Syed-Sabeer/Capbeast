@@ -14,15 +14,15 @@
                                 <a href="#!" class="text-reset"><i class="mdi mdi-facebook"></i></a>
                             </li> --}}
                             <li class="list-inline-item">
-                                <a href="https://www.instagram.com/monkey_beanies/" class="text-reset"><i
+                                <a target="_blank" href="https://www.instagram.com/monkey_beanies/" class="text-reset"><i
                                         class="fa-brands fa-instagram"></i></a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="#!" class="text-reset"><i class="fa-solid fa-x"></i></a>
+                                <a target="_blank" href="#!" class="text-reset"><i class="fa-solid fa-x"></i></a>
                             </li>
 
                             <li class="list-inline-item">
-                                <a href="#!" class="text-reset"><i class="mdi mdi-pinterest"></i></a>
+                                <a target="_blank" href="#!" class="text-reset"><i class="mdi mdi-pinterest"></i></a>
                             </li>
                         </ul>
                     </div>
