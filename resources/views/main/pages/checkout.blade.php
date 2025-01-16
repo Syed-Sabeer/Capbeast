@@ -109,7 +109,7 @@
                                 <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example3">Company name *</label>
-                                    <input type="text" id="companyname" name="companyname"  class="form-control" />
+                                    <input type="text" id="companyname" name="companyname" class="form-control" />
 
                                 </div>
 
@@ -159,7 +159,8 @@
                                     <a class="nav-link active py-3" data-bs-toggle="tab" href="#credit" role="tab">
                                         <span class="d-block d-sm-none"><i
                                                 class="ri-bank-card-fill align-bottom"></i></span>
-                                        <span class="d-none d-sm-block"> <i class="ri-bank-card-fill align-bottom pe-2"></i>
+                                        <span class="d-none d-sm-block"> <i
+                                                class="ri-bank-card-fill align-bottom pe-2"></i>
                                             Credit / Debit Card</span>
                                     </a>
                                 </li>
@@ -324,8 +325,11 @@
                         <div class="hstack gap-2 justify-content-between justify-content-end">
                             <a href="{{ route('cart') }}" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
                                     class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
-                            <button type="button" class="btn  w-100 btn-hover btn-primary" id="checkoutButton">Proceed
-                                to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i></button>
+                                    <button type="button" class="btn w-100 btn-hover btn-primary" id="checkoutButton" 
+                                    {{ count($cart) == 0 ? 'disabled' : '' }} 
+                                    onclick="proceedToCheckout()">
+                                    Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i>
+                                </button>
                             {{-- <a href="payment.html" class="btn btn-hover btn-primary w-100"></a> --}}
                         </div>
 
@@ -338,44 +342,44 @@
 
 
     <script>
-      document.getElementById('checkoutButton').addEventListener('click', function () {
-    if (confirm('Are you sure you want to proceed to checkout?')) {
-        // Gather form data
-        const formData = {
-            firstname: document.getElementById('firstname').value,
-            lastname: document.getElementById('lastname').value,
-            companyname: document.getElementById('companyname').value,
-            address: document.getElementById('address').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            additional_info: document.getElementById('additional_info').value,
-        };
-
-        // Send data via fetch
-        fetch("{{ route('checkout.add') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                alert(result.message);
-                // Redirect with the order ID
-                const url = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
-                window.location.href = url;
-            } else {
-                alert(result.message);
+        // Function to handle the checkout process
+        function proceedToCheckout() {
+            if (confirm('Are you sure you want to proceed to checkout?')) {
+                // Gather form data
+                const formData = {
+                    firstname: document.getElementById('firstname').value,
+                    lastname: document.getElementById('lastname').value,
+                    companyname: document.getElementById('companyname').value,
+                    address: document.getElementById('address').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    additional_info: document.getElementById('additional_info').value,
+                };
+    
+                // Send data via fetch
+                fetch("{{ route('checkout.add') }}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(formData),
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            alert(result.message);
+                            // Redirect with the order ID
+                            const url = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
+                            window.location.href = url;
+                        } else {
+                            alert(result.message);
+                        }
+                    })
+                    .catch(error => {
+                        alert('An error occurred during checkout. Please try again.');
+                    });
             }
-        })
-        .catch(error => {
-            alert('An error occurred during checkout. Please try again.');
-        });
-    }
-});
-
+        }
     </script>
 @endsection

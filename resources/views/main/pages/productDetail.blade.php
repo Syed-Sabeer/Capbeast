@@ -115,9 +115,19 @@
 
                     </div>
                     <div class="mt-5">
-                        <button class="btn btn-success" id="add-to-cart-button"><i class="fa-solid fa-cart-shopping"></i>
-                            &nbsp;&nbsp;Add to Cart </button>
+                        @if(Auth::check() && Auth::user()->status == 1)
+                            <!-- Show Add to Cart button -->
+                            <button class="btn btn-success" id="add-to-cart-button">
+                                <i class="fa-solid fa-cart-shopping"></i> &nbsp;&nbsp;Add to Cart
+                            </button>
+                        @else
+                            <!-- Show red message -->
+                            <div style="color: red" role="alert">
+                                Contact admin to activate your account to proceed with adding items to your cart.
+                            </div>
+                        @endif
                     </div>
+                    
 
                 </div>
 
