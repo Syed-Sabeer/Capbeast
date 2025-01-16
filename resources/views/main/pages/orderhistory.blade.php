@@ -4,7 +4,6 @@
     @component('main.components.minibreadcrumb', [
         'pageTitle' => 'Order History',
         'pageRoute' => 'main.pages.orderhistory',
-      
     ])
     @endcomponent
 
@@ -43,7 +42,7 @@
                                             <td>
                                                 <!-- Using the OrderStatus component -->
                                                 <x-order-status :status="$order->status" />
-                                              </td>     
+                                            </td>
                                             <td>
                                                 <a href="#invoiceModal" class="btn btn-secondary btn-sm"
                                                     data-bs-toggle="modal">Order Invoice</a>
@@ -129,7 +128,7 @@
                                             <h6><span class="text-muted fw-normal">Legal Registration No:</span> <span
                                                     id="legal-register-no">123456</span></h6>
                                             <h6><span class="text-muted fw-normal">Email:</span> <span id="email">
-                                                    info@monkeybeanies.com</span></h6>
+                                                    sales@monkeybeanie.com</span></h6>
                                             <h6><span class="text-muted fw-normal">Website:</span> <a
                                                     href="https://themesbrand.com/" class="link-primary" target="_blank"
                                                     id="website">www.monkeybeanies.com</a></h6>

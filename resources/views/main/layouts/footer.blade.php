@@ -14,7 +14,8 @@
                                 <a href="#!" class="text-reset"><i class="mdi mdi-facebook"></i></a>
                             </li> --}}
                             <li class="list-inline-item">
-                                <a href="https://www.instagram.com/monkey_beanies/" class="text-reset"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://www.instagram.com/monkey_beanies/" class="text-reset"><i
+                                        class="fa-brands fa-instagram"></i></a>
                             </li>
                             <li class="list-inline-item">
                                 <a href="#!" class="text-reset"><i class="fa-solid fa-x"></i></a>
@@ -63,9 +64,9 @@
                                 <li><a href="tel:18559326752"><i class="fa-solid fa-phone white-color">&nbsp; </i> 1
                                         (855)
                                         932-6752</a></li>
-                                <li><a href="mailto:info@monkeybeanies.com"><i
+                                <li><a href="mailto:sales@monkeybeanie.com"><i
                                             class="white-color fa-solid fa-envelope">&nbsp;</i>
-                                        info@monkeybeanies.com</a></li>
+                                        sales@monkeybeanie.com</a></li>
                             </ul>
                         </div>
                     </div>

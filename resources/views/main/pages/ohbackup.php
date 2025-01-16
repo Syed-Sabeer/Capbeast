@@ -4,9 +4,9 @@
 
 
 @component('main.components.breadcrumb', [
-    'pageTitle' => 'About',
-    'pageRoute' => 'about',
-    'imageURL' => asset('assetsMain/images/about.jpg') // Evaluated here
+'pageTitle' => 'About',
+'pageRoute' => 'about',
+'imageURL' => asset('assetsMain/images/about.jpg') // Evaluated here
 ])
 @endcomponent
 
@@ -28,79 +28,79 @@
                             </thead>
                             <tbody>
                                 @foreach($orderhistory as $order)
-                                    <tr>
-                                        <td>
-                                            <a href="#" class="text-body">{{ $order->order_id }}</a>
-                                        </td>
-                                        <td><span class="text-muted">{{ $order->created_at->format('d M, Y') }}</span></td>
-                                        <td class="fw-medium">${{ number_format($order->total_price, 2) }}</td>
-                                     
-                                        <td>
-                                            <a href="#invoiceModal" 
-                                               class="btn btn-secondary btn-sm" 
-                                               data-bs-toggle="modal"
-                                               data-bs-order-id="{{ $order->order_id }}"
-                                               data-bs-invoice-no="{{ $order->invoice_no }}"
-                                               data-bs-date="{{ $order->created_at->format('d M, Y') }}"
-                                               data-bs-subtotal="{{ number_format($order->total_price, 2) }}"
-                                               data-bs-billing-name="{{ $order->billing_name }}"
-                                               data-bs-billing-address="{{ $order->billing_address }}"
-                                               data-bs-shipping-name="{{ $order->shipping_name }}"
-                                               data-bs-shipping-address="{{ $order->shipping_address }}"
-                                               data-bs-products="{{ json_encode($order->items) }}">
-                                               Invoice
-                                            </a>
+                                <tr>
+                                    <td>
+                                        <a href="#" class="text-body">{{ $order->order_id }}</a>
+                                    </td>
+                                    <td><span class="text-muted">{{ $order->created_at->format('d M, Y') }}</span></td>
+                                    <td class="fw-medium">${{ number_format($order->total_price, 2) }}</td>
 
-                                            <a href="#invoiceModal" 
-                                               class="btn btn-success btn-sm" 
-                                               data-bs-toggle="modal"> View </a>
-                                        </td>
-                                        
-                                    </tr>
+                                    <td>
+                                        <a href="#invoiceModal"
+                                            class="btn btn-secondary btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-order-id="{{ $order->order_id }}"
+                                            data-bs-invoice-no="{{ $order->invoice_no }}"
+                                            data-bs-date="{{ $order->created_at->format('d M, Y') }}"
+                                            data-bs-subtotal="{{ number_format($order->total_price, 2) }}"
+                                            data-bs-billing-name="{{ $order->billing_name }}"
+                                            data-bs-billing-address="{{ $order->billing_address }}"
+                                            data-bs-shipping-name="{{ $order->shipping_name }}"
+                                            data-bs-shipping-address="{{ $order->shipping_address }}"
+                                            data-bs-products="{{ json_encode($order->items) }}">
+                                            Invoice
+                                        </a>
 
-                                    <!-- Sub-table for products -->
-                                    <tr class="collapse" id="order{{ $order->id }}Details">
-                                        <td colspan="5">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Product</th>
-                                                            <th scope="col">Quantity</th>
-                                                            <th scope="col">Color</th>
-                                                            <th scope="col">Embroidery</th>
-                                                            <th scope="col">Type</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($order->items as $item)
-                                                            <tr>
-                                                                <td>
-                                                                    <div class="d-flex gap-3">
-                                                                        <div class="avatar-sm flex-shrink-0">
-                                                                            <div class="avatar-title bg-light rounded">
-                                                                                <img src="{{ asset('assets/images/products/'.$item->product->image) }}" alt="" class="avatar-xs">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="flex-grow-1">
-                                                                            <a >
-                                                                                <h6 class="fs-15 mb-1">{{ $item->product->name }}</h6>
-                                                                            </a>
-                                                                            <p class="mb-0 text-muted fs-13">{{ $item->product->category }}</p>
-                                                                        </div>
+                                        <a href="#invoiceModal"
+                                            class="btn btn-success btn-sm"
+                                            data-bs-toggle="modal"> View </a>
+                                    </td>
+
+                                </tr>
+
+                                <!-- Sub-table for products -->
+                                <tr class="collapse" id="order{{ $order->id }}Details">
+                                    <td colspan="5">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Product</th>
+                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">Color</th>
+                                                        <th scope="col">Embroidery</th>
+                                                        <th scope="col">Type</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($order->items as $item)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex gap-3">
+                                                                <div class="avatar-sm flex-shrink-0">
+                                                                    <div class="avatar-title bg-light rounded">
+                                                                        <img src="{{ asset('assets/images/products/'.$item->product->image) }}" alt="" class="avatar-xs">
                                                                     </div>
-                                                                </td>
-                                                                <td>{{ $item->quantity }}</td>
-                                                                <td>{{ $item->color->title  }}</td>
-                                                                <td>{{ $item->printing->title }}</td>
-                                                                <td>{{ $item->printing->title }}</td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                                                </div>
+                                                                <div class="flex-grow-1">
+                                                                    <a>
+                                                                        <h6 class="fs-15 mb-1">{{ $item->product->name }}</h6>
+                                                                    </a>
+                                                                    <p class="mb-0 text-muted fs-13">{{ $item->product->category }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>{{ $item->quantity }}</td>
+                                                        <td>{{ $item->color->title  }}</td>
+                                                        <td>{{ $item->printing->title }}</td>
+                                                        <td>{{ $item->printing->title }}</td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -134,7 +134,7 @@
                                 <div class="d-sm-flex">
                                     <div class="flex-grow-1">
                                         <img src="{{ asset('assetsMain/images/logo-dark.png') }}" class="card-logo card-logo-dark" alt="logo dark" height="100">
-                                        
+
                                         <div class="mt-sm-5 mt-4">
                                             <h6 class="text-muted text-uppercase fw-semibold fs-14">Address</h6>
                                             <p class="text-muted mb-1" id="address-details">Av. Lausanne, Montréal, QC, Canada</p>
@@ -143,7 +143,7 @@
                                     </div>
                                     <div class="flex-shrink-0 mt-sm-0 mt-3">
                                         <h6><span class="text-muted fw-normal">Legal Registration No:</span> <span id="legal-register-no">123456</span></h6>
-                                        <h6><span class="text-muted fw-normal">Email:</span> <span id="email"> info@monkeybeanies.com</span></h6>
+                                        <h6><span class="text-muted fw-normal">Email:</span> <span id="email"> sales@monkeybeanie.com</span></h6>
                                         <h6><span class="text-muted fw-normal">Website:</span> <a href="https://themesbrand.com/" class="link-primary" target="_blank" id="website">www.monkeybeanies.com</a></h6>
                                         <h6 class="mb-0"><span class="text-muted fw-normal">Contact No: </span><span id="contact-no"> +1 (888) 882-2780</span></h6>
                                     </div>
@@ -214,12 +214,12 @@
                                                 <td>Sub Total</td>
                                                 <td class="text-end" id="sub-total"></td>
                                             </tr>
-                                            
+
                                             <tr>
                                                 <td>Discount <small class="text-muted"></small></td>
                                                 <td class="text-end" id="discount"></td>
                                             </tr>
-                                            
+
                                             <tr class="border-top border-top-dashed fs-15">
                                                 <th scope="row">Total Amount</th>
                                                 <th class="text-end" id="total-amount-summary"></th>
@@ -230,7 +230,7 @@
                                 <div class="mt-3">
                                     <h6 class="text-muted text-uppercase fw-semibold mb-3">Payment Details:</h6>
                                     <p class="text-muted mb-1">Payment Method: <span class="fw-medium" id="payment-method">PayPal</span></p>
-                                   
+
                                 </div>
                                 <div class="mt-4">
                                     <div class="alert alert-info">
@@ -255,19 +255,19 @@
 
 <!-- Fullscreen Modals -->
 <div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-fullscreen">
-    
-</div>
+    <div class="modal-dialog modal-fullscreen">
+
+    </div>
 </div>
 
 
 <script>
     // When the modal is shown, populate it with dynamic data
     const invoiceModal = document.getElementById('invoiceModal');
-    invoiceModal.addEventListener('show.bs.modal', function (event) {
+    invoiceModal.addEventListener('show.bs.modal', function(event) {
         // Get the link that triggered the modal
         const button = event.relatedTarget;
-        
+
         // Extract data attributes from the button
         const orderId = button.getAttribute('data-bs-order-id');
         const date = button.getAttribute('data-bs-date');
@@ -284,10 +284,10 @@
         document.getElementById('invoice-date').textContent = date;
         document.getElementById('sub-total').textContent = `${subtotal}`;
         document.getElementById('total-amount-summary').textContent = `${subtotal}`;
-        
+
         // document.getElementById('total-amount').textContent = `${total}`;
         document.getElementById('total-amount').textContent = `${subtotal}`;
-        
+
         // Billing and Shipping Info
         document.getElementById('billing-name').textContent = billingName;
         document.getElementById('billing-address-line-1').textContent = billingAddress;
@@ -326,7 +326,6 @@
             }
         });
     });
-    
 </script>
 
 @endsection
