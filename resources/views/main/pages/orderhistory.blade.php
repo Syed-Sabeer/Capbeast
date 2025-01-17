@@ -114,7 +114,7 @@
                                 <div class="card-header border-bottom-dashed p-4">
                                     <div class="d-sm-flex">
                                         <div class="flex-grow-1">
-                                            <img src="{{ asset('assetsMain/images/logo-dark.png') }}"
+                                            <img src="{{ asset('assetsCommon/images/billinglogo.png') }}"
                                                 class="card-logo card-logo-dark" alt="logo dark" height="100">
 
                                             <div class="mt-sm-5 mt-4">
