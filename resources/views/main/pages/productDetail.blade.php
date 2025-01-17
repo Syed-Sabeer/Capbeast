@@ -114,19 +114,7 @@
                         @endif
 
                     </div>
-                    <div class="mt-5">
-                        @if(Auth::check() && Auth::user()->status == 1)
-                            <!-- Show Add to Cart button -->
-                            <button class="btn btn-success" id="add-to-cart-button">
-                                <i class="fa-solid fa-cart-shopping"></i> &nbsp;&nbsp;Add to Cart
-                            </button>
-                        @else
-                            <!-- Show red message -->
-                            <div style="color: red" role="alert">
-                                Contact admin to activate your account to proceed with adding items to your cart.
-                            </div>
-                        @endif
-                    </div>
+                   
                     
 
                 </div>
@@ -330,9 +318,13 @@
                                         </select>
                                     </div>
 
+                                    <div>
+                                        <a href="{{ url('/main/view-color-book') }}" target="_blank" class="main-theme-color">View Color Card</a>
+                                    </div>
+
                                     <!-- Imprint Colors -->
 <!-- Imprint Colors -->
-<div class="mb-3">
+<div class="mb-3 mt-3">
     <label for="imprintColors" class="form-label fw-bold">Select Number Of Imprint Colors</label>
     <select id="imprintColors" class="form-select">
         <option value="0">Full Color Imprint</option>
@@ -346,9 +338,7 @@
 </div>
 
 <div id="additionalDropdowns"></div>
-<div>
-    <a href="{{ url('/main/view-color-book') }}" target="_blank" class="main-theme-color">View Color Card</a>
-</div>
+
 
 
 
@@ -367,68 +357,17 @@
                                                     const newSelect = document.createElement('div');
                                                     newSelect.classList.add('mb-3');
                                                     newSelect.innerHTML = `
-                                            <label for="color${i}" class="form-label fw-bold">Select Color ${i}</label>
-                                            // <select id="color${i}" class="form-select">
-                                            //     <option value="color${i}">Color ${i}</option>
-                                            // </select>
-                                              <input id="color${i}" type="number" class="form-control" placeholder="Enter color code ${i}" 
-                         maxlength="4" oninput="validateColorCode(this)">
+                                            <label for="color${i}" class="form-label fw-bold">Enter Color Code ${i}</label>
+                <input id="color${i}" type="number" class="form-control" placeholder="Enter color code ${i}" 
+                       maxlength="4" oninput="validateColorCode(this, ${i})">
+                                               <p id="colorError${i}" class="text-danger" style="display:none; font-size: 0.9rem;">Color code must be exactly 4 digits.</p>
                                         `;
                                                     additionalDropdowns.appendChild(newSelect);
                                                 }
                                             }
                                         });
+
     
-    // const imprintColors = document.getElementById('imprintColors');
-    // const additionalDropdowns = document.getElementById('additionalDropdowns');
-    
-
-    // imprintColors.addEventListener('change', function() {
-    //                                         const numColors = parseInt(imprintColors.value);
-    //                                         additionalDropdowns.innerHTML = ''; // Clear previous dropdowns
-
-    //                                         if (numColors !== 0) { // Exclude Full Color Imprint (value = 0)
-    //                                             for (let i = 1; i <= numColors; i++) {
-    //                                                 const newSelect = document.createElement('div');
-    //                                                 newSelect.classList.add('mb-3');
-    //                                                 newSelect.innerHTML = `
-    //                                         <label for="color${i}" class="form-label fw-bold">Select Color ${i}</label>
-    //                                         <input id="color${i}" type="number" class="form-control" placeholder="Enter color code ${i}" 
-    //                     maxlength="4" oninput="validateColorCode(this)">
-    //                                     `;
-    //                                                 additionalDropdowns.appendChild(newSelect);
-    //                                             }
-    //                                         }
-    //                                     });
-
-
-    // imprintColors.addEventListener('change', function() {
-    //     const numColors = parseInt(imprintColors.value);
-    //     additionalDropdowns.innerHTML = ''; // Clear previous inputs
-    //     if (numColors !== 0) { // Exclude Full Color Imprint (value = 0)
-    //         for (let i = 1; i <= numColors; i++) {
-    //             const newSelect = document.createElement('div');
-    //             newSelect.classList.add('mb-3');
-    //             newSelect.innerHTML = `
-    //                 <label for="color${i}" class="form-label fw-bold">Enter Color Code ${i}</label>
-    //                 <input id="color${i}" type="number" class="form-control" placeholder="Enter color code ${i}" 
-    //                     maxlength="4" oninput="validateColorCode(this)">
-    //                 <p id="error${i}" style="color: red; display: none;">Color code must be exactly 4 digits.</p>
-    //             `;
-    //             additionalDropdowns.appendChild(newSelect);
-    //         }
-    //     }
-    // });
-
-    // function validateColorCode(input) {
-    //     const errorMessage = input.nextElementSibling;
-    //     const value = input.value;
-    //     if (value.length !== 4 || isNaN(value)) {
-    //         errorMessage.style.display = 'block'; // Show error message
-    //     } else {
-    //         errorMessage.style.display = 'none'; // Hide error message
-    //     }
-    // }
 </script>
 
 
@@ -512,6 +451,19 @@
 
                             </div>
 
+                        </div>
+                        <div class="mt-5 text-align-center" >
+                            @if(Auth::check() && Auth::user()->status == 1)
+                                <!-- Show Add to Cart button -->
+                                <button class="btn btn-success" id="add-to-cart-button">
+                                    <i class="fa-solid fa-cart-shopping"></i> &nbsp;&nbsp;Add to Cart
+                                </button>
+                            @else
+                                <!-- Show red message -->
+                                <div style="color: red" role="alert">
+                                    Contact admin to activate your account to proceed with adding items to your cart.
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -798,10 +750,10 @@
                     const fontStyle = document.getElementById("fontStyle").value || null;
                     const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document
                         .getElementById("imprintColors").value) : null;
-                    const imprintColors = Array.from(document.querySelectorAll(
-                        "#additionalDropdowns select")).map(
-                        dropdown => dropdown.value
-                    );
+
+                        const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns input")).map(
+    input => parseInt(input.value, 10)
+);
 
                     formData.append("patchLength", patchLength);
                     formData.append("patchHeight", patchHeight);
@@ -898,6 +850,16 @@
                 errorElement.style.display = 'none';
             }
         });
+        function validateColorCode(input, index) {
+    const value = input.value;
+    const errorElement = document.getElementById(`colorError${index}`);
+
+    if (value.length !== 4 || isNaN(value)) {
+        errorElement.style.display = 'block';
+    } else {
+        errorElement.style.display = 'none';
+    }
+}
     </script>
 
 
