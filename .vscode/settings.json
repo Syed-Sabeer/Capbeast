@@ -5,11 +5,9 @@
   "diffEditor.ignoreTrimWhitespace": false,
   "cSpell.language": "en",
   "search.exclude": {
-    "**/node_modules": true,
-    "**/_temp": true,
+    "**/*.code-search": false,
     "**/bower_components": true,
-    "*.min.js": true,
-    "*.min.css": true
+    "**/node_modules": true
   },
   // JS
   "javascript.updateImportsOnFileMove.enabled": "always",

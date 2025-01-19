@@ -177,7 +177,7 @@
                                 <div class="alert alert-danger text-center text-capitalize mb-4 fs-14">
                                     Color calibration varies from monitor to monitor, so the colors in a product image may vary from the actual colors of the physical product. It is recommended that, if an exact color match is required, you order a sample to determine exact color and/or shade 
                                 </div>
-                                <select id="beanie-color" class="form-control">
+                                {{-- <select id="beanie-color" class="form-control">
                                     <option>Select Beanie Color</option>
 
                                     @if (!empty($colorNames))
@@ -190,6 +190,15 @@
                                         <option>No colors available</option>
                                     @endif
 
+                                </select> --}}
+
+                                      <select id="beanie-color" class="form-control">
+                                    <option>Select Beanie Color</option>
+                                    @foreach ($colors as $index => $color)
+                                        <option value="{{ $color->id }}" data-color-name="{{ $color->componentColor->color_name }}" data-image="{{ asset('storage/' . $color->image) }}">
+                                            {{ ucfirst($colorNames[$index]) }}
+                                        </option>
+                                    @endforeach
                                 </select>
 
 

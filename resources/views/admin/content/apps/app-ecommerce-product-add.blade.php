@@ -66,10 +66,11 @@
                             <div class="col-6">
                                 <label class="form-label">Color</label>
                                 <select name="color[]" id="select2Basic" class="select2 form-select form-select-lg" required>
-                                    @foreach ($colors as $color)
-                                        <option value="{{ $color['hex'] }}">{{ $color['name'] }}</option>
+                                    @foreach ($colorData as $color)
+                                        <option value="{{ $color->id }}">{{ $color->color_name }}</option>
                                     @endforeach
                                 </select>
+                                
                             </div>
                             <div class="col-6">
                                 <label class="form-label">Images</label>

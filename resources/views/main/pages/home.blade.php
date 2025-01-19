@@ -40,25 +40,26 @@
                         class="img-fluid" 
                         id="mainImage{{ $product->id }}">
                    
-                   <div class="color-slider-container">
-                    <span class="arrow left"><i class="fa-solid fa-circle-chevron-left" ></i></span>
-                       <div class="color-slider" id="colorSlider{{ $product->id }}">
-                           {{-- Check if colors exist before looping --}}
-                           @if ($product->productColors->isNotEmpty())
-                               @foreach ($product->productColors as $color)
-                                   <div class="color-option" 
-                                        style="background-color: {{ $color->color }};" 
-                                        title="Color: {{ $color->color }}" 
-                                        data-image="{{ asset('storage/' . $color->image) }}">
-                                   </div>
-                               @endforeach
-                           @else
-                               <p>No colors available</p>
-                           @endif
-                       </div>
-                       <span class="arrow right"><i class="fa-solid fa-circle-chevron-right" ></i></span>
-                   </div>
-                   
+                        <div class="color-slider-container">
+                            <span class="arrow left"><i class="fa-solid fa-circle-chevron-left"></i></span>
+                            <div class="color-slider" id="colorSlider{{ $product->id }}">
+                                {{-- Check if colors exist before looping --}}
+                                @if ($product->productColors->isNotEmpty())
+                                    @foreach ($product->productColors as $productColor)
+                                        <div class="color-option"
+                                             style="background-color: {{ $productColor->componentColor->color_code }};"
+                                             title="Color: {{ $productColor->componentColor->color_name }}"
+                                             data-image="{{ asset('storage/' . $productColor->image) }}">
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p>No colors available</p>
+                                @endif
+                            </div>
+                            <span class="arrow right"><i class="fa-solid fa-circle-chevron-right"></i></span>
+                        </div>
+                        
+                        
                       
                       
 
@@ -68,13 +69,6 @@
                                 <i class="fas fa-star"></i>
                             @endfor
                         </div>
-
-                        {{-- Handle pricing --}}
-                        {{-- @php
-                            $minPrice = $product->prices->min('price') ?? 0;
-                            $maxPrice = $product->prices->max('price') ?? 0;
-                        @endphp
-                        <div class="price">${{ number_format($minPrice, 2) }} ~ ${{ number_format($maxPrice, 2) }}</div> --}}
 
                         <form action="{{ route('product.detail', ['id' => $product->id]) }}" method="GET">
                             <button type="submit" class="add-to-cart-btn font-weight-bold">

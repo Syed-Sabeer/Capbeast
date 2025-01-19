@@ -14,7 +14,19 @@ class Product extends Model
 
     public function productColors()
     {
-        return $this->hasMany(ProductColor::class, 'product_id'); // Updated to hasMany for multiple colors
+        return $this->hasMany(ProductColor::class, 'product_id');
+    }
+
+    public function componentColors()
+    {
+        return $this->hasManyThrough(
+            ComponentProductColor::class,   // Final model
+            ProductColor::class,           // Intermediate model
+            'product_id',                  // Foreign key on ProductColor
+            'id',                          // Foreign key on ComponentProductColor
+            'id',                          // Local key on Product
+            'color_id'                     // Local key on ProductColor
+        );
     }
 
     public function productPricing()

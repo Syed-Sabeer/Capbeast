@@ -16,4 +16,9 @@ class ComponentProductColor extends Model
         'color_name',
         'color_code',
     ];
+
+    public function productColors()
+    {
+        return $this->hasMany(ProductColor::class, 'color_id');
+    }
 }
