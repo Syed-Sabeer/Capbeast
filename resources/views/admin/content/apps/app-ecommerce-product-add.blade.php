@@ -41,6 +41,20 @@
                         <label class="form-label">Description</label>
                         <textarea name="description" class="form-control" rows="5" required></textarea>
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Pom Pom Option</label>
+                        <br>
+                        <label class="switch switch-primary switch-sm me-4 pe-2">
+                            <input type="checkbox" class="switch-input" id="is_pompom_switch">
+                            <span class="switch-toggle-slider">
+                                <span class="switch-on"></span>
+                                <span class="switch-off"></span>
+                            </span>
+                        </label>
+                        <input type="hidden" name="is_pompom" id="is_pompom" value="0"> <!-- Hidden input to store is_pompom value -->
+                    </div>
+                    
                 </div>
             </div>
 
@@ -135,6 +149,11 @@
     baseImageSection.appendChild(newImageInput);
 });
 
+document.getElementById('is_pompom_switch').addEventListener('change', function () {
+    const isPompomInput = document.getElementById('is_pompom');
+    // If the switch is on, set value to 1, otherwise set it to 0
+    isPompomInput.value = this.checked ? 1 : 0;
+});
 
 
 </script>

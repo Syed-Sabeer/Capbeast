@@ -28,6 +28,7 @@ class EcommerceProductAdd extends Controller
             $request->validate([
                 'title' => 'required|string|max:255',
                 'description' => 'required|string',
+                'is_pompom' => 'required|integer',
                 'base_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'color.*' => 'required|string',
                 'images.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
@@ -39,6 +40,7 @@ class EcommerceProductAdd extends Controller
             $product = Product::create([
                 'title' => $request->title,
                 'description' => $request->description,
+                'is_pompom' => $request->is_pompom,
             ]);
 
             // Process and store base images
@@ -113,83 +115,7 @@ class EcommerceProductAdd extends Controller
         }
     }
 
-    public function update(Request $request, $id)
-    {
-        try {
-            $product = Product::findOrFail($id);
+ 
 
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'required|string',
-                'base_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-                'color.*' => 'required|string',
-                'images.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-                'quantity.*' => 'required|integer',
-                'pricing.*' => 'required|numeric',
-            ]);
-
-            $product->update([
-                'title' => $request->title,
-                'description' => $request->description,
-            ]);
-
-            if ($request->hasFile('base_images')) {
-                ProductBaseImage::where('product_id', $product->id)->delete();
-                foreach ($request->file('base_images') as $baseImage) {
-                    $baseImagePath = $baseImage->store('ProductImages', 'public');
-                    ProductBaseImage::create([
-                        'product_id' => $product->id,
-                        'base_image' => $baseImagePath,
-                    ]);
-                }
-            }
-
-            ProductColor::where('product_id', $product->id)->delete();
-            foreach ($request->color as $index => $color) {
-                if ($request->hasFile("images.$index")) {
-                    foreach ($request->file("images.$index") as $colorImage) {
-                        $colorImagePath = $colorImage->store('ProductImages/ColorVariations', 'public');
-                        ProductColor::create([
-                            'product_id' => $product->id,
-                            'color' => $color,
-                            'image' => $colorImagePath,
-                        ]);
-                    }
-                }
-                
-            }
-
-            ProductPricing::where('product_id', $product->id)->delete();
-            foreach ($request->quantity as $index => $quantity) {
-                ProductPricing::create([
-                    'product_id' => $product->id,
-                    'quantity' => $quantity,
-                    'pricing' => $request->pricing[$index],
-                ]);
-            }
-
-            return redirect()->back()->with('success', 'Product updated successfully!');
-        } catch (\Exception $e) {
-            Log::error('Error occurred while updating product:', ['error' => $e->getMessage()]);
-            return redirect()->back()->with('error', 'Failed to update product. Please try again.');
-        }
-    }
-
-    public function destroy($id)
-    {
-        try {
-            $product = Product::findOrFail($id);
-
-            ProductBaseImage::where('product_id', $product->id)->delete();
-            ProductColor::where('product_id', $product->id)->delete();
-            ProductPricing::where('product_id', $product->id)->delete();
-
-            $product->delete();
-
-            return response()->json(['success' => true, 'message' => 'Product deleted successfully!']);
-        } catch (\Exception $e) {
-            Log::error('Error occurred while deleting product:', ['error' => $e->getMessage()]);
-            return response()->json(['success' => false, 'message' => 'Failed to delete product.']);
-        }
-    }
+  
 }
