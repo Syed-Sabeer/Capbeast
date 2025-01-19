@@ -12,6 +12,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
+            $table->integer('is_pompom');
             $table->integer('visibility')->default(1);
             $table->timestamps();
         });

@@ -41,6 +41,20 @@
                       <label class="form-label">Image</label>
                       <input type="file" name="image" class="form-control" >
                   </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Pom Pom Option</label>
+                    <br>
+                    <label class="switch switch-primary switch-sm me-4 pe-2">
+                        <input type="checkbox" class="switch-input" id="is_leather_switch">
+                        <span class="switch-toggle-slider">
+                            <span class="switch-on"></span>
+                            <span class="switch-off"></span>
+                        </span>
+                    </label>
+                    <input type="hidden" name="is_leather" id="is_leather" value="0"> <!-- Hidden input to store is_leather value -->
+                </div>
+
               </div>
           </div>
 
@@ -81,6 +95,12 @@
         newPricingItem.querySelectorAll('input').forEach(input => input.value = '');
         pricingSection.appendChild(newPricingItem);
     });
+    document.getElementById('is_leather_switch').addEventListener('change', function () {
+    const isLeatherInput = document.getElementById('is_leather');
+    // Log the value before changing
+    console.log('Switch is now: ', this.checked);
+    isLeatherInput.value = this.checked ? 1 : 0;
+});
 
 
 </script>
