@@ -215,6 +215,32 @@
 
 
 
+                                <label for="beanie-color" class="section-header mt-4">Select Beanies Add on</label>
+
+                                <div class="d-flex" style="justify-content: space-between">
+                                    <div>
+                                        <input type="radio" id="withoutpompom" name="pompom" value="0">
+                                        <label for="withoutpompom">
+                                            <img src="{{ asset('assetsCommon/images/withoutPomPom.jpg') }}" alt="withoutpompom"
+                                                style="width: 150px; height: auto;"> Without Pom Pom 
+                                        </label>
+                                    </div>
+                                    
+                                    <div>
+                                        <input type="radio" id="withpompom" name="pompom" value="1">
+                                        <label for="withpompom">
+                                            <img src="{{ asset('assetsCommon/images/withPomPom.jpg') }}"
+                                                alt="withpompom" style="width: 140px; height: auto;"> With Pom Pom
+                                                <span style="color: red">2$ Each </span>
+                                        </label>
+                                        
+
+                                    </div>
+
+                                </div>
+
+
+
 
                                 <div class="section-header mt-4">
                                     Select Printing Option
@@ -497,6 +523,7 @@
             const artworkSelection = document.getElementById("artwork-upload");
             const beanieColorSelect = document.getElementById("beanie-color");
             const beanieOptions = document.querySelectorAll('input[name="beanie"]');
+            const pompomOptions = document.querySelectorAll('input[name="pompom"]');
 
             let selectedPrintingPrice = 0;
             let selectedPrintingQuantities = [];
@@ -541,70 +568,79 @@
                 });
             });
 
+            pompomOptions.forEach(option => {
+    option.addEventListener("change", function() {
+        console.log("Selected Pom Pom Option:", this.value);
+        calculateTotalPrice(); // Recalculate prices when pom-pom option changes
+    });
+});
+
+
             // Function to calculate printing price based on quantity
             function calculatePrice(quantity, quantities, prices) {
-                quantity = parseInt(quantity);
-                if (isNaN(quantity)) return 0;
+        quantity = parseInt(quantity);
+        if (isNaN(quantity)) return 0;
 
-                let price = 0;
-                for (let i = quantities.length - 1; i >= 0; i--) {
-                    if (quantity >= quantities[i]) {
-                        price = prices[i];
-                        break;
-                    }
-                }
-                return price;
+        let price = 0;
+        for (let i = quantities.length - 1; i >= 0; i--) {
+            if (quantity >= quantities[i]) {
+                price = prices[i];
+                break;
             }
+        }
+        return price;
+    }
 
             // Update printing price and total price
             function updatePrintingPriceAndTotal() {
-                const enteredQty = parseInt(quantityInput.value) || 0;
+        const enteredQty = parseInt(quantityInput.value) || 0;
 
-                // Update all quantity displays
-                totalQtyElements.forEach(element => {
-                    element.textContent = enteredQty;
-                });
+        totalQtyElements.forEach(element => {
+            element.textContent = enteredQty;
+        });
 
-                selectedPrintingPrice = calculatePrice(enteredQty, selectedPrintingQuantities,
-                    pricesForSelectedPrinting);
-                calculateTotalPrice();
-            }
+        selectedPrintingPrice = calculatePrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
+        calculateTotalPrice();
+    }
 
             // Update total price based on quantity and selected printing option
             function calculateTotalPrice() {
-                const enteredQty = parseInt(quantityInput.value) || 0;
-                let calculatedPrice = calculatePrice(enteredQty, quantities, prices);
-                const total = calculatedPrice * enteredQty;
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        let calculatedPrice = calculatePrice(enteredQty, quantities, prices);
 
-                // Log prices to console
-                console.log("Quantity:", enteredQty);
-                console.log("Printing ID:", selectedPrintingQuantities);
-                console.log("Printing Price:", selectedPrintingPrice);
-                console.log("Product Price:", calculatedPrice);
-                console.log("Delivery Price:", calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery));
+        const isWithPompom = document.querySelector('input[name="pompom"]:checked')?.value === "1";
+        const pompomCustomizationPrice = isWithPompom ? enteredQty * 2 : 0;
 
-                totalPrice.textContent = `$${total.toFixed(2)}`;
-                totalPriceCustomization.textContent = `$${(selectedPrintingPrice * enteredQty).toFixed(2)}`;
+        const total = calculatedPrice * enteredQty;
+        const totalCustomization = selectedPrintingPrice * enteredQty + pompomCustomizationPrice;
 
-                if (selectedPrintingPrice === 0 && total >= 1) {
-                    artworkSelection.style.display = "none";
-                } else {
-                    artworkSelection.style.display = "block";
-                }
+        console.log("Quantity:", enteredQty);
+        console.log("Printing ID:", selectedPrintingQuantities);
+        console.log("Printing Price:", selectedPrintingPrice);
+        console.log("Product Price:", calculatedPrice);
+        console.log("Delivery Price:", calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery));
 
-                // Update background color based on calculated price
-                document.querySelectorAll('[id^="pricing-"]').forEach(function(priceElement) {
-                    const priceValue = parseFloat(priceElement.getAttribute('data-price'));
+        totalPrice.textContent = `$${total.toFixed(2)}`;
+        totalPriceCustomization.textContent = `$${totalCustomization.toFixed(2)}`;
 
-                    if (priceValue === calculatedPrice) {
-                        priceElement.style.backgroundColor = "#F7B708";
-                        priceElement.style.color = "#fff";
-                    } else {
-                        priceElement.style.backgroundColor = "";
-                        priceElement.style.color = "black";
-                    }
-                });
+        if (selectedPrintingPrice === 0 && total >= 1) {
+            artworkSelection.style.display = "none";
+        } else {
+            artworkSelection.style.display = "block";
+        }
+
+        document.querySelectorAll('[id^="pricing-"]').forEach(function(priceElement) {
+            const priceValue = parseFloat(priceElement.getAttribute('data-price'));
+
+            if (priceValue === calculatedPrice) {
+                priceElement.style.backgroundColor = "#F7B708";
+                priceElement.style.color = "#fff";
+            } else {
+                priceElement.style.backgroundColor = "";
+                priceElement.style.color = "black";
             }
+        });
+    }
 
             // Update delivery price and total cost for "View Shipping Bundle"
             function updateDeliveryPriceAndTotal() {
@@ -664,47 +700,42 @@
 
             // Reset the total price to $0 for "Pick Yourself"
             function resetTotalPrice() {
-                totalPrice.textContent = "$0.00";
-                totalPriceCustomization.textContent = "$0.00";
-            }
+        totalPrice.textContent = "$0.00";
+        totalPriceCustomization.textContent = "$0.00";
+    }
 
-            // Listen to changes in shipping options and update the view
-            shippingOptions.forEach(option => {
-                option.addEventListener('change', toggleOptions);
-            });
+    shippingOptions.forEach(option => {
+        option.addEventListener('change', toggleOptions);
+    });
 
-            // Recalculate total price and update view on quantity change
-            quantityInput.addEventListener("input", function() {
-                const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+    quantityInput.addEventListener("input", function() {
+        const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
 
-                if (selectedOption === 'pickYourself') {
-                    totalPriceDelivery.textContent = '$0.00';
-                    resetTotalPrice();
-                } else {
-                    updateDeliveryPriceAndTotal();
-                }
+        if (selectedOption === 'pickYourself') {
+            totalPriceDelivery.textContent = '$0.00';
+            resetTotalPrice();
+        } else {
+            updateDeliveryPriceAndTotal();
+        }
 
-                updatePrintingPriceAndTotal();
-            });
+        updatePrintingPriceAndTotal();
+    });
 
-            // Ensure correct view on page load
-            toggleOptions();
+    toggleOptions();
 
-            // Prevent entering a value below the minimum quantity and update the UI accordingly
-            quantityInput.addEventListener("blur", function() {
-                const enteredQty = parseInt(quantityInput.value) || 0;
-                const minQty = Math.min(...quantities);
+    quantityInput.addEventListener("blur", function() {
+        const enteredQty = parseInt(quantityInput.value) || 0;
+        const minQty = Math.min(...quantities);
 
-                if (enteredQty < minQty) {
-                    quantityInput.value = minQty;
-                    calculateTotalPrice();
-                }
+        if (enteredQty < minQty) {
+            quantityInput.value = minQty;
+            calculateTotalPrice();
+        }
 
-                // Ensure the total quantity and price are updated
-                totalQtyElements.forEach(element => {
-                    element.textContent = quantityInput.value;
-                });
-            });
+        totalQtyElements.forEach(element => {
+            element.textContent = quantityInput.value;
+        });
+    });
 
             document.getElementById("add-to-cart-button").addEventListener("click", function() {
                 const quantity = parseInt(quantityInput.value) || 0;
