@@ -21,6 +21,7 @@ class ProductPrinting extends Model
         'image',
         'quantity',
         'price',
+        'is_leather',
     ];
 
     public $timestamps = true;

@@ -14,6 +14,7 @@ class CreateProductPrintingTable extends Migration
             $table->text('image')->nullable();
             $table->text('quantity');
             $table->text('price');
+            $table->integer('is_leather')->default(0);
             $table->timestamps();
         });
     }

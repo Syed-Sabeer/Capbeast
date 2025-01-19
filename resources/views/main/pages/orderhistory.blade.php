@@ -293,7 +293,7 @@
                             <th>Patch Length </th>
                             <th>Patch Height </th>
                              <th>Num of imprint </th>
-                             ${item.order_artwork.leathercolor == 1 ? '<th>Leather Color Code</th>' : '<th></th>'}
+                             ${item.printing.is_leather === 1 ? '<th>Leather Color Code</th>' : ''}
                              <th>Imprint Colors</th>
                             ${item.order_artwork.artwork_type == 1 ? '<th>Artwork Image</th>' : '<th>Artwork Text</th>'}
                              
@@ -306,11 +306,21 @@
                             <td>${item.order_artwork.patch_length || 'N/A'} </td>
                              <td> ${item.order_artwork.patch_height || 'N/A'}</td>
                               <td> ${item.order_artwork.num_of_imprint || 'N/A'}</td>
-                              <td> ${item.order_artwork.leathercolor || 'N/A'}</td>
+                            
+   
+       ${item.printing.is_leather === 1 ? `<td>${item.order_artwork.leathercolor || 'N/A'}</td>` : ''}
 
-                              <td>
-    ${item.order_artwork.imprint_color ? JSON.parse(item.order_artwork.imprint_color).join(', ') : 'N/A'}
+
+<td>
+    ${(item.order_artwork?.imprint_color && Array.isArray(item.order_artwork.imprint_color))
+        ? item.order_artwork.imprint_color.join(', ')
+        : (item.order_artwork?.imprint_color
+            ? JSON.parse(item.order_artwork.imprint_color).join(', ')
+            : 'N/A')}
 </td>
+
+
+
 
 <td>
     ${item.order_artwork.artwork_type == 1

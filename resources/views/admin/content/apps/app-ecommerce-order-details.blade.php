@@ -202,7 +202,7 @@
                                                         <th>Patch Length</th>
                                                         <th>Font Style</th>
                                                         <th>Imprint Color</th>
-                                                        @if ($item->printing->title === 'Real Leather Patch')
+                                                        @if ($item->printing->is_leather === 1)
                                                         <th>Leather Color</th>
                                                         @endif
                                                     </tr>
@@ -234,7 +234,7 @@
                                                         <td>{{ $item->orderArtwork->patch_length ?? 'N/A' }}</td>
                                                         <td>{{ $item->orderArtwork->font_style ?? 'N/A' }}</td>
                                                         <td>{{ implode(', ', $item->orderArtwork->imprint_color ?? []) }}</td>
-                                                        @if ($item->printing->title === 'Real Leather Patch')
+                                                        @if ($item->printing->is_leather === 1)
                                                         <td>{{ $item->orderArtwork->leathercolor ?? 'N/A' }}</td>
                                                         @endif
                                                     </tr>
