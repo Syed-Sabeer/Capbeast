@@ -70,4 +70,11 @@ class ProductColorController extends Controller
 
         return redirect()->route('content-product-color-list')->with('success', 'Color deleted successfully!');
     }
+    public function restore($id)
+    {
+        $status = ComponentProductColor::withTrashed()->findOrFail($id);
+        $status->restore();
+
+        return redirect()->route('content-product-color-list')->with('success', 'Status restored successfully.');
+    }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -9,7 +9,8 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
+            $table->engine = 'InnoDB';
+            $table->id(); // unsignedBigInteger
             $table->string('title');
             $table->text('description');
             $table->integer('is_pompom');
