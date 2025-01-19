@@ -21,6 +21,8 @@ class Cart extends Model
         'printing_price',
         'product_price',
         'delivery_price',
+        'is_pompom',
+        'pompom_price',
     ];
 
     /**

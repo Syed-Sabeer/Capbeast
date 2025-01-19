@@ -44,7 +44,8 @@
                                                 $itemTotal =
                                                     ($item->product_price +
                                                         $item->printing_price +
-                                                        $item->delivery_price) *
+                                                        $item->delivery_price +
+                                                        $item->pompom_price) *
                                                     $item->quantity;
                                                 $subtotal += $itemTotal;
                                             @endphp
@@ -68,7 +69,7 @@
                                                     {{ $item->quantity }}
                                                 </td>
                                                 <td class="text-end">
-                                                    ${{ $item->product_price * $item->quantity + $item->printing_price * $item->quantity + $item->delivery_price * $item->quantity }}
+                                                    ${{ $item->product_price * $item->quantity + $item->printing_price * $item->quantity + $item->delivery_price * $item->quantity + $item->pompom_price * $item->quantity }}
                                                 </td>
                                             </tr>
                                         @endforeach

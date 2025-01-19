@@ -16,23 +16,22 @@ class EcommerceDeliveryAdd extends Controller
     public function store(Request $request)
     {
         try {
-            // Validate incoming request
+          
             $request->validate([
                 'quantity.*' => 'required|integer',
                 'pricing.*' => 'required|numeric',
             ]);
 
-            // Create a new ProductDelivery instance and save it
+          
             ProductDelivery::create([
                 
-                'quantity' => json_encode($request->input('quantity')), // Encode the array
+                'quantity' => json_encode($request->input('quantity')), 
                 'pricing' => json_encode($request->input('pricing')),
             ]);
 
             return redirect()->back()->with('success', 'Product delivery added successfully.');
         } catch (\Exception $e) {
-            // Log the error
-            // \Log::error('Error adding product delivery: ' . $e->getMessage());
+            
             return redirect()->back()->with('error', 'Failed to add product delivery. Please try again.');
         }
     }

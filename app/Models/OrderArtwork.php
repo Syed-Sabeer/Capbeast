@@ -21,6 +21,7 @@ class OrderArtwork extends Model
         'font_style',
         'num_of_imprint',
         'imprint_color',
+        'leathercolor',
     ];
 
     protected $casts = [

@@ -33,7 +33,7 @@
 
                 @foreach($cart as $item)
                 @php
-                    $itemTotal = ($item->product_price + $item->printing_price + $item->delivery_price) * $item->quantity;
+                    $itemTotal = ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
                     $subtotal += $itemTotal;
                 @endphp
                     <div class="card product">
@@ -81,7 +81,7 @@
                                     </div>
                                     <div class="text-lg-end">
                                         <p class="text-muted mb-1 fs-12">Customization Price:</p>
-                                        <h5 class="fs-16">$<span class="product-price">{{ $item->printing_price * $item->quantity }}</span></h5>
+                                        <h5 class="fs-16">$<span class="product-price">{{ $item->printing_price * $item->quantity + $item->pompom_price * $item->quantity }}</span></h5>
                                     </div>
                                     <div class="text-lg-end">
                                         <p class="text-muted mb-1 fs-12">Delivery Price:</p>
@@ -112,7 +112,7 @@
                                     <div class="d-flex align-items-center gap-2 text-muted">
                                         <div>Total :</div>
                                         <h5 class="fs-14 mb-0">$<span class="product-line-price">
-                                            {{ ($item->product_price * $item->quantity) + ($item->printing_price * $item->quantity) + ($item->delivery_price * $item->quantity) }}
+                                            {{ ($item->product_price * $item->quantity) + ($item->printing_price * $item->quantity) + ($item->delivery_price * $item->quantity) + ($item->pompom_price * $item->quantity)  }}
                                         </span></h5>
                                     </div>
                                 </div>

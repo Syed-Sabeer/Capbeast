@@ -32,9 +32,9 @@ class OrderController extends Controller
 
     public function orderHistory()
     {
-        $userId = auth()->id(); // Get the authenticated user's ID
+        $userId = auth()->id(); 
 
-        // Fetch cart items belonging to the authenticated user, including the color
+        
         $orderhistory = Order::with(['items' => function ($query) {
             $query->with('orderArtwork');
         }, 'user'])->where('user_id', $userId)->get();
@@ -47,19 +47,19 @@ class OrderController extends Controller
 
     public function index()
     {
-        $userId = auth()->id(); // Get the authenticated user's ID
+        $userId = auth()->id(); 
     
-        // Fetch cart items belonging to the authenticated user, including the color
+       
         $cart = Cart::with(['product', 'color', 'printing'])
             ->where('user_id', $userId)
             ->get();
     
-        // If the cart is empty, redirect to the cart page with a message
+       
         if ($cart->isEmpty()) {
             return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
         }
     
-        // Pass the cart data to the view
+        
         return view('main.pages.checkout', compact('cart'));
     }
     
@@ -81,10 +81,10 @@ class OrderController extends Controller
                 'additional_info' => 'nullable|string|max:500',
             ]);
 
-            // Generate a unique 5-character order ID
+           
             $orderId = $this->generateOrderId();
 
-            // Calculate total price
+         
             $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
 
             if ($cartItems->isEmpty()) {
@@ -92,10 +92,10 @@ class OrderController extends Controller
             }
 
             $totalPrice = $cartItems->reduce(function ($total, $item) {
-                return $total + ($item->product_price + $item->printing_price + $item->delivery_price) * $item->quantity;
+                return $total + ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
             }, 0);
 
-            // Create order
+          
             $order = Order::create([
                 'user_id' => $userId,
                 'order_id' => $orderId,
@@ -114,10 +114,10 @@ class OrderController extends Controller
             ]);
     
 
-            // Log the created order ID
+         
             Log::info('Created order with ID: ' . $order->id);
 
-            // Create order items
+           
             foreach ($cartItems as $item) {
                 if ($item->printing_price !== null && $item->beanie_type !== null) {
                     $orderItem = OrderItem::create([
@@ -127,9 +127,11 @@ class OrderController extends Controller
                         'quantity' => $item->quantity,
                         'beanie_type' => $item->beanie_type,
                         'printing_id' => $item->printing_id,
+                        'is_pompom' => $item->is_pompom,
                         'printing_price' => $item->printing_price,
                         'product_price' => $item->product_price,
                         'delivery_price' => $item->delivery_price,
+                        'pompom_price' => $item->pompom_price,
                     ]);
                 }
 
@@ -143,7 +145,7 @@ class OrderController extends Controller
                         Log::info('Artwork data: ' . json_encode($artwork));
 
                         OrderArtwork::create([
-                            'order_item_id' => $orderItem->id, // Associate with the created OrderItem
+                            'order_item_id' => $orderItem->id, 
                             'artwork_type' => $artwork->artwork_type,
                             'artwork_dataText' => $artwork->artwork_dataText,
                             'artwork_dataImage' => $artwork->artwork_dataImage ?? null,
@@ -151,7 +153,11 @@ class OrderController extends Controller
                             'patch_height' => $artwork->patch_height,
                             'font_style' => $artwork->font_style,
                             'num_of_imprint' => $artwork->num_of_imprint,
-                            'imprint_color' => json_encode($artwork->imprint_color ?? []),
+                            // 'imprint_color' => json_encode($artwork->imprint_color ?? []),
+                            // 'imprint_color' => $artwork->imprint_color ? json_encode($artwork->imprint_color, JSON_UNESCAPED_SLASHES) : null,
+'imprint_color' => $artwork->imprint_color ?? null,
+
+                            'leathercolor' => $artwork->leathercolor,
                         ]);
                     }
                 }
@@ -173,9 +179,7 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Generate a unique 5-character order ID
-     */
+   
     private function generateOrderId()
     {
         do {

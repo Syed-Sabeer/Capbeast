@@ -155,8 +155,7 @@
               
             </div>
         </div>
-        
-
+ 
         <div class="col-12 col-lg-12 mt-5">
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -171,9 +170,11 @@
                                 <th>Products</th>
                                 <th>Qty</th>
                                 <th>Color</th>
+                                <th>Is Pom Pom</th>
+                                <th>Embroidery</th>
                                 <th>Product Price</th>
-                                <th>Printing Price</th>
-                                <th>Delivery Price</th>
+                                <th>Printing</th>
+                                <th>Delivery </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -183,13 +184,15 @@
                                     <td>{{ $item->product->title }}</td>
                                     <td>{{ $item->quantity }}</td>
                                     <td>{{ $item->color->color }}</td>
+                                    <td>{{ $item->is_pompom == 1 ? 'Yes' : 'No' }}</td>
+                                    <td>{{ $item->printing->title }}</td>
                                     <td>{{ $item->product_price * $item->quantity }} $</td>
                                     <td>{{ $item->printing_price * $item->quantity }} $</td>
                                     <td>{{ $item->delivery_price * $item->quantity }} $</td>
                                 </tr>
                                 @if ($item->orderArtwork)
                                     <tr>
-                                        <td colspan="7" style="text-align: center;">
+                                        <td colspan="8" style="text-align: center;">
                                             <table style="width: 100%; border: none;">
                                                 <thead>
                                                     <tr>
@@ -199,6 +202,9 @@
                                                         <th>Patch Length</th>
                                                         <th>Font Style</th>
                                                         <th>Imprint Color</th>
+                                                        @if ($item->printing->title === 'Real Leather Patch')
+                                                        <th>Leather Color</th>
+                                                        @endif
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -228,6 +234,9 @@
                                                         <td>{{ $item->orderArtwork->patch_length ?? 'N/A' }}</td>
                                                         <td>{{ $item->orderArtwork->font_style ?? 'N/A' }}</td>
                                                         <td>{{ implode(', ', $item->orderArtwork->imprint_color ?? []) }}</td>
+                                                        @if ($item->printing->title === 'Real Leather Patch')
+                                                        <td>{{ $item->orderArtwork->leathercolor ?? 'N/A' }}</td>
+                                                        @endif
                                                     </tr>
                                                     
                                                 </tbody>

@@ -16,12 +16,14 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade'); // Link to the order
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade'); // Product reference
             $table->foreignId('color_id')->constrained('product_color')->onDelete('cascade'); // Color reference
-            $table->integer('quantity'); // Quantity of the product
-            $table->integer('beanie_type'); // Beanie type
+            $table->integer('quantity'); 
+            $table->integer('beanie_type'); 
+            $table->integer('is_pompom');
             $table->foreignId('printing_id')->constrained('product_printings')->onDelete('cascade'); // Printing reference
-            $table->decimal('printing_price', 8, 2); // Price for printing
-            $table->decimal('product_price', 8, 2); // Price for the product
-            $table->decimal('delivery_price', 8, 2); // Delivery price for the product
+            $table->decimal('printing_price', 8, 2);
+            $table->decimal('product_price', 8, 2); 
+            $table->decimal('delivery_price', 8, 2);
+            $table->decimal('pompom_price', 8, 2);
             $table->timestamps();
         });
         

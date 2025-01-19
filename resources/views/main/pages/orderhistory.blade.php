@@ -79,14 +79,15 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Color</th>
-                                    <th scope="col">Embroidery</th>
-                                    <th scope="col">Delivery Price</th>
-                                    <th scope="col">Embroidery Price</th>
-                                    <th scope="col">Product Price</th>
-                                    <th scope="col">Type</th>
+                                    <th >Product</th>
+                                    <th >Quantity</th>
+                                    <th >Color</th>
+                                    <th >With Pom Pom</th>
+                                    <th >Embroidery</th>
+                                    <th >Delivery Price</th>
+                                    <th >Embroidery Price</th>
+                                    <th >Product Price</th>
+                                    <th >Type</th>
                                 </tr>
                             </thead>
                             <tbody id="viewModal-products-list">
@@ -270,6 +271,7 @@
                     <td>${item.product.title}</td>
                     <td>${item.quantity}</td>
                     <td>${item.color.color}</td>
+                      <td>${item.is_pompom == 1 ? 'Yes' : 'No'}</td>
                     <td>${item.printing.title}</td>
                     <td>${item.delivery_price}</td>
                     <td>${item.printing_price}</td>
@@ -291,8 +293,10 @@
                             <th>Patch Length </th>
                             <th>Patch Height </th>
                              <th>Num of imprint </th>
+                             ${item.order_artwork.leathercolor == 1 ? '<th>Leather Color Code</th>' : '<th></th>'}
                              <th>Imprint Colors</th>
                             ${item.order_artwork.artwork_type == 1 ? '<th>Artwork Image</th>' : '<th>Artwork Text</th>'}
+                             
                         </tr>
                     </thead>
                     <tbody>
@@ -302,13 +306,15 @@
                             <td>${item.order_artwork.patch_length || 'N/A'} </td>
                              <td> ${item.order_artwork.patch_height || 'N/A'}</td>
                               <td> ${item.order_artwork.num_of_imprint || 'N/A'}</td>
+                              <td> ${item.order_artwork.leathercolor || 'N/A'}</td>
+
                               <td>
     ${item.order_artwork.imprint_color ? JSON.parse(item.order_artwork.imprint_color).join(', ') : 'N/A'}
 </td>
 
 <td>
     ${item.order_artwork.artwork_type == 1
-        ? `<img src="http://localhost/Beanies/public/storage/${item.order_artwork.artwork_dataImage || 'CustomerArtworkImages/images/default.jpg'}" alt="Artwork Image" class="img-fluid" />`
+        ? `<img src="http://localhost/Beanies/public/storage/${item.order_artwork.artwork_dataImage || 'CustomerArtworkImages/images/default.jpg'}" alt="Artwork Image" class="img-fluid" width="100" />`
         : (item.order_artwork.artwork_dataText || 'No additional text data available.')
     }
 </td>
@@ -373,7 +379,7 @@
                     <td>${index + 1}</td>
                     <td>${item.product.title}</td>
                     <td>${item.quantity}</td>
-                    <td>$${(item.product_price * item.quantity + item.printing_price * item.quantity + item.delivery_price * item.quantity).toFixed(2)}</td>
+                    <td>$${(item.product_price * item.quantity + item.printing_price * item.quantity + item.delivery_price * item.quantity + item.pompom_price * item.quantity).toFixed(2)}</td>
                 </tr>
             `;
                 invoiceProductsList.innerHTML += productRow;

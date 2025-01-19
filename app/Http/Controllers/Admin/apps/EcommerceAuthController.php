@@ -8,26 +8,22 @@ use Illuminate\Support\Facades\Auth;
 
 class EcommerceAuthController extends Controller
 {
-    /**
-     * Show the login form for the admin.
-     */
+    
     public function showLoginForm()
     {
         return view('admin.content.apps.login');
     }
 
-    /**
-     * Handle login request for admin.
-     */
+   
     public function login(Request $request)
     {
-        // Validate input fields
+        
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Attempt to log in the admin
+       
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('admin')->attempt($credentials)) {
@@ -36,13 +32,11 @@ class EcommerceAuthController extends Controller
             return redirect()->route('app-ecommerce-delivery-add')->with('success', 'Welcome to the admin dashboard!');
         }
 
-        // Redirect back with error message
+      
         return redirect()->back()->withErrors(['email' => 'Invalid email or password.'])->withInput($request->except('password'));
     }
 
-    /**
-     * Handle logout request for admin.
-     */
+   
     public function logout(Request $request)
     {
         // Log out the admin

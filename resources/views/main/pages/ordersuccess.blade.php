@@ -66,7 +66,7 @@
                         @php
                             // Calculate the total price for each item
                             $itemTotal =
-                                ($item->product_price + $item->printing_price + $item->delivery_price) *
+                                ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) *
                                 $item->quantity;
                             $subtotal += $itemTotal; // Add to subtotal
                         @endphp

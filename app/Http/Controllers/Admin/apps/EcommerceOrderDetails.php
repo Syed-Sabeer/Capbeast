@@ -13,21 +13,21 @@ class EcommerceOrderDetails extends Controller
 {
     public function index($orderId)
 {
-    // Retrieve the order with related data
+   
     $order = Order::with(['user', 'Order_files', 'ShippingDetails', 'items' => function ($query) {
         $query->with('orderArtwork');
     }])->findOrFail($orderId);
 
-    // Retrieve the latest internal status for this order based on updated_at
+    
     $latestStatus = OrderInternalStatus::where('order_id', $orderId)
-        ->orderBy('updated_at', 'desc')  // Order by most recent update timestamp
-        ->with('internalStatus')  // Include the related internal status
+        ->orderBy('updated_at', 'desc')  
+        ->with('internalStatus') 
         ->first();
 
     // Retrieve status history
     $statusHistory = OrderInternalStatus::where('order_id', $orderId)
-        ->orderBy('updated_at', 'asc') // Order by ascending updated_at
-        ->with('internalStatus')  // Include the related internal status
+        ->orderBy('updated_at', 'asc') 
+        ->with('internalStatus')  
         ->get();
 
     // Retrieve only active (non-soft-deleted) statuses for the dropdown
@@ -51,12 +51,12 @@ class EcommerceOrderDetails extends Controller
             ->first();
     
         if ($existingOrderStatus) {
-            // If the status exists and the same, just update the updated_at timestamp
+           
             if ($existingOrderStatus->internal_status_id == $request->internal_status_id) {
                 $existingOrderStatus->touch(); // This will update the updated_at field
             }
         } else {
-            // If it doesn't exist, insert a new record
+         
             OrderInternalStatus::create([
                 'order_id' => $orderId,
                 'internal_status_id' => $request->internal_status_id,
@@ -70,13 +70,13 @@ class EcommerceOrderDetails extends Controller
 
     public function orderfileupload(Request $request, $id)
     {
-        // Validate the incoming request
+       
         $request->validate([
             'title' => 'required|string|max:255', 
             'file' => 'required|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,xls,xlsm,xlsx,xltx|max:2048', 
         ]);
 
-        // Process the file upload if a file is provided
+      
         if ($request->hasFile('file')) {
             $file = $request->file('file');
 
@@ -86,7 +86,7 @@ class EcommerceOrderDetails extends Controller
             // Save the file
             $file->move(public_path('uploads'), $fileName);
 
-            // Create the order file record
+            
             OrderFiles::create([
                 'order_id' => $id,
                 'title' => $request->input('title'), 

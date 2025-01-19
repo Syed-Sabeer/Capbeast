@@ -315,6 +315,46 @@
                                     </script>
 
 
+
+<div class=" mb-3" id="leatherwork" style="display: none;">
+    <div class="row">
+    <div class="col-md-6">
+        <label for="leathercolor" class="form-label fw-bold">Enter Leather Color</label>
+        <input type="number" id="leathercolor" class="form-control" placeholder="Leather Color Number">
+        <small class="form-text text-muted">Select Color Number From The Image</small>
+    </div>
+    <div class="col-md-6">
+        <label for="fontStyle" class="form-label fw-bold">Have a Look on Leather Colors</label>
+        <img class="form-control" src="{{ asset('assetsCommon/images/LeatherPatchColors.jpeg') }}" width="10" alt="">
+    </div>
+</div>
+</div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const printingOptions = document.querySelectorAll(".printing-option");
+    const leatherworkSection = document.getElementById("leatherwork");
+
+    printingOptions.forEach(option => {
+        option.addEventListener("click", function() {
+            // Get the title of the selected printing option
+            const printingTitle = this.getAttribute("data-title").toLowerCase();
+
+            // Check if the title contains the word "leather"
+            if (printingTitle.includes("leather")) {
+                leatherworkSection.style.display = "block"; // Show leatherwork section
+            } else {
+                leatherworkSection.style.display = "none"; // Hide leatherwork section
+            }
+        });
+    });
+});
+
+</script>
+
+
                                     <!-- Patch Dimensions -->
                                     <div class="row mb-3">
                                         <div class="col-md-6">
@@ -739,8 +779,17 @@
 
             document.getElementById("add-to-cart-button").addEventListener("click", function() {
                 const quantity = parseInt(quantityInput.value) || 0;
+
+                
                 const colorId = document.getElementById("beanie-color").value;
                 const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
+
+                const PomPomOption = document.querySelector('input[name="pompom"]:checked')?.value || null;
+              // Set pompomPrice based on PomPomOption
+              const pompomPrice = PomPomOption === "1" ? 2 : 0;
+
+                
+
                 const printingId = parseInt(document.querySelector(".printing-option.active")?.getAttribute(
                     "data-id")) || null;
                 const printingPrice = selectedPrintingPrice;
@@ -757,10 +806,12 @@
                 formData.append("colorId", colorId);
                 formData.append("quantity", quantity);
                 formData.append("beanieType", beanieType);
+                formData.append("PomPomOption", PomPomOption);
                 formData.append("printingId", printingId);
                 formData.append("printingPrice", printingPrice);
                 formData.append("productPrice", productPrice);
                 formData.append("deliveryPrice", deliveryPrice);
+                formData.append("pompomPrice", pompomPrice);
 
                 // Only include artwork data if the artwork form is visible
                 if (artworkSelection.style.display !== "none") {
@@ -773,9 +824,12 @@
                     if (artworkDataImage) {
                         formData.append("artworkDataImage", artworkDataImage);
                     }
-
+                    const leathercolor = document.getElementById("leathercolor").value 
+                    // ? parseFloat(document.getElementById("leathercolor").value) : 0
+                    ;
                     const patchLength = document.getElementById("patchLength").value ? parseFloat(document
                         .getElementById("patchLength").value) : null;
+                 
                     const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document
                         .getElementById("patchHeight").value) : null;
                     const fontStyle = document.getElementById("fontStyle").value || null;
@@ -786,6 +840,7 @@
     input => parseInt(input.value, 10)
 );
 
+                    formData.append("leathercolor", leathercolor);
                     formData.append("patchLength", patchLength);
                     formData.append("patchHeight", patchHeight);
                     formData.append("fontStyle", fontStyle);

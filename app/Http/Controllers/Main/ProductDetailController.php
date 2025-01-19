@@ -24,19 +24,16 @@ class ProductDetailController extends Controller
 
     public function index($id)
     {
-        // Fetch product details using Eloquent
+      
         $product = Product::findOrFail($id);
     
-        // $embroideryColors = ComponentEmbroideryColor::get(['color_name', 'color_code']);
-
-
-        // Fetch related product colors
-        $productColors = $product->productColors ?? [];  // Ensure it's initialized as an array
+       
+        $productColors = $product->productColors ?? [];  
     
-        // Load the color_api.json file
+      
         $colorApi = json_decode(file_get_contents(public_path('assetsCommon/api/color_api.json')), true);
     
-        // Map hex codes to names
+        
         $colorNames = [];
         foreach ($productColors as $color) {
             foreach ($colorApi as $colorApiItem) {
@@ -47,19 +44,19 @@ class ProductDetailController extends Controller
             }
         }
     
-        // Fetch all product printing options
+        
         $productPrintings = ProductPrinting::all();
         $latestProductDelivery = ProductDelivery::latest('id')->first();
     
-        // Fetch product pricing, iterate over the collection to get quantity and pricing
+        
         $pricing = $product->productPricing;
         $quantities = $pricing->pluck('quantity');
         $prices = $pricing->pluck('pricing');
     
-        // Fetch base images
+        
         $baseImages = $product->productBaseImages;
     
-        // Fetch delivery details (quantities and pricing)
+        
         $quantitiesdelivery = [];
         $pricesDelivery = [];
         if ($latestProductDelivery) {
@@ -67,19 +64,19 @@ class ProductDetailController extends Controller
             $pricesDelivery = json_decode($latestProductDelivery->pricing, true);
         }
     
-        // Pass all data to the view
+        
         return view('main.pages.productDetail', [
             'product' => $product,
-            'colors' => $productColors,  // Use correct variable name here
+            'colors' => $productColors, 
             'colorNames' => $colorNames,
             'quantities' => $quantities,
             'prices' => $prices,
             'productPrintings' => $productPrintings,
             'latestProductDelivery' => $latestProductDelivery,
             'baseImages' => $baseImages,
-            'quantitiesdelivery' => $quantitiesdelivery,  // Pass quantitiesdelivery
-            'pricesDelivery' => $pricesDelivery,  // Pass pricesDelivery
-            // 'embroideryColors' => $embroideryColors,
+            'quantitiesdelivery' => $quantitiesdelivery, 
+            'pricesDelivery' => $pricesDelivery,  
+            
         ]);
     }
 }

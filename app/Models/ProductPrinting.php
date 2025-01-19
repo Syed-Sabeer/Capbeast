@@ -23,12 +23,11 @@ class ProductPrinting extends Model
         'price',
     ];
 
-    // Automatically manage timestamps
     public $timestamps = true;
 
-    // Cast specific attributes
+ 
     protected $casts = [
-        'quantity' => 'array', // JSON data will be automatically cast to and from an array
-        'price' => 'array',    // JSON data will be automatically cast to and from an array
+        'quantity' => 'array', 
+        'price' => 'array',    
     ];
 }

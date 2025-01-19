@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('font_style');
             $table->integer('num_of_imprint');
             $table->text('imprint_color');
+            $table->integer('leathercolor')->nullable();
             $table->timestamps();
         });
     }
