@@ -16,6 +16,7 @@ use App\Http\Controllers\Main\CartController;
 use App\Http\Controllers\Main\OrderController;
 
 use App\Http\Controllers\Admin\apps\EcommercePrintingList;
+use App\Http\Controllers\Admin\apps\EcommerceDashboard;
 use App\Http\Controllers\Admin\apps\EcommerceProductAdd;
 use App\Http\Controllers\Admin\apps\EcommerceProductList;
 use App\Http\Controllers\Admin\apps\EcommerceAuthController;
@@ -108,6 +109,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
 
   Route::get('/component/font/add', [FontController::class, 'index'])->name('app-ecommerce-printing-add');
+
+  Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
 
   Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');
   Route::post('/delivery/add', [EcommerceDeliveryAdd::class, 'store'])->name('app-ecommerce-delivery-store');
