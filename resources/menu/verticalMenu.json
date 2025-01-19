@@ -2,7 +2,7 @@
 
       "menu": [
         {
-          "url": "app/ecommerce/dashboard",
+          "url": "admin/dashboard",
           "name": "Dashboard",
           "slug": "app-ecommerce-dashboard"
         },
@@ -74,38 +74,12 @@
               "url": "admin/customer/all",
               "name": "All Customers",
               "slug": "app-ecommerce-customer-all"
-            },
-            {
-              "name": "Customer Details",
-              "slug": "app-ecommerce-customer-details",
-              "submenu": [
-                {
-                  "url": "admin/customer/details/overview",
-                  "name": "Overview",
-                  "slug": "app-ecommerce-customer-details-overview"
-                },
-                {
-                  "url": "admin/customer/details/security",
-                  "name": "Security",
-                  "slug": "app-ecommerce-customer-details-security"
-                },
-                {
-                  "url": "admin/customer/details/billing",
-                  "name": "Address & Billing",
-                  "slug": "app-ecommerce-customer-details-billing"
-                },
-                {
-                  "url": "admin/customer/details/notifications",
-                  "name": "Notifications",
-                  "slug": "app-ecommerce-customer-details-notifications"
-                }
-              ]
             }
           ]
         },
           {
           "name": "Components",
-          "slug": "app-ecommerce-customer",
+          "slug": "app-ecommerce-components",
           "submenu": [
            
             {
@@ -157,17 +131,8 @@
               ]
             }
           ]
-        },
-        {
-          "url": "app/ecommerce/manage/reviews",
-          "name": "Manage Reviews",
-          "slug": "app-ecommerce-manage-reviews"
-        },
-        {
-          "url": "app/ecommerce/referrals",
-          "name": "Referrals",
-          "slug": "app-ecommerce-referrals"
         }
+        
       ]
  
 }

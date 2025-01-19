@@ -108,7 +108,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
 
 
-  Route::get('/component/font/add', [FontController::class, 'index'])->name('app-ecommerce-printing-add');
+  Route::get('/component/font/add', [FontController::class, 'index'])->name('app-ecommerce-font-add');
 
   Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
 

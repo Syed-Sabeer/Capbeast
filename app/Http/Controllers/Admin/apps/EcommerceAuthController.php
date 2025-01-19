@@ -29,7 +29,7 @@ class EcommerceAuthController extends Controller
         if (Auth::guard('admin')->attempt($credentials)) {
             // Regenerate session to prevent fixation
             $request->session()->regenerate();
-            return redirect()->route('app-ecommerce-delivery-add')->with('success', 'Welcome to the admin dashboard!');
+            return redirect()->route('app-ecommerce-dashboard')->with('success', 'Welcome to the admin dashboard!');
         }
 
       
