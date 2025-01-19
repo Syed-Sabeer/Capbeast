@@ -519,17 +519,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         </div>
                         <div class="mt-5 text-align-center" >
-                            @if(Auth::check() && Auth::user()->status == 1)
+                             @if(Auth::check() && Auth::user()->status == 0) 
+                                
+                                <div style="color: red" role="alert">
+                                    Contact admin to activate your account to proceed with adding items to your cart.
+                                </div>
+                                @elseif(Auth::check() && Auth::user()->status == 1) 
                                 <!-- Show Add to Cart button -->
                                 <button class="btn btn-success" id="add-to-cart-button">
                                     <i class="fa-solid fa-cart-shopping"></i> &nbsp;&nbsp;Add to Cart
                                 </button>
-                            @else
-                                <!-- Show red message -->
-                                <div style="color: red" role="alert">
-                                    Contact admin to activate your account to proceed with adding items to your cart.
-                                </div>
-                            @endif
+                                @else
+
+                                <button class="btn btn-success" id="add-to-cart-button">
+                                    <i class="fa-solid fa-cart-shopping"></i> &nbsp;&nbsp;Add to Cart
+                                </button>
+                            @endif 
                         </div>
                     </div>
 
@@ -778,6 +783,14 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
             document.getElementById("add-to-cart-button").addEventListener("click", function() {
+                const isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
+    
+    if (!isAuthenticated) {
+        // Redirect to the login page if not authenticated
+        window.location.href = "{{ route('user.login') }}";
+        return;
+    }
+
                 const quantity = parseInt(quantityInput.value) || 0;
 
                 
