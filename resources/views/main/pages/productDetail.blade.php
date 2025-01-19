@@ -214,7 +214,7 @@
                                 </div>
 
 
-
+                                @if ( $product->is_pompom == 1)
                                 <label for="beanie-color" class="section-header mt-4">Select Beanies Add on</label>
 
                                 <div class="d-flex" style="justify-content: space-between">
@@ -239,7 +239,7 @@
 
                                 </div>
 
-
+                                @endif
 
 
                                 <div class="section-header mt-4">
@@ -784,7 +784,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const colorId = document.getElementById("beanie-color").value;
                 const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
 
-                const PomPomOption = document.querySelector('input[name="pompom"]:checked')?.value || null;
+                const PomPomOption = document.querySelector('input[name="pompom"]:checked')?.value || 0;
               // Set pompomPrice based on PomPomOption
               const pompomPrice = PomPomOption === "1" ? 2 : 0;
 

@@ -170,6 +170,7 @@
                                 <th>Products</th>
                                 <th>Qty</th>
                                 <th>Color</th>
+                                
                                 <th>Is Pom Pom</th>
                                 <th>Embroidery</th>
                                 <th>Product Price</th>

@@ -20,12 +20,12 @@ class CreateCartTable extends Migration
             $table->foreignId('color_id')->constrained('product_color')->onDelete('cascade');
             $table->integer('quantity');
             $table->integer('beanie_type');
-            $table->integer('is_pompom');
+            $table->integer('is_pompom')->nullable();
             $table->foreignId('printing_id')->constrained('product_printings')->onDelete('cascade');
             $table->decimal('printing_price', 8, 2);
             $table->decimal('product_price', 8, 2);
             $table->decimal('delivery_price', 8, 2);
-            $table->decimal('pompom_price', 8, 2);
+            $table->decimal('pompom_price', 8, 2)->nullable();
             $table->timestamps();
 
             $table->engine = 'InnoDB'; 

@@ -82,6 +82,7 @@
                                     <th >Product</th>
                                     <th >Quantity</th>
                                     <th >Color</th>
+                                    
                                     <th >With Pom Pom</th>
                                     <th >Embroidery</th>
                                     <th >Delivery Price</th>
