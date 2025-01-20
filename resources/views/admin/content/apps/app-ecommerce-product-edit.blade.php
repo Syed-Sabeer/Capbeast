@@ -1,92 +1,107 @@
 @extends('admin.layouts/layoutMaster')
 
-@section('title', 'eCommerce Product Add - Apps')
+@section('title', 'eCommerce Product List - Apps')
 
 @section('vendor-style')
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/typography.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/katex.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/editor.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/dropzone/dropzone.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/flatpickr/flatpickr.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
 @endsection
 
 @section('vendor-script')
-    <script src="{{ asset('assets/vendor/libs/quill/katex.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/quill/quill.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/dropzone/dropzone.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/jquery-repeater/jquery-repeater.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-    <script src="{{ asset('assets/vendor/libs/tagify/tagify.js') }}"></script>
-@endsection
-
-@section('page-script')
-    <script src="{{ asset('assets/js/app-ecommerce-product-add.js') }}"></script>
 @endsection
 
 @section('content')
-<form method="POST" action="{{ route('app-ecommerce-product-store') }}" enctype="multipart/form-data">
-    @csrf
-    <div class="row">
-        <div class="col-12 col-lg-8">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Product Name</label>
-                        <input type="text" name="title" class="form-control" placeholder="Product title" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Description</label>
-                        <textarea name="description" class="form-control" rows="5" required></textarea>
-                    </div>
-                </div>
-            </div>
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">eCommerce /</span> Product Edit
+    </h4>
 
-            <div class="card mb-4">
-                <div class="card-header">Colors</div>
-                <div class="card-body" id="color-section">
-                    <div class="color-item">
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <label class="form-label">Color</label>
-                                <select name="color[]" class="form-select" required>
-                                    @foreach($colors as $color)
-                                        @if(!empty($color->color))
-                                            <option value="{{ $color->color }}" style="background-color: {{ $color->color }}">{{ $color->color }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label class="form-label">Images</label>
-                                <input type="file" name="images[0][]" class="form-control" multiple>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button type="button" id="add-color" class="btn btn-primary">Add Color</button>
-            </div>
+    <!-- Product Edit Form -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Edit Product</h5>
         </div>
+        <div class="card-body">
+            <form action="{{ route('app-ecommerce-product-update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('POST') <!-- Use POST for update -->
 
-        <div class="col-12 col-lg-4">
-            <div class="card mb-4">
-                <div class="card-header">Pricing</div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Quantity</label>
-                        <input type="number" name="quantity[]" class="form-control" placeholder="Enter quantity" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Price</label>
-                        <input type="text" name="pricing[]" class="form-control" placeholder="Enter price" required>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Product Title</label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{ $product->title }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Product Description</label>
+                    <textarea class="form-control" id="description" name="description" required>{{ $product->description }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="is_pompom" class="form-label">Is PomPom</label>
+                    <select class="form-control" id="is_pompom" name="is_pompom" required>
+                        <option value="1" {{ $product->is_pompom ? 'selected' : '' }}>Yes</option>
+                        <option value="0" {{ !$product->is_pompom ? 'selected' : '' }}>No</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="base_image" class="form-label">Base Image</label>
+                    <input type="file" class="form-control" id="base_image" name="base_image">
+                    @if($product->productBaseImages->isNotEmpty())
+                        <h6>Current Base Image:</h6>
+                        @foreach ($product->productBaseImages as $image)
+                            <div class="mb-2">
+                                <img src="{{ asset('storage/' . $image->base_image) }}" alt="Current Image" width="100">
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+           
+                <div class="mb-3">
+                    <label for="color_images" class="form-label">Color Images</label>
+                    <div class="row">
+                        @foreach ($product->productColors as $color)
+                            <div class="col-12 mb-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <select class="form-control" name="color[]">
+                                            @foreach ($colorData as $availableColor)
+                                                <option value="{{ $availableColor->id }}" {{ $color->color_id == $availableColor->id ? 'selected' : '' }}>
+                                                    {{ $availableColor->color_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="file" name="images[{{ $loop->index }}][]" class="form-control" multiple>
+                                        
+                                        @if ($color->image)
+                                            <div class="mb-2">
+                                                <img src="{{ asset('storage/' . $color->image) }}" alt="Color Image" width="100">
+                                            </div>
+                                        @else
+                                            <p>No image for this color.</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
-            </div>
+                
+                                
+
+                <!-- Add additional fields for other properties like pricing, stock, etc. -->
+                <button type="submit" class="btn btn-primary">Update Product</button>
+            </form>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-success">Save Product</button>
-</form>
+    <script>
+        // Add any additional JavaScript or event listeners needed for the form
+    </script>
+
 @endsection

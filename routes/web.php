@@ -137,9 +137,11 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
   Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
   Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
   Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
-  Route::delete('/product/{id}', [EcommerceProductList::class, 'destroy'])->name('products.destroy');
-  Route::get('/product/edit/{id}', [EcommerceProductAdd::class, 'edit'])->name('app-ecommerce-product-edit');
-  Route::post('/product/edit/{id}', [EcommerceProductAdd::class, 'update'])->name('app-ecommerce-product-update');
+  Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name('app-ecommerce-product-edit');
+Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name('app-ecommerce-product-update');
+Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name('app-ecommerce-product-update');
+
+  
 
   Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
 
