@@ -57,9 +57,6 @@
                     
                 </div>
             </div>
-            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-            <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
             
             <div class="card mb-4">
                 <div class="card-header">Colors</div>
@@ -68,7 +65,7 @@
                         <div class="row mb-3">
                             <div class="col-6">
                                 <label class="form-label">Color</label>
-                                <select name="color[]" class="form-control color-select" required>
+                                <select name="color[]" class=" form-control color-select" required>
                                     @foreach ($colorData as $color)
                                         <option value="{{ $color->id }}">{{ $color->color_name }}</option>
                                     @endforeach
@@ -84,43 +81,7 @@
                 </div>
                 <button type="button" class="btn btn-primary" id="add-color">Add another color</button>
             </div>
-<script>
-$(document).ready(function () {
-    // Initialize Select2 for all existing dropdowns
-    $('.color-select').select2({
-        placeholder: "Select a color",
-        allowClear: true,
-        width: '100%'
-    });
 
-    // Add new color item dynamically
-    $('#add-color').on('click', function () {
-        const colorSection = $('#color-section');
-        const newColorItem = colorSection.find('.color-item:first').clone(); // Clone the first color item
-        const newIndex = colorSection.children('.color-item').length;
-
-        // Update dropdown name and reset value
-        const colorDropdown = newColorItem.find('select.color-select');
-        colorDropdown
-            .attr('name', `color[${newIndex}]`)
-            .val(null) // Clear the current selection
-            .select2({ // Reinitialize Select2 for the cloned dropdown
-                placeholder: "Select a color",
-                allowClear: true,
-                width: '100%'
-            });
-
-        // Update file input name
-        newColorItem.find('input[type="file"]')
-            .attr('name', `images[${newIndex}][]`);
-
-        // Append the cloned item to the section
-        colorSection.append(newColorItem);
-    });
-});
-
-
-</script>
             <div class="card mb-4">
                 <div class="card-header">Pricing</div>
                 <div class="card-body" id="pricing-section">
@@ -161,13 +122,21 @@ $(document).ready(function () {
 <script>
     document.getElementById('add-color').addEventListener('click', () => {
         const colorSection = document.getElementById('color-section');
-        const newColorItem = colorSection.firstElementChild.cloneNode(true);
+        const newColorItem = colorSection.firstElementChild.cloneNode(true); // Clone the first color item
         const imageInput = newColorItem.querySelector('input[type="file"]');
         const colorInput = newColorItem.querySelector('select');
         
-        imageInput.name = `images[${colorSection.children.length}][]`; // Make sure name is unique
-        colorInput.name = `color[${colorSection.children.length}]`; // Make sure color field is unique
+        const newIndex = colorSection.children.length; // New index for unique names
+        imageInput.name = `images[${newIndex}][]`; // Make sure name is unique
+        colorInput.name = `color[${newIndex}]`; // Make sure color field is unique
         
+        // Reinitialize Select2 for the new color dropdown
+        $(colorInput).select2({
+            placeholder: "Select a color",
+            allowClear: true,
+            width: '100%'
+        });
+
         colorSection.appendChild(newColorItem);
     });
 
@@ -179,22 +148,20 @@ $(document).ready(function () {
     });
 
     document.getElementById('add-base-image').addEventListener('click', () => {
-    const baseImageSection = document.getElementById('base-image-section');
-    const newImageInput = baseImageSection.firstElementChild.cloneNode(true);
-    
-    // Ensure unique names for each base image input
-    const allInputs = baseImageSection.getElementsByTagName('input');
-    newImageInput.querySelector('input[type="file"]').name = `base_images[]`; // This keeps it flat
-    
-    baseImageSection.appendChild(newImageInput);
-});
+        const baseImageSection = document.getElementById('base-image-section');
+        const newImageInput = baseImageSection.firstElementChild.cloneNode(true);
+        
+        // Ensure unique names for each base image input
+        const allInputs = baseImageSection.getElementsByTagName('input');
+        newImageInput.querySelector('input[type="file"]').name = `base_images[]`; // This keeps it flat
+        
+        baseImageSection.appendChild(newImageInput);
+    });
 
-document.getElementById('is_pompom_switch').addEventListener('change', function () {
-    const isPompomInput = document.getElementById('is_pompom');
-    // If the switch is on, set value to 1, otherwise set it to 0
-    isPompomInput.value = this.checked ? 1 : 0;
-});
-
-
+    document.getElementById('is_pompom_switch').addEventListener('change', function () {
+        const isPompomInput = document.getElementById('is_pompom');
+        // If the switch is on, set value to 1, otherwise set it to 0
+        isPompomInput.value = this.checked ? 1 : 0;
+    });
 </script>
 @endsection
