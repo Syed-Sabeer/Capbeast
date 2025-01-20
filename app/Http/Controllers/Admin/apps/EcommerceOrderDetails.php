@@ -76,26 +76,22 @@ class EcommerceOrderDetails extends Controller
             'file' => 'required|file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,xls,xlsm,xlsx,xltx|max:2048', 
         ]);
 
-      
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-
-            // Generate a unique filename
-            $fileName = time() . '_' . $file->getClientOriginalName();
-
-            // Save the file
-            $file->move(public_path('uploads'), $fileName);
-
-            
+        
+            // Store the file using the public disk
+            $filePath = $file->store('OrderFiles', 'public');
+        
+            // Save the file details in the database
             OrderFiles::create([
                 'order_id' => $id,
-                'title' => $request->input('title'), 
-                'file' => 'uploads/' . $fileName, 
+                'title' => $request->input('title'),
+                'file' => $filePath, // Path stored in 'public/OrderFiles'
             ]);
-
+        
             return back()->with('success', 'File uploaded successfully!');
         }
-
+        
         return back()->with('error', 'No file was uploaded.');
     }
 }
