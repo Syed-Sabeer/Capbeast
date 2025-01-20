@@ -91,7 +91,7 @@
                                 </p>
                                 <p
                                     style="color: #878a99 !important; margin-bottom: 0px; font-size: 13px;font-weight: 500;margin-top: 0;">
-                                    <span>Color: {{ $item->color->title ?? 'N/A' }}</span>
+                                    <span>Color: {{ $item->color->componentColor->color_name ?? 'N/A' }}</span>
                                     @php
                                         // Ensure beanie_type is checked properly
                                         $type =

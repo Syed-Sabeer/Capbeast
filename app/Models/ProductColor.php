@@ -19,6 +19,7 @@ class ProductColor extends Model
 
     public function componentColor()
     {
-        return $this->belongsTo(ComponentProductColor::class, 'color_id'); // Links to ComponentProductColor
+        return $this->belongsTo(ComponentProductColor::class, 'color_id'); // Ensure 'color_id' is correct
     }
+    
 }

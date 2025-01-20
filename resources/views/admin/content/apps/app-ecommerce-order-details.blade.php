@@ -184,7 +184,12 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->product->title }}</td>
                                     <td>{{ $item->quantity }}</td>
-                                    <td>{{ $item->color->color }}</td>
+                                    <td>{{ $item->color->componentColor->color_name }}</td>
+                                    
+                                      
+                                            
+                                 
+                                    
                                     <td>{{ $item->is_pompom == 1 ? 'Yes' : 'No' }}</td>
                                     <td>{{ $item->printing->title }}</td>
                                     <td>{{ $item->product_price * $item->quantity }} $</td>

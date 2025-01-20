@@ -271,7 +271,7 @@
                 <tr>
                     <td>${item.product.title}</td>
                     <td>${item.quantity}</td>
-                    <td>${item.color.color}</td>
+                    <td>${item.color.component_color.color_name || 'N/A'}</td>
                       <td>${item.is_pompom == 1 ? 'Yes' : 'No'}</td>
                     <td>${item.printing.title}</td>
                     <td>${item.delivery_price}</td>

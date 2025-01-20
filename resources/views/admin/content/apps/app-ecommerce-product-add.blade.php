@@ -23,7 +23,7 @@
 @endsection
 
 @section('page-script')
-    <script src="{{ asset('assets/js/app-ecommerce-product-add.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/app-ecommerce-product-add.js') }}"></script> --}}
 @endsection
 
 @section('content')
@@ -57,7 +57,10 @@
                     
                 </div>
             </div>
-
+            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+            <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+            
             <div class="card mb-4">
                 <div class="card-header">Colors</div>
                 <div class="card-body" id="color-section">
@@ -65,13 +68,13 @@
                         <div class="row mb-3">
                             <div class="col-6">
                                 <label class="form-label">Color</label>
-                                <select name="color[]" id="select2Basic" class="select2 form-select form-select-lg" required>
+                                <select name="color[]" class="form-control color-select" required>
                                     @foreach ($colorData as $color)
                                         <option value="{{ $color->id }}">{{ $color->color_name }}</option>
                                     @endforeach
                                 </select>
-                                
                             </div>
+                            
                             <div class="col-6">
                                 <label class="form-label">Images</label>
                                 <input type="file" name="images[0][]" class="form-control" multiple>
@@ -81,7 +84,43 @@
                 </div>
                 <button type="button" class="btn btn-primary" id="add-color">Add another color</button>
             </div>
+<script>
+$(document).ready(function () {
+    // Initialize Select2 for all existing dropdowns
+    $('.color-select').select2({
+        placeholder: "Select a color",
+        allowClear: true,
+        width: '100%'
+    });
 
+    // Add new color item dynamically
+    $('#add-color').on('click', function () {
+        const colorSection = $('#color-section');
+        const newColorItem = colorSection.find('.color-item:first').clone(); // Clone the first color item
+        const newIndex = colorSection.children('.color-item').length;
+
+        // Update dropdown name and reset value
+        const colorDropdown = newColorItem.find('select.color-select');
+        colorDropdown
+            .attr('name', `color[${newIndex}]`)
+            .val(null) // Clear the current selection
+            .select2({ // Reinitialize Select2 for the cloned dropdown
+                placeholder: "Select a color",
+                allowClear: true,
+                width: '100%'
+            });
+
+        // Update file input name
+        newColorItem.find('input[type="file"]')
+            .attr('name', `images[${newIndex}][]`);
+
+        // Append the cloned item to the section
+        colorSection.append(newColorItem);
+    });
+});
+
+
+</script>
             <div class="card mb-4">
                 <div class="card-header">Pricing</div>
                 <div class="card-body" id="pricing-section">

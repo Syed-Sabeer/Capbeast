@@ -43,7 +43,7 @@
                   </div>
 
                   <div class="mb-3">
-                    <label class="form-label">Pom Pom Option</label>
+                    <label class="form-label">Is Leather Option</label>
                     <br>
                     <label class="switch switch-primary switch-sm me-4 pe-2">
                         <input type="checkbox" class="switch-input" id="is_leather_switch">

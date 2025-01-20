@@ -62,7 +62,7 @@
                                 
                                     
                                     <ul class="list-inline text-muted fs-13 mb-3">
-                                        <li class="list-inline-item">Color : <span class="fw-medium">{{ $item->color->title }}</span></li>
+                                        <li class="list-inline-item">Color : <span class="fw-medium">{{ $item->color->componentColor->color_name }}</span></li>
                                         <br>
                                         <li class="list-inline-item">Type: <span class="fw-medium">{{ $type }}</span></li>
                                         <br>

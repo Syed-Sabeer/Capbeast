@@ -67,9 +67,11 @@ class OrderItem extends Model
      */
     public function color()
     {
-        return $this->belongsTo(ProductColor::class, 'color_id');
+        return $this->belongsTo(ProductColor::class, 'color_id')
+            ->with('componentColor'); // Eager-load componentColor
     }
-
+    
+    
     /**
      * Relationship with Printing
      */
