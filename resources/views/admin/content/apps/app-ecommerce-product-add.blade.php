@@ -65,7 +65,7 @@
                         <div class="row mb-3">
                             <div class="col-6">
                                 <label class="form-label">Color</label>
-                                <select name="color[]" class=" form-control color-select" required>
+                                <select name="color[]" class="form-control color-select" required>
                                     @foreach ($colorData as $color)
                                         <option value="{{ $color->id }}">{{ $color->color_name }}</option>
                                     @endforeach
