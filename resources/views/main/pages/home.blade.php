@@ -129,9 +129,9 @@
         <div class="row justify-content-center g-0">
             <div class="col-lg-7">
                 <div class="text-center">
-                    <h3 class="mb-3">Follow Us In Instagram</h3>
+                    <h3 class="mb-3">Follow Us On Instagram</h3>
                     <p class="text-muted fs-15">
-                        The most common approach that peoples use to say follow me on Instagram is by sending a direct message.
+                        Check out our latest updates and moments on Instagram. Follow us for more!
                     </p>
                 </div>
             </div>
@@ -140,16 +140,22 @@
 
     <div class="position-relative">
         <div class="row g-0 mt-5">
-            @for ($i = 1; $i <= 6; $i++)
-                <div class="col {{ $i > 2 ? 'd-none d-lg-block' : '' }}">
-                    <div class="insta-img">
-                        <a href="https://www.instagram.com/monkey_beanies/" target="_blank" class="stretched-link">
-                            <img src="../assetsMain/images/ecommerce/instagram/img-{{ $i }}.png" class="img-fluid ig-img" alt />
-                            <i class="ri-instagram-line"></i>
-                        </a>
+            @if (!empty($instagramPosts) && count($instagramPosts) > 0)
+                @foreach ($instagramPosts as $index => $post)
+                    <div class="col {{ $index > 2 ? 'd-none d-lg-block' : '' }}">
+                        <div class="insta-img">
+                            <a href="{{ $post['link'] }}" target="_blank" class="stretched-link">
+                                <img src="{{ $post['image'] }}" class="img-fluid ig-img" alt="Instagram Post" />
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                        </div>
                     </div>
+                @endforeach
+            @else
+                <div class="col-12 text-center">
+                    <p class="text-muted">Unable to fetch Instagram posts at the moment. Please try again later.</p>
                 </div>
-            @endfor
+            @endif
         </div>
 
         <div class="insta-lable text-center">
@@ -157,11 +163,11 @@
                 <i class="ph-instagram-logo align-middle me-1"></i>
                 Follow On Instagram
             </a>
-            
         </div>
     </div>
 </section>
 <!-- END INSTAGRAM -->
+
 
 <script src="{{ asset('assetsMain/js/frontend/productcardcolorchange.js') }}"></script>
 <script type="text/javascript">
