@@ -45,9 +45,13 @@ Route::prefix('main')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
     Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
-    Route::post('/checkout/add', [OrderController::class, 'add'])->name('checkout.add');
-    Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
-    Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
+Route::post('/checkout/add', [OrderController::class, 'add'])->name('checkout.add');
+Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
+Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
+
+// PayPal Routes
+Route::get('/payment-success', [OrderController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment-cancel', [OrderController::class, 'paymentCancel'])->name('payment.cancel');
     Route::get('/view-color-book', [ProductDetailController::class, 'showColorBook']);
   });
   Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');

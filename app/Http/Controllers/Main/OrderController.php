@@ -13,9 +13,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\Details;
+use PayPal\Api\Amount;
+use PayPal\Api\Transaction;
+use PayPal\Api\Payer;
+use PayPal\Api\RedirectUrls;
 
 class OrderController extends Controller
 {
+    private $apiContext;
+
+    public function __construct()
+    {
+        $this->apiContext = new ApiContext(
+            new OAuthTokenCredential(
+                'ASStNaPPMXc8Duo9rq6d9HJgrj2UwfvgSPcVr2JDqUricsCT0sFK0JamNgJuyk8fQ9k-gt-QDWDAoG85', // PayPal Client ID
+                'EPsGPhhyUX_C9FCW1cs45OwiHL_NMHCjeaPwIYfwfBQoP8xjCihHeiEkfKei69LUH-l6aT5MQQvffiVh' // PayPal Client Secret
+            )
+        );
+    }
 
     public function orderSuccess(Request $request)
     {
@@ -29,40 +49,32 @@ class OrderController extends Controller
         return view('main.pages.ordersuccess', compact('order'));
     }
 
-
     public function orderHistory()
     {
-        $userId = auth()->id(); 
+        $userId = auth()->id();
 
-        
         $orderhistory = Order::with(['items' => function ($query) {
             $query->with('orderArtwork');
         }, 'user'])->where('user_id', $userId)->get();
 
-
-
         return view('main.pages.orderhistory', ['orderhistory' => $orderhistory]);
     }
 
-
     public function index()
     {
-        $userId = auth()->id(); 
-    
-       
+        $userId = auth()->id();
+
         $cart = Cart::with(['product', 'color', 'printing'])
             ->where('user_id', $userId)
             ->get();
-    
-       
+
         if ($cart->isEmpty()) {
             return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
         }
-    
-        
+
         return view('main.pages.checkout', compact('cart'));
     }
-    
+
     public function add(Request $request)
     {
         $userId = auth()->id();
@@ -70,7 +82,6 @@ class OrderController extends Controller
         DB::beginTransaction();
 
         try {
-
             $request->validate([
                 'firstname' => 'required|string|max:255',
                 'lastname' => 'required|string|max:255',
@@ -81,10 +92,8 @@ class OrderController extends Controller
                 'additional_info' => 'nullable|string|max:500',
             ]);
 
-           
             $orderId = $this->generateOrderId();
 
-         
             $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
 
             if ($cartItems->isEmpty()) {
@@ -95,7 +104,6 @@ class OrderController extends Controller
                 return $total + ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
             }, 0);
 
-          
             $order = Order::create([
                 'user_id' => $userId,
                 'order_id' => $orderId,
@@ -112,12 +120,9 @@ class OrderController extends Controller
                 'phone' => $request->input('phone'),
                 'additional_info' => $request->input('additional_info'),
             ]);
-    
 
-         
             Log::info('Created order with ID: ' . $order->id);
 
-           
             foreach ($cartItems as $item) {
                 if ($item->printing_price !== null && $item->beanie_type !== null) {
                     $orderItem = OrderItem::create([
@@ -145,7 +150,7 @@ class OrderController extends Controller
                         Log::info('Artwork data: ' . json_encode($artwork));
 
                         OrderArtwork::create([
-                            'order_item_id' => $orderItem->id, 
+                            'order_item_id' => $orderItem->id,
                             'artwork_type' => $artwork->artwork_type,
                             'artwork_dataText' => $artwork->artwork_dataText,
                             'artwork_dataImage' => $artwork->artwork_dataImage ?? null,
@@ -153,10 +158,7 @@ class OrderController extends Controller
                             'patch_height' => $artwork->patch_height,
                             'font_style' => $artwork->font_style,
                             'num_of_imprint' => $artwork->num_of_imprint,
-                            // 'imprint_color' => json_encode($artwork->imprint_color ?? []),
-                            // 'imprint_color' => $artwork->imprint_color ? json_encode($artwork->imprint_color, JSON_UNESCAPED_SLASHES) : null,
-'imprint_color' => $artwork->imprint_color ?? null,
-
+                            'imprint_color' => $artwork->imprint_color ?? null,
                             'leathercolor' => $artwork->leathercolor,
                         ]);
                     }
@@ -165,13 +167,9 @@ class OrderController extends Controller
 
             Cart::where('user_id', $userId)->delete();
 
-            DB::commit();
+            // Payment processing via PayPal
+            return $this->createPayment($order->id, $totalPrice);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Checkout successful!',
-                'orderId' => $order->id,
-            ]);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Checkout failed: ' . $e->getMessage());
@@ -179,7 +177,6 @@ class OrderController extends Controller
         }
     }
 
-   
     private function generateOrderId()
     {
         do {
@@ -187,5 +184,66 @@ class OrderController extends Controller
         } while (Order::where('order_id', $orderId)->exists());
 
         return $orderId;
+    }
+
+    // PayPal Payment Creation
+    private function createPayment($orderId, $totalPrice)
+    {
+        $payer = new Payer();
+        $payer->setPaymentMethod('paypal');
+
+        $amount = new Amount();
+        $amount->setTotal($totalPrice);
+        $amount->setCurrency('USD');
+
+        $transaction = new Transaction();
+        $transaction->setAmount($amount);
+        $transaction->setDescription('Order payment for order ID: ' . $orderId);
+
+        $redirectUrls = new RedirectUrls();
+        $redirectUrls->setReturnUrl(route('payment.success', ['orderId' => $orderId]))
+            ->setCancelUrl(route('payment.cancel'));
+
+        $payment = new Payment();
+        $payment->setIntent('sale')
+            ->setPayer($payer)
+            ->setTransactions([$transaction])
+            ->setRedirectUrls($redirectUrls);
+
+        try {
+            $payment->create($this->apiContext);
+            return redirect()->away($payment->getApprovalLink());
+        } catch (\Exception $e) {
+            Log::error('PayPal Payment creation failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Payment failed, please try again later.'], 500);
+        }
+    }
+
+    // PayPal Payment Success handling
+    public function paymentSuccess(Request $request)
+    {
+        $paymentId = $request->get('paymentId');
+        $payerId = $request->get('PayerID');
+        $orderId = $request->query('orderId');
+
+        $payment = Payment::get($paymentId, $this->apiContext);
+        $execution = new PaymentExecution();
+        $execution->setPayerId($payerId);
+
+        try {
+            $result = $payment->execute($execution, $this->apiContext);
+            $order = Order::find($orderId);
+            $order->update(['payment_status' => 'completed']);
+            return redirect()->route('order.success', ['orderId' => $orderId]);
+        } catch (\Exception $e) {
+            Log::error('PayPal payment execution failed: ' . $e->getMessage());
+            return redirect()->route('payment.cancel');
+        }
+    }
+
+    // PayPal Payment Cancel handling
+    public function paymentCancel()
+    {
+        return redirect()->route('home')->with('error', 'Payment was canceled.');
     }
 }

@@ -8,7 +8,6 @@
     ])
     @endcomponent
 
-
     <section class="section">
         <div class="container">
             <div class="row">
@@ -150,125 +149,22 @@
 
                     <div class="mt-4 pt-2">
 
-                        <div class="row gy-3">
+                    <!-- Payment Selection -->
+<div class="row gy-3">
+    <h5 class="mb-0 flex-grow-1">Payment Selection</h5>
+    <div class="col">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMethod" id="paypalRadio" value="paypal" checked>
+            <label class="form-check-label" for="paypalRadio">
+                PayPal
+            </label>
+        </div>
+    </div>
+</div>
 
-                            <h5 class="mb-0 flex-grow-1">Payment Selection</h5>
+<!-- PayPal Button container -->
+<div id="paypal-button-container" style="display:none;"></div>
 
-                            <ul class="nav nav-pills arrow-navtabs nav-success bg-light mb-3 mt-4 nav-justified custom-nav"
-                                role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active py-3" data-bs-toggle="tab" href="#credit" role="tab">
-                                        <span class="d-block d-sm-none"><i
-                                                class="ri-bank-card-fill align-bottom"></i></span>
-                                        <span class="d-none d-sm-block"> <i
-                                                class="ri-bank-card-fill align-bottom pe-2"></i>
-                                            Credit / Debit Card</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link  py-3" data-bs-toggle="tab" href="#paypal" role="tab">
-                                        <span class="d-block d-sm-none"><i class="ri-paypal-fill align-bottom"></i></span>
-                                        <span class="d-none d-sm-block"><i class="ri-paypal-fill align-bottom pe-2"></i>
-                                            Paypal</span>
-                                    </a>
-                                </li>
-
-
-
-
-                            </ul>
-                            <!-- Tab panes -->
-                            <div class="tab-content text-muted">
-
-                                <div class="tab-pane active" id="credit" role="tabpanel">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row gy-3">
-                                                <div class="col-md-12">
-                                                    <label for="cc-name" class="form-label">Name on card</label>
-                                                    <input type="text" class="form-control" id="cc-name"
-                                                        placeholder="Enter name">
-                                                    <small class="text-muted">Full name as displayed on card</small>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="cc-number" class="form-label">Credit card number</label>
-                                                    <input type="text" class="form-control" id="cc-number"
-                                                        placeholder="xxxx xxxx xxxx xxxx">
-                                                </div>
-
-                                                <div class="col-md-3">
-                                                    <label for="cc-expiration" class="form-label">Expiration</label>
-                                                    <input type="text" class="form-control" id="cc-expiration"
-                                                        placeholder="MM/YY">
-                                                </div>
-
-                                                <div class="col-md-3">
-                                                    <label for="cc-cvv" class="form-label">CVV</label>
-                                                    <input type="text" class="form-control" id="cc-cvv"
-                                                        placeholder="xxx">
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane " id="paypal" role="tabpanel">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row gy-3">
-                                                <div class="col-md-12">
-                                                    <label for="buyers-name" class="form-label">Buyers First Name</label>
-                                                    <input type="text" class="form-control" id="buyers-name"
-                                                        placeholder="Enter Name">
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="buyers-last" class="form-label">Buyers Last Name</label>
-                                                    <input type="text" class="form-control" id="buyers-last"
-                                                        placeholder="Enter Last Name">
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="buyers-address" class="form-label">Email Address</label>
-                                                    <input type="text" class="form-control" id="buyers-address"
-                                                        placeholder="Enter Email Address">
-                                                </div>
-
-                                                <div class="col-md-12">
-                                                    <label class="form-label">Select your paypal account type</label>
-                                                    <div class="d-flex gap-4 mt-1">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="formRadios" id="formRadios1" checked>
-                                                            <label class="form-check-label" for="formRadios1">
-                                                                Domestic
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio"
-                                                                name="formRadios" id="formRadios2">
-                                                            <label class="form-check-label" for="formRadios2">
-                                                                International
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-
-                            </div>
-
-
-                        </div>
                     </div>
                 </div>
                 <!-- end col -->
@@ -298,18 +194,7 @@
                                                 <td>Sub Total :</td>
                                                 <td class="text-end cart-subtotal">${{ number_format($subtotal, 2) }}</td>
                                             </tr>
-                                            {{-- <tr>
-                                            <td>Discount <span class="text-muted">(Toner15)</span>:</td>
-                                            <td class="text-end cart-discount">$18.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Shipping Charge :</td>
-                                            <td class="text-end cart-shipping">$2.4</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Estimated Tax (12.5%) : </td>
-                                            <td class="text-end cart-tax">$1.6</td>
-                                        </tr> --}}
+                                         
                                             <tr class="table-active">
                                                 <th>Total (USD) :</th>
                                                 <td class="text-end">
@@ -341,38 +226,54 @@
         </div><!--end container-->
     </section>
 
+    <script src="https://www.paypal.com/sdk/js?client-id=ASStNaPPMXc8Duo9rq6d9HJgrj2UwfvgSPcVr2JDqUricsCT0sFK0JamNgJuyk8fQ9k-gt-QDWDAoG85&currency=CAD"></script>
+
 
     <script>
-        // Function to handle the checkout process
-        function proceedToCheckout() {
-            if (confirm('Are you sure you want to proceed to checkout?')) {
-                // Gather form data
-                const formData = {
-                    firstname: document.getElementById('firstname').value,
-                    lastname: document.getElementById('lastname').value,
-                    companyname: document.getElementById('companyname').value,
-                    address: document.getElementById('address').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    additional_info: document.getElementById('additional_info').value,
-                };
-    
-                // Send data via fetch
-                fetch("{{ route('checkout.add') }}", {
+     document.getElementById('checkoutButton').addEventListener('click', function() {
+    const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+    if (selectedPaymentMethod === 'paypal') {
+        // Hide the checkout button and show the PayPal button
+        document.getElementById('checkoutButton').style.display = 'none';
+        document.getElementById('paypal-button-container').style.display = 'block';
+
+        // Render PayPal button
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '{{ number_format($subtotal, 2) }}' // Subtotal from your backend
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Handle successful payment here
+                    fetch("{{ route('checkout.add') }}", {
                         method: "POST",
                         headers: {
                             "X-CSRF-TOKEN": "{{ csrf_token() }}",
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify(formData),
+                        body: JSON.stringify({
+                            firstname: document.getElementById('firstname').value,
+                            lastname: document.getElementById('lastname').value,
+                            companyname: document.getElementById('companyname').value,
+                            address: document.getElementById('address').value,
+                            email: document.getElementById('email').value,
+                            phone: document.getElementById('phone').value,
+                            additional_info: document.getElementById('additional_info').value,
+                            payment_method: 'paypal', // You can also store this
+                            transaction_id: data.orderID, // Store PayPal transaction ID
+                        }),
                     })
                     .then(response => response.json())
                     .then(result => {
                         if (result.success) {
-                            alert(result.message);
-                            // Redirect with the order ID
-                            const url = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
-                            window.location.href = url;
+                            window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
                         } else {
                             alert(result.message);
                         }
@@ -380,7 +281,14 @@
                     .catch(error => {
                         alert('An error occurred during checkout. Please try again.');
                     });
+                });
+            },
+            onCancel: function(data) {
+                alert('Payment cancelled.');
+                // You can optionally handle the cancellation here.
             }
-        }
+        }).render('#paypal-button-container');
+    }
+});
     </script>
 @endsection
