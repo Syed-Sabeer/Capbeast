@@ -196,7 +196,7 @@
                                             </tr>
                                          
                                             <tr class="table-active">
-                                                <th>Total (USD) :</th>
+                                                <th>Total (CAD) :</th>
                                                 <td class="text-end">
                                                     <span
                                                         class="fw-semibold cart-total">${{ number_format($subtotal, 2) }}</span>

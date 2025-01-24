@@ -194,7 +194,7 @@ class OrderController extends Controller
 
         $amount = new Amount();
         $amount->setTotal($totalPrice);
-        $amount->setCurrency('USD');
+        $amount->setCurrency('CAD');
 
         $transaction = new Transaction();
         $transaction->setAmount($amount);
