@@ -36,7 +36,7 @@ class OrderController extends Controller
                 env('PAYPAL_SECRET')      // PayPal Secret
             )
         );
-    
+
         $this->apiContext->setConfig([
             'mode' => env('PAYPAL_MODE', 'sandbox'), // Use sandbox mode by default
             'http.ConnectionTimeOut' => 30,
@@ -45,7 +45,7 @@ class OrderController extends Controller
             'log.LogLevel' => 'FINE', // Logging level: DEBUG, INFO, WARN, ERROR
         ]);
     }
-    
+
     public function orderSuccess(Request $request)
     {
         $orderId = $request->query('orderId');
@@ -72,20 +72,20 @@ class OrderController extends Controller
     public function index()
     {
         $userId = auth()->id();
-    
+
         $cart = Cart::with(['product', 'color', 'printing'])
             ->where('user_id', $userId)
             ->get();
-    
+
         if ($cart->isEmpty()) {
             return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
         }
-    
+
         // Calculate the subtotal and pass it as a float value (not formatted yet)
         $subtotal = $cart->reduce(function ($total, $item) {
             return $total + ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
         }, 0);
-    
+
         return view('main.pages.checkout', compact('cart', 'subtotal'));
     }
 
@@ -183,7 +183,6 @@ class OrderController extends Controller
 
             // Payment processing via PayPal
             return $this->createPayment($order->id, $totalPrice);
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Checkout failed: ' . $e->getMessage());
@@ -200,42 +199,41 @@ class OrderController extends Controller
         return $orderId;
     }
 
-    // PayPal Payment Creation
-    public function createPayment(Request $request)
+    public function createPayment($orderId, $total)
     {
         // Set payer information
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
-
+    
         // Set payment amount
         $amount = new Amount();
         $amount->setCurrency('USD')
-               ->setTotal($request->input('total'));  // Amount from frontend
-
+            ->setTotal($total);  // Amount passed from frontend
+    
         // Set transaction details
         $transaction = new Transaction();
         $transaction->setAmount($amount)
-                    ->setDescription('Order Payment');
-
+            ->setDescription('Order Payment');
+    
         // Set redirect URLs (after payment approval or cancellation)
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl(url('/payment-success'))  // Redirect after success
-                     ->setCancelUrl(url('/payment-cancelled')); // Redirect if payment cancelled
-
+            ->setCancelUrl(url('/payment-cancelled')); // Redirect if payment cancelled
+    
         // Create the payment
         $payment = new Payment();
         $payment->setIntent('sale')
-                ->setPayer($payer)
-                ->setTransactions([$transaction])
-                ->setRedirectUrls($redirectUrls);
-
+            ->setPayer($payer)
+            ->setTransactions([$transaction])
+            ->setRedirectUrls($redirectUrls);
+    
         try {
             // Create the payment and get the approval URL
             $payment->create($this->apiContext);
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
             return response()->json(['error' => 'Error creating payment. Please try again later.']);
         }
-
+    
         // Get the approval URL and return it to the frontend
         $approvalUrl = null;
         foreach ($payment->getLinks() as $link) {
@@ -243,9 +241,10 @@ class OrderController extends Controller
                 $approvalUrl = $link->getHref();
             }
         }
-
+    
         return response()->json(['approval_url' => $approvalUrl]);
     }
+    
 
     // PayPal Payment Success handling
     public function paymentSuccess(Request $request)
