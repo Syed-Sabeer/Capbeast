@@ -259,4 +259,77 @@ class OrderController extends Controller
     {
         return redirect()->route('home')->with('error', 'Payment was canceled.');
     }
+    public function handleWebhook(Request $request)
+{
+    // PayPal sends a JSON payload in the body of the webhook request
+    $payload = $request->getContent();
+    Log::info('PayPal Webhook Received: ' . $payload);
+
+    // Decode the payload to get the event data
+    $data = json_decode($payload);
+
+    // Verify the event signature (important for security)
+    $isVerified = $this->verifyWebhook($data);
+
+    if (!$isVerified) {
+        Log::error('Webhook verification failed');
+        return response()->json(['error' => 'Invalid signature'], 400);
+    }
+
+    // Process different events based on event type
+    switch ($data->event_type) {
+        case 'PAYMENT.SALE.COMPLETED':
+            // Handle payment success (mark order as paid)
+            $orderId = $data->resource->invoice_id; // Extract order ID from webhook payload
+            $order = Order::where('order_id', $orderId)->first();
+            if ($order) {
+                $order->update(['payment_status' => 'completed']);
+                Log::info('Order paid successfully: ' . $order->order_id);
+            }
+            break;
+        
+        case 'PAYMENT.SALE.DENIED':
+            // Handle payment denial
+            $orderId = $data->resource->invoice_id;
+            $order = Order::where('order_id', $orderId)->first();
+            if ($order) {
+                $order->update(['payment_status' => 'denied']);
+                Log::info('Payment denied for order: ' . $order->order_id);
+            }
+            break;
+
+        case 'PAYMENT.SALE.PENDING':
+            // Handle payment pending
+            $orderId = $data->resource->invoice_id;
+            $order = Order::where('order_id', $orderId)->first();
+            if ($order) {
+                $order->update(['payment_status' => 'pending']);
+                Log::info('Payment pending for order: ' . $order->order_id);
+            }
+            break;
+
+        // Add more cases for other events as needed
+
+        default:
+            Log::info('Unhandled event type: ' . $data->event_type);
+            break;
+    }
+
+    // Return success response
+    return response()->json(['status' => 'success'], 200);
+}
+
+// Method to verify the webhook signature
+private function verifyWebhook($data)
+{
+    $signature = request()->header('Paypal-Transmission-Sig');
+    $timestamp = request()->header('Paypal-Transmission-Time');
+    $webhookId = env('PAYPAL_WEBHOOK_ID'); // Set this in your .env file
+
+    // PayPal will send the signature and timestamp to verify the authenticity of the webhook
+    $payload = request()->getContent();
+    $expectedSignature = hash_hmac('sha256', $timestamp . $payload, env('PAYPAL_WEBHOOK_SECRET'), true);
+    
+    return hash_equals($signature, $expectedSignature);
+}
 }

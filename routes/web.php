@@ -48,6 +48,7 @@ Route::prefix('main')->group(function () {
 Route::post('/checkout/add', [OrderController::class, 'add'])->name('checkout.add');
 Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
 Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
+Route::post('/paypal/webhook', [OrderController::class, 'handleWebhook']);
 
 // PayPal Routes
 Route::get('/payment-success', [OrderController::class, 'paymentSuccess'])->name('payment.success');
