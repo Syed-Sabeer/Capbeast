@@ -77,8 +77,7 @@ class OrderController extends Controller
     public function add(Request $request)
     {
         $userId = auth()->id();
-        DB::beginTransaction();
-        
+    
         try {
             $request->validate([
                 'firstname' => 'required|string|max:255',
@@ -91,12 +90,8 @@ class OrderController extends Controller
                 'paymentMethod' => 'required|string' // Ensure payment method is selected
             ]);
     
-            // Generate unique order ID
-            $orderId = $this->generateOrderId();
-    
             // Fetch cart items
             $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
-    
             if ($cartItems->isEmpty()) {
                 return response()->json(['success' => false, 'message' => 'Cart is empty.'], 400);
             }
@@ -114,94 +109,43 @@ class OrderController extends Controller
     
             Log::info('Calculated Total Price: ' . $totalPrice);
     
-            // Create the order
-            $order = Order::create([
-                'user_id' => $userId,
-                'order_id' => $orderId,
-                'total_price' => $totalPrice,
+            // Save user input into the session
+            session([
+                'checkout_details' => [
+                    'firstname' => $request->input('firstname'),
+                    'lastname' => $request->input('lastname'),
+                    'companyname' => $request->input('companyname'),
+                    'address' => $request->input('address'),
+                    'email' => $request->input('email'),
+                    'phone' => $request->input('phone'),
+                    'additional_info' => $request->input('additional_info'),
+                    'cart_items' => $cartItems,
+                    'total_price' => $totalPrice,
+                ]
             ]);
     
-            // Create order shipping details
-            OrderShippingDetail::create([
-                'order_id' => $order->id,
-                'firstname' => $request->input('firstname'),
-                'lastname' => $request->input('lastname'),
-                'companyname' => $request->input('companyname'),
-                'address' => $request->input('address'),
-                'email' => $request->input('email'),
-                'phone' => $request->input('phone'),
-                'additional_info' => $request->input('additional_info'),
-            ]);
-    
-            // Insert order items and artworks ONLY after successful checkout
-            foreach ($cartItems as $item) {
-                if ($item->printing_price !== null && $item->beanie_type !== null) {
-                    $orderItem = OrderItem::create([
-                        'order_id' => $order->id,
-                        'product_id' => $item->product_id,
-                        'color_id' => $item->color_id,
-                        'quantity' => $item->quantity,
-                        'beanie_type' => $item->beanie_type,
-                        'printing_id' => $item->printing_id,
-                        'is_pompom' => $item->is_pompom,
-                        'printing_price' => $item->printing_price,
-                        'product_price' => $item->product_price,
-                        'delivery_price' => $item->delivery_price,
-                        'pompom_price' => $item->pompom_price,
-                    ]);
-                }
-    
-                if ($item->artworks) {
-                    foreach ($item->artworks as $artwork) {
-                        if ($artwork->artwork_dataImage && $request->hasFile('artwork_dataImage')) {
-                            $artwork->artwork_dataImage = $request->file('artwork_dataImage')->store('OrderArtworkImages', 'public');
-                        }
-    
-                        OrderArtwork::create([
-                            'order_item_id' => $orderItem->id,
-                            'artwork_type' => $artwork->artwork_type,
-                            'artwork_dataText' => $artwork->artwork_dataText,
-                            'artwork_dataImage' => $artwork->artwork_dataImage ?? null,
-                            'patch_length' => $artwork->patch_length,
-                            'patch_height' => $artwork->patch_height,
-                            'font_style' => $artwork->font_style,
-                            'num_of_imprint' => $artwork->num_of_imprint,
-                            'imprint_color' => $artwork->imprint_color ?? null,
-                            'leathercolor' => $artwork->leathercolor,
-                        ]);
-                    }
-                }
-            }
-    
-            // Clear the cart after successful checkout
-            Cart::where('user_id', $userId)->delete();
-            DB::commit();
-    
-            // After successful checkout, initiate PayPal payment
+            // Initiate PayPal Payment
             if ($request->paymentMethod === 'paypal') {
                 $paymentResponse = $this->PostPaymentWithPaypal($totalPrice);
     
                 if (!$paymentResponse) {
-                    DB::rollBack();
                     return response()->json(['success' => false, 'message' => 'PayPal payment initiation failed.'], 500);
                 }
     
-                // Return success message and redirect URL to frontend
                 return response()->json([
                     'success' => true,
-                    'message' => 'Checkout successful! You are being redirected to PayPal.',
-                    'paypalUrl' => $paymentResponse, // Send the PayPal URL to frontend
-                    'orderId' => $order->id,
+                    'message' => 'Redirecting to PayPal...',
+                    'paypalUrl' => $paymentResponse
                 ]);
             }
-            
-            return response()->json(['success' => true, 'message' => 'Checkout successful, but no payment method selected.']);
+    
+            return response()->json(['success' => false, 'message' => 'Payment method not supported.']);
         } catch (\Exception $e) {
-            DB::rollBack();
             Log::error('Checkout failed: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Checkout failed. Please try again later.'], 500);
         }
     }
+    
     
 
     private function generateOrderId()
@@ -256,48 +200,102 @@ class OrderController extends Controller
     
         return $redirect_url;
     }
+    
 
     public function GetPaymentStatus(Request $request)
     {
-        $input = $request->all();
-        $paymentId = $input['paymentId'];
-        $payerId = $input['PayerID'];
-        $token = $input['token'];
+        $paymentId = $request->query('paymentId');
+        $payerId = $request->query('PayerID');
     
-        if (empty($payerId) || empty($token)) {
-            Session::put('error', 'Payment failed');
-            return Redirect::route('checkout');
-        }
-    
-        $payment = Payment::get($paymentId, $this->_api_context);
-        $execution = new PaymentExecution();
-        $execution->setPayerId($payerId);
-    
-        try {
-            $result = $payment->execute($execution, $this->_api_context);
-            
-            if ($result->state == 'approved') {
-                // Only create the order after successful payment
-                $order = Order::create([
-                    'user_id' => auth()->id(),
-                    'order_id' => $this->generateOrderId(),
-                    'total_price' => $result->transactions[0]->amount->total,
-                    'payment_status' => 'completed',
-                ]);
-        
-                // After payment confirmation, create related items and redirect
-                return redirect()->route('main.pages.success', ['orderId' => $order->id]);
-            } else {
-                // Handle failed payment (ensure the order isn't created)
-                Log::error('Payment failed with status: ' . $result->state);
-                Session::put('error', 'Payment failed');
-                return redirect()->route('checkout');
-            }
-        } catch (\Exception $e) {
-            Log::error('PayPal Payment Execution Failed: ' . $e->getMessage());
+        if (empty($payerId) || empty($paymentId)) {
             Session::put('error', 'Payment failed');
             return redirect()->route('checkout');
         }
-        
+    
+        try {
+            $payment = Payment::get($paymentId, $this->_api_context);
+            $execution = new PaymentExecution();
+            $execution->setPayerId($payerId);
+            $result = $payment->execute($execution, $this->_api_context);
+    
+            if ($result->state == 'approved') {
+                // Retrieve session data
+                $checkoutDetails = session('checkout_details');
+                if (!$checkoutDetails) {
+                    return redirect()->route('checkout')->with('error', 'Session expired.');
+                }
+    
+                DB::beginTransaction();
+    
+                // Create Order
+                $order = Order::create([
+                    'user_id' => auth()->id(),
+                    'order_id' => $this->generateOrderId(),
+                    'total_price' => $checkoutDetails['total_price'],
+                    'payment_status' => 'completed',
+                ]);
+    
+                // Create Shipping Details
+                OrderShippingDetail::create([
+                    'order_id' => $order->id,
+                    'firstname' => $checkoutDetails['firstname'],
+                    'lastname' => $checkoutDetails['lastname'],
+                    'companyname' => $checkoutDetails['companyname'],
+                    'address' => $checkoutDetails['address'],
+                    'email' => $checkoutDetails['email'],
+                    'phone' => $checkoutDetails['phone'],
+                    'additional_info' => $checkoutDetails['additional_info'],
+                ]);
+    
+                // Insert Order Items
+                foreach ($checkoutDetails['cart_items'] as $item) {
+                    $orderItem = OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $item->product_id,
+                        'color_id' => $item->color_id,
+                        'quantity' => $item->quantity,
+                        'beanie_type' => $item->beanie_type,
+                        'printing_id' => $item->printing_id,
+                        'is_pompom' => $item->is_pompom,
+                        'printing_price' => $item->printing_price,
+                        'product_price' => $item->product_price,
+                        'delivery_price' => $item->delivery_price,
+                        'pompom_price' => $item->pompom_price,
+                    ]);
+    
+                    // Insert Order Artworks
+                    foreach ($item->artworks as $artwork) {
+                        OrderArtwork::create([
+                            'order_item_id' => $orderItem->id,
+                            'artwork_type' => $artwork->artwork_type,
+                            'artwork_dataText' => $artwork->artwork_dataText,
+                            'artwork_dataImage' => $artwork->artwork_dataImage,
+                            'patch_length' => $artwork->patch_length,
+                            'patch_height' => $artwork->patch_height,
+                            'font_style' => $artwork->font_style,
+                            'num_of_imprint' => $artwork->num_of_imprint,
+                            'imprint_color' => $artwork->imprint_color,
+                            'leathercolor' => $artwork->leathercolor,
+                        ]);
+                    }
+                }
+    
+                // Clear Cart
+                Cart::where('user_id', auth()->id())->delete();
+    
+                DB::commit();
+                session()->forget('checkout_details');
+    
+                return redirect()->route('main.pages.success', ['orderId' => $order->id]);
+            }
+    
+            return redirect()->route('checkout')->with('error', 'Payment failed.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('PayPal Payment Execution Failed: ' . $e->getMessage());
+            return redirect()->route('checkout')->with('error', 'Payment failed.');
+        }
     }
+    
+    
 }
