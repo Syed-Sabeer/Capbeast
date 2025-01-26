@@ -92,14 +92,14 @@
                                     <div class="col">
                                         <div data-mdb-input-init class="form-outline">
                                             <label class="form-label" for="form6Example1">First name *</label>
-                                            <input type="text" id="firstname" name="firstname" class="form-control" />
+                                            <input type="text" id="firstname" name="firstname" class="form-control" required/>
 
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div data-mdb-input-init class="form-outline">
                                             <label class="form-label" for="form6Example2">Last name *</label>
-                                            <input type="text" id="lastname" name="lastname" class="form-control" />
+                                            <input type="text" id="lastname" name="lastname" class="form-control" required/>
 
                                         </div>
                                     </div>
@@ -108,28 +108,28 @@
                                 <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example3">Company name *</label>
-                                    <input type="text" id="companyname" name="companyname" class="form-control" />
+                                    <input type="text" id="companyname" name="companyname" class="form-control" required/>
 
                                 </div>
 
                                 <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example4">Address *</label>
-                                    <input type="text" id="address" name="address" class="form-control" />
+                                    <input type="text" id="address" name="address" class="form-control" required/>
 
                                 </div>
 
                                 <!-- Email input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example5">Email *</label>
-                                    <input type="email" id="email" name="email" class="form-control" />
+                                    <input type="email" id="email" name="email" class="form-control" required/>
 
                                 </div>
 
                                 <!-- Number input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example6">Phone *</label>
-                                    <input type="number" id="phone" name="phone" class="form-control" />
+                                    <input type="number" id="phone" name="phone" class="form-control" required/>
 
                                 </div>
 
