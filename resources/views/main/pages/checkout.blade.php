@@ -225,7 +225,7 @@
             </div><!--end row-->
         </div><!--end container-->
     </section>
-    {{-- <script src="https://www.paypal.com/sdk/js?client-id=AdhAac-xuv6O_SbQOoMvPF1jgmt86w1Mx2-Myjs_1aGt3vnJhBo4hcvTEZJUBfNxR2-k7DlzGXzrmIpo&currency=CAD"></script> --}}
+    <script src="https://www.paypal.com/sdk/js?client-id=AdhAac-xuv6O_SbQOoMvPF1jgmt86w1Mx2-Myjs_1aGt3vnJhBo4hcvTEZJUBfNxR2-k7DlzGXzrmIpo&currency=CAD"></script>
 
     <script>
         document.getElementById('checkoutButton').addEventListener('click', function () {

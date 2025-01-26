@@ -3,7 +3,7 @@
 
     <head>
 
-        <script src="https://www.paypal.com/sdk/js?client-id=ASStNaPPMXc8Duo9rq6d9HJgrj2UwfvgSPcVr2JDqUricsCT0sFK0JamNgJuyk8fQ9k-gt-QDWDAoG85&components=buttons"></script>
+        {{-- <script src="https://www.paypal.com/sdk/js?client-id=ASStNaPPMXc8Duo9rq6d9HJgrj2UwfvgSPcVr2JDqUricsCT0sFK0JamNgJuyk8fQ9k-gt-QDWDAoG85&components=buttons"></script> --}}
 
 
         <meta charset="utf-8">
