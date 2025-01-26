@@ -22,6 +22,7 @@ use PayPal\Api\Amount;
 use PayPal\Api\Transaction;
 use PayPal\Api\Payer;
 use PayPal\Api\RedirectUrls;
+use Paypal\Common\PayPalModel;
 
 class OrderController extends Controller
 {
@@ -31,12 +32,20 @@ class OrderController extends Controller
     {
         $this->apiContext = new ApiContext(
             new OAuthTokenCredential(
-                'ASStNaPPMXc8Duo9rq6d9HJgrj2UwfvgSPcVr2JDqUricsCT0sFK0JamNgJuyk8fQ9k-gt-QDWDAoG85', // PayPal Client ID
-                'EPsGPhhyUX_C9FCW1cs45OwiHL_NMHCjeaPwIYfwfBQoP8xjCihHeiEkfKei69LUH-l6aT5MQQvffiVh' // PayPal Client Secret
+                env('PAYPAL_CLIENT_ID'), // Fetch PayPal Client ID from .env
+                env('PAYPAL_SECRET')    // Fetch PayPal Secret from .env
             )
         );
+    
+        $this->apiContext->setConfig([
+            'mode' => env('PAYPAL_MODE', 'sandbox'), // Use sandbox mode by default
+            'http.ConnectionTimeOut' => 30,
+            'log.LogEnabled' => true,
+            'log.FileName' => storage_path('logs/paypal.log'),
+            'log.LogLevel' => 'FINE', // Logging level: DEBUG, INFO, WARN, ERROR
+        ]);
     }
-
+    
     public function orderSuccess(Request $request)
     {
         $orderId = $request->query('orderId');
@@ -63,16 +72,21 @@ class OrderController extends Controller
     public function index()
     {
         $userId = auth()->id();
-
+    
         $cart = Cart::with(['product', 'color', 'printing'])
             ->where('user_id', $userId)
             ->get();
-
+    
         if ($cart->isEmpty()) {
             return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
         }
-
-        return view('main.pages.checkout', compact('cart'));
+    
+        // Calculate the subtotal and pass it as a float value (not formatted yet)
+        $subtotal = $cart->reduce(function ($total, $item) {
+            return $total + ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
+        }, 0);
+    
+        return view('main.pages.checkout', compact('cart', 'subtotal'));
     }
 
     public function add(Request $request)
@@ -180,66 +194,134 @@ class OrderController extends Controller
     private function generateOrderId()
     {
         do {
-            $orderId = strtoupper(Str::random(6)); // Generate a random string of 5 characters
+            $orderId = strtoupper(Str::random(6)); // Generate a random string of 6 characters
         } while (Order::where('order_id', $orderId)->exists());
 
         return $orderId;
     }
 
     // PayPal Payment Creation
-    private function createPayment($orderId, $totalPrice)
-    {
-        $payer = new Payer();
-        $payer->setPaymentMethod('paypal');
+  // PayPal Payment Creation
+// PayPal Payment Creation
+private function createPayment($orderId, $totalPrice)
+{
+    // Ensure totalPrice is a valid float and formatted correctly
+    $totalPrice = number_format($totalPrice, 2, '.', ''); // Format to 2 decimal places
 
-        $amount = new Amount();
-        $amount->setTotal($totalPrice);
-        $amount->setCurrency('CAD');
+    // Create the payer object
+    $payer = new Payer();
+    $payer->setPaymentMethod('paypal');
 
-        $transaction = new Transaction();
-        $transaction->setAmount($amount);
-        $transaction->setDescription('Order payment for order ID: ' . $orderId);
+    // Set the payment amount
+    $amount = new Amount();
+    $amount->setTotal($totalPrice); // Ensure this is a string or float formatted correctly
+    $amount->setCurrency('CAD'); // Set to your preferred currency
 
-        $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl(route('payment.success', ['orderId' => $orderId]))
-            ->setCancelUrl(route('payment.cancel'));
+    // Create the transaction object
+    $transaction = new Transaction();
+    $transaction->setAmount($amount);
+    $transaction->setDescription('Order payment for order ID: ' . $orderId);
 
-        $payment = new Payment();
-        $payment->setIntent('sale')
-            ->setPayer($payer)
-            ->setTransactions([$transaction])
-            ->setRedirectUrls($redirectUrls);
+    // Set the return and cancel URLs for PayPal
+    $redirectUrls = new RedirectUrls();
+    $redirectUrls->setReturnUrl(route('payment.success', ['orderId' => $orderId]))
+        ->setCancelUrl(route('payment.cancel'));
 
-        try {
-            $payment->create($this->apiContext);
-            return redirect()->away($payment->getApprovalLink());
-        } catch (\Exception $e) {
-            Log::error('PayPal Payment creation failed: ' . $e->getMessage());
-            return response()->json(['error' => 'Payment failed, please try again later.'], 500);
+    // Create the payment object
+    $payment = new Payment();
+    $payment->setIntent('sale')
+        ->setPayer($payer)
+        ->setTransactions([$transaction])
+        ->setRedirectUrls($redirectUrls);
+
+    try {
+        // Attempt to create the payment
+        $payment->create($this->apiContext);
+
+        // Redirect to PayPal for approval
+        return redirect()->away($payment->getApprovalLink());
+    } catch (\Exception $e) {
+        // Log error if payment creation fails
+        Log::error('PayPal Payment creation failed: ' . $e->getMessage());
+        return response()->json(['error' => 'Payment creation failed, please try again later.'], 500);
+    }
+}
+
+// PayPal Payment Success handling
+public function paymentSuccess(Request $request)
+{
+    $paymentId = $request->get('paymentId');
+    $payerId = $request->get('PayerID');
+    $orderId = $request->query('orderId');
+
+    $payment = Payment::get($paymentId, $this->apiContext);
+    $execution = new PaymentExecution();
+    $execution->setPayerId($payerId);
+
+    try {
+        // Attempt to execute the payment
+        $result = $payment->execute($execution, $this->apiContext);
+        
+        // If payment is successful, update order status
+        $order = Order::find($orderId);
+        $order->update(['payment_status' => 'completed']);  // Set status to completed after payment execution
+        
+        // Send user to the success page
+        return redirect()->route('order.success', ['orderId' => $orderId]);
+    } catch (\Exception $e) {
+        Log::error('PayPal payment execution failed: ' . $e->getMessage());
+        return redirect()->route('payment.cancel');  // Handle error by redirecting to cancellation page
+    }
+}
+
+
+
+private function _convertToArray($param)
+{
+    $ret = array();
+    foreach ($param as $k => $v) {
+        if ($v instanceof PayPalModel) {
+            $ret[$k] = $v->toArray();
+        } else if (sizeof($v) <= 0 && is_array($v)) {
+            $ret[$k] = array();
+        } else if (is_array($v)) {
+            $ret[$k] = $this->_convertToArray($v);
+        } else {
+            $ret[$k] = $v;
         }
     }
+
+    // If the array is empty, convert it to a PayPalModel object to represent a valid JSON structure
+    if (sizeof($ret) <= 0) {
+        $ret = new PayPalModel();
+    }
+
+    return $ret;
+}
+
+
 
     // PayPal Payment Success handling
-    public function paymentSuccess(Request $request)
-    {
-        $paymentId = $request->get('paymentId');
-        $payerId = $request->get('PayerID');
-        $orderId = $request->query('orderId');
+    // public function paymentSuccess(Request $request)
+    // {
+    //     $paymentId = $request->get('paymentId');
+    //     $payerId = $request->get('PayerID');
+    //     $orderId = $request->query('orderId');
 
-        $payment = Payment::get($paymentId, $this->apiContext);
-        $execution = new PaymentExecution();
-        $execution->setPayerId($payerId);
+    //     $payment = Payment::get($paymentId, $this->apiContext);
+    //     $execution = new PaymentExecution();
+    //     $execution->setPayerId($payerId);
 
-        try {
-            $result = $payment->execute($execution, $this->apiContext);
-            $order = Order::find($orderId);
-            $order->update(['payment_status' => 'completed']);
-            return redirect()->route('order.success', ['orderId' => $orderId]);
-        } catch (\Exception $e) {
-            Log::error('PayPal payment execution failed: ' . $e->getMessage());
-            return redirect()->route('payment.cancel');
-        }
-    }
+    //     try {
+    //         $result = $payment->execute($execution, $this->apiContext);
+    //         $order = Order::find($orderId);
+    //         $order->update(['payment_status' => 'completed']);
+    //         return redirect()->route('order.success', ['orderId' => $orderId]);
+    //     } catch (\Exception $e) {
+    //         Log::error('PayPal payment execution failed: ' . $e->getMessage());
+    //         return redirect()->route('payment.cancel');
+    //     }
+    // }
 
     // PayPal Payment Cancel handling
     public function paymentCancel()
