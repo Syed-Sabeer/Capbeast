@@ -255,6 +255,7 @@
                                 headers: {
                                     "X-CSRF-TOKEN": "{{ csrf_token() }}",
                                     "Content-Type": "application/json",
+                                    "Accept": "application/json"  // Ensure that server accepts JSON
                                 },
                                 body: JSON.stringify({
                                     firstname: document.getElementById('firstname').value,
@@ -291,7 +292,5 @@
             }
         });
     </script>
-    
-
     
 @endsection
