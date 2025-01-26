@@ -288,4 +288,3 @@
 </script>
 @endsection
 
-@endsection
