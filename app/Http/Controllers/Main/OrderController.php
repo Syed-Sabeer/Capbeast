@@ -32,11 +32,11 @@ class OrderController extends Controller
     {
         $this->apiContext = new ApiContext(
             new OAuthTokenCredential(
-                env('PAYPAL_CLIENT_ID'),  // PayPal Client ID
-                env('PAYPAL_SECRET')      // PayPal Secret
+                env('PAYPAL_CLIENT_ID'), // Fetch PayPal Client ID from .env
+                env('PAYPAL_SECRET')    // Fetch PayPal Secret from .env
             )
         );
-
+    
         $this->apiContext->setConfig([
             'mode' => env('PAYPAL_MODE', 'sandbox'), // Use sandbox mode by default
             'http.ConnectionTimeOut' => 30,
@@ -45,7 +45,7 @@ class OrderController extends Controller
             'log.LogLevel' => 'FINE', // Logging level: DEBUG, INFO, WARN, ERROR
         ]);
     }
-
+    
     public function orderSuccess(Request $request)
     {
         $orderId = $request->query('orderId');
@@ -72,20 +72,20 @@ class OrderController extends Controller
     public function index()
     {
         $userId = auth()->id();
-
+    
         $cart = Cart::with(['product', 'color', 'printing'])
             ->where('user_id', $userId)
             ->get();
-
+    
         if ($cart->isEmpty()) {
             return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
         }
-
+    
         // Calculate the subtotal and pass it as a float value (not formatted yet)
         $subtotal = $cart->reduce(function ($total, $item) {
             return $total + ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
         }, 0);
-
+    
         return view('main.pages.checkout', compact('cart', 'subtotal'));
     }
 
@@ -183,6 +183,7 @@ class OrderController extends Controller
 
             // Payment processing via PayPal
             return $this->createPayment($order->id, $totalPrice);
+
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Checkout failed: ' . $e->getMessage());
@@ -199,128 +200,107 @@ class OrderController extends Controller
         return $orderId;
     }
 
-    public function createPayment($orderId, $total)
-    {
-        // Set payer information
-        $payer = new Payer();
-        $payer->setPaymentMethod('paypal');
-    
-        // Set payment amount
-        $amount = new Amount();
-        $amount->setCurrency('USD')
-            ->setTotal($total);  // Amount passed from frontend
-    
-        // Set transaction details
-        $transaction = new Transaction();
-        $transaction->setAmount($amount)
-            ->setDescription('Order Payment');
-    
-        // Set redirect URLs (after payment approval or cancellation)
-        $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl(url('/payment-success'))  // Redirect after success
-            ->setCancelUrl(url('/payment-cancelled')); // Redirect if payment cancelled
-    
-        // Create the payment
-        $payment = new Payment();
-        $payment->setIntent('sale')
-            ->setPayer($payer)
-            ->setTransactions([$transaction])
-            ->setRedirectUrls($redirectUrls);
-    
-        try {
-            // Create the payment and get the approval URL
-            $payment->create($this->apiContext);
-        } catch (\PayPal\Exception\PayPalConnectionException $ex) {
-            return response()->json(['error' => 'Error creating payment. Please try again later.']);
-        }
-    
-        // Get the approval URL and return it to the frontend
-        $approvalUrl = null;
-        foreach ($payment->getLinks() as $link) {
-            if ($link->getRel() == 'approval_url') {
-                $approvalUrl = $link->getHref();
-            }
-        }
-    
-        return response()->json(['approval_url' => $approvalUrl]);
-    }
-    public function createPaypalPayment(Request $request)
+    // PayPal Payment Creation
+  // PayPal Payment Creation
+// PayPal Payment Creation
+private function createPayment($orderId, $totalPrice)
 {
-    $userId = auth()->id();
+    // Ensure totalPrice is a valid float and formatted correctly
+    $totalPrice = number_format($totalPrice, 2, '.', ''); // Format to 2 decimal places
 
-    // Assuming you already have the order details ready from the request or from session
-    $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
+    // Create the payer object
+    $payer = new Payer();
+    $payer->setPaymentMethod('paypal');
 
-    if ($cartItems->isEmpty()) {
-        return response()->json(['success' => false, 'message' => 'Cart is empty.'], 400);
+    // Set the payment amount
+    $amount = new Amount();
+    $amount->setTotal($totalPrice); // Ensure this is a string or float formatted correctly
+    $amount->setCurrency('CAD'); // Set to your preferred currency
+
+    // Create the transaction object
+    $transaction = new Transaction();
+    $transaction->setAmount($amount);
+    $transaction->setDescription('Order payment for order ID: ' . $orderId);
+
+    // Set the return and cancel URLs for PayPal
+    $redirectUrls = new RedirectUrls();
+    $redirectUrls->setReturnUrl(route('payment.success', ['orderId' => $orderId]))
+        ->setCancelUrl(route('payment.cancel'));
+
+    // Create the payment object
+    $payment = new Payment();
+    $payment->setIntent('sale')
+        ->setPayer($payer)
+        ->setTransactions([$transaction])
+        ->setRedirectUrls($redirectUrls);
+
+    try {
+        // Attempt to create the payment
+        $payment->create($this->apiContext);
+
+        // Redirect to PayPal for approval
+        return redirect()->away($payment->getApprovalLink());
+    } catch (\Exception $e) {
+        // Log error if payment creation fails
+        Log::error('PayPal Payment creation failed: ' . $e->getMessage());
+        return response()->json(['error' => 'Payment creation failed, please try again later.'], 500);
     }
+}
 
-    // Calculate the total price
-    $totalPrice = $cartItems->reduce(function ($total, $item) {
-        return $total + ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
-    }, 0);
+// PayPal Payment Success handling
+public function paymentSuccess(Request $request)
+{
+    $paymentId = $request->get('paymentId');
+    $payerId = $request->get('PayerID');
+    $orderId = $request->query('orderId');
 
-    // Create the payment (referencing the `createPayment` method you already have)
-    return $this->createPayment($request->orderId, $totalPrice);
+    $payment = Payment::get($paymentId, $this->apiContext);
+    $execution = new PaymentExecution();
+    $execution->setPayerId($payerId);
+
+    try {
+        // Attempt to execute the payment
+        $result = $payment->execute($execution, $this->apiContext);
+        
+        // If payment is successful, update order status
+        $order = Order::find($orderId);
+        $order->update(['payment_status' => 'completed']);  // Set status to completed after payment execution
+        
+        // Send user to the success page
+        return redirect()->route('order.success', ['orderId' => $orderId]);
+    } catch (\Exception $e) {
+        Log::error('PayPal payment execution failed: ' . $e->getMessage());
+        return redirect()->route('payment.cancel');  // Handle error by redirecting to cancellation page
+    }
 }
 
 
-    // PayPal Payment Success handling
-    public function paymentSuccess(Request $request)
-    {
-        $paymentId = $request->get('paymentId');
-        $payerId = $request->get('PayerID');
-        $orderId = $request->query('orderId');  // Ensure orderId is passed in the URL
 
-        // Get the payment details from PayPal
-        $payment = Payment::get($paymentId, $this->apiContext);
-        $execution = new PaymentExecution();
-        $execution->setPayerId($payerId);
-
-        try {
-            // Execute the payment
-            $result = $payment->execute($execution, $this->apiContext);
-
-            // Update the order status to "completed"
-            $order = Order::find($orderId);
-            if ($order) {
-                $order->update(['payment_status' => 'completed']);
-                return redirect()->route('order.success', ['orderId' => $orderId]);
-            } else {
-                return redirect()->route('home')->with('error', 'Order not found.');
-            }
-        } catch (\Exception $e) {
-            Log::error('PayPal payment execution failed: ' . $e->getMessage());
-            return redirect()->route('payment.cancel');
+private function _convertToArray($param)
+{
+    $ret = array();
+    foreach ($param as $k => $v) {
+        if ($v instanceof PayPalModel) {
+            $ret[$k] = $v->toArray();
+        } else if (sizeof($v) <= 0 && is_array($v)) {
+            $ret[$k] = array();
+        } else if (is_array($v)) {
+            $ret[$k] = $this->_convertToArray($v);
+        } else {
+            $ret[$k] = $v;
         }
     }
 
-    // PayPal Payment Cancel handling
+    // If the array is empty, convert it to a PayPalModel object to represent a valid JSON structure
+    if (sizeof($ret) <= 0) {
+        $ret = new PayPalModel();
+    }
+
+    return $ret;
+}
+
     public function paymentCancel()
     {
         return redirect()->route('home')->with('error', 'Payment was canceled.');
-    }
-
-    private function _convertToArray($param)
-    {
-        $ret = array();
-        foreach ($param as $k => $v) {
-            if ($v instanceof PayPalModel) {
-                $ret[$k] = $v->toArray();
-            } else if (sizeof($v) <= 0 && is_array($v)) {
-                $ret[$k] = array();
-            } else if (is_array($v)) {
-                $ret[$k] = $this->_convertToArray($v);
-            } else {
-                $ret[$k] = $v;
-            }
-        }
-
-        // If the array is empty, convert it to a PayPalModel object to represent a valid JSON structure
-        if (sizeof($ret) <= 0) {
-            $ret = new PayPalModel();
-        }
-
-        return $ret;
     }
 }
