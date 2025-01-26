@@ -30,15 +30,15 @@
                         <div class="row align-items-center">
                             <div class="col-md-6">
                                 <div class="position-relative">
-                                    <img src="../assetsMain/images/ecommerce/img-4.jpg" alt=""
+                                    <img src="{{ asset('assetsMain/images/ecommerce/img-4.jpg')}}" alt=""
                                         class="img-fluid rounded">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="vstack gap-4">
-                                    <img src="../assetsMain/images/ecommerce/img-1.jpg" alt=""
+                                    <img src="{{ asset('assetsMain/images/ecommerce/img-1.jpg')}}" alt=""
                                         class="img-fluid rounded">
-                                    <img src="../assetsMain/images/ecommerce/img-3.jpg" alt=""
+                                    <img src="{{ asset('assetsMain/images/ecommerce/img-3.jpg')}}" alt=""
                                         class="img-fluid rounded">
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div>
-                        <img src="../assetsMain/images/ecommerce/img-5.jpg" alt="" class="img-fluid rounded">
+                        <img src="{{ asset('assetsMain/images/ecommerce/img-5.jpg')}}" alt="" class="img-fluid rounded">
                     </div>
                 </div>
                 <div class="col-lg-6">
