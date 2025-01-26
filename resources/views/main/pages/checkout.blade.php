@@ -255,7 +255,6 @@
                                 headers: {
                                     "X-CSRF-TOKEN": "{{ csrf_token() }}",
                                     "Content-Type": "application/json",
-                                    "Accept": "application/json"  // Ensure that server accepts JSON
                                 },
                                 body: JSON.stringify({
                                     firstname: document.getElementById('firstname').value,
@@ -273,7 +272,7 @@
                             .then(result => {
                                 console.log(result);
                                 if (result.success) {
-                                    window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
+                                    window.location.href = "{{ route('order.success') }}?orderId=" + result.orderId;
                                 } else {
                                     alert(result.message);
                                 }

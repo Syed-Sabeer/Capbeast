@@ -1,10 +1,9 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-use App\Models\CartArtwork;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderShippingDetail;
@@ -17,7 +16,6 @@ use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\Payment;
 use PayPal\Api\PaymentExecution;
-use PayPal\Api\Details;
 use PayPal\Api\Amount;
 use PayPal\Api\Transaction;
 use PayPal\Api\Payer;
@@ -30,9 +28,6 @@ class OrderController extends Controller
 
     public function __construct()
     {
-        // CORS Handling
-        $this->middleware('cors'); // Apply CORS middleware
-
         $this->apiContext = new ApiContext(
             new OAuthTokenCredential(
                 env('PAYPAL_CLIENT_ID'), // Fetch PayPal Client ID from .env
@@ -84,7 +79,6 @@ class OrderController extends Controller
             return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
         }
     
-        // Calculate the subtotal and pass it as a float value (not formatted yet)
         $subtotal = $cart->reduce(function ($total, $item) {
             return $total + ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
         }, 0);
@@ -184,7 +178,6 @@ class OrderController extends Controller
 
             Cart::where('user_id', $userId)->delete();
 
-            // Payment processing via PayPal
             return $this->createPayment($order->id, $totalPrice);
 
         } catch (\Exception $e) {
@@ -205,29 +198,23 @@ class OrderController extends Controller
 
     private function createPayment($orderId, $totalPrice)
     {
-        // Ensure totalPrice is a valid float and formatted correctly
-        $totalPrice = number_format($totalPrice, 2, '.', ''); // Format to 2 decimal places
+        $totalPrice = number_format($totalPrice, 2, '.', '');
 
-        // Create the payer object
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
 
-        // Set the payment amount
         $amount = new Amount();
-        $amount->setTotal($totalPrice); // Ensure this is a string or float formatted correctly
-        $amount->setCurrency('CAD'); // Set to your preferred currency
+        $amount->setTotal($totalPrice);
+        $amount->setCurrency('CAD');
 
-        // Create the transaction object
         $transaction = new Transaction();
         $transaction->setAmount($amount);
         $transaction->setDescription('Order payment for order ID: ' . $orderId);
 
-        // Set the return and cancel URLs for PayPal
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl(route('payment.success', ['orderId' => $orderId]))
             ->setCancelUrl(route('payment.cancel'));
 
-        // Create the payment object
         $payment = new Payment();
         $payment->setIntent('sale')
             ->setPayer($payer)
@@ -235,13 +222,9 @@ class OrderController extends Controller
             ->setRedirectUrls($redirectUrls);
 
         try {
-            // Attempt to create the payment
             $payment->create($this->apiContext);
-
-            // Redirect to PayPal for approval
             return redirect()->away($payment->getApprovalLink());
         } catch (\Exception $e) {
-            // Log error if payment creation fails
             Log::error('PayPal Payment creation failed: ' . $e->getMessage());
             return response()->json(['error' => 'Payment creation failed, please try again later.'], 500);
         }
@@ -258,18 +241,13 @@ class OrderController extends Controller
         $execution->setPayerId($payerId);
 
         try {
-            // Attempt to execute the payment
             $result = $payment->execute($execution, $this->apiContext);
-            
-            // If payment is successful, update order status
             $order = Order::find($orderId);
-            $order->update(['payment_status' => 'completed']);  // Set status to completed after payment execution
-            
-            // Send user to the success page
+            $order->update(['payment_status' => 'completed']);
             return redirect()->route('order.success', ['orderId' => $orderId]);
         } catch (\Exception $e) {
             Log::error('PayPal payment execution failed: ' . $e->getMessage());
-            return redirect()->route('payment.cancel');  // Handle error by redirecting to cancellation page
+            return redirect()->route('payment.cancel');
         }
     }
 
