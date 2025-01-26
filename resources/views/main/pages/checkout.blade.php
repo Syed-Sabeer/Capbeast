@@ -272,7 +272,7 @@
                             .then(result => {
                                 console.log(result);
                                 if (result.success) {
-                                    window.location.href = "{{ route('order.success') }}?orderId=" + result.orderId;
+                                    window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
                                 } else {
                                     alert(result.message);
                                 }
