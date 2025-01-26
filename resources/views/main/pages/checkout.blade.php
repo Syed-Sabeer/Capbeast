@@ -72,13 +72,11 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-
                     <div class="mt-4 pt-2">
                         <div class="d-flex align-items-center mb-4">
                             <div class="flex-grow-1">
@@ -105,69 +103,47 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example3">Company name *</label>
                                     <input type="text" id="companyname" name="companyname" class="form-control" />
 
                                 </div>
-
-                                <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example4">Address *</label>
                                     <input type="text" id="address" name="address" class="form-control" />
 
                                 </div>
-
-                                <!-- Email input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example5">Email *</label>
                                     <input type="email" id="email" name="email" class="form-control" />
-
                                 </div>
-
-                                <!-- Number input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example6">Phone *</label>
                                     <input type="number" id="phone" name="phone" class="form-control" />
-
                                 </div>
-
-                                <!-- Message input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example7">Additional information</label>
                                     <textarea class="form-control" id="additional_info" name="additional_info" rows="4"></textarea>
-
                                 </div>
-
-                                <!-- Checkbox -->
-
                             </form>
                         </div>
                     </div>
-
                     <div class="mt-4 pt-2">
-
-                    <!-- Payment Selection -->
-<div class="row gy-3">
-    <h5 class="mb-0 flex-grow-1">Payment Selection</h5>
-    <div class="col">
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="paymentMethod" id="paypalRadio" value="paypal" checked>
-            <label class="form-check-label" for="paypalRadio">
-                PayPal
-            </label>
-        </div>
-    </div>
-</div>
-
-<!-- PayPal Button container -->
-<div id="paypal-button-container" style="display:none;"></div>
-
+                        <div class="row gy-3">
+                            <h5 class="mb-0 flex-grow-1">Payment Selection</h5>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="paypalRadio"
+                                        value="paypal" checked>
+                                    <label class="form-check-label" for="paypalRadio">
+                                        PayPal
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="paypal-button-container" style="display:none;"></div>
                     </div>
                 </div>
-                <!-- end col -->
                 <div class="col-lg-4">
                     <div class="sticky-side-div">
                         <div class="card">
@@ -194,7 +170,7 @@
                                                 <td>Sub Total :</td>
                                                 <td class="text-end cart-subtotal">${{ number_format($subtotal, 2) }}</td>
                                             </tr>
-                                         
+
                                             <tr class="table-active">
                                                 <th>Total (CAD) :</th>
                                                 <td class="text-end">
@@ -205,17 +181,15 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- end table-responsive -->
                             </div>
                         </div>
                         <div class="hstack gap-2 justify-content-between justify-content-end">
                             <a href="{{ route('cart') }}" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
                                     class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
-                                    <button type="button" class="btn w-100 btn-hover btn-primary" id="checkoutButton" 
-                                    {{ count($cart) == 0 ? 'disabled' : '' }} 
-                                    onclick="proceedToCheckout()">
-                                    Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i>
-                                </button>
+                            <button type="button" class="btn w-100 btn-hover btn-primary" id="checkoutButton"
+                                {{ count($cart) == 0 ? 'disabled' : '' }} onclick="proceedToCheckout()">
+                                Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i>
+                            </button>
                             {{-- <a href="payment.html" class="btn btn-hover btn-primary w-100"></a> --}}
                         </div>
 
@@ -225,10 +199,12 @@
             </div><!--end row-->
         </div><!--end container-->
     </section>
-    <script src="https://www.paypal.com/sdk/js?client-id=AdhAac-xuv6O_SbQOoMvPF1jgmt86w1Mx2-Myjs_1aGt3vnJhBo4hcvTEZJUBfNxR2-k7DlzGXzrmIpo&currency=CAD"></script>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AdhAac-xuv6O_SbQOoMvPF1jgmt86w1Mx2-Myjs_1aGt3vnJhBo4hcvTEZJUBfNxR2-k7DlzGXzrmIpo&currency=CAD">
+    </script>
 
     <script>
-        document.getElementById('checkoutButton').addEventListener('click', function () {
+        document.getElementById('checkoutButton').addEventListener('click', function() {
             const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
 
             if (selectedPaymentMethod === 'paypal') {
@@ -238,77 +214,85 @@
 
                 // Render PayPal button
                 paypal.Buttons({
-                    createOrder: function (data, actions) {
-                        return actions.order.create({
-                            purchase_units: [{
-                                amount: {
-                                    value: '{{ number_format($subtotal, 2, ".", "") }}' // Pass subtotal dynamically
-                                }
-                            }]
-                        });
-                    },
-                    onApprove: function (data, actions) {
-                        return actions.order.capture().then(function (details) {
-                            fetch("{{ route('checkout.add') }}", {
-                                method: "POST",
-                                headers: {
-                                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                                    "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                    firstname: document.getElementById('firstname').value,
-                                    lastname: document.getElementById('lastname').value,
-                                    companyname: document.getElementById('companyname').value,
-                                    address: document.getElementById('address').value,
-                                    email: document.getElementById('email').value,
-                                    phone: document.getElementById('phone').value,
-                                    additional_info: document.getElementById('additional_info').value,
-                                    payment_method: 'paypal', // Store payment method
-                                    transaction_id: details.id, // PayPal transaction ID
-                                }),
-                            })
-                            .then(response => response.json())
-                            .then(result => {
-                                if (result.success) {
-                                    window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
-                                } else {
-                                    alert(result.message);
-                                }
-                            })
-                            .catch(error => {
-                                alert('An error occurred during checkout. Please try again.');
-                                console.error(error);
-                            });
-                        });
-                    },
-                    onCancel: function (data) {
-                        alert('Payment cancelled.');
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '{{ number_format($subtotal, 2, '.', '') }}'
                     }
-                }).render('#paypal-button-container');
+                }]
+            });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            fetch("{{ route('checkout.add') }}", {
+                                    method: "POST",
+                                    headers: {
+                                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                        firstname: document.getElementById(
+                                            'firstname').value,
+                                        lastname: document.getElementById(
+                                            'lastname').value,
+                                        companyname: document.getElementById(
+                                            'companyname').value,
+                                        address: document.getElementById('address')
+                                            .value,
+                                        email: document.getElementById('email')
+                                            .value,
+                                        phone: document.getElementById('phone')
+                                            .value,
+                                        additional_info: document.getElementById(
+                                            'additional_info').value,
+                                        payment_method: 'paypal', // Store payment method
+                                        transaction_id: details
+                                        .id, // PayPal transaction ID
+                                    }),
+                                })
+                                .then(response => response.json())
+                                .then(result => {
+                                    if (result.success) {
+                                        window.location.href =
+                                            "{{ route('main.pages.success') }}?orderId=" +
+                                            result.orderId;
+                                    } else {
+                                        alert(result.message);
+                                    }
+                                })
+                                .catch(error => {
+                                    alert(
+                                        'An error occurred during checkout. Please try again.');
+                                    console.error(error);
+                                });
+                            });
+        },
+        onCancel: function(data) {
+            alert('Payment cancelled.');
+        }
+    }).render('#paypal-button-container');
             }
 
             // Create PayPal payment on backend
             fetch('/create-paypal-payment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ total: '{{ number_format($subtotal, 2, ".", "") }}' }), // Pass subtotal
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.approval_url) {
-                    window.location.href = data.approval_url; // Redirect to PayPal for payment approval
-                } else {
-                    alert('Error: ' + data.error);
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        total: '{{ number_format($subtotal, 2, '.', '') }}'
+                    }), // Pass subtotal
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.approval_url) {
+                        window.location.href = data.approval_url; // Redirect to PayPal for payment approval
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         });
     </script>
-    
-
-    
-
-    
 @endsection
