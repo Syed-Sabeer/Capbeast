@@ -24,7 +24,6 @@ use PayPal\Api\Payer;
 use PayPal\Api\RedirectUrls;
 use Paypal\Common\PayPalModel;
 
-
 class OrderController extends Controller
 {
     private $apiContext;

@@ -225,31 +225,30 @@
             </div><!--end row-->
         </div><!--end container-->
     </section>
-    <script src="https://www.paypal.com/sdk/js?client-id=AdhAac-xuv6O_SbQOoMvPF1jgmt86w1Mx2-Myjs_1aGt3vnJhBo4hcvTEZJUBfNxR2-k7DlzGXzrmIpo&currency=CAD"></script>
+    {{-- <script src="https://www.paypal.com/sdk/js?client-id=AdhAac-xuv6O_SbQOoMvPF1jgmt86w1Mx2-Myjs_1aGt3vnJhBo4hcvTEZJUBfNxR2-k7DlzGXzrmIpo&currency=CAD"></script> --}}
 
     <script>
         document.getElementById('checkoutButton').addEventListener('click', function () {
             const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-    
+
             if (selectedPaymentMethod === 'paypal') {
                 // Hide the checkout button and show the PayPal button
                 document.getElementById('checkoutButton').style.display = 'none';
                 document.getElementById('paypal-button-container').style.display = 'block';
-    
+
                 // Render PayPal button
                 paypal.Buttons({
                     createOrder: function (data, actions) {
                         return actions.order.create({
                             purchase_units: [{
                                 amount: {
-                                    value: '{{ number_format($subtotal, 2, ".", "") }}' // Ensure correct number format
+                                    value: '{{ number_format($subtotal, 2, ".", "") }}' // Pass subtotal dynamically
                                 }
                             }]
                         });
                     },
                     onApprove: function (data, actions) {
                         return actions.order.capture().then(function (details) {
-                            // Handle successful payment here
                             fetch("{{ route('checkout.add') }}", {
                                 method: "POST",
                                 headers: {
@@ -270,7 +269,6 @@
                             })
                             .then(response => response.json())
                             .then(result => {
-                                console.log(result);
                                 if (result.success) {
                                     window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
                                 } else {
@@ -279,29 +277,28 @@
                             })
                             .catch(error => {
                                 alert('An error occurred during checkout. Please try again.');
-                                console.error(error); // Log the error for better insight.
+                                console.error(error);
                             });
                         });
                     },
                     onCancel: function (data) {
                         alert('Payment cancelled.');
-                        // Optionally handle the cancellation here.
                     }
                 }).render('#paypal-button-container');
             }
-    
-            // Additional JS for payment creation
+
+            // Create PayPal payment on backend
             fetch('/create-paypal-payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ total: '{{ number_format($subtotal, 2, ".", "") }}' }),  // Pass subtotal from backend to frontend
+                body: JSON.stringify({ total: '{{ number_format($subtotal, 2, ".", "") }}' }), // Pass subtotal
             })
             .then(response => response.json())
             .then(data => {
                 if (data.approval_url) {
-                    window.location.href = data.approval_url;
+                    window.location.href = data.approval_url; // Redirect to PayPal for payment approval
                 } else {
                     alert('Error: ' + data.error);
                 }
