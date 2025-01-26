@@ -28,6 +28,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Product</th>
+
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Price</th>
                                         </tr>
@@ -148,16 +149,22 @@
 
                     <div class="mt-4 pt-2">
 
-                        <div class="row gy-3">
+                    <!-- Payment Selection -->
+<div class="row gy-3">
+    <h5 class="mb-0 flex-grow-1">Payment Selection</h5>
+    <div class="col">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMethod" id="paypalRadio" value="paypal" checked>
+            <label class="form-check-label" for="paypalRadio">
+                PayPal
+            </label>
+        </div>
+    </div>
+</div>
 
-                            <h5 class="mb-0 flex-grow-1">Payment Selection</h5>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="paypalOption" value="paypal" checked>
-                                <label class="form-check-label" for="paypalOption">
-                                    Pay with PayPal
-                                </label>
-                            </div>
-                        </div>
+<!-- PayPal Button container -->
+<div id="paypal-button-container" style="display:none;"></div>
+
                     </div>
                 </div>
                 <!-- end col -->
@@ -187,9 +194,9 @@
                                                 <td>Sub Total :</td>
                                                 <td class="text-end cart-subtotal">${{ number_format($subtotal, 2) }}</td>
                                             </tr>
-                                          
+                                         
                                             <tr class="table-active">
-                                                <th>Total (USD) :</th>
+                                                <th>Total (CAD) :</th>
                                                 <td class="text-end">
                                                     <span
                                                         class="fw-semibold cart-total">${{ number_format($subtotal, 2) }}</span>
@@ -209,6 +216,7 @@
                                     onclick="proceedToCheckout()">
                                     Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i>
                                 </button>
+                            {{-- <a href="payment.html" class="btn btn-hover btn-primary w-100"></a> --}}
                         </div>
 
                     </div>
@@ -218,57 +226,82 @@
         </div><!--end container-->
     </section>
 
+    <script src="https://www.paypal.com/sdk/js?client-id=Af8VFR5vqMBFBhuG7PDUOyMKQdVfIgRdJpnAVadfD9kvTtX7IqA1WwEwjpl2y2y0fmrniznyatSO_C2t&currency=CAD"></script>
     <script>
-       function proceedToCheckout() {
-    if (confirm('Are you sure you want to proceed to checkout?')) {
-        // Gather form data
-        const formData = {
-            firstname: document.getElementById('firstname').value,
-            lastname: document.getElementById('lastname').value,
-            companyname: document.getElementById('companyname').value,
-            address: document.getElementById('address').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            additional_info: document.getElementById('additional_info').value,
-            paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value // Get selected payment method
-        };
-
-        if (!formData.paymentMethod) {
-            alert('Please select a payment method.');
-            return;
-        }
-
-        // Send data via fetch
-        fetch("{{ route('checkout.add') }}", {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    alert(result.message);
-
-                    if (formData.paymentMethod === 'paypal') {
-                        // Redirect to PayPal payment
-                        window.location.href = result.paypalUrl; // Assuming you have PayPal URL in the response
-                    } else {
-                        // Redirect with the order ID
-                        const url = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
-                        window.location.href = url;
+        document.getElementById('checkoutButton').addEventListener('click', function () {
+            const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+    
+            if (selectedPaymentMethod === 'paypal') {
+                // Hide the checkout button and show the PayPal button container
+                document.getElementById('checkoutButton').style.display = 'none';
+                document.getElementById('paypal-button-container').style.display = 'block';
+    
+                // Render PayPal button
+                paypal.Buttons({
+                    createOrder: function (data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: '{{ number_format($subtotal, 2, ".", "") }}' // Ensure correct number format
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function (data, actions) {
+                        return actions.order.capture().then(function (details) {
+                            // Handle successful payment here
+                            fetch("{{ route('checkout.add') }}", {
+                                method: "POST",
+                                headers: {
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    firstname: document.getElementById('firstname').value,
+                                    lastname: document.getElementById('lastname').value,
+                                    companyname: document.getElementById('companyname').value,
+                                    address: document.getElementById('address').value,
+                                    email: document.getElementById('email').value,
+                                    phone: document.getElementById('phone').value,
+                                    additional_info: document.getElementById('additional_info').value,
+                                    payment_method: 'paypal', // Store payment method
+                                    transaction_id: data.orderID, // PayPal transaction ID
+                                }),
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                console.log(result);
+                                if (result.success) {
+                                    window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
+                                } else {
+                                    alert(result.message);
+                                }
+                            })
+                            .catch(error => {
+                                alert('An error occurred during checkout. Please try again.');
+                                console.error(error); // Log the error for better insight.
+                            });
+                        });
+                    },
+                    onCancel: function (data) {
+                        alert('Payment cancelled.');
+                        // Optionally handle the cancellation here.
                     }
-                } else {
-                    alert(result.message);
-                }
-            })
-            .catch(error => {
-                alert('An error occurred during checkout. Please try again.');
-            });
-    }
-}
-
+                }).render('#paypal-button-container');
+            }
+        });
     </script>
+    
 @endsection
+
+
+
+Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
+Route::post('/checkout/add', [OrderController::class, 'add'])->name('checkout.add');
+Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
+Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
+Route::post('/paypal/webhook', [OrderController::class, 'handleWebhook']);
+
+// PayPal Routes
+Route::get('/payment-success', [OrderController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment-cancel', [OrderController::class, 'paymentCancel'])->name('payment.cancel');

@@ -1,10 +1,9 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-use App\Models\CartArtwork;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\OrderShippingDetail;
@@ -12,28 +11,37 @@ use App\Models\OrderArtwork;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
-use PayPal\Api\Amount;
-use PayPal\Api\Payer;
 use PayPal\Api\Payment;
-use PayPal\Api\RedirectUrls;
-use PayPal\Api\Transaction;
 use PayPal\Api\PaymentExecution;
+use PayPal\Api\Amount;
+use PayPal\Api\Transaction;
+use PayPal\Api\Payer;
+use PayPal\Api\RedirectUrls;
+use Paypal\Common\PayPalModel;
 
 class OrderController extends Controller
 {
-    private $_api_context;
+    private $apiContext;
 
     public function __construct()
     {
-        $paypal = config('paypal');
-        $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal['client_id'], $paypal['secret']));
-        $this->_api_context->setConfig($paypal['settings']);
+        $this->apiContext = new ApiContext(
+            new OAuthTokenCredential(
+                env('PAYPAL_CLIENT_ID'), // Fetch PayPal Client ID from .env
+                env('PAYPAL_SECRET')    // Fetch PayPal Secret from .env
+            )
+        );
+    
+        $this->apiContext->setConfig([
+            'mode' => env('PAYPAL_MODE', 'sandbox'), // Use sandbox mode by default
+            'http.ConnectionTimeOut' => 30,
+            'log.LogEnabled' => true,
+            'log.FileName' => storage_path('logs/paypal.log'),
+            'log.LogLevel' => 'FINE', // Logging level: DEBUG, INFO, WARN, ERROR
+        ]);
     }
 
     public function orderSuccess(Request $request)
@@ -62,23 +70,32 @@ class OrderController extends Controller
     public function index()
     {
         $userId = auth()->id();
-
+    
         $cart = Cart::with(['product', 'color', 'printing'])
             ->where('user_id', $userId)
             ->get();
-
+    
         if ($cart->isEmpty()) {
             return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
         }
-
-        return view('main.pages.checkout', compact('cart'));
+    
+        $subtotal = $cart->reduce(function ($total, $item) {
+            return $total + ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
+        }, 0);
+    
+        return view('main.pages.checkout', compact('cart', 'subtotal'));
     }
 
     public function add(Request $request)
     {
+        // Add CORS headers at the start of this method
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         $userId = auth()->id();
+
         DB::beginTransaction();
-        
+
         try {
             $request->validate([
                 'firstname' => 'required|string|max:255',
@@ -88,40 +105,26 @@ class OrderController extends Controller
                 'email' => 'required|email|max:255',
                 'phone' => 'required|string|max:20',
                 'additional_info' => 'nullable|string|max:500',
-                'paymentMethod' => 'required|string' // Ensure payment method is selected
             ]);
-    
-            // Generate unique order ID
+
             $orderId = $this->generateOrderId();
-    
-            // Fetch cart items
+
             $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
-    
+
             if ($cartItems->isEmpty()) {
                 return response()->json(['success' => false, 'message' => 'Cart is empty.'], 400);
             }
-    
-            // Calculate total price
+
             $totalPrice = $cartItems->reduce(function ($total, $item) {
-                $productPrice = (float) $item->product_price;
-                $printingPrice = (float) $item->printing_price;
-                $deliveryPrice = (float) $item->delivery_price;
-                $pompomPrice = (float) $item->pompom_price;
-                $quantity = (int) $item->quantity;
-    
-                return $total + (($productPrice + $printingPrice + $deliveryPrice + $pompomPrice) * $quantity);
+                return $total + ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
             }, 0);
-    
-            Log::info('Calculated Total Price: ' . $totalPrice);
-    
-            // Create the order
+
             $order = Order::create([
                 'user_id' => $userId,
                 'order_id' => $orderId,
                 'total_price' => $totalPrice,
             ]);
-    
-            // Create order shipping details
+
             OrderShippingDetail::create([
                 'order_id' => $order->id,
                 'firstname' => $request->input('firstname'),
@@ -132,8 +135,9 @@ class OrderController extends Controller
                 'phone' => $request->input('phone'),
                 'additional_info' => $request->input('additional_info'),
             ]);
-    
-            // Insert order items and artworks ONLY after successful checkout
+
+            Log::info('Created order with ID: ' . $order->id);
+
             foreach ($cartItems as $item) {
                 if ($item->printing_price !== null && $item->beanie_type !== null) {
                     $orderItem = OrderItem::create([
@@ -150,13 +154,16 @@ class OrderController extends Controller
                         'pompom_price' => $item->pompom_price,
                     ]);
                 }
-    
+
                 if ($item->artworks) {
                     foreach ($item->artworks as $artwork) {
                         if ($artwork->artwork_dataImage && $request->hasFile('artwork_dataImage')) {
                             $artwork->artwork_dataImage = $request->file('artwork_dataImage')->store('OrderArtworkImages', 'public');
                         }
-    
+
+                        Log::info('Inserting artwork for Order ID: ' . $order->id);
+                        Log::info('Artwork data: ' . json_encode($artwork));
+
                         OrderArtwork::create([
                             'order_item_id' => $orderItem->id,
                             'artwork_type' => $artwork->artwork_type,
@@ -172,37 +179,17 @@ class OrderController extends Controller
                     }
                 }
             }
-    
-            // Clear the cart after successful checkout
+
             Cart::where('user_id', $userId)->delete();
-            DB::commit();
-    
-            // After successful checkout, initiate PayPal payment
-            if ($request->paymentMethod === 'paypal') {
-                $paymentResponse = $this->PostPaymentWithPaypal($totalPrice);
-    
-                if (!$paymentResponse) {
-                    DB::rollBack();
-                    return response()->json(['success' => false, 'message' => 'PayPal payment initiation failed.'], 500);
-                }
-    
-                // Return success message and redirect URL to frontend
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Checkout successful! You are being redirected to PayPal.',
-                    'paypalUrl' => $paymentResponse, // Send the PayPal URL to frontend
-                    'orderId' => $order->id,
-                ]);
-            }
-            
-            return response()->json(['success' => true, 'message' => 'Checkout successful, but no payment method selected.']);
+
+            return $this->createPayment($order->id, $totalPrice);
+
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Checkout failed: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Checkout failed. Please try again later.'], 500);
         }
     }
-    
 
     private function generateOrderId()
     {
@@ -213,91 +200,136 @@ class OrderController extends Controller
         return $orderId;
     }
 
-    public function PostPaymentWithPaypal($totalPrice)
+    private function createPayment($orderId, $totalPrice)
     {
+        $totalPrice = number_format($totalPrice, 2, '.', '');
+
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
-    
+
         $amount = new Amount();
-        $amount->setTotal((float)$totalPrice); // Cast to float explicitly
+        $amount->setTotal($totalPrice);
         $amount->setCurrency('CAD');
-    
+
         $transaction = new Transaction();
         $transaction->setAmount($amount);
-    
+        $transaction->setDescription('Order payment for order ID: ' . $orderId);
+
         $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl(URL::route('status'))
-                     ->setCancelUrl(URL::route('status'));
-    
+        $redirectUrls->setReturnUrl(route('payment.success', ['orderId' => $orderId]))
+            ->setCancelUrl(route('payment.cancel'));
+
         $payment = new Payment();
         $payment->setIntent('sale')
-                ->setPayer($payer)
-                ->setTransactions([$transaction])
-                ->setRedirectUrls($redirectUrls);
-    
+            ->setPayer($payer)
+            ->setTransactions([$transaction])
+            ->setRedirectUrls($redirectUrls);
+
         try {
-            $payment->create($this->_api_context);
-            Log::info("PayPal Payment Created: " . json_encode($payment));
-        } catch (\PayPal\Exception\PPConnectionException $ex) {
-            Log::error("PayPal Error: " . $ex->getMessage());
-            Session::put('error', 'Connection timeout');
-            return Redirect::route('checkout');
+            $payment->create($this->apiContext);
+            return redirect()->away($payment->getApprovalLink());
+        } catch (\Exception $e) {
+            Log::error('PayPal Payment creation failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Payment creation failed, please try again later.'], 500);
         }
-    
-        foreach ($payment->getLinks() as $link) {
-            if ($link->getRel() == 'approval_url') {
-                $redirect_url = $link->getHref();
-                break;
-            }
-        }
-    
-        // Store payment ID for later use
-        Session::put('paypal_payment_id', $payment->getId());
-    
-        return $redirect_url;
     }
 
-    public function GetPaymentStatus(Request $request)
+    public function paymentSuccess(Request $request)
     {
-        $input = $request->all();
-        $paymentId = $input['paymentId'];
-        $payerId = $input['PayerID'];
-        $token = $input['token'];
-    
-        if (empty($payerId) || empty($token)) {
-            Session::put('error', 'Payment failed');
-            return Redirect::route('checkout');
-        }
-    
-        $payment = Payment::get($paymentId, $this->_api_context);
+        $paymentId = $request->get('paymentId');
+        $payerId = $request->get('PayerID');
+        $orderId = $request->query('orderId');
+
+        $payment = Payment::get($paymentId, $this->apiContext);
         $execution = new PaymentExecution();
         $execution->setPayerId($payerId);
-    
+
         try {
-            $result = $payment->execute($execution, $this->_api_context);
-            
-            if ($result->state == 'approved') {
-                // Only create the order after successful payment
-                $order = Order::create([
-                    'user_id' => auth()->id(),
-                    'order_id' => $this->generateOrderId(),
-                    'total_price' => $result->transactions[0]->amount->total,
-                    'payment_status' => 'completed',
-                ]);
-        
-                // After payment confirmation, create related items and redirect
-                return redirect()->route('main.pages.success', ['orderId' => $order->id]);
-            } else {
-                // Handle failed payment (ensure the order isn't created)
-                Log::error('Payment failed with status: ' . $result->state);
-                Session::put('error', 'Payment failed');
-                return redirect()->route('checkout');
-            }
+            $result = $payment->execute($execution, $this->apiContext);
+            $order = Order::find($orderId);
+            $order->update(['payment_status' => 'completed']);
+            return redirect()->route('order.success', ['orderId' => $orderId]);
         } catch (\Exception $e) {
-            Log::error('PayPal Payment Execution Failed: ' . $e->getMessage());
-            Session::put('error', 'Payment failed');
-            return redirect()->route('checkout');
+            Log::error('PayPal payment execution failed: ' . $e->getMessage());
+            return redirect()->route('payment.cancel');
         }
-        
     }
+
+    public function paymentCancel()
+    {
+        return redirect()->route('home')->with('error', 'Payment was canceled.');
+    }
+    public function handleWebhook(Request $request)
+{
+    // PayPal sends a JSON payload in the body of the webhook request
+    $payload = $request->getContent();
+    Log::info('PayPal Webhook Received: ' . $payload);
+
+    // Decode the payload to get the event data
+    $data = json_decode($payload);
+
+    // Verify the event signature (important for security)
+    $isVerified = $this->verifyWebhook($data);
+
+    if (!$isVerified) {
+        Log::error('Webhook verification failed');
+        return response()->json(['error' => 'Invalid signature'], 400);
+    }
+
+    // Process different events based on event type
+    switch ($data->event_type) {
+        case 'PAYMENT.SALE.COMPLETED':
+            // Handle payment success (mark order as paid)
+            $orderId = $data->resource->invoice_id; // Extract order ID from webhook payload
+            $order = Order::where('order_id', $orderId)->first();
+            if ($order) {
+                $order->update(['payment_status' => 'completed']);
+                Log::info('Order paid successfully: ' . $order->order_id);
+            }
+            break;
+        
+        case 'PAYMENT.SALE.DENIED':
+            // Handle payment denial
+            $orderId = $data->resource->invoice_id;
+            $order = Order::where('order_id', $orderId)->first();
+            if ($order) {
+                $order->update(['payment_status' => 'denied']);
+                Log::info('Payment denied for order: ' . $order->order_id);
+            }
+            break;
+
+        case 'PAYMENT.SALE.PENDING':
+            // Handle payment pending
+            $orderId = $data->resource->invoice_id;
+            $order = Order::where('order_id', $orderId)->first();
+            if ($order) {
+                $order->update(['payment_status' => 'pending']);
+                Log::info('Payment pending for order: ' . $order->order_id);
+            }
+            break;
+
+        // Add more cases for other events as needed
+
+        default:
+            Log::info('Unhandled event type: ' . $data->event_type);
+            break;
+    }
+
+    // Return success response
+    return response()->json(['status' => 'success'], 200);
+}
+
+// Method to verify the webhook signature
+private function verifyWebhook($data)
+{
+    $signature = request()->header('Paypal-Transmission-Sig');
+    $timestamp = request()->header('Paypal-Transmission-Time');
+    $webhookId = env('PAYPAL_WEBHOOK_ID'); // Set this in your .env file
+
+    // PayPal will send the signature and timestamp to verify the authenticity of the webhook
+    $payload = request()->getContent();
+    $expectedSignature = hash_hmac('sha256', $timestamp . $payload, env('PAYPAL_WEBHOOK_SECRET'), true);
+    
+    return hash_equals($signature, $expectedSignature);
+}
 }

@@ -21,7 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\CorsMiddleware::class,  // Custom CORS middleware
+        
     ];
 
     /**
@@ -42,7 +42,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             // If you're using API, make sure Cors middleware is handled here too
-            \Fruitcake\Cors\HandleCors::class,  // CORS handler for APIs
+       
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
