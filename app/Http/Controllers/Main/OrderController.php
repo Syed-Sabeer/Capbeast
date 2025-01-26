@@ -200,9 +200,6 @@ class OrderController extends Controller
         return $orderId;
     }
 
-    // PayPal Payment Creation
-  // PayPal Payment Creation
-// PayPal Payment Creation
 private function createPayment($orderId, $totalPrice)
 {
     // Ensure totalPrice is a valid float and formatted correctly
@@ -247,7 +244,6 @@ private function createPayment($orderId, $totalPrice)
     }
 }
 
-// PayPal Payment Success handling
 public function paymentSuccess(Request $request)
 {
     $paymentId = $request->get('paymentId');
@@ -274,8 +270,6 @@ public function paymentSuccess(Request $request)
     }
 }
 
-
-
 private function _convertToArray($param)
 {
     $ret = array();
@@ -291,14 +285,12 @@ private function _convertToArray($param)
         }
     }
 
-    // If the array is empty, convert it to a PayPalModel object to represent a valid JSON structure
     if (sizeof($ret) <= 0) {
         $ret = new PayPalModel();
     }
 
     return $ret;
 }
-
     public function paymentCancel()
     {
         return redirect()->route('home')->with('error', 'Payment was canceled.');
