@@ -57,8 +57,7 @@ return [
 
   'url' => env('APP_URL', 'http://localhost'),
 
-  // 'asset_url' => env('http://localhost//public'),
-  'asset_url' => env('ASSET_URL', 'http://localhost/Beanies/public'),
+  'asset_url' => env('ASSET_URL'),
 
   /*
     |--------------------------------------------------------------------------
