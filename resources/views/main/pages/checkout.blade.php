@@ -203,96 +203,89 @@
         src="https://www.paypal.com/sdk/js?client-id=AdhAac-xuv6O_SbQOoMvPF1jgmt86w1Mx2-Myjs_1aGt3vnJhBo4hcvTEZJUBfNxR2-k7DlzGXzrmIpo&currency=CAD">
     </script>
 
-    <script>
-        document.getElementById('checkoutButton').addEventListener('click', function() {
-            const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+<script src="https://www.paypal.com/sdk/js?client-id=AdhAac-xuv6O_SbQOoMvPF1jgmt86w1Mx2-Myjs_1aGt3vnJhBo4hcvTEZJUBfNxR2-k7DlzGXzrmIpo&currency=CAD"></script>
 
-            if (selectedPaymentMethod === 'paypal') {
-                // Hide the checkout button and show the PayPal button
-                document.getElementById('checkoutButton').style.display = 'none';
-                document.getElementById('paypal-button-container').style.display = 'block';
+<script>
+    document.getElementById('checkoutButton').addEventListener('click', function() {
+        const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
 
-                // Render PayPal button
-                paypal.Buttons({
-        createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: '{{ number_format($subtotal, 2, '.', '') }}'
-                    }
-                }]
-            });
-                    },
-                    onApprove: function(data, actions) {
-                        return actions.order.capture().then(function(details) {
-                            fetch("{{ route('checkout.add') }}", {
-                                    method: "POST",
-                                    headers: {
-                                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                                        "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify({
-                                        firstname: document.getElementById(
-                                            'firstname').value,
-                                        lastname: document.getElementById(
-                                            'lastname').value,
-                                        companyname: document.getElementById(
-                                            'companyname').value,
-                                        address: document.getElementById('address')
-                                            .value,
-                                        email: document.getElementById('email')
-                                            .value,
-                                        phone: document.getElementById('phone')
-                                            .value,
-                                        additional_info: document.getElementById(
-                                            'additional_info').value,
-                                        payment_method: 'paypal', // Store payment method
-                                        transaction_id: details
-                                        .id, // PayPal transaction ID
-                                    }),
-                                })
-                                .then(response => response.json())
-                                .then(result => {
-                                    if (result.success) {
-                                        window.location.href =
-                                            "{{ route('main.pages.success') }}?orderId=" +
-                                            result.orderId;
-                                    } else {
-                                        alert(result.message);
-                                    }
-                                })
-                                .catch(error => {
-                                    alert(
-                                        'An error occurred during checkout. Please try again.');
-                                    console.error(error);
-                                });
-                            });
-        },
-        onCancel: function(data) {
-            alert('Payment cancelled.');
+        if (selectedPaymentMethod === 'paypal') {
+            // Hide the checkout button and show the PayPal button
+            document.getElementById('checkoutButton').style.display = 'none';
+            document.getElementById('paypal-button-container').style.display = 'block';
+
+            // Render PayPal button
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: '{{ number_format($subtotal, 2, '.', '') }}' // Ensure subtotal is passed as string
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        fetch("{{ route('checkout.add') }}", {
+                            method: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                firstname: document.getElementById('firstname').value,
+                                lastname: document.getElementById('lastname').value,
+                                companyname: document.getElementById('companyname').value,
+                                address: document.getElementById('address').value,
+                                email: document.getElementById('email').value,
+                                phone: document.getElementById('phone').value,
+                                additional_info: document.getElementById('additional_info').value,
+                                payment_method: 'paypal', // Store payment method
+                                transaction_id: details.id, // PayPal transaction ID
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.success) {
+                                window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
+                            } else {
+                                alert(result.message);
+                            }
+                        })
+                        .catch(error => {
+                            alert('An error occurred during checkout. Please try again.');
+                            console.error(error);
+                        });
+                    });
+                },
+                onCancel: function(data) {
+                    alert('Payment cancelled.');
+                }
+            }).render('#paypal-button-container');
         }
-    }).render('#paypal-button-container');
-            }
 
-            // Create PayPal payment on backend
-            fetch('/create-paypal-payment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        total: '{{ number_format($subtotal, 2, '.', '') }}'
-                    }), // Pass subtotal
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.approval_url) {
-                        window.location.href = data.approval_url; // Redirect to PayPal for payment approval
-                    } else {
-                        alert('Error: ' + data.error);
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    </script>
+        // Create PayPal payment on backend if not using the button above
+        fetch('/create-paypal-payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                total: '{{ number_format($subtotal, 2, '.', '') }}' // Pass subtotal
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.approval_url) {
+                window.location.href = data.approval_url; // Redirect to PayPal for payment approval
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+@endsection
+
 @endsection
