@@ -266,7 +266,7 @@
         }
 
         // Create PayPal payment on backend if not using the button above
-        fetch('/create-paypal-payment', {
+        fetch('/public/main/create-paypal-payment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -287,4 +287,3 @@
     });
 </script>
 @endsection
-

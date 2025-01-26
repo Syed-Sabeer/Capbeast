@@ -244,7 +244,26 @@ class OrderController extends Controller
     
         return response()->json(['approval_url' => $approvalUrl]);
     }
-    
+    public function createPaypalPayment(Request $request)
+{
+    $userId = auth()->id();
+
+    // Assuming you already have the order details ready from the request or from session
+    $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
+
+    if ($cartItems->isEmpty()) {
+        return response()->json(['success' => false, 'message' => 'Cart is empty.'], 400);
+    }
+
+    // Calculate the total price
+    $totalPrice = $cartItems->reduce(function ($total, $item) {
+        return $total + ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) * $item->quantity;
+    }, 0);
+
+    // Create the payment (referencing the `createPayment` method you already have)
+    return $this->createPayment($request->orderId, $totalPrice);
+}
+
 
     // PayPal Payment Success handling
     public function paymentSuccess(Request $request)

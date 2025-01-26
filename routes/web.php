@@ -51,6 +51,7 @@ Route::prefix('main')->group(function () {
     Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
     Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
     Route::post('/create-paypal-payment', [OrderController::class, 'createPaypalPayment'])->name('create.paypal.payment');
+
     Route::get('/payment-success', [OrderController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/payment-cancel', [OrderController::class, 'paymentCancel'])->name('payment.cancel');
 
