@@ -88,6 +88,10 @@ class OrderController extends Controller
 
     public function add(Request $request)
     {
+        // Add CORS headers at the start of this method
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         $userId = auth()->id();
 
         DB::beginTransaction();
