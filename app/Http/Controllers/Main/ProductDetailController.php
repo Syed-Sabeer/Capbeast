@@ -37,7 +37,9 @@ class ProductDetailController extends Controller
         }
 
         // Fetch product printings and delivery details
-        $productPrintings = ProductPrinting::all();
+        $productPrintings = ProductPrinting::where('visibility', 1)
+        ->get();
+    
         $latestProductDelivery = ProductDelivery::latest('id')->first();
 
         // Fetch product pricing and quantities

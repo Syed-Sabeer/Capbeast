@@ -20,7 +20,7 @@
                         Showing {{ $products->count() }} results
                     </p>
 
-                    <div class="flex-shrink-0">
+                    {{-- <div class="flex-shrink-0">
                         <div class="d-flex gap-2">
                             <div class="flex-shrink-0">
                                 <label for="sort-elem" class="col-form-label">Sort By:</label>
@@ -33,7 +33,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="row justify-content-center">

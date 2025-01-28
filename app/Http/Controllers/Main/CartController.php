@@ -130,6 +130,20 @@ if (!empty($validated['artworkType']) && (!empty($validated['artworkDataText']) 
             return response()->json(['success' => false, 'message' => 'Failed to remove item from cart.'], 500);
         }
     }
+    public function clear()
+    {
+        try {
+            $userId = auth()->id();  // Get the user ID
     
+            // Delete all cart items for the user
+            Cart::where('user_id', $userId)->delete();
+    
+            return response()->json(['success' => true, 'message' => 'All items have been removed from your cart.']);
+        } catch (\Exception $e) {
+            Log::error('Error clearing cart: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Failed to clear the cart.'], 500);
+        }
+    }
+        
 
 }

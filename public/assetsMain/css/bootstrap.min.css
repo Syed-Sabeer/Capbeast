@@ -383,7 +383,7 @@ sup {
 }
 
 a {
-    color: rgba(var(--tb-link-color-rgb), var(--tb-link-opacity, 1));
+    color: #F7B708;
     text-decoration: none
 }
 

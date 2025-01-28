@@ -185,20 +185,52 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-document.querySelectorAll('.remove-item-btn').forEach(button => {
-    button.addEventListener('click', function () {
-        const cartItemId = this.getAttribute('data-item-id'); // Fetching the cart item ID
+    // Remove a single item from the cart
+    document.querySelectorAll('.remove-item-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const cartItemId = this.getAttribute('data-item-id'); // Fetching the cart item ID
 
-        // Confirm deletion
-        if (confirm("Are you sure you want to delete this item from your cart?")) {
-            // Generate the URL using the route helper
-            const url = "{{ route('cart.remove', ['itemId' => '__ITEM_ID__']) }}".replace('__ITEM_ID__', cartItemId);
+            // Confirm deletion
+            if (confirm("Are you sure you want to delete this item from your cart?")) {
+                // Generate the URL using the route helper
+                const url = "{{ route('cart.remove', ['itemId' => '__ITEM_ID__']) }}".replace('__ITEM_ID__', cartItemId);
 
-            // Sending a DELETE request
-            fetch(url, {
-                method: "DELETE", // Ensure the HTTP method is DELETE
+                // Sending a DELETE request
+                fetch(url, {
+                    method: "DELETE", // Ensure the HTTP method is DELETE
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}", // CSRF token for security
+                        "Content-Type": "application/json"
+                    },
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        alert(result.message); // Show success message
+                        location.reload(); // Reload page to update cart
+                    } else {
+                        alert(result.message); // Show error message if deletion failed
+                    }
+                })
+                .catch(error => {
+                    alert("An error occurred while deleting the item. Please try again.");
+                    console.error("Error:", error);
+                });
+            }
+        });
+    });
+
+    // Clear all items from the cart
+    document.querySelector('.link-secondary').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // Confirm the action
+        if (confirm("Are you sure you want to clear your entire cart?")) {
+            // Send a request to remove all items from the cart
+            fetch("{{ route('cart.clear') }}", {
+                method: "DELETE",
                 headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}", // CSRF token for security
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
                     "Content-Type": "application/json"
                 },
             })
@@ -206,21 +238,19 @@ document.querySelectorAll('.remove-item-btn').forEach(button => {
             .then(result => {
                 if (result.success) {
                     alert(result.message); // Show success message
-                    location.reload(); // Reload page to update cart
+                    location.reload(); // Reload the page to reflect the changes
                 } else {
-                    alert(result.message); // Show error message if deletion failed
+                    alert(result.message); // Show error message if the cart couldn't be cleared
                 }
             })
             .catch(error => {
-                alert("An error occurred while deleting the item. Please try again.");
+                alert("An error occurred while clearing the cart. Please try again.");
                 console.error("Error:", error);
             });
         }
     });
-});
-
-
 </script>
+
 
 
     @endsection

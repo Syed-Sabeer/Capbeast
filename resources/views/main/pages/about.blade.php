@@ -67,7 +67,7 @@
                             Having a physical location for your business allows you to put together the company that you
                             want in an environment where employees can communicate with each other without having to go
                             through any extra steps.</P>
-                        <a href="#!" class="fw-medium link-effect">Shop Now <i
+                        <a href="{{ route('products') }}" class="fw-medium link-effect">Shop Now <i
                                 class="bi bi-arrow-right ms-2"></i></a>
                     </div>
                 </div>

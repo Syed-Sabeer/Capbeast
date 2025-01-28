@@ -354,3 +354,16 @@
   color: #00cfe8 !important;
   padding: 8px;
 }
+
+/* Default styling for the option card */
+.option-card {
+    border: 2px solid transparent;
+    padding: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+/* Highlighted option styling */
+.option-card.selected {
+    border-color: #F7B708;
+}

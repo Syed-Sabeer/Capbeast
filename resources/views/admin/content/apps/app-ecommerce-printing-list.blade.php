@@ -128,14 +128,15 @@
 
                           <td>{{ $product->title }}</td>
                           <td>
-                              @php
-                                  // Handle the price field, ensuring it's an array
-                                  $prices = is_array($product->price) ? $product->price : json_decode($product->price, true);
-                                  $minPrice = is_array($prices) ? min($prices) : 0;
-                                  $maxPrice = is_array($prices) ? max($prices) : 0;
-                              @endphp
-                              ${{ number_format($minPrice, 2) }} ~ ${{ number_format($maxPrice, 2) }}
-                          </td>
+                            @php
+                                // Decode price field if it's stored as JSON, otherwise handle it as an array
+                                $prices = is_array($product->price) ? $product->price : json_decode($product->price, true);
+                                $minPrice = is_array($prices) && !empty($prices) ? min($prices) : 0;
+                                $maxPrice = is_array($prices) && !empty($prices) ? max($prices) : 0;
+                            @endphp
+                            ${{ number_format((float)$minPrice, 2) }} ~ ${{ number_format((float)$maxPrice, 2) }}
+                        </td>
+                        
                           <td>
                               <a href="#" class="me-2"><i class="fa-solid fa-pen-to-square"></i></a>
                               <a href="#" class="me-2"><i class="fa-solid fa-trash"></i></a>

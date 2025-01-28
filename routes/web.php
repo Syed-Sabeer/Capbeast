@@ -3,8 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 
-
-
 use App\Http\Controllers\Main\ProductDetailController;
 use App\Http\Controllers\Main\ProductController;
 use App\Http\Controllers\Main\AboutController;
@@ -44,6 +42,8 @@ Route::prefix('main')->group(function () {
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+
 
 
     Route::get('/checkout', [OrderController::class, 'index'])->name('checkout');
@@ -52,7 +52,6 @@ Route::prefix('main')->group(function () {
   Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
   Route::get('/payment-status', [OrderController::class, 'GetPaymentStatus'])->name('status');
 
-  // Route::get('/pay', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
 
 
 

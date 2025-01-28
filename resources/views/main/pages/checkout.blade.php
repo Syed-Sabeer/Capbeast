@@ -146,19 +146,77 @@
                         </div>
                     </div>
 
+
                     <div class="mt-4 pt-2">
-
                         <div class="row gy-3">
-
                             <h5 class="mb-0 flex-grow-1">Payment Selection</h5>
+                    
+                            <!-- PayPal Option -->
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="paymentMethod" id="paypalOption" value="paypal" checked>
                                 <label class="form-check-label" for="paypalOption">
                                     Pay with PayPal
                                 </label>
                             </div>
+                    
+                            <!-- Authorize.Net Option -->
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="authorizeNetOption" value="authorize_net">
+                                <label class="form-check-label" for="authorizeNetOption">
+                                    Pay with Authorize.Net
+                                </label>
+                            </div>
+                        </div>
+                    
+                        <!-- Authorize.Net Card Details -->
+                        <div id="authorizeNetCardDetails" class="mt-3" style="display: none;">
+                            <h6 class="mb-3">Enter Card Details</h6>
+                            <div class="row gy-3">
+                                <div class="col-md-6">
+                                    <label class="form-label" for="cardNumber">Card Number</label>
+                                    <input type="text" id="cardNumber" name="cardNumber" class="form-control" placeholder="1234 5678 9012 3456">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="cardName">Cardholder Name</label>
+                                    <input type="text" id="cardName" name="cardName" class="form-control" placeholder="John Doe">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="expiryDate">Expiry Date</label>
+                                    <input type="text" id="expiryDate" name="expiryDate" class="form-control" placeholder="MM/YY">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="cvv">CVV</label>
+                                    <input type="text" id="cvv" name="cvv" class="form-control" placeholder="123">
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const paypalOption = document.getElementById('paypalOption');
+                            const authorizeNetOption = document.getElementById('authorizeNetOption');
+                            const authorizeNetCardDetails = document.getElementById('authorizeNetCardDetails');
+                    
+                            // Toggle card details visibility based on the selected payment method
+                            function toggleCardDetails() {
+                                if (authorizeNetOption.checked) {
+                                    authorizeNetCardDetails.style.display = 'block';
+                                } else {
+                                    authorizeNetCardDetails.style.display = 'none';
+                                }
+                            }
+                    
+                            // Add event listeners
+                            paypalOption.addEventListener('change', toggleCardDetails);
+                            authorizeNetOption.addEventListener('change', toggleCardDetails);
+                    
+                            // Initialize the visibility
+                            toggleCardDetails();
+                        });
+                    </script>
+                                        
+
+
                 </div>
                 <!-- end col -->
                 <div class="col-lg-4">
