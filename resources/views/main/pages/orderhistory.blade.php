@@ -116,9 +116,10 @@
                                 <div class="card-header border-bottom-dashed p-4">
                                     <div class="d-sm-flex">
                                         <div class="flex-grow-1">
-                                            <img src="{{ asset('assetsCommon/images/billinglogo.png') }}"
+                                            <img src="{{ asset('assetsCommon/images/logo-dark.png') }}"
                                                 class="card-logo card-logo-dark" alt="logo dark" height="100">
-
+                                                <img src="{{ asset('assetsCommon/images/weborka.png') }}"
+                                                class="card-logo card-logo-dark mt-3" alt="logo dark" height="20">
                                             <div class="mt-sm-5 mt-4">
                                                 <h6 class="text-muted text-uppercase fw-semibold fs-14">Address</h6>
                                                 <p class="text-muted mb-1" id="address-details">Av. Lausanne, Montréal, QC,
