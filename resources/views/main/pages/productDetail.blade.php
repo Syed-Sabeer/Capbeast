@@ -255,7 +255,7 @@
 
                                 </div>
                                 <div id="printing-error" style="color: red; display: none;" class="mt-5 alert alert-danger text-center text-capitalize mb-4 fs-14">
-                                    Selected quantity is not available for this printing option.
+                                  The Minimum Quantity for Leather Patches is 50
                                 </div>
                                 
                                 

@@ -41,7 +41,7 @@
                             </div>
                             <div class="ms-3 flex-grow-1">
                                 <h5 class="fs-17 lh-base mb-2">Phone Number</h5>
-                                <p class="text-muted fs-14 mb-0">1 855 932 6752</p>
+                                <p class="text-muted fs-14 mb-0">+1 855 932 6752</p>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             </div>
                             <div class="ms-3 flex-grow-1">
                                 <h5 class="fs-17 lh-base mb-2">Email</h5>
-                                <p class="text-muted fs-14 mb-0">sales@monkeybeanie.com</p>
+                                <p class="text-muted fs-14 mb-0">sales@monkeybeanies.com</p>
                             </div>
                         </div>
                     </div>

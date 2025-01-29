@@ -17,13 +17,7 @@
                                 <a target="_blank" href="https://www.instagram.com/monkey_beanies/" class="text-reset"><i
                                         class="fa-brands fa-instagram"></i></a>
                             </li>
-                            <li class="list-inline-item">
-                                <a target="_blank" href="#!" class="text-reset"><i class="fa-solid fa-x"></i></a>
-                            </li>
-
-                            <li class="list-inline-item">
-                                <a target="_blank" href="#!" class="text-reset"><i class="mdi mdi-pinterest"></i></a>
-                            </li>
+                            
                         </ul>
                     </div>
                 </div>
@@ -61,12 +55,12 @@
                         <div class="mt-lg-0 mt-4">
                             <h5 class="footer-title">Information</h5>
                             <ul class="list-unstyled footer-link mt-3">
-                                <li><a href="tel:18559326752"><i class="fa-solid fa-phone white-color">&nbsp; </i> 1
+                                <li><a href="tel:18559326752"><i class="fa-solid fa-phone white-color">&nbsp; </i> +1
                                         (855)
                                         932-6752</a></li>
-                                <li><a href="mailto:sales@monkeybeanie.com"><i
+                                <li><a href="mailto:sales@monkeybeanies.com"><i
                                             class="white-color fa-solid fa-envelope">&nbsp;</i>
-                                        sales@monkeybeanie.com</a></li>
+                                        sales@monkeybeanies.com</a></li>
                             </ul>
                         </div>
                     </div>
@@ -77,7 +71,8 @@
         <div class="row footer-border-alt mt-4 align-items-center fs-15">
             <div class="col-sm-6">
 
-                <p>© 2024 Monkey Beanies. All Rights Reserved</p>
+                <p>© <script>document.write(new Date().getFullYear())
+      </script> Monkey Beanies. All Rights Reserved</p>
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">

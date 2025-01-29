@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item">
+                        {{-- <div class="accordion-item">
                             <h2 class="accordion-header" id="genques-headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#genques-collapseTwo" aria-expanded="false"
@@ -76,8 +76,8 @@
                                     </p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="accordion-item">
+                        </div> --}}
+                        {{-- <div class="accordion-item">
                             <h2 class="accordion-header" id="genques-headingThree">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#genques-collapseThree" aria-expanded="false"
@@ -97,7 +97,7 @@
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="genques-headingFour">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -130,8 +130,7 @@
                                 aria-labelledby="genques-headingFive" data-bs-parent="#genques-accordion">
                                 <div class="accordion-body">
                                     <p>
-                                        If there is a production error we will redo the cover
-                                        without any questions asked.
+                                        Before production, we will send you a proof. Once the proof is approved by the customer, there will be no refunds for custom design unless the design is shown to be different from what was approved. We advise customers to check the proof thoroughly.
                                     </p>
                                 </div>
                             </div>
@@ -187,8 +186,7 @@
                                     <p>
                                         Simply upload it on our website and attach it to your
                                         order and we’ll take it from there. You can also send it
-                                        to sales@custompromonow.ca or e-mail directly to your
-                                        Customer Care Representative.
+                                        to sales@monkeybeanies.com .
                                     </p>
                                 </div>
                             </div>

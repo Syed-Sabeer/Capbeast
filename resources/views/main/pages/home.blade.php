@@ -20,10 +20,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-7">
                 <div class="text-center">
-                    <h3 class="mb-3">Top Picks Products Of The Week</h3>
-                    <p class="text-muted fs-15 mb-0">
+                    <h3 class="mb-3">KNIT BY CANADIANS FOR THE WORLD</h3>
+                    {{-- <p class="text-muted fs-15 mb-0">
                         This ranges from women and men's outfits to children's clothing, shoes, accessories, and more. People love their clothes, and fashion isn't going anywhere!
-                    </p>
+                    </p> --}}
                 </div>
             </div>
         </div>
@@ -93,10 +93,10 @@
     <div class="row justify-content-center g-0">
         <div class="col-lg-7">
             <div class="text-center">
-                <h3 class="mb-3">Our Valuable Partners</h3>
-                <p class="text-muted fs-15">
+                <h3 class="mb-3">OUR VALUABLE PARTNERS</h3>
+                {{-- <p class="text-muted fs-15">
                     The most common approach that peoples use to say follow me on Instagram is by sending a direct message.
-                </p>
+                </p> --}}
             </div>
         </div>
     </div>
@@ -129,10 +129,10 @@
         <div class="row justify-content-center g-0">
             <div class="col-lg-7">
                 <div class="text-center">
-                    <h3 class="mb-3">Follow Us On Instagram</h3>
-                    <p class="text-muted fs-15">
+                    <h3 class="mb-3">FOLLOW US ON INSTAGRAM</h3>
+                    {{-- <p class="text-muted fs-15">
                         Check out our latest updates and moments on Instagram. Follow us for more!
-                    </p>
+                    </p> --}}
                 </div>
             </div>
         </div>

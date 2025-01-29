@@ -79,16 +79,16 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th >Product</th>
-                                    <th >Quantity</th>
-                                    <th >Color</th>
-                                    
-                                    <th >With Pom Pom</th>
-                                    <th >Embroidery</th>
-                                    <th >Delivery Price</th>
-                                    <th >Embroidery Price</th>
-                                    <th >Product Price</th>
-                                    <th >Type</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Color</th>
+
+                                    <th>With Pom Pom</th>
+                                    <th>Embroidery</th>
+                                    <th>Delivery Price</th>
+                                    <th>Embroidery Price</th>
+                                    <th>Product Price</th>
+                                    <th>Type</th>
                                 </tr>
                             </thead>
                             <tbody id="viewModal-products-list">
@@ -118,25 +118,26 @@
                                         <div class="flex-grow-1">
                                             <img src="{{ asset('assetsCommon/images/logo-dark.png') }}"
                                                 class="card-logo card-logo-dark" alt="logo dark" height="100">
-                                                <img src="{{ asset('assetsCommon/images/weborka.png') }}"
+                                            <img src="{{ asset('assetsCommon/images/weborka.png') }}"
                                                 class="card-logo card-logo-dark mt-3" alt="logo dark" height="20">
                                             <div class="mt-sm-5 mt-4">
                                                 <h6 class="text-muted text-uppercase fw-semibold fs-14">Address</h6>
-                                                <p class="text-muted mb-1" id="address-details">Av. Lausanne, Montréal, QC,
-                                                    Canada</p>
-                                                <p class="text-muted mb-0" id="zip-code"><span>Zip-code:</span> 90201</p>
+                                                <p class="text-muted mb-1" id="address-details">9955 Av. Lausanne, Montreal-Nord, Qc </p>
+                                                <p class="text-muted mb-0" id="zip-code"> H1H 5A6</p>
+                                                <p class="text-muted mb-0" >Canada</p>
+                                                
                                             </div>
                                         </div>
                                         <div class="flex-shrink-0 mt-sm-0 mt-3">
-                                            <h6><span class="text-muted fw-normal">Legal Registration No:</span> <span
-                                                    id="legal-register-no">123456</span></h6>
+                                            {{-- <h6><span class="text-muted fw-normal">Legal Registration No:</span> <span
+                                                    id="legal-register-no">123456</span></h6> --}}
                                             <h6><span class="text-muted fw-normal">Email:</span> <span id="email">
-                                                    sales@monkeybeanie.com</span></h6>
+                                                    sales@monkeybeanies.com</span></h6>
                                             <h6><span class="text-muted fw-normal">Website:</span> <a
                                                     href="https://themesbrand.com/" class="link-primary" target="_blank"
                                                     id="website">www.monkeybeanies.com</a></h6>
                                             <h6 class="mb-0"><span class="text-muted fw-normal">Contact No: </span><span
-                                                    id="contact-no"> +1 (888) 882-2780</span></h6>
+                                                    id="contact-no"> +1 855 932 6752</span></h6>
                                         </div>
                                     </div>
                                 </div>

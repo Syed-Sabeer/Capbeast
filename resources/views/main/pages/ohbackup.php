@@ -143,7 +143,7 @@
                                     </div>
                                     <div class="flex-shrink-0 mt-sm-0 mt-3">
                                         <h6><span class="text-muted fw-normal">Legal Registration No:</span> <span id="legal-register-no">123456</span></h6>
-                                        <h6><span class="text-muted fw-normal">Email:</span> <span id="email"> sales@monkeybeanie.com</span></h6>
+                                        <h6><span class="text-muted fw-normal">Email:</span> <span id="email"> sales@monkeybeanies.com</span></h6>
                                         <h6><span class="text-muted fw-normal">Website:</span> <a href="https://themesbrand.com/" class="link-primary" target="_blank" id="website">www.monkeybeanies.com</a></h6>
                                         <h6 class="mb-0"><span class="text-muted fw-normal">Contact No: </span><span id="contact-no"> +1 (888) 882-2780</span></h6>
                                     </div>

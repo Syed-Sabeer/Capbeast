@@ -23,7 +23,7 @@
                         
                         Become a part of our journey and support our locally made products.
                         <br>
-                        MADE BY US, FOR US!</p>
+                        MADE BY CANADIANS FOR THE WORLD</p>
                 </div>
                 <div class="col-lg-6">
                     <div>
@@ -59,7 +59,7 @@
                         <img src="{{ asset('assetsMain/images/ecommerce/img-5.jpg')}}" alt="" class="img-fluid rounded">
                     </div>
                 </div>
-                <div class="col-lg-6">
+                {{-- <div class="col-lg-6">
                     <div class="mt-4 mt-lg-0">
                         <p class="text-uppercase fw-medium text-muted">Best Products Sales</p>
                         <h2 class="lh-base fw-semibold mb-3">Desgining Spaces to enhance your business growth</h2>
@@ -70,7 +70,7 @@
                         <a href="{{ route('products') }}" class="fw-medium link-effect">Shop Now <i
                                 class="bi bi-arrow-right ms-2"></i></a>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>
