@@ -482,33 +482,32 @@
                                 </ul>
                             </div>
                             <div id="viewBundleBox" class="option-box" style="display: none;">
-
-                                @if ($latestProductDelivery)
-
                                     <ul class="dselects">
-                                        @php
-                                            $quantitiesdelivery = json_decode($latestProductDelivery->quantity, true);
-                                            $pricesDelivery = json_decode($latestProductDelivery->pricing, true);
-                                        @endphp
-
-                                        @if ($quantitiesdelivery && $pricesDelivery && count($quantitiesdelivery) === count($pricesDelivery))
-                                            @foreach ($quantitiesdelivery as $index => $quantitydelivery)
+                                       
                                                 <li class="shippingCharging">
                                                     <span class="check"><i class="fa-solid fa-truck"></i></span>
-                                                    <div class="delivery_date w3_bg">Qty: {{ $quantitydelivery }}</div>
+                                                    {{-- <div class="delivery_date w3_bg">
+                                                         
+                                                        </div> --}}
                                                     <div class="delivery_price w3_bg">Price:
-                                                        ${{ number_format($pricesDelivery[$index], 2) }}</div>
+                                                        30 $
+                                                    </div>
                                                 </li>
-                                            @endforeach
-                                        @else
-                                            <li>
-                                                <div class="delivery_date w3_bg">Data mismatch or incomplete</div>
-                                            </li>
-                                        @endif
+
+                                                <li class="shippingCharging">
+                                                    <span class="check"><i class="fa-solid fa-truck"></i></span>
+                                                    <div class="delivery_price w3_bg">
+                                                        <span class="delivery_price_number text-danger"
+                                                            style="font-weight:700">For Order more than 500 $</span>
+                                                    </div>
+                                        
+                                                    <div class="delivery_price w3_bg">Price:
+                                                        0$
+                                                    </div>
+                                                </li>
+                                            
                                     </ul>
-                                @else
-                                    <p>No delivery records found.</p>
-                                @endif
+                                
 
                             </div>
 
@@ -714,30 +713,43 @@ quantityInput.addEventListener("input", function () {
 
             // Update delivery price and total cost for "View Shipping Bundle"
             function updateDeliveryPriceAndTotal() {
-                const enteredQty = parseInt(quantityInput.value) || 0;
-                const deliveryPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
-                const totalDelivery = deliveryPrice * enteredQty;
+    const enteredQty = parseInt(quantityInput.value) || 0;
+    const productPrice = calculatePrice(enteredQty, quantities, prices);
+    const printingPrice = selectedPrintingPrice * enteredQty;
+    const isWithPompom = document.querySelector('input[name="pompom"]:checked')?.value === "1";
+    const pompomPrice = isWithPompom ? enteredQty * 2 : 0;
 
-                // Update the delivery price display
-                totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
+    // Calculate total price
+    const total = (productPrice * enteredQty) + printingPrice + pompomPrice;
 
-                // Highlight the corresponding shippingCharging element
-                // Highlight the corresponding shippingCharging element
-                document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
-                    const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
-                    const priceMatch = priceText.match(/\d+(\.\d+)?/); // Extract numeric value
-                    const priceValue = priceMatch ? parseFloat(priceMatch[0]) : null;
+    // Determine the selected shipping option
+    const selectedOption = document.querySelector('input[name="shippingOption"]:checked')?.value;
 
-                    if (priceValue !== null && Math.abs(priceValue - deliveryPrice) < 0.01) {
-                        shippingElement.style.backgroundColor = "#F7B708";
-                        shippingElement.style.color = "#fff";
-                    } else {
-                        shippingElement.style.backgroundColor = "";
-                        shippingElement.style.color = "";
-                    }
-                });
+    let deliveryPrice = 0;
+    if (selectedOption === "viewBundle") {
+        deliveryPrice = total > 500 ? 0 : 30;
+    }
 
-            }
+    // Update the delivery price display
+    totalPriceDelivery.textContent = `$${deliveryPrice.toFixed(2)}`;
+
+    // Update the background color for selected shipping option
+    document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
+        const freeprice = document.getElementById("")
+        const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
+        const priceMatch = priceText.match(/\d+(\.\d+)?/); // Extract numeric value
+        const priceValue = priceMatch ? parseFloat(priceMatch[0]) : null;
+
+        if (priceValue !== null && priceValue === deliveryPrice) {
+            shippingElement.style.backgroundColor = "#F7B708";
+            shippingElement.style.color = "#fff";
+        } else {
+            shippingElement.style.backgroundColor = "";
+            shippingElement.style.color = "";
+        }
+    });
+}
+
 
             // Toggle between "Pick Yourself" and "View Shipping Bundle"
             function toggleOptions() {
@@ -831,11 +843,29 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
         printingId = parseInt(document.querySelector(".printing-option.active")?.getAttribute("data-id")) || null;
     }
 
+    // const total = (printingPrice * quantity) + (productPrice * quantity);
+    
+
     const productPrice = calculatePrice(quantity, quantities, prices);
 
     // Check which shipping option is selected
     const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
-    const deliveryPrice = selectedOption === "pickYourself" ? 0 : calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
+    
+    // Calculate total cost
+    const total = (productPrice * quantity) + (printingPrice * quantity) + pompomPrice;
+
+   // Set delivery price based on total cost and selected shipping option
+    let deliveryPrice;
+    if (selectedOption === "pickYourself") {
+        deliveryPrice = 0;
+    } else {
+        deliveryPrice = total > 500 ? 0 : 30;
+    }
+
+
+    // Set delivery price based on total cost
+    // let deliveryPrice = total > 500 ? 0 : 30;
+    // const deliveryPrice = selectedOption === "pickYourself" ? 0 : calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
 
     const formData = new FormData();
     formData.append("productId", productId);

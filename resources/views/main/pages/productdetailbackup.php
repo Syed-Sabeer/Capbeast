@@ -10,9 +10,6 @@
     ])
     @endcomponent
 
-
-
-
     <section class="section pt-0 pb-0">
         <h4 class="lh-base mb-1 p-3 mt-3"
             style="font-size: 2rem; color: #F7B708; background-color: rgba(247, 183, 8, 0.1); text-align: center">
@@ -114,13 +111,7 @@
                         @endif
 
                     </div>
-                   
-                    
-
                 </div>
-
-
-
 
 
                 <!--end col-->
@@ -175,27 +166,17 @@
                             <div class="form-group">
                                 <label for="beanie-color" class="section-header">Select Beanies Color</label>
                                 <div class="alert alert-danger text-center text-capitalize mb-4 fs-14">
-                                    Color calibration varies from monitor to monitor, so the colors in a product image may vary from the actual colors of the physical product. It is recommended that, if an exact color match is required, you order a sample to determine exact color and/or shade 
+                                    Color calibration varies from monitor to monitor, so the colors in a product image may
+                                    vary from the actual colors of the physical product. It is recommended that, if an exact
+                                    color match is required, you order a sample to determine exact color and/or shade
                                 </div>
-                                {{-- <select id="beanie-color" class="form-control">
-                                    <option>Select Beanie Color</option>
 
-                                    @if (!empty($colorNames))
-                                        @foreach ($colors as $index => $color)
-                                            <option value="{{ $color->id }}" data-color-id="{{ $color->id }}">
-                                                {{ ucfirst($colorNames[$index]) }}
-                                            </option>
-                                        @endforeach
-                                    @else
-                                        <option>No colors available</option>
-                                    @endif
-
-                                </select> --}}
-
-                                      <select id="beanie-color" class="form-control">
+                                <select id="beanie-color" class="form-control">
                                     <option>Select Beanie Color</option>
                                     @foreach ($colors as $index => $color)
-                                        <option value="{{ $color->id }}" data-color-name="{{ $color->componentColor->color_name }}" data-image="{{ asset('storage/' . $color->image) }}">
+                                        <option value="{{ $color->id }}"
+                                            data-color-name="{{ $color->componentColor->color_name }}"
+                                            data-image="{{ asset('storage/' . $color->image) }}">
                                             {{ ucfirst($colorNames[$index]) }}
                                         </option>
                                     @endforeach
@@ -211,7 +192,6 @@
                                                 style="width: 150px; height: auto;"> Flipped Beanies
                                         </label>
                                     </div>
-
                                     <div>
                                         <input type="radio" id="unflipped" name="beanie" value="2">
                                         <label for="unflipped">
@@ -219,63 +199,70 @@
                                                 alt="unflipped" style="width: 150px; height: auto;"> UnFlipped Beanies
                                         </label>
                                     </div>
-
                                 </div>
 
 
-                                @if ( $product->is_pompom == 1)
-                                <label for="beanie-color" class="section-header mt-4">Select Beanies Add on</label>
+                                @if ($product->is_pompom == 1)
+                                    <label for="beanie-color" class="section-header mt-4">Select Beanies Add on</label>
+                                    <div class="d-flex" style="justify-content: space-between">
+                                        <div>
+                                            <input type="radio" id="withoutpompom" name="pompom" value="0">
+                                            <label for="withoutpompom">
+                                                <img src="{{ asset('assetsCommon/images/withoutPomPom.jpg') }}"
+                                                    alt="withoutpompom" style="width: 150px; height: auto;"> Without Pom
+                                                Pom
+                                            </label>
+                                        </div>
 
-                                <div class="d-flex" style="justify-content: space-between">
-                                    <div>
-                                        <input type="radio" id="withoutpompom" name="pompom" value="0">
-                                        <label for="withoutpompom">
-                                            <img src="{{ asset('assetsCommon/images/withoutPomPom.jpg') }}" alt="withoutpompom"
-                                                style="width: 150px; height: auto;"> Without Pom Pom 
-                                        </label>
-                                    </div>
-                                    
-                                    <div>
-                                        <input type="radio" id="withpompom" name="pompom" value="1">
-                                        <label for="withpompom">
-                                            <img src="{{ asset('assetsCommon/images/withPomPom.jpg') }}"
-                                                alt="withpompom" style="width: 140px; height: auto;"> With Pom Pom
+                                        <div>
+                                            <input type="radio" id="withpompom" name="pompom" value="1">
+                                            <label for="withpompom">
+                                                <img src="{{ asset('assetsCommon/images/withPomPom.jpg') }}"
+                                                    alt="withpompom" style="width: 140px; height: auto;"> With Pom Pom
                                                 <span style="color: red">2$ Each </span>
-                                        </label>
-                                        
+                                            </label>
+
+
+                                        </div>
 
                                     </div>
-
-                                </div>
-
                                 @endif
-
 
                                 <div class="section-header mt-4">
                                     Select Printing Option
                                 </div>
-
+                                
                                 <div class="printing-options">
                                     @if ($productPrintings->isNotEmpty())
                                         @foreach ($productPrintings as $printing)
-                                            <div class="option-card printing-option" data-id="{{ $printing->id }}"
+                                            <div class="option-card printing-option" 
+                                                data-id="{{ $printing->id }}"
                                                 data-title="{{ $printing->title }}"
                                                 data-quantities="{{ json_encode($printing->quantity) }}"
-                                                data-prices="{{ json_encode($printing->price) }}">
-                                                <img src="{{ asset('storage/' . $printing->image) }} "
+                                                data-prices="{{ json_encode($printing->price) }}"
+                                                data-is-leather="{{ $printing->is_leather }}">
+                                                <img src="{{ asset('storage/' . $printing->image) }}" 
                                                     alt="{{ $printing->title }}">
                                                 <h3>{{ $printing->title }}</h3>
                                             </div>
                                         @endforeach
+                                    
+                                        {{-- <p  style="color: red; display: none;"></p> --}}
+
                                     @else
                                         <p>No printing options available.</p>
                                     @endif
+
                                 </div>
-
-
-
-
-
+                                <div id="printing-error" style="color: red; display: none;" class="mt-5 alert alert-danger text-center text-capitalize mb-4 fs-14">
+                                    Selected quantity is not available for this printing option.
+                                </div>
+                                
+                                
+                 
+                                
+                        
+                                
                                 <div class="container my-5" id="artwork-upload">
                                     <h2 class="text-center mb-4">Upload Your Artwork</h2>
 
@@ -324,35 +311,40 @@
                                     </script>
 
 
+                                    <div class=" mb-3" id="leatherwork" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="leathercolor" class="form-label fw-bold">Enter Leather
+                                                    Color</label>
+                                                <input type="number" id="leathercolor" class="form-control"
+                                                    placeholder="Leather Color Number">
+                                                <small class="form-text text-muted">Select Color Number From The
+                                                    Image</small>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="fontStyle" class="form-label fw-bold">Have a Look on Leather
+                                                    Colors</label>
+                                                <img class="form-control"
+                                                    src="{{ asset('assetsCommon/images/LeatherPatchColors.jpeg') }}"
+                                                    width="10" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
 
-<div class=" mb-3" id="leatherwork" style="display: none;">
-    <div class="row">
-    <div class="col-md-6">
-        <label for="leathercolor" class="form-label fw-bold">Enter Leather Color</label>
-        <input type="number" id="leathercolor" class="form-control" placeholder="Leather Color Number">
-        <small class="form-text text-muted">Select Color Number From The Image</small>
-    </div>
-    <div class="col-md-6">
-        <label for="fontStyle" class="form-label fw-bold">Have a Look on Leather Colors</label>
-        <img class="form-control" src="{{ asset('assetsCommon/images/LeatherPatchColors.jpeg') }}" width="10" alt="">
-    </div>
-</div>
-</div>
 
 
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
+                                    <script>
+                                       document.addEventListener("DOMContentLoaded", function() {
     const printingOptions = document.querySelectorAll(".printing-option");
     const leatherworkSection = document.getElementById("leatherwork");
 
     printingOptions.forEach(option => {
         option.addEventListener("click", function() {
-            // Get the title of the selected printing option
-            const printingTitle = this.getAttribute("data-title").toLowerCase();
+            // Get the value of the data-is-leather attribute
+            const isLeather = this.getAttribute("data-is-leather");
 
-            // Check if the title contains the word "leather"
-            if (printingTitle.includes("leather")) {
+            // Check if isLeather is 1 (true)
+            if (isLeather === "1") {
                 leatherworkSection.style.display = "block"; // Show leatherwork section
             } else {
                 leatherworkSection.style.display = "none"; // Hide leatherwork section
@@ -361,8 +353,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-</script>
-
+                                    </script>
 
                                     <!-- Patch Dimensions -->
                                     <div class="row mb-3">
@@ -394,33 +385,32 @@ document.addEventListener("DOMContentLoaded", function() {
                                     </div>
 
                                     <div>
-                                        <a href="{{ url('/main/view-color-book') }}" target="_blank" class="main-theme-color">View Color Card</a>
+                                        <a href="{{ url('/main/view-color-book') }}" target="_blank"
+                                            class="main-theme-color">View Color Card</a>
                                     </div>
 
                                     <!-- Imprint Colors -->
-<!-- Imprint Colors -->
-<div class="mb-3 mt-3">
-    <label for="imprintColors" class="form-label fw-bold">Select Number Of Imprint Colors</label>
-    <select id="imprintColors" class="form-select">
-        <option value="0">Full Color Imprint</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-    </select>
-</div>
+                                    <!-- Imprint Colors -->
+                                    <div class="mb-3 mt-3">
+                                        <label for="imprintColors" class="form-label fw-bold">Select Number Of Imprint
+                                            Colors</label>
+                                        <select id="imprintColors" class="form-select">
+                                            <option value="0">Full Color Imprint</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                    </div>
 
-<div id="additionalDropdowns"></div>
-
-
-
+                                    <div id="additionalDropdowns"></div>
 
 
 
-<script>
- const imprintColors = document.getElementById('imprintColors');
+                                    <script>
+                                        const imprintColors = document.getElementById('imprintColors');
                                         const additionalDropdowns = document.getElementById('additionalDropdowns');
 
                                         imprintColors.addEventListener('change', function() {
@@ -441,12 +431,8 @@ document.addEventListener("DOMContentLoaded", function() {
                                                 }
                                             }
                                         });
-
-    
-</script>
-
-
-</div>
+                                    </script>
+                                </div>
 
 
                             </div>
@@ -496,54 +482,51 @@ document.addEventListener("DOMContentLoaded", function() {
                                 </ul>
                             </div>
                             <div id="viewBundleBox" class="option-box" style="display: none;">
-
-                                @if ($latestProductDelivery)
-
                                     <ul class="dselects">
-                                        @php
-                                            $quantitiesdelivery = json_decode($latestProductDelivery->quantity, true);
-                                            $pricesDelivery = json_decode($latestProductDelivery->pricing, true);
-                                        @endphp
-
-                                        @if ($quantitiesdelivery && $pricesDelivery && count($quantitiesdelivery) === count($pricesDelivery))
-                                            @foreach ($quantitiesdelivery as $index => $quantitydelivery)
+                                       
                                                 <li class="shippingCharging">
                                                     <span class="check"><i class="fa-solid fa-truck"></i></span>
-                                                    <div class="delivery_date w3_bg">Qty: {{ $quantitydelivery }}</div>
+                                                    {{-- <div class="delivery_date w3_bg">
+                                                         
+                                                        </div> --}}
                                                     <div class="delivery_price w3_bg">Price:
-                                                        ${{ number_format($pricesDelivery[$index], 2) }}</div>
+                                                        30 $
+                                                    </div>
                                                 </li>
-                                            @endforeach
-                                        @else
-                                            <li>
-                                                <div class="delivery_date w3_bg">Data mismatch or incomplete</div>
-                                            </li>
-                                        @endif
+
+                                                <li class="shippingCharging">
+                                                    <span class="check"><i class="fa-solid fa-truck"></i></span>
+                                                    <div class="delivery_price w3_bg">
+                                                        <span class="delivery_price_number text-danger"
+                                                            style="font-weight:700">For Order more than 500 $</span>
+                                                    </div>
+                                        
+                                                    <div class="delivery_price w3_bg">Price:
+                                                        0$
+                                                    </div>
+                                                </li>
+                                            
                                     </ul>
-                                @else
-                                    <p>No delivery records found.</p>
-                                @endif
+                                
 
                             </div>
 
                         </div>
-                        <div class="mt-5 text-align-center" >
-                             @if(Auth::check() && Auth::user()->status == 0) 
-                                
+                        <div class="mt-5 text-align-center">
+                            @if (Auth::check() && Auth::user()->status == 0)
                                 <div style="color: red" role="alert">
                                     Contact admin to activate your account to proceed with adding items to your cart.
                                 </div>
-                                @elseif(Auth::check() && Auth::user()->status == 1) 
+                            @elseif(Auth::check() && Auth::user()->status == 1)
                                 <!-- Show Add to Cart button -->
                                 <button class="btn btn-success" id="add-to-cart-button">
                                     <i class="fa-solid fa-cart-shopping"></i> &nbsp;&nbsp;Add to Cart
                                 </button>
-                                @else
-
+                            @else
                                 <button class="btn btn-success" id="add-to-cart-button">
                                     <i class="fa-solid fa-cart-shopping"></i> &nbsp;&nbsp;Add to Cart
                                 </button>
-                            @endif 
+                            @endif
                         </div>
                     </div>
 
@@ -600,8 +583,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.log("Selected Printing ID:", selectedPrintingId);
 
                     try {
-                        selectedPrintingQuantities = JSON.parse(this.dataset.quantities).map(
-                            Number);
+                        selectedPrintingQuantities = JSON.parse(this.dataset.quantities).map(Number);
                         pricesForSelectedPrinting = JSON.parse(this.dataset.prices).map(Number);
                         updatePrintingPriceAndTotal();
                     } catch (error) {
@@ -623,105 +605,150 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             pompomOptions.forEach(option => {
-    option.addEventListener("change", function() {
-        console.log("Selected Pom Pom Option:", this.value);
-        calculateTotalPrice(); // Recalculate prices when pom-pom option changes
-    });
-});
+                option.addEventListener("change", function() {
+                    console.log("Selected Pom Pom Option:", this.value);
+                    calculateTotalPrice(); // Recalculate prices when pom-pom option changes
+                });
+            });
 
 
             // Function to calculate printing price based on quantity
             function calculatePrice(quantity, quantities, prices) {
-        quantity = parseInt(quantity);
-        if (isNaN(quantity)) return 0;
+                quantity = parseInt(quantity);
+                if (isNaN(quantity)) return 0;
 
-        let price = 0;
-        for (let i = quantities.length - 1; i >= 0; i--) {
-            if (quantity >= quantities[i]) {
-                price = prices[i];
-                break;
+                let price = 0;
+                for (let i = quantities.length - 1; i >= 0; i--) {
+                    if (quantity >= quantities[i]) {
+                        price = prices[i];
+                        break;
+                    }
+                }
+                return price;
             }
-        }
-        return price;
-    }
 
             // Update printing price and total price
             function updatePrintingPriceAndTotal() {
-        const enteredQty = parseInt(quantityInput.value) || 0;
+    const enteredQty = parseInt(quantityInput.value) || 0;
+    totalQtyElements.forEach(element => {
+        element.textContent = enteredQty;
+    });
 
-        totalQtyElements.forEach(element => {
-            element.textContent = enteredQty;
-        });
+    selectedPrintingPrice = calculatePrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
 
-        selectedPrintingPrice = calculatePrice(enteredQty, selectedPrintingQuantities, pricesForSelectedPrinting);
-        calculateTotalPrice();
+    // Ensure a printing option is selected
+    const activePrintingOption = document.querySelector(".printing-option.active");
+    const selectedPrintingId = activePrintingOption ? parseInt(activePrintingOption.getAttribute("data-id")) : null;
+
+    let isValidQuantity = false;
+    for (let i = 0; i < selectedPrintingQuantities.length; i++) {
+        if (enteredQty >= selectedPrintingQuantities[i]) {
+            isValidQuantity = true;
+            break;
+        }
     }
+
+
+
+if (selectedPrintingId !== null && (!isValidQuantity || (selectedPrintingPrice === 0 && selectedPrintingId > 1))) {
+    console.log("Selected Printing ID:", selectedPrintingId);
+    document.getElementById("printing-error").style.display = "block";
+} else {
+    document.getElementById("printing-error").style.display = "none";
+}
+
+
+
+
+    calculateTotalPrice();
+}
+
+// Ensure error message disappears when quantity is corrected
+quantityInput.addEventListener("input", function () {
+    document.getElementById("printing-error").style.display = "none";
+});
+
+
+
+
 
             // Update total price based on quantity and selected printing option
             function calculateTotalPrice() {
-        const enteredQty = parseInt(quantityInput.value) || 0;
-        let calculatedPrice = calculatePrice(enteredQty, quantities, prices);
+                const enteredQty = parseInt(quantityInput.value) || 0;
+                let calculatedPrice = calculatePrice(enteredQty, quantities, prices);
 
-        const isWithPompom = document.querySelector('input[name="pompom"]:checked')?.value === "1";
-        const pompomCustomizationPrice = isWithPompom ? enteredQty * 2 : 0;
+                const isWithPompom = document.querySelector('input[name="pompom"]:checked')?.value === "1";
+                const pompomCustomizationPrice = isWithPompom ? enteredQty * 2 : 0;
 
-        const total = calculatedPrice * enteredQty;
-        const totalCustomization = selectedPrintingPrice * enteredQty + pompomCustomizationPrice;
+                const total = calculatedPrice * enteredQty;
+                const totalCustomization = selectedPrintingPrice * enteredQty + pompomCustomizationPrice;
 
-        console.log("Quantity:", enteredQty);
-        console.log("Printing ID:", selectedPrintingQuantities);
-        console.log("Printing Price:", selectedPrintingPrice);
-        console.log("Product Price:", calculatedPrice);
-        console.log("Delivery Price:", calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery));
+                console.log("Quantity:", enteredQty);
+                console.log("Printing ID:", selectedPrintingQuantities);
+                console.log("Printing Price:", selectedPrintingPrice);
+                console.log("Product Price:", calculatedPrice);
+                console.log("Delivery Price:", calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery));
 
-        totalPrice.textContent = `$${total.toFixed(2)}`;
-        totalPriceCustomization.textContent = `$${totalCustomization.toFixed(2)}`;
+                totalPrice.textContent = `$${total.toFixed(2)}`;
+                totalPriceCustomization.textContent = `$${totalCustomization.toFixed(2)}`;
 
-        if (selectedPrintingPrice === 0 && total >= 1) {
-            artworkSelection.style.display = "none";
-        } else {
-            artworkSelection.style.display = "block";
-        }
+                if (selectedPrintingPrice === 0 && total >= 1) {
+                    artworkSelection.style.display = "none";
+                } else {
+                    artworkSelection.style.display = "block";
+                }
 
-        document.querySelectorAll('[id^="pricing-"]').forEach(function(priceElement) {
-            const priceValue = parseFloat(priceElement.getAttribute('data-price'));
+                document.querySelectorAll('[id^="pricing-"]').forEach(function(priceElement) {
+                    const priceValue = parseFloat(priceElement.getAttribute('data-price'));
 
-            if (priceValue === calculatedPrice) {
-                priceElement.style.backgroundColor = "#F7B708";
-                priceElement.style.color = "#fff";
-            } else {
-                priceElement.style.backgroundColor = "";
-                priceElement.style.color = "black";
+                    if (priceValue === calculatedPrice) {
+                        priceElement.style.backgroundColor = "#F7B708";
+                        priceElement.style.color = "#fff";
+                    } else {
+                        priceElement.style.backgroundColor = "";
+                        priceElement.style.color = "black";
+                    }
+                });
             }
-        });
-    }
 
             // Update delivery price and total cost for "View Shipping Bundle"
             function updateDeliveryPriceAndTotal() {
-                const enteredQty = parseInt(quantityInput.value) || 0;
-                const deliveryPrice = calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery);
-                const totalDelivery = deliveryPrice * enteredQty;
+    const enteredQty = parseInt(quantityInput.value) || 0;
+    const productPrice = calculatePrice(enteredQty, quantities, prices);
+    const printingPrice = selectedPrintingPrice * enteredQty;
+    const isWithPompom = document.querySelector('input[name="pompom"]:checked')?.value === "1";
+    const pompomPrice = isWithPompom ? enteredQty * 2 : 0;
 
-                // Update the delivery price display
-                totalPriceDelivery.textContent = `$${totalDelivery.toFixed(2)}`;
+    // Calculate total price
+    const total = (productPrice * enteredQty) + printingPrice + pompomPrice;
 
-                // Highlight the corresponding shippingCharging element
-                // Highlight the corresponding shippingCharging element
-                document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
-                    const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
-                    const priceMatch = priceText.match(/\d+(\.\d+)?/); // Extract numeric value
-                    const priceValue = priceMatch ? parseFloat(priceMatch[0]) : null;
+    // Determine the selected shipping option
+    const selectedOption = document.querySelector('input[name="shippingOption"]:checked')?.value;
 
-                    if (priceValue !== null && Math.abs(priceValue - deliveryPrice) < 0.01) {
-                        shippingElement.style.backgroundColor = "#F7B708";
-                        shippingElement.style.color = "#fff";
-                    } else {
-                        shippingElement.style.backgroundColor = "";
-                        shippingElement.style.color = "";
-                    }
-                });
+    let deliveryPrice = 0;
+    if (selectedOption === "viewBundle") {
+        deliveryPrice = total > 500 ? 0 : 30;
+    }
 
-            }
+    // Update the delivery price display
+    totalPriceDelivery.textContent = `$${deliveryPrice.toFixed(2)}`;
+
+    // Update the background color for selected shipping option
+    document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
+        const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
+        const priceMatch = priceText.match(/\d+(\.\d+)?/); // Extract numeric value
+        const priceValue = priceMatch ? parseFloat(priceMatch[0]) : null;
+
+        if (priceValue !== null && priceValue === deliveryPrice) {
+            shippingElement.style.backgroundColor = "#F7B708";
+            shippingElement.style.color = "#fff";
+        } else {
+            shippingElement.style.backgroundColor = "";
+            shippingElement.style.color = "";
+        }
+    });
+}
+
 
             // Toggle between "Pick Yourself" and "View Shipping Bundle"
             function toggleOptions() {
@@ -754,221 +781,156 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Reset the total price to $0 for "Pick Yourself"
             function resetTotalPrice() {
-        totalPrice.textContent = "$0.00";
-        totalPriceCustomization.textContent = "$0.00";
-    }
+                totalPrice.textContent = "$0.00";
+                totalPriceCustomization.textContent = "$0.00";
+            }
 
-    shippingOptions.forEach(option => {
-        option.addEventListener('change', toggleOptions);
-    });
+            shippingOptions.forEach(option => {
+                option.addEventListener('change', toggleOptions);
+            });
 
-    quantityInput.addEventListener("input", function() {
-        const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+            quantityInput.addEventListener("input", function() {
+                const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
 
-        if (selectedOption === 'pickYourself') {
-            totalPriceDelivery.textContent = '$0.00';
-            resetTotalPrice();
-        } else {
-            updateDeliveryPriceAndTotal();
-        }
+                if (selectedOption === 'pickYourself') {
+                    totalPriceDelivery.textContent = '$0.00';
+                    resetTotalPrice();
+                } else {
+                    updateDeliveryPriceAndTotal();
+                }
 
-        updatePrintingPriceAndTotal();
-    });
+                updatePrintingPriceAndTotal();
+            });
 
-    toggleOptions();
+            toggleOptions();
 
-    quantityInput.addEventListener("blur", function() {
-        const enteredQty = parseInt(quantityInput.value) || 0;
-        const minQty = Math.min(...quantities);
+            quantityInput.addEventListener("blur", function() {
+                const enteredQty = parseInt(quantityInput.value) || 0;
+                const minQty = Math.min(...quantities);
 
-        if (enteredQty < minQty) {
-            quantityInput.value = minQty;
-            calculateTotalPrice();
-        }
+                if (enteredQty < minQty) {
+                    quantityInput.value = minQty;
+                    calculateTotalPrice();
+                }
 
-        totalQtyElements.forEach(element => {
-            element.textContent = quantityInput.value;
-        });
-    });
+                totalQtyElements.forEach(element => {
+                    element.textContent = quantityInput.value;
+                });
+            });
+            let printingId;  // Declare printingId outside the blocks
 
-            document.getElementById("add-to-cart-button").addEventListener("click", function() {
-                const isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
-    
+document.getElementById("add-to-cart-button").addEventListener("click", function() {
+    const isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
+
     if (!isAuthenticated) {
         // Redirect to the login page if not authenticated
         window.location.href = "{{ route('user.login') }}";
         return;
     }
 
-                const quantity = parseInt(quantityInput.value) || 0;
+    const quantity = parseInt(quantityInput.value) || 0;
+    const colorId = document.getElementById("beanie-color").value;
+    const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
+    const PomPomOption = document.querySelector('input[name="pompom"]:checked')?.value || 0;
+    const pompomPrice = PomPomOption === "1" ? 2 : 0;
+    const printingPrice = selectedPrintingPrice;
 
-                
-                const colorId = document.getElementById("beanie-color").value;
-                const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
-
-                const PomPomOption = document.querySelector('input[name="pompom"]:checked')?.value || 0;
-              // Set pompomPrice based on PomPomOption
-              const pompomPrice = PomPomOption === "1" ? 2 : 0;
-
-                
-
-                const printingId = parseInt(document.querySelector(".printing-option.active")?.getAttribute(
-                    "data-id")) || null;
-                const printingPrice = selectedPrintingPrice;
-                const productPrice = calculatePrice(quantity, quantities, prices);
-
-                // Check which shipping option is selected
-                const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
-                const deliveryPrice = selectedOption === "pickYourself" ? 0 : calculatePrice(quantity,
-                    quantitiesDelivery, pricesDelivery);
-
-                const formData = new FormData();
-                formData.append("productId", productId);
-                formData.append("userId", userId);
-                formData.append("colorId", colorId);
-                formData.append("quantity", quantity);
-                formData.append("beanieType", beanieType);
-                formData.append("PomPomOption", PomPomOption);
-                formData.append("printingId", printingId);
-                formData.append("printingPrice", printingPrice);
-                formData.append("productPrice", productPrice);
-                formData.append("deliveryPrice", deliveryPrice);
-                formData.append("pompomPrice", pompomPrice);
-
-                // Only include artwork data if the artwork form is visible
-                if (artworkSelection.style.display !== "none") {
-                    const artworkType = parseInt(document.getElementById("artworkType").value) || null;
-                    const artworkDataText = document.getElementById("messageInput").value || null;
-                    const artworkDataImage = document.getElementById("fileUpload").files[0] || null;
-
-                    formData.append("artworkType", artworkType);
-                    formData.append("artworkDataText", artworkDataText);
-                    if (artworkDataImage) {
-                        formData.append("artworkDataImage", artworkDataImage);
-                    }
-                    const leathercolor = document.getElementById("leathercolor").value 
-                    // ? parseFloat(document.getElementById("leathercolor").value) : 0
-                    ;
-                    const patchLength = document.getElementById("patchLength").value ? parseFloat(document
-                        .getElementById("patchLength").value) : null;
-                 
-                    const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document
-                        .getElementById("patchHeight").value) : null;
-                    const fontStyle = document.getElementById("fontStyle").value || null;
-                    const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document
-                        .getElementById("imprintColors").value) : null;
-
-                        const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns input")).map(
-    input => parseInt(input.value, 10)
-);
-
-                    formData.append("leathercolor", leathercolor);
-                    formData.append("patchLength", patchLength);
-                    formData.append("patchHeight", patchHeight);
-                    formData.append("fontStyle", fontStyle);
-                    formData.append("numOfImprint", numOfImprint);
-                    imprintColors.forEach((color, index) => {
-                        formData.append(`imprintColors[${index}]`, color);
-                    });
-                }
-
-                fetch("{{ route('cart.add') }}", {
-                        method: "POST",
-                        headers: {
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                        },
-                        body: formData,
-                    })
-                    .then(response => response.json())
-                    .then(result => {
-                        if (result.success) {
-                            alert("Product added to cart successfully!");
-                            window.location.href = "{{ route('cart') }}";
-                        } else {
-                            alert("Failed to add product to cart.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                    });
-            });
-
-        });
-    </script>
-
-    <script>
-        const mainImage = document.getElementById('mainImage');
-        const thumbnails = document.querySelectorAll('.thumbnail');
-        const colorDropdown = document.getElementById('beanie-color');
-        let currentIndex = 0;
-
-        // Change the main image based on the clicked thumbnail
-        function changeImage(element) {
-            mainImage.src = element.src;
-            thumbnails.forEach(thumbnail => thumbnail.classList.remove('active'));
-            element.classList.add('active');
-            currentIndex = Array.from(thumbnails).indexOf(element);
-
-            // Synchronize the dropdown with the selected image
-            const colorId = element.dataset.colorId;
-            if (colorId) {
-                colorDropdown.value = colorId;
-            }
-        }
-
-        // Change the main image when navigating through the slider
-        function changeSlide(direction) {
-            currentIndex += direction;
-            if (currentIndex < 0) {
-                currentIndex = thumbnails.length - 1;
-            } else if (currentIndex >= thumbnails.length) {
-                currentIndex = 0;
-            }
-            changeImage(thumbnails[currentIndex]);
-        }
-
-        // Change the image when selecting a color from the dropdown
-        colorDropdown.addEventListener('change', () => {
-            const selectedColorId = colorDropdown.value;
-            const targetThumbnail = Array.from(thumbnails).find(thumbnail => thumbnail.dataset.colorId ==
-                selectedColorId);
-            if (targetThumbnail) {
-                changeImage(targetThumbnail);
-            }
-        });
-    </script>
-
-    <script>
-        document.getElementById('patchLength').addEventListener('input', function() {
-            const patchLength = parseFloat(this.value);
-            const errorElement = document.getElementById('patchLengthError');
-            if (isNaN(patchLength) || patchLength < 1 || patchLength > 4) {
-                errorElement.style.display = 'block';
-            } else {
-                errorElement.style.display = 'none';
-            }
-        });
-
-        document.getElementById('patchHeight').addEventListener('input', function() {
-            const patchHeight = parseFloat(this.value);
-            const errorElement = document.getElementById('patchHeightError');
-            if (isNaN(patchHeight) || patchHeight > 2.5) {
-                errorElement.style.display = 'block';
-            } else {
-                errorElement.style.display = 'none';
-            }
-        });
-        function validateColorCode(input, index) {
-    const value = input.value;
-    const errorElement = document.getElementById(`colorError${index}`);
-
-    if (value.length !== 4 || isNaN(value)) {
-        errorElement.style.display = 'block';
+    // Declare and assign printingId based on the condition
+    if (printingPrice === 0) {
+        printingId = 1;
     } else {
-        errorElement.style.display = 'none';
+        printingId = parseInt(document.querySelector(".printing-option.active")?.getAttribute("data-id")) || null;
     }
-}
+
+    // const total = (printingPrice * quantity) + (productPrice * quantity);
+    
+
+    const productPrice = calculatePrice(quantity, quantities, prices);
+
+    // Check which shipping option is selected
+    const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
+    
+    // Calculate total cost
+    const total = (productPrice * quantity) + (printingPrice * quantity) + pompomPrice;
+
+   // Set delivery price based on total cost and selected shipping option
+    let deliveryPrice;
+    if (selectedOption === "pickYourself") {
+        deliveryPrice = 0;
+    } else {
+        deliveryPrice = total > 500 ? 0 : 30;
+    }
+
+
+    // Set delivery price based on total cost
+    // let deliveryPrice = total > 500 ? 0 : 30;
+    // const deliveryPrice = selectedOption === "pickYourself" ? 0 : calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
+
+    const formData = new FormData();
+    formData.append("productId", productId);
+    formData.append("userId", userId);
+    formData.append("colorId", colorId);
+    formData.append("quantity", quantity);
+    formData.append("beanieType", beanieType);
+    formData.append("PomPomOption", PomPomOption);
+    formData.append("printingId", printingId);
+    formData.append("printingPrice", printingPrice);
+    formData.append("productPrice", productPrice);
+    formData.append("deliveryPrice", deliveryPrice);
+    formData.append("pompomPrice", pompomPrice);
+
+    // Only include artwork data if the artwork form is visible
+    if (artworkSelection.style.display !== "none") {
+        const artworkType = parseInt(document.getElementById("artworkType").value) || null;
+        const artworkDataText = document.getElementById("messageInput").value || null;
+        const artworkDataImage = document.getElementById("fileUpload").files[0] || null;
+
+        formData.append("artworkType", artworkType);
+        formData.append("artworkDataText", artworkDataText);
+        if (artworkDataImage) {
+            formData.append("artworkDataImage", artworkDataImage);
+        }
+        const leathercolor = document.getElementById("leathercolor").value;
+        const patchLength = document.getElementById("patchLength").value ? parseFloat(document.getElementById("patchLength").value) : null;
+        const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document.getElementById("patchHeight").value) : null;
+        const fontStyle = document.getElementById("fontStyle").value || null;
+        const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document.getElementById("imprintColors").value) : null;
+
+        const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns input")).map(input => parseInt(input.value, 10));
+
+        formData.append("leathercolor", leathercolor);
+        formData.append("patchLength", patchLength);
+        formData.append("patchHeight", patchHeight);
+        formData.append("fontStyle", fontStyle);
+        formData.append("numOfImprint", numOfImprint);
+        imprintColors.forEach((color, index) => {
+            formData.append(`imprintColors[${index}]`, color);
+        });
+    }
+
+    fetch("{{ route('cart.add') }}", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+        },
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            alert("Product added to cart successfully!");
+            window.location.href = "{{ route('cart') }}";
+        } else {
+            alert("Failed to add product to cart.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+});
+
+        });
     </script>
 
-
-@endsection
+<script src="{{ asset('assetsMain/js/frontend/productDetail.js') }}"></script>  
+@endsection 

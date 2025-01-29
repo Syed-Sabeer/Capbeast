@@ -22,40 +22,48 @@ class HomeController extends Controller
             ->get();
 
         // Fetch Instagram posts
-        $instagramPosts = $this->getInstagramPostsByUsername('monkey_beanies');
+        $instagramPosts = $this->getInstagramPosts();
 
         return view('main.pages.home', compact('products', 'instagramPosts'));
     }
 
     /**
-     * Fetch Instagram posts by username using a third-party API.
+     * Fetch latest Instagram posts using the Graph API.
      *
-     * @param string $username
      * @return array
      */
-    private function getInstagramPostsByUsername($username)
+    private function getInstagramPosts()
     {
         try {
             $client = new Client();
-            $response = $client->get('https://api.rapidapi.com/monkey_beanies', [
-                'headers' => [
-                    'x-rapidapi-key' => env('RAPIDAPI_KEY'), // Add this key to your .env file
-                    'x-rapidapi-host' => 'instagram-scraper.p.rapidapi.com',
-                ],
+            $response = $client->get("https://graph.facebook.com/v18.0/638554745279134/media", [
                 'query' => [
-                    'username' => $username,
-                ],
+                    'fields' => 'id,caption,media_type,media_url,permalink',
+                    'access_token' => env('INSTAGRAM_ACCESS_TOKEN'),
+                    'limit' => 6
+                ]
             ]);
-
+    
             $data = json_decode($response->getBody(), true);
-
-            // Limit posts to 7 if the response contains data
-            return array_slice($data['posts'], 0, 7);
-
+    
+            if (!isset($data['data'])) {
+                Log::error('Instagram API response does not contain data.', ['response' => $data]);
+                return [];
+            }
+    
+            return array_map(function ($post) {
+                return [
+                    'link' => $post['permalink'] ?? '',
+                    'image' => $post['media_url'] ?? '',
+                ];
+            }, $data['data']);
+    
         } catch (\Exception $e) {
-            // Log error for debugging
-            Log::error('Failed to fetch Instagram posts: ' . $e->getMessage());
+            Log::error('Instagram API error: ' . $e->getMessage());
             return [];
         }
     }
+    
+    
+    
 }
