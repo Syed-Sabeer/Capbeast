@@ -35,34 +35,38 @@ class HomeController extends Controller
     private function getInstagramPosts()
     {
         try {
+            // Client to make API request
             $client = new Client();
-            $response = $client->get("https://graph.facebook.com/v18.0/638554745279134/media", [
+            $response = $client->get("https://graph.facebook.com/v18.0/17841471285154148/media", [
                 'query' => [
                     'fields' => 'id,caption,media_type,media_url,permalink',
                     'access_token' => env('INSTAGRAM_ACCESS_TOKEN'),
                     'limit' => 6
                 ]
             ]);
-    
+
+            // Decode the response to get Instagram data
             $data = json_decode($response->getBody(), true);
-    
+
             if (!isset($data['data'])) {
                 Log::error('Instagram API response does not contain data.', ['response' => $data]);
                 return [];
             }
-    
+
+            // Process the response to extract required details
             return array_map(function ($post) {
                 return [
                     'link' => $post['permalink'] ?? '',
                     'image' => $post['media_url'] ?? '',
                 ];
             }, $data['data']);
-    
+
         } catch (\Exception $e) {
             Log::error('Instagram API error: ' . $e->getMessage());
             return [];
         }
     }
+
     
     
     
