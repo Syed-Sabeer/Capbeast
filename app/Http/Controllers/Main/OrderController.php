@@ -312,30 +312,29 @@ class OrderController extends Controller
             return response()->json(['success' => false, 'message' => 'Invalid coupon code.'], 400);
         }
     
-        // Get cart products
+        // Get the cart items for the logged-in user
         $cartItems = Cart::where('user_id', auth()->id())->get();
-        
-        // Get cart product IDs and their types
-        $cartProductData = $cartItems->map(fn($item) => [
-            'id' => $item->product_id,
-            'type' => get_class($item->product) // Assuming a relation exists
-        ]);
     
-        // Check if coupon applies to any product in the cart
-        $isApplicable = $cartProductData->contains(fn($product) =>
-            $product['id'] == $coupon->discountable_id &&
-            $product['type'] == $coupon->discountable_type
-        );
+        // Loop through the cart items to check if the coupon applies
+        $discountAmount = 0;
     
-        if (!$isApplicable) {
-            return response()->json(['success' => false, 'message' => 'Coupon not applicable for selected products.'], 400);
+        foreach ($cartItems as $item) {
+            if ($item->product_id == $coupon->discountable_id) {
+                // Apply the discount to the specific product (assuming a percentage discount)
+                $discountAmount = ($item->product_price * $coupon->percentage / 100);
+            }
         }
     
-        return response()->json([
-            'success' => true,
-            'discount' => $coupon->percentage,
-            'message' => 'Discount applied successfully.',
-        ]);
+        // If the coupon is applicable, return the discount amount
+        if ($discountAmount > 0) {
+            return response()->json([
+                'success' => true,
+                'discount' => $discountAmount,
+                'message' => 'Discount applied successfully.',
+            ]);
+        }
+    
+        return response()->json(['success' => false, 'message' => 'Coupon not applicable for selected products.'], 400);
     }
     
     

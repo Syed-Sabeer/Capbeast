@@ -280,47 +280,60 @@
         </div><!--end container-->
     </section>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let appliedDiscount = 0; // Store current discount
-    
-            document.getElementById('applyCoupon').addEventListener('click', function () {
-                let couponCode = document.getElementById('couponCode').value;
-                let subtotalElement = document.querySelector('.cart-subtotal');
-                let discountElement = document.querySelector('.cart-discount');
-                let totalElement = document.querySelector('.cart-total');
-    
-                let subtotal = parseFloat(subtotalElement.innerText.replace('$', ''));
-                let total = parseFloat(totalElement.innerText.replace('$', ''));
-    
-                // Reset the total by removing previous discount
-                total += appliedDiscount;
-    
-                fetch("{{ route('apply.discount') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ coupon_code: couponCode }),
-                })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.success) {
-                        alert(result.message);
-    
-                        // Apply the new discount
-                        appliedDiscount = result.discount;
-    
-                        // Update the discount and total
-                        discountElement.innerText = '$' + appliedDiscount.toFixed(2);
-                        totalElement.innerText = '$' + (total - appliedDiscount).toFixed(2);
-                    } else {
-                        alert(result.message);
+     document.addEventListener('DOMContentLoaded', function () {
+    let appliedDiscount = 0; // Store current discount
+
+    document.getElementById('applyCoupon').addEventListener('click', function () {
+        let couponCode = document.getElementById('couponCode').value;
+        let subtotalElement = document.querySelector('.cart-subtotal');
+        let discountElement = document.querySelector('.cart-discount');
+        let totalElement = document.querySelector('.cart-total');
+        
+        let subtotal = parseFloat(subtotalElement.innerText.replace('$', ''));
+        let total = subtotal;  // Start with the full subtotal before applying any discounts
+
+        // Reset the discount and total
+        discountElement.innerText = '$0.00';
+        totalElement.innerText = '$' + subtotal.toFixed(2);
+
+        fetch("{{ route('apply.discount') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ coupon_code: couponCode })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert(result.message);
+                
+                // Apply the discount to the specific product
+                let discount = result.discount;
+                discountElement.innerText = '$' + discount.toFixed(2);
+                total -= discount;
+
+                totalElement.innerText = '$' + total.toFixed(2);
+                
+                // Update the individual product's price
+                let productRows = document.querySelectorAll('table tbody tr');
+                productRows.forEach(row => {
+                    let priceElement = row.querySelector('.product-price');
+                    if (priceElement) {
+                        let originalPrice = parseFloat(priceElement.dataset.originalPrice);
+                        priceElement.innerText = '$' + (originalPrice - discount).toFixed(2);
                     }
-                })
-                .catch(error => console.error('Error:', error));
-            });
-        });
+                });
+
+            } else {
+                alert(result.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+
     </script>
     
     <script>
