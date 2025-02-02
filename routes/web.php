@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\apps\EcommerceCustomerAll;
 use App\Http\Controllers\Admin\components\ProductColorController;
 use App\Http\Controllers\Admin\components\FontController;
 use App\Http\Controllers\Admin\components\InternalStatusController;
+use App\Http\Controllers\Admin\components\DiscountCouponsController;
 
 
 Route::get('/', function () {
@@ -51,6 +52,7 @@ Route::prefix('main')->group(function () {
   Route::get('/order-success', [OrderController::class, 'orderSuccess'])->name('main.pages.success');
   Route::get('/order-history', [OrderController::class, 'orderHistory'])->name('main.pages.orderhistory');
   Route::get('/payment-status', [OrderController::class, 'GetPaymentStatus'])->name('status');
+  Route::post('/apply-discount', [OrderController::class, 'applyDiscount'])->name('apply.discount');
 
 
 
@@ -99,19 +101,23 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
     Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name('content-embroidery-color-list');
     Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name('InternalStatus.index');
-    // Store new color
     Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name('order-internal-status.store');
-
-    // Edit color (this can be a GET route to display the edit form)
     Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name('order-internal-status.edit');
-
-    // Update color (this can be a POST or PATCH route to update the color)
     Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name('order-internal-status.update');
-
-    // Soft delete color
     Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name('order-internal-status.destroy');
     Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name('order-internal-status.index');
+
+
+    Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name('content-discount-coupon-add');
+    Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name('content-discount-coupon-store');
+    Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name('content-discount-coupon-list');
+    Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name('content-discount-coupon-edit');
+    Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name('content-discount-coupon-update');
+    Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name('content-discount-coupon-delete');
+    
+    Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name('get-items');
   });
+
 
 
 

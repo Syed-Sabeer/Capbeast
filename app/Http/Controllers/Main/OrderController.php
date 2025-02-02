@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartArtwork;
 use App\Models\Order;
+use App\Models\DiscountCoupon;
 use App\Models\OrderItem;
 use App\Models\OrderShippingDetail;
 use App\Models\OrderArtwork;
@@ -35,128 +36,6 @@ class OrderController extends Controller
         $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal['client_id'], $paypal['secret']));
         $this->_api_context->setConfig($paypal['settings']);
     }
-
-    public function orderSuccess(Request $request)
-    {
-        $orderId = $request->query('orderId');
-        $order = Order::with(['user', 'items'])->where('id', $orderId)->first();
-
-        if (!$order) {
-            return redirect()->route('home')->with('error', 'Order not found.');
-        }
-
-        return view('main.pages.ordersuccess', compact('order'));
-    }
-
-    public function orderHistory()
-    {
-        $userId = auth()->id();
-
-        $orderhistory = Order::with(['items' => function ($query) {
-            $query->with('orderArtwork');
-        }, 'user'])->where('user_id', $userId)->get();
-
-        return view('main.pages.orderhistory', ['orderhistory' => $orderhistory]);
-    }
-
-    public function index()
-    {
-        $userId = auth()->id();
-
-        $cart = Cart::with(['product', 'color', 'printing'])
-            ->where('user_id', $userId)
-            ->get();
-
-        if ($cart->isEmpty()) {
-            return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
-        }
-
-        return view('main.pages.checkout', compact('cart'));
-    }
-
-    public function add(Request $request)
-    {
-        $userId = auth()->id();
-    
-        try {
-            $request->validate([
-                'firstname' => 'required|string|max:255',
-                'lastname' => 'required|string|max:255',
-                'companyname' => 'nullable|string|max:255',
-                'address' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
-                'phone' => 'required|string|max:20',
-                'additional_info' => 'nullable|string|max:500',
-                'paymentMethod' => 'required|string' // Ensure payment method is selected
-            ]);
-    
-            // Fetch cart items
-            $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
-            if ($cartItems->isEmpty()) {
-                return response()->json(['success' => false, 'message' => 'Cart is empty.'], 400);
-            }
-    
-            // Calculate total price
-            $totalPrice = $cartItems->reduce(function ($total, $item) {
-                $productPrice = (float) $item->product_price;
-                $printingPrice = (float) $item->printing_price;
-                $deliveryPrice = (float) $item->delivery_price;
-                $pompomPrice = (float) $item->pompom_price;
-                $quantity = (int) $item->quantity;
-    
-                return $total + (($productPrice + $printingPrice + $deliveryPrice + $pompomPrice) * $quantity);
-            }, 0);
-    
-            Log::info('Calculated Total Price: ' . $totalPrice);
-    
-            // Save user input into the session
-            session([
-                'checkout_details' => [
-                    'firstname' => $request->input('firstname'),
-                    'lastname' => $request->input('lastname'),
-                    'companyname' => $request->input('companyname'),
-                    'address' => $request->input('address'),
-                    'email' => $request->input('email'),
-                    'phone' => $request->input('phone'),
-                    'additional_info' => $request->input('additional_info'),
-                    'cart_items' => $cartItems,
-                    'total_price' => $totalPrice,
-                ]
-            ]);
-    
-            // Initiate PayPal Payment
-            if ($request->paymentMethod === 'paypal') {
-                $paymentResponse = $this->PostPaymentWithPaypal($totalPrice);
-    
-                if (!$paymentResponse) {
-                    return response()->json(['success' => false, 'message' => 'PayPal payment initiation failed.'], 500);
-                }
-    
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Redirecting to PayPal...',
-                    'paypalUrl' => $paymentResponse
-                ]);
-            }
-    
-            return response()->json(['success' => false, 'message' => 'Payment method not supported.']);
-        } catch (\Exception $e) {
-            Log::error('Checkout failed: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Checkout failed. Please try again later.'], 500);
-        }
-    }
-    
-    
-
-    private function generateOrderId()
-    {
-        do {
-            $orderId = strtoupper(Str::random(6)); // Generate a random string of 6 characters
-        } while (Order::where('order_id', $orderId)->exists());
-
-        return $orderId;
-    }
-
     public function PostPaymentWithPaypal($totalPrice)
     {
         $payer = new Payer();
@@ -296,11 +175,169 @@ class OrderController extends Controller
             return redirect()->route('checkout')->with('error', 'Payment failed.');
         }
     }
-    
-    public function handleonlinepay(Request $request)
+
+
+    public function orderSuccess(Request $request)
     {
-        
+        $orderId = $request->query('orderId');
+        $order = Order::with(['user', 'items'])->where('id', $orderId)->first();
+
+        if (!$order) {
+            return redirect()->route('home')->with('error', 'Order not found.');
+        }
+
+        return view('main.pages.ordersuccess', compact('order'));
     }
 
+    public function orderHistory()
+    {
+        $userId = auth()->id();
+
+        $orderhistory = Order::with(['items' => function ($query) {
+            $query->with('orderArtwork');
+        }, 'user'])->where('user_id', $userId)->get();
+
+        return view('main.pages.orderhistory', ['orderhistory' => $orderhistory]);
+    }
+
+    public function index()
+    {
+        $userId = auth()->id();
+
+        $cart = Cart::with(['product', 'color', 'printing'])
+            ->where('user_id', $userId)
+            ->get();
+
+        if ($cart->isEmpty()) {
+            return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
+        }
+
+        return view('main.pages.checkout', compact('cart'));
+    }
+
+    public function add(Request $request)
+    {
+        $userId = auth()->id();
+    
+        try {
+            $request->validate([
+                'firstname' => 'required|string|max:255',
+                'lastname' => 'required|string|max:255',
+                'companyname' => 'nullable|string|max:255',
+                'address' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'phone' => 'required|string|max:20',
+                'additional_info' => 'nullable|string|max:500',
+                'paymentMethod' => 'required|string' // Ensure payment method is selected
+            ]);
+    
+            // Fetch cart items
+            $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
+            if ($cartItems->isEmpty()) {
+                return response()->json(['success' => false, 'message' => 'Cart is empty.'], 400);
+            }
+    
+            // Calculate total price
+            $totalPrice = $cartItems->reduce(function ($total, $item) {
+                $productPrice = (float) $item->product_price;
+                $printingPrice = (float) $item->printing_price;
+                $deliveryPrice = (float) $item->delivery_price;
+                $pompomPrice = (float) $item->pompom_price;
+                $quantity = (int) $item->quantity;
+    
+                return $total + (($productPrice + $printingPrice + $deliveryPrice + $pompomPrice) * $quantity);
+            }, 0);
+    
+            Log::info('Calculated Total Price: ' . $totalPrice);
+    
+            // Save user input into the session
+            session([
+                'checkout_details' => [
+                    'firstname' => $request->input('firstname'),
+                    'lastname' => $request->input('lastname'),
+                    'companyname' => $request->input('companyname'),
+                    'address' => $request->input('address'),
+                    'email' => $request->input('email'),
+                    'phone' => $request->input('phone'),
+                    'additional_info' => $request->input('additional_info'),
+                    'cart_items' => $cartItems,
+                    'total_price' => $totalPrice,
+                ]
+            ]);
+    
+            // Initiate PayPal Payment
+            if ($request->paymentMethod === 'paypal') {
+                $paymentResponse = $this->PostPaymentWithPaypal($totalPrice);
+    
+                if (!$paymentResponse) {
+                    return response()->json(['success' => false, 'message' => 'PayPal payment initiation failed.'], 500);
+                }
+    
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Redirecting to PayPal...',
+                    'paypalUrl' => $paymentResponse
+                ]);
+            }
+    
+            return response()->json(['success' => false, 'message' => 'Payment method not supported.']);
+        } catch (\Exception $e) {
+            Log::error('Checkout failed: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Checkout failed. Please try again later.'], 500);
+        }
+    }
+    
+    
+
+    private function generateOrderId()
+    {
+        do {
+            $orderId = strtoupper(Str::random(6)); // Generate a random string of 6 characters
+        } while (Order::where('order_id', $orderId)->exists());
+
+        return $orderId;
+    }
+
+
+
+    public function applyDiscount(Request $request)
+    {
+        $request->validate([
+            'coupon_code' => 'required|string',
+        ]);
+    
+        $coupon = DiscountCoupon::where('code', $request->coupon_code)->first();
+    
+        if (!$coupon) {
+            return response()->json(['success' => false, 'message' => 'Invalid coupon code.'], 400);
+        }
+    
+        // Get cart products
+        $cartItems = Cart::where('user_id', auth()->id())->get();
+        
+        // Get cart product IDs and their types
+        $cartProductData = $cartItems->map(fn($item) => [
+            'id' => $item->product_id,
+            'type' => get_class($item->product) // Assuming a relation exists
+        ]);
+    
+        // Check if coupon applies to any product in the cart
+        $isApplicable = $cartProductData->contains(fn($product) =>
+            $product['id'] == $coupon->discountable_id &&
+            $product['type'] == $coupon->discountable_type
+        );
+    
+        if (!$isApplicable) {
+            return response()->json(['success' => false, 'message' => 'Coupon not applicable for selected products.'], 400);
+        }
+    
+        return response()->json([
+            'success' => true,
+            'discount' => $coupon->percentage,
+            'message' => 'Discount applied successfully.',
+        ]);
+    }
+    
+    
     
 }

@@ -127,7 +127,7 @@
                 <!--end col-->
                 <div class="col-lg-4">
                     <div class="sticky-side-div">
-                        <div class="card">
+                        {{-- <div class="card">
                             <div class="card-body">
                                 <div class="text-center">
                                     <h6 class="mb-3 fs-15">Have a <span class="fw-semibold">promo</span> code ?</h6>
@@ -137,7 +137,7 @@
                                     <button type="button" class="btn btn-primary w-xs">Apply</button>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="card overflow-hidden">
                             <div class="card-header border-bottom-dashed">
                                 <h5 class="card-title mb-0 fs-15">Order Summary</h5>

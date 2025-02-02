@@ -214,10 +214,9 @@
                             toggleCardDetails();
                         });
                     </script>
-                                        
-
-
                 </div>
+
+
                 <!-- end col -->
                 <div class="col-lg-4">
                     <div class="sticky-side-div">
@@ -228,8 +227,9 @@
                                 </div>
                                 <div class="hstack gap-3 px-3 mx-n3">
                                     <input class="form-control me-auto" type="text" placeholder="Enter coupon code"
-                                        value="" aria-label="Add Promo Code here...">
-                                    <button type="button" class="btn btn-success w-xs">Apply</button>
+                                    id="couponCode" value="" aria-label="Add Promo Code here...">
+                             <button type="button" class="btn btn-success w-xs" id="applyCoupon">Apply</button>
+                             
                                 </div>
                             </div>
                         </div>
@@ -245,7 +245,11 @@
                                                 <td>Sub Total :</td>
                                                 <td class="text-end cart-subtotal">${{ number_format($subtotal, 2) }}</td>
                                             </tr>
-                                          
+                                            <tr>
+                                                <td>Discount :</td>
+                                                <td class="text-end cart-discount">$0.00</td>
+                                            </tr>
+                                            
                                             <tr class="table-active">
                                                 <th>Total (USD) :</th>
                                                 <td class="text-end">
@@ -275,7 +279,50 @@
             </div><!--end row-->
         </div><!--end container-->
     </section>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let appliedDiscount = 0; // Store current discount
+    
+            document.getElementById('applyCoupon').addEventListener('click', function () {
+                let couponCode = document.getElementById('couponCode').value;
+                let subtotalElement = document.querySelector('.cart-subtotal');
+                let discountElement = document.querySelector('.cart-discount');
+                let totalElement = document.querySelector('.cart-total');
+    
+                let subtotal = parseFloat(subtotalElement.innerText.replace('$', ''));
+                let total = parseFloat(totalElement.innerText.replace('$', ''));
+    
+                // Reset the total by removing previous discount
+                total += appliedDiscount;
+    
+                fetch("{{ route('apply.discount') }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ coupon_code: couponCode }),
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        alert(result.message);
+    
+                        // Apply the new discount
+                        appliedDiscount = result.discount;
+    
+                        // Update the discount and total
+                        discountElement.innerText = '$' + appliedDiscount.toFixed(2);
+                        totalElement.innerText = '$' + (total - appliedDiscount).toFixed(2);
+                    } else {
+                        alert(result.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    </script>
+    
     <script>
        function proceedToCheckout() {
     if (confirm('Are you sure you want to proceed to checkout?')) {

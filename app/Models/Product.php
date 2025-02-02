@@ -38,4 +38,8 @@ class Product extends Model
     {
         return $this->hasMany(ProductBaseImage::class, 'product_id'); // Relationship with base images
     }
+    public function discountCoupons()
+    {
+        return $this->morphMany(DiscountCoupon::class, 'discountable');
+    }
 }

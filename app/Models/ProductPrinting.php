@@ -9,13 +9,13 @@ class ProductPrinting extends Model
 {
     use HasFactory;
 
-    // Specify the table name (optional if it follows Laravel's naming convention)
+    
     protected $table = 'product_printing';
 
-    // Specify the primary key (optional if it follows Laravel's naming convention)
+   
     protected $primaryKey = 'id';
 
-    // Allow mass assignment for these fields
+   
     protected $fillable = [
         'title',
         'image',
@@ -31,4 +31,9 @@ class ProductPrinting extends Model
         'quantity' => 'array', 
         'price' => 'array',    
     ];
+
+    public function discountCoupons()
+    {
+        return $this->morphMany(DiscountCoupon::class, 'discountable');
+    }
 }

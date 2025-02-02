@@ -129,6 +129,22 @@
                   "slug": "app-ecommerce-customer-details-security"
                 }
               ]
+            },
+            {
+              "name": "Discount Coupons",
+              "slug": "app-ecommerce-customer-details",
+              "submenu": [
+                {
+                  "url": "admin/component/discountcoupon/add",
+                  "name": "Add Discount Coupons",
+                  "slug": "app-ecommerce-customer-details-overview"
+                },
+                {
+                  "url": "admin/component/discountcoupon/list",
+                  "name": "View Discount Coupons",
+                  "slug": "app-ecommerce-customer-details-security"
+                }
+              ]
             }
           ]
         }
