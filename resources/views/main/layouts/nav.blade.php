@@ -46,10 +46,12 @@
         </div>
 
         <div class="d-flex align-items-center">
-            <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
+            {{-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
                 data-bs-toggle="modal" data-bs-target="#searchModal">
                 <i class="bx bx-search fs-22"></i>
-            </button>
+            </button> --}}
+
+            
             @php
                 // Assuming you have a Cart model that associates items with the user
                 $cartItemCount = Auth::check() ? \App\Models\Cart::where('user_id', Auth::id())->count() : 0;

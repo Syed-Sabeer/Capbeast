@@ -40,6 +40,9 @@
 
     <body>
 
+        <div id="google_translate_element"></div>
+
+
 
         @if (!in_array(request()->route()->getName(), ['user.register', 'user.login','main.pages.success']))
             @include('main.layouts.nav')
@@ -82,6 +85,19 @@
 
          {{-- <script src="{{ asset('assetsMain/js/frontend/menu.init.js') }}"></script> --}}
 
+
+         <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    includedLanguages: 'en,fr,pt,es',
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                }, 'google_translate_element');
+            }
+        </script>
+        
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        
      </body>
 
  </html>

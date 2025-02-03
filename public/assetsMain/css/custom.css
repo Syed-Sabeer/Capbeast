@@ -367,3 +367,9 @@
 .option-card.selected {
     border-color: #F7B708;
 }
+#google_translate_element {
+  position: fixed;
+  top: 40px;
+  right: 30px;
+  z-index: 9999;
+}

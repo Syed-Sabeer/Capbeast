@@ -160,12 +160,12 @@
                             </div>
                     
                             <!-- Authorize.Net Option -->
-                            <div class="form-check">
+                            {{-- <div class="form-check">
                                 <input class="form-check-input" type="radio" name="paymentMethod" id="authorizeNetOption" value="authorize_net">
                                 <label class="form-check-label" for="authorizeNetOption">
                                     Pay with Authorize.Net
                                 </label>
-                            </div>
+                            </div> --}}
                         </div>
                     
                         <!-- Authorize.Net Card Details -->
@@ -280,7 +280,7 @@
         </div><!--end container-->
     </section>
     <script>
-     document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     let appliedDiscount = 0; // Store current discount
 
     document.getElementById('applyCoupon').addEventListener('click', function () {
@@ -309,23 +309,24 @@
             if (result.success) {
                 alert(result.message);
                 
-                // Apply the discount to the specific product
+                // Apply the discount to the entire subtotal
                 let discount = result.discount;
                 discountElement.innerText = '$' + discount.toFixed(2);
                 total -= discount;
 
                 totalElement.innerText = '$' + total.toFixed(2);
-                
-                // Update the individual product's price
+
+                // Update each product's price considering quantity and apply the discount
                 let productRows = document.querySelectorAll('table tbody tr');
                 productRows.forEach(row => {
-                    let priceElement = row.querySelector('.product-price');
-                    if (priceElement) {
-                        let originalPrice = parseFloat(priceElement.dataset.originalPrice);
-                        priceElement.innerText = '$' + (originalPrice - discount).toFixed(2);
-                    }
-                });
+                    let quantity = parseInt(row.querySelector('td:nth-child(2)').innerText);
+                    let priceElement = row.querySelector('td:nth-child(3)');
+                    let productPrice = parseFloat(priceElement.innerText.replace('$', '').trim());
 
+                    // Apply the discount per quantity and update the price for each product
+                    let totalProductPrice = (productPrice * quantity) - (productPrice * quantity * discount / 100);
+                    priceElement.innerText = '$' + totalProductPrice.toFixed(2);
+                });
             } else {
                 alert(result.message);
             }
@@ -334,11 +335,17 @@
     });
 });
 
+
     </script>
     
     <script>
-       function proceedToCheckout() {
+      function proceedToCheckout() {
     if (confirm('Are you sure you want to proceed to checkout?')) {
+        // Show loader
+        let checkoutButton = document.getElementById('checkoutButton');
+        checkoutButton.innerHTML = 'Processing... <span class="spinner-border spinner-border-sm"></span>';
+        checkoutButton.disabled = true;
+
         // Gather form data
         const formData = {
             firstname: document.getElementById('firstname').value,
@@ -348,43 +355,44 @@
             email: document.getElementById('email').value,
             phone: document.getElementById('phone').value,
             additional_info: document.getElementById('additional_info').value,
-            paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value // Get selected payment method
+            paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value
         };
 
         if (!formData.paymentMethod) {
             alert('Please select a payment method.');
+            checkoutButton.innerHTML = 'Proceed to Pay';
+            checkoutButton.disabled = false;
             return;
         }
 
         // Send data via fetch
         fetch("{{ route('checkout.add') }}", {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.success) {
-                    alert(result.message);
-
-                    if (formData.paymentMethod === 'paypal') {
-                        // Redirect to PayPal payment
-                        window.location.href = result.paypalUrl; // Assuming you have PayPal URL in the response
-                    } else {
-                        // Redirect with the order ID
-                        const url = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
-                        window.location.href = url;
-                    }
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                if (formData.paymentMethod === 'paypal') {
+                    window.location.href = result.paypalUrl;
                 } else {
-                    alert(result.message);
+                    window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
                 }
-            })
-            .catch(error => {
-                alert('An error occurred during checkout. Please try again.');
-            });
+            } else {
+                alert(result.message);
+                checkoutButton.innerHTML = 'Proceed to Pay';
+                checkoutButton.disabled = false;
+            }
+        })
+        .catch(error => {
+            alert('An error occurred during checkout. Please try again.');
+            checkoutButton.innerHTML = 'Proceed to Pay';
+            checkoutButton.disabled = false;
+        });
     }
 }
 
