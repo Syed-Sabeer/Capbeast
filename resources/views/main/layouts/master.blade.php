@@ -85,16 +85,16 @@
 
          {{-- <script src="{{ asset('assetsMain/js/frontend/menu.init.js') }}"></script> --}}
 
-
          <script type="text/javascript">
             function googleTranslateElementInit() {
                 new google.translate.TranslateElement({
                     pageLanguage: 'en',
-                    includedLanguages: 'en,fr,pt,es',
+                    includedLanguages: 'en,fr,pt-PT,es',
                     layout: google.translate.TranslateElement.InlineLayout.SIMPLE
                 }, 'google_translate_element');
             }
         </script>
+        
         
         <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
         
