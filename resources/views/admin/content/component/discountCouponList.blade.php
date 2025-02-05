@@ -26,28 +26,43 @@
     </div>
     <div class="card-datatable table-responsive">
         <table class="table">
-            <thead class="border-top">
+            <thead class="border-top" style="text-align: center">
                 <tr>
-                    <th></th>
+                  
                     <th>Title</th>
-                    <th>Description</th>
+                    <th>Code</th>
+                    <th>Discount For</th>
+                    <th>Percentage</th>
+                    <th>Availability</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="text-align: center">
                 @foreach($discountCoupons as $coupon)
                 <tr>
+                    
                     <td>{{ $coupon->title }}</td>
                     <td>{{ $coupon->code }}</td>
                     <td>{{ $coupon->discount_type == 1 ? 'Product' : 'Printing' }}</td>
                     <td>{{ $coupon->percentage }}%</td>
                     <td>
+                        <div class="w-25 d-flex ">
+                            <label class="switch switch-primary switch-sm me-4 pe-2">
+                                <input type="checkbox" class="switch-input" data-id="{{ $coupon->id }}" {{ $coupon->visibility == 1 ? 'checked' : '' }}>
+                                <span class="switch-toggle-slider">
+                                    <span class="switch-on"></span>
+                                    <span class="switch-off"></span>
+                                </span>
+                            </label>
+                        </div>
+                    </td>
+                    <td>
                         <a href="{{ route('content-discount-coupon-edit', $coupon->id) }}" class="btn btn-primary">Edit</a>
-                        <form action="{{ route('content-discount-coupon-delete', $coupon->id) }}" method="POST" style="display:inline;">
+                        {{-- <form action="{{ route('content-discount-coupon-delete', $coupon->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        </form> --}}
                     </td>
                 </tr>
             @endforeach
@@ -55,4 +70,41 @@
         </table>
     </div>
 </div>
+<script>
+    // Wait for the document to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add event listener for checkbox changes
+        document.querySelectorAll('.switch-input').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                
+                const couponId = this.dataset.id;
+                const visibility = this.checked ? 1 : 0;
+
+                // Send AJAX request to update visibility
+                fetch("{{ route('update.visibilitycoupon', ':id') }}".replace(':id', couponId), {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                        body: JSON.stringify({
+                            visibility: visibility
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            console.log('Visibility updated successfully');
+                        } else {
+                            console.error('Failed to update visibility');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+    });
+</script>
+
 @endsection

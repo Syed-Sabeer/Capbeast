@@ -29,6 +29,11 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function discountCoupon()
+    {
+        return $this->belongsTo(DiscountCoupon::class, 'discount_id');
+    }
+
     /**
      * Relationship with Order Items
      */
@@ -37,7 +42,15 @@ class Order extends Model
         return $this->hasMany(OrderItem::class, 'order_id')
             ->with(['product', 'color', 'productBaseImages', 'printing', 'orderArtwork']);
     }
-
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id')
+            ->select(['id', 'title', 'description', 'visibility']);
+    }
+    public function productBaseImages()
+    {
+        return $this->product->productBaseImages(); // Use the product's productBaseImages method
+    }
     public function Order_files()
     {
         return $this->hasMany(OrderFiles::class, 'order_id');

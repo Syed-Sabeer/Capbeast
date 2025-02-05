@@ -193,7 +193,7 @@ class OrderController extends Controller
     public function orderSuccess(Request $request)
     {
         $orderId = $request->query('orderId');
-        $order = Order::with(['user', 'items'])->where('id', $orderId)->first();
+        $order = Order::with(['user','discountCoupon', 'items','product'])->where('id', $orderId)->first();
 
         if (!$order) {
             return redirect()->route('home')->with('error', 'Order not found.');
@@ -316,6 +316,10 @@ class OrderController extends Controller
     
         if (!$coupon) {
             return response()->json(['success' => false, 'message' => 'Invalid coupon code.'], 400);
+        }
+
+        if ($coupon->visibility != 1) {
+            return response()->json(['success' => false, 'message' => 'Coupon is not available.'], 400);
         }
         $cartItems = Cart::where('user_id', auth()->id())->get();
         $discountAmount = 0;

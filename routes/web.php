@@ -114,7 +114,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name('content-discount-coupon-edit');
     Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name('content-discount-coupon-update');
     Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name('content-discount-coupon-delete');
-    
+    Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name('update.visibilitycoupon');
+
     Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name('get-items');
   });
 

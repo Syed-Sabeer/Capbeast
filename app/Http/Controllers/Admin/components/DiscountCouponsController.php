@@ -165,4 +165,19 @@ class DiscountCouponsController extends Controller
             return redirect()->back()->with('error', 'Something went wrong! Please try again later.');
         }
     }
+
+
+    public function updateVisibility($id, Request $request)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'visibility' => 'required|boolean',
+        ]);
+
+        // Update the product visibility in the database
+        $discountCoupon = DiscountCoupon::findOrFail($id);
+        $discountCoupon->update(['visibility' => $request->visibility]);
+
+        return response()->json(['success' => true]);
+    }
 }

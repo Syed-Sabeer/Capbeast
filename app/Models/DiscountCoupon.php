@@ -19,6 +19,7 @@ class DiscountCoupon extends Model
         'is_expiry',
         'expiry_type',
         'expiry_value',
+        'visibility',
     ];
 
     protected $guarded = [];

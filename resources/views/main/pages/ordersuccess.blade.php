@@ -26,7 +26,7 @@
                 <h6 style="font-size: 16px;font-weight: 500;margin-bottom: 12px;margin-top: 0px;line-height: 1.2;">Hello,
                     {{ $order->user->email }}</h6>
                 <p style="color: #878a99 !important; margin-bottom: 20px;margin-top: 0px;">Your order has been Confirmed and
-                    will be shipping soon.</p>
+                    will be ready soon.</p>
                 <table style="width: 100%;" cellspacing="0" cellpadding="0">
                     <tr>
                         <td style="padding: 5px; vertical-align: top;">
@@ -66,15 +66,15 @@
                         @php
                             // Calculate the total price for each item
                             $itemTotal =
-                                ($item->product_price + $item->printing_price + $item->delivery_price + $item->pompom_price) *
-                                $item->quantity;
-                            $subtotal += $itemTotal; // Add to subtotal
+                                ($item->product_price + $item->printing_price  + $item->pompom_price) *
+                                $item->quantity + ($item->delivery_price);
+                            
                         @endphp
                         <tr>
                             <td style="padding: 12px 5px; vertical-align: top;width: 65px;">
                                 <div
                                     style="border: 1px solid #eaeef4;height: 64px;width: 64px;display: flex; align-items: center;justify-content: center;border-radius: 6px;">
-                                    <img src="{{ asset('storage/' . ($item->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}"
+                                    <img src="{{ asset('storage/' . ($item->product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}"
                                         alt="" class="avatar-xs">
 
 
@@ -128,17 +128,18 @@
                         </td>
                         <td style="padding: 12px 8px; font-size: 15px;text-align: end; border-top: 1px solid #e9ebec;">
                             <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
-                                ${{ number_format($subtotal, 2) }}</h6>
+                                ${{ number_format($order->subtotal_price, 2) }}</h6>
                         </td>
                     </tr>
 
                     <tr>
                         <td colspan="3" style="padding: 12px 8px; font-size: 15px;">
-                            Discount
+                            Discount <span style="color: #878a99">({{ $order->discountCoupon->title ?? '' }})</span>
                         </td>
                         <td style="padding: 12px 8px; font-size: 15px;text-align: end; ">
                             <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
-                                $0.00</h6>
+                                ${{ number_format($order->discount_price, 2) ?? 0 }}
+                            </h6>
                             </th>
                     </tr>
                     <tr>
@@ -147,7 +148,7 @@
                         </td>
                         <td style="padding: 12px 8px; font-size: 15px;text-align: end; border-top: 1px solid #e9ebec;">
                             <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
-                                ${{ number_format($subtotal, 2) }}</h6>
+                                ${{ number_format($order->total_price, 2) }}</h6>
                         </td>
                     </tr>
                 </table>

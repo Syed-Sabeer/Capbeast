@@ -28,7 +28,9 @@
                                         <tr data-bs-order-id="{{ $order->order_id }}"
                                             data-bs-invoice-no="{{ $order->invoice_no }}"
                                             data-bs-date="{{ $order->created_at->format('d M, Y') }}"
-                                            data-bs-subtotal="{{ number_format($order->total_price, 2) }}"
+                                            data-bs-subtotal="{{ number_format($order->subtotal_price, 2) }}"
+                                            data-bs-discount="{{ number_format($order->discount_price, 2) }}"
+                                            data-bs-total="{{ number_format($order->total_price, 2) }}"
                                             data-bs-billing-name="{{ $order->billing_name }}"
                                             data-bs-billing-address="{{ $order->billing_address }}"
                                             data-bs-shipping-name="{{ $order->shipping_name }}"
@@ -217,7 +219,7 @@
 
                                                 <tr>
                                                     <td>Discount <small class="text-muted"></small></td>
-                                                    <td class="text-end" id="discount"></td>
+                                                    <td class="text-end" id="discount-amount"></td>
                                                 </tr>
 
                                                 <tr class="border-top border-top-dashed fs-15">
@@ -364,7 +366,8 @@
             const orderId = row.getAttribute('data-bs-order-id');
             const date = row.getAttribute('data-bs-date');
             const subtotal = row.getAttribute('data-bs-subtotal');
-            const completetotal = row.getAttribute('data-bs-subtotal');
+            const discount = row.getAttribute('data-bs-discount');
+            const completetotal = row.getAttribute('data-bs-total');
             const billingName = row.getAttribute('data-bs-billing-name');
             const billingAddress = row.getAttribute('data-bs-billing-address');
             const shippingName = row.getAttribute('data-bs-shipping-name');
@@ -374,6 +377,8 @@
             // Populate the invoice modal
             document.getElementById('invoice-no').textContent = orderId;
             document.getElementById('invoice-date').textContent = date;
+            
+            document.getElementById('discount-amount').textContent = discount;
             document.getElementById('sub-total').textContent = subtotal;
             document.getElementById('total-amount').textContent = completetotal;
             document.getElementById('total-amount-summary').textContent = completetotal;
@@ -387,16 +392,18 @@
 
             // Populate products in the invoice modal
             products.forEach((item, index) => {
-                const productRow = `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${item.product.title}</td>
-                    <td>${item.quantity}</td>
-                    <td>$${(item.product_price * item.quantity + item.printing_price * item.quantity + item.delivery_price * item.quantity + item.pompom_price * item.quantity).toFixed(2)}</td>
-                </tr>
-            `;
-                invoiceProductsList.innerHTML += productRow;
-            });
+    console.log('Product Data:', item);
+    const productRow = `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${item.product.title}</td>
+            <td>${item.quantity}</td>
+            <td>$${(((parseFloat(item.product_price) || 0) + (parseFloat(item.printing_price) || 0) + (parseFloat(item.pompom_price) || 0)) * (parseInt(item.quantity) || 0) + (parseFloat(item.delivery_price) || 0)).toFixed(2)}</td>
+        </tr>
+    `;
+    invoiceProductsList.innerHTML += productRow;
+});
+
         });
     </script>
 @endsection

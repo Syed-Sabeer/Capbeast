@@ -91,10 +91,10 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-start align-items-center mb-4">
-                                <span
+                                {{-- <span
                                     class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i
-                                        class='ti ti-shopping-cart ti-sm'></i></span>
-                                <h6 class="text-body text-nowrap mb-0">{{ $order->user->count() }} Orders</h6>
+                                        class='ti ti-shopping-cart ti-sm'></i></span> --}}
+                                {{-- <h6 class="text-body text-nowrap mb-0">{{ $order->user->count() }} Orders</h6> --}}
                             </div>
                             <div class="d-flex justify-content-between">
                                 <h6>Reseller info</h6>
@@ -262,11 +262,11 @@
                         <div class="order-calculations">
                             <div class="d-flex justify-content-between mb-2">
                                 <span class="w-px-100 text-heading">Subtotal:</span>
-                                <h6 class="mb-0">${{ $order->total_price }}</h6>
+                                <h6 class="mb-0">${{ $order->subtotal_price }}</h6>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
                                 <span class="w-px-100 text-heading">Discount:</span>
-                                <h6 class="mb-0">$0.00</h6>
+                                <h6 class="mb-0">${{ $order->discount_price }}</h6>
                             </div>
                             {{-- <div class="d-flex justify-content-between mb-2">
               <span class="w-px-100 text-heading">Tax:</span>

@@ -117,7 +117,7 @@
                         </div>  
 
                         <!-- Expiry Option -->
-                        <div class="mb-3">
+                        <div class="mb-3 d-none">
                             <label class="form-label">Expiry</label>
                             <br>
                             <label class="switch switch-primary switch-sm me-4 pe-2">
