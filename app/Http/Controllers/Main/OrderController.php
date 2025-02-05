@@ -36,14 +36,16 @@ class OrderController extends Controller
         $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal['client_id'], $paypal['secret']));
         $this->_api_context->setConfig($paypal['settings']);
     }
+
     public function PostPaymentWithPaypal($totalPrice)
     {
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
     
         $amount = new Amount();
-        $amount->setTotal((float)$totalPrice); // Cast to float explicitly
-        $amount->setCurrency('CAD');
+        $amount->setTotal((float)$totalPrice); 
+    
+        $amount->setCurrency('CAD'); 
     
         $transaction = new Transaction();
         $transaction->setAmount($amount);
@@ -92,10 +94,17 @@ class OrderController extends Controller
         }
     
         try {
-            $payment = Payment::get($paymentId, $this->_api_context);
-            $execution = new PaymentExecution();
-            $execution->setPayerId($payerId);
-            $result = $payment->execute($execution, $this->_api_context);
+
+              // Retrieve total price and discount details from session
+              $totalPrice = session('checkout_details')['total_price'] ?? 0;
+              $discountAmount = session('checkout_details')['discount_amount'] ?? 0;
+              $discountId = session('checkout_details')['discount_id'] ;
+              $subtotalPrice = session('checkout_details')['subtotal_price'] ?? 0;
+        $discount = session('checkout_details')['discount'] ?? null;
+        $payment = Payment::get($paymentId, $this->_api_context);
+        $execution = new PaymentExecution();
+        $execution->setPayerId($payerId);
+        $result = $payment->execute($execution, $this->_api_context);
     
             if ($result->state == 'approved') {
                 // Retrieve session data
@@ -110,9 +119,14 @@ class OrderController extends Controller
                 $order = Order::create([
                     'user_id' => auth()->id(),
                     'order_id' => $this->generateOrderId(),
-                    'total_price' => $checkoutDetails['total_price'],
+                    'discount_id' => $discountId,
+                    'total_price' => $totalPrice,
+                    'subtotal_price' => $subtotalPrice,
+                    'discount_price' => $discountAmount,
                     'payment_status' => 'completed',
+
                 ]);
+                
     
                 // Create Shipping Details
                 OrderShippingDetail::create([
@@ -176,7 +190,6 @@ class OrderController extends Controller
         }
     }
 
-
     public function orderSuccess(Request $request)
     {
         $orderId = $request->query('orderId');
@@ -218,7 +231,7 @@ class OrderController extends Controller
     public function add(Request $request)
     {
         $userId = auth()->id();
-    
+        
         try {
             $request->validate([
                 'firstname' => 'required|string|max:255',
@@ -228,29 +241,22 @@ class OrderController extends Controller
                 'email' => 'required|email|max:255',
                 'phone' => 'required|string|max:20',
                 'additional_info' => 'nullable|string|max:500',
-                'paymentMethod' => 'required|string' // Ensure payment method is selected
+                'paymentMethod' => 'required|string'
             ]);
     
-            // Fetch cart items
             $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
             if ($cartItems->isEmpty()) {
                 return response()->json(['success' => false, 'message' => 'Cart is empty.'], 400);
             }
     
-            // Calculate total price
-            $totalPrice = $cartItems->reduce(function ($total, $item) {
-                $productPrice = (float) $item->product_price;
-                $printingPrice = (float) $item->printing_price;
-                $deliveryPrice = (float) $item->delivery_price;
-                $pompomPrice = (float) $item->pompom_price;
-                $quantity = (int) $item->quantity;
-    
-                return $total + (($productPrice + $printingPrice + $deliveryPrice + $pompomPrice) * $quantity);
-            }, 0);
-    
-            Log::info('Calculated Total Price: ' . $totalPrice);
-    
-            // Save user input into the session
+            // Get final total from request
+            $totalPrice = (float) $request->input('finalTotal');
+            $discountAmount = (float) $request->input('DiscountAmount') ?? 0;
+            $subtotalPrice = (float) $request->input('subtotal');
+            $discountId = (integer) $request->input('discountId');
+
+            
+            // Save session data
             session([
                 'checkout_details' => [
                     'firstname' => $request->input('firstname'),
@@ -261,7 +267,10 @@ class OrderController extends Controller
                     'phone' => $request->input('phone'),
                     'additional_info' => $request->input('additional_info'),
                     'cart_items' => $cartItems,
-                    'total_price' => $totalPrice,
+                    'total_price' => $totalPrice, // Store correct total price
+                    'subtotal_price' => $subtotalPrice,
+                    'discount_amount' => $discountAmount,
+                    'discount_id' => $discountId,
                 ]
             ]);
     
@@ -287,7 +296,6 @@ class OrderController extends Controller
         }
     }
     
-    
 
     private function generateOrderId()
     {
@@ -297,8 +305,6 @@ class OrderController extends Controller
 
         return $orderId;
     }
-
-
 
     public function applyDiscount(Request $request)
     {
@@ -311,32 +317,28 @@ class OrderController extends Controller
         if (!$coupon) {
             return response()->json(['success' => false, 'message' => 'Invalid coupon code.'], 400);
         }
-    
-        // Get the cart items for the logged-in user
         $cartItems = Cart::where('user_id', auth()->id())->get();
-    
-        // Loop through the cart items to check if the coupon applies
         $discountAmount = 0;
     
         foreach ($cartItems as $item) {
             if ($item->product_id == $coupon->discountable_id) {
-                // Apply the discount to the specific product (assuming a percentage discount)
-                $discountAmount = ($item->product_price * $coupon->percentage / 100);
+                $discountAmount = ($item->product_price * $coupon->percentage / 100) *$item->quantity;
+            }
+            elseif ($item->printing_id == $coupon->discountable_id) {
+                $discountAmount = ($item->printing_price * $coupon->percentage / 100) *$item->quantity;
             }
         }
     
-        // If the coupon is applicable, return the discount amount
+        $discountId = $coupon->id;
         if ($discountAmount > 0) {
             return response()->json([
                 'success' => true,
                 'discount' => $discountAmount,
+                'discountId' => $discountId,
                 'message' => 'Discount applied successfully.',
             ]);
         }
     
         return response()->json(['success' => false, 'message' => 'Coupon not applicable for selected products.'], 400);
     }
-    
-    
-    
 }

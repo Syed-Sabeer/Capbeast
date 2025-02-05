@@ -39,12 +39,23 @@
 
                                         @foreach ($cart as $item)
                                             @php
+                                                // $itemTotal =
+                                                //     ($item->product_price +
+                                                //         $item->printing_price +
+
+                                                //         $item->pompom_price) *
+                                                //     $item->quantity + ( $item->delivery_price );
+
+                                                $discount = $item->discount ?? 0; // Ensure discount exists
+                                                $discountedPrice =
+                                                    $item->product_price * $item->quantity * (1 - $discount / 100);
+
                                                 $itemTotal =
-                                                    ($item->product_price +
-                                                        $item->printing_price +
-                                                       
-                                                        $item->pompom_price) *
-                                                    $item->quantity + ( $item->delivery_price );
+                                                    $discountedPrice +
+                                                    $item->printing_price * $item->quantity +
+                                                    $item->pompom_price * $item->quantity +
+                                                    $item->delivery_price;
+
                                                 $subtotal += $itemTotal;
                                             @endphp
                                             <tr>
@@ -92,15 +103,16 @@
                                     <div class="col">
                                         <div data-mdb-input-init class="form-outline">
                                             <label class="form-label" for="form6Example1">First name *</label>
-                                            <input type="text" id="firstname" name="firstname" class="form-control" required/>
+                                            <input type="text" id="firstname" name="firstname" class="form-control"
+                                                required />
 
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div data-mdb-input-init class="form-outline">
                                             <label class="form-label" for="form6Example2">Last name *</label>
-                                            <input type="text" id="lastname" name="lastname" class="form-control" required/>
-
+                                            <input type="text" id="lastname" name="lastname" class="form-control"
+                                                required />
                                         </div>
                                     </div>
                                 </div>
@@ -108,40 +120,32 @@
                                 <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example3">Company name *</label>
-                                    <input type="text" id="companyname" name="companyname" class="form-control" required/>
-
+                                    <input type="text" id="companyname" name="companyname" class="form-control"
+                                        required />
                                 </div>
 
                                 <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example4">Address *</label>
-                                    <input type="text" id="address" name="address" class="form-control" required/>
-
+                                    <input type="text" id="address" name="address" class="form-control" required />
                                 </div>
 
                                 <!-- Email input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example5">Email *</label>
-                                    <input type="email" id="email" name="email" class="form-control" required/>
+                                    <input type="email" id="email" name="email" class="form-control" required />
 
                                 </div>
-
                                 <!-- Number input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example6">Phone *</label>
-                                    <input type="number" id="phone" name="phone" class="form-control" required/>
-
+                                    <input type="number" id="phone" name="phone" class="form-control" required />
                                 </div>
-
                                 <!-- Message input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example7">Additional information</label>
                                     <textarea class="form-control" id="additional_info" name="additional_info" rows="4"></textarea>
-
                                 </div>
-
-                                <!-- Checkbox -->
-
                             </form>
                         </div>
                     </div>
@@ -150,15 +154,16 @@
                     <div class="mt-4 pt-2">
                         <div class="row gy-3">
                             <h5 class="mb-0 flex-grow-1">Payment Selection</h5>
-                    
+
                             <!-- PayPal Option -->
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="paymentMethod" id="paypalOption" value="paypal" checked>
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="paypalOption"
+                                    value="paypal" checked>
                                 <label class="form-check-label" for="paypalOption">
                                     Pay with PayPal
                                 </label>
                             </div>
-                    
+
                             <!-- Authorize.Net Option -->
                             {{-- <div class="form-check">
                                 <input class="form-check-input" type="radio" name="paymentMethod" id="authorizeNetOption" value="authorize_net">
@@ -167,27 +172,32 @@
                                 </label>
                             </div> --}}
                         </div>
-                    
                         <!-- Authorize.Net Card Details -->
                         <div id="authorizeNetCardDetails" class="mt-3" style="display: none;">
                             <h6 class="mb-3">Enter Card Details</h6>
                             <div class="row gy-3">
                                 <div class="col-md-6">
                                     <label class="form-label" for="cardNumber">Card Number</label>
-                                    <input type="text" id="cardNumber" name="cardNumber" class="form-control" placeholder="1234 5678 9012 3456">
+                                    <input type="text" id="cardNumber" name="cardNumber" class="form-control"
+                                        placeholder="1234 5678 9012 3456">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="cardName">Cardholder Name</label>
-                                    <input type="text" id="cardName" name="cardName" class="form-control" placeholder="John Doe">
+                                    <input type="text" id="cardName" name="cardName" class="form-control"
+                                        placeholder="John Doe">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="expiryDate">Expiry Date</label>
-                                    <input type="text" id="expiryDate" name="expiryDate" class="form-control" placeholder="MM/YY">
+                                    <input type="text" id="expiryDate" name="expiryDate" class="form-control"
+                                        placeholder="MM/YY">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="cvv">CVV</label>
-                                    <input type="text" id="cvv" name="cvv" class="form-control" placeholder="123">
+                                    <input type="text" id="cvv" name="cvv" class="form-control"
+                                        placeholder="123">
                                 </div>
+                                
+                                <input type="hidden" id="discount" name="discount" value="">
                             </div>
                         </div>
                     </div>
@@ -196,7 +206,7 @@
                             const paypalOption = document.getElementById('paypalOption');
                             const authorizeNetOption = document.getElementById('authorizeNetOption');
                             const authorizeNetCardDetails = document.getElementById('authorizeNetCardDetails');
-                    
+
                             // Toggle card details visibility based on the selected payment method
                             function toggleCardDetails() {
                                 if (authorizeNetOption.checked) {
@@ -205,11 +215,10 @@
                                     authorizeNetCardDetails.style.display = 'none';
                                 }
                             }
-                    
                             // Add event listeners
                             paypalOption.addEventListener('change', toggleCardDetails);
                             authorizeNetOption.addEventListener('change', toggleCardDetails);
-                    
+
                             // Initialize the visibility
                             toggleCardDetails();
                         });
@@ -227,9 +236,9 @@
                                 </div>
                                 <div class="hstack gap-3 px-3 mx-n3">
                                     <input class="form-control me-auto" type="text" placeholder="Enter coupon code"
-                                    id="couponCode" value="" aria-label="Add Promo Code here...">
-                             <button type="button" class="btn btn-success w-xs" id="applyCoupon">Apply</button>
-                             
+                                        id="couponCode" value="" aria-label="Add Promo Code here...">
+                                    <button type="button" class="btn btn-success w-xs" id="applyCoupon">Apply</button>
+
                                 </div>
                             </div>
                         </div>
@@ -249,7 +258,7 @@
                                                 <td>Discount :</td>
                                                 <td class="text-end cart-discount">$0.00</td>
                                             </tr>
-                                            
+
                                             <tr class="table-active">
                                                 <th>Total (USD) :</th>
                                                 <td class="text-end">
@@ -266,11 +275,10 @@
                         <div class="hstack gap-2 justify-content-between justify-content-end">
                             <a href="{{ route('cart') }}" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
                                     class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
-                                    <button type="button" class="btn w-100 btn-hover btn-primary" id="checkoutButton" 
-                                    {{ count($cart) == 0 ? 'disabled' : '' }} 
-                                    onclick="proceedToCheckout()">
-                                    Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i>
-                                </button>
+                            <button type="button" class="btn w-100 btn-hover btn-primary" id="checkoutButton"
+                                {{ count($cart) == 0 ? 'disabled' : '' }} onclick="proceedToCheckout()">
+                                Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i>
+                            </button>
                         </div>
 
                     </div>
@@ -279,74 +287,70 @@
             </div><!--end row-->
         </div><!--end container-->
     </section>
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-    let appliedDiscount = 0; // Store current discount
+   <script>
+    let appliedDiscount = 0; 
+    let discountId = null;
 
-    document.getElementById('applyCoupon').addEventListener('click', function () {
-        let couponCode = document.getElementById('couponCode').value;
-        let subtotalElement = document.querySelector('.cart-subtotal');
-        let discountElement = document.querySelector('.cart-discount');
-        let totalElement = document.querySelector('.cart-total');
-        
-        let subtotal = parseFloat(subtotalElement.innerText.replace('$', ''));
-        let total = subtotal;  // Start with the full subtotal before applying any discounts
+    document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('applyCoupon').addEventListener('click', function() {
+    let couponCode = document.getElementById('couponCode').value;
+    let subtotalElement = document.querySelector('.cart-subtotal');
+    let discountElement = document.querySelector('.cart-discount');
+    let totalElement = document.querySelector('.cart-total');
 
-        // Reset the discount and total
-        discountElement.innerText = '$0.00';
-        totalElement.innerText = '$' + subtotal.toFixed(2);
+    let subtotal = parseFloat(subtotalElement.innerText.replace('$', '').trim());
+    let total = subtotal - appliedDiscount;
 
-        fetch("{{ route('apply.discount') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ coupon_code: couponCode })
+    fetch("{{ route('apply.discount') }}", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            coupon_code: couponCode
         })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                alert(result.message);
-                
-                // Apply the discount to the entire subtotal
-                let discount = result.discount;
-                discountElement.innerText = '$' + discount.toFixed(2);
-                total -= discount;
-
-                totalElement.innerText = '$' + total.toFixed(2);
-
-                // Update each product's price considering quantity and apply the discount
-                let productRows = document.querySelectorAll('table tbody tr');
-                productRows.forEach(row => {
-                    let quantity = parseInt(row.querySelector('td:nth-child(2)').innerText);
-                    let priceElement = row.querySelector('td:nth-child(3)');
-                    let productPrice = parseFloat(priceElement.innerText.replace('$', '').trim());
-
-                    // Apply the discount per quantity and update the price for each product
-                    let totalProductPrice = (productPrice * quantity) - (productPrice * quantity * discount / 100);
-                    priceElement.innerText = '$' + totalProductPrice.toFixed(2);
-                });
-            } else {
-                alert(result.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    });
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            alert(result.message);
+            appliedDiscount = result.discount;
+            discountId = result.discountId; 
+            discountElement.innerText = '$' + appliedDiscount.toFixed(2);
+            let newTotal = subtotal - appliedDiscount;
+            totalElement.innerText = '$' + newTotal.toFixed(2);
+      
+            document.getElementById('discount').value = appliedDiscount;  // Ensure correct discount value
+        } else {
+            alert(result.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
 });
 
+    });
 
-    </script>
-    
-    <script>
-      function proceedToCheckout() {
+    // Checkout function
+   // Checkout function
+function proceedToCheckout() {
     if (confirm('Are you sure you want to proceed to checkout?')) {
-        // Show loader
+        // Show loader and disable button to prevent multiple clicks
         let checkoutButton = document.getElementById('checkoutButton');
         checkoutButton.innerHTML = 'Processing... <span class="spinner-border spinner-border-sm"></span>';
         checkoutButton.disabled = true;
 
-        // Gather form data
+        // Get the current subtotal again in case it changes dynamically after coupon application
+        let subtotalElement = document.querySelector('.cart-subtotal');
+        let subtotal = parseFloat(subtotalElement.innerText.replace('$', '').trim());
+        
+        // Final total after applying the discount
+        let finalTotal = subtotal - appliedDiscount; // Declare first
+        
+        console.log('Applied Discount:', appliedDiscount);
+        console.log('Final Total:', finalTotal);
+        console.log('Discount Id:', discountId);
+
         const formData = {
             firstname: document.getElementById('firstname').value,
             lastname: document.getElementById('lastname').value,
@@ -355,17 +359,14 @@ document.addEventListener('DOMContentLoaded', function () {
             email: document.getElementById('email').value,
             phone: document.getElementById('phone').value,
             additional_info: document.getElementById('additional_info').value,
-            paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value
+            paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value,
+            DiscountAmount: appliedDiscount,
+            discountId: discountId,
+            finalTotal: finalTotal, // Ensure the correct final total is sent
+            subtotal: subtotal 
         };
 
-        if (!formData.paymentMethod) {
-            alert('Please select a payment method.');
-            checkoutButton.innerHTML = 'Proceed to Pay';
-            checkoutButton.disabled = false;
-            return;
-        }
-
-        // Send data via fetch
+        // Send the data to backend for further processing
         fetch("{{ route('checkout.add') }}", {
             method: "POST",
             headers: {
@@ -377,9 +378,11 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
+                // If PayPal is chosen as the payment method, redirect to PayPal payment page
                 if (formData.paymentMethod === 'paypal') {
-                    window.location.href = result.paypalUrl;
+                    window.location.href = result.paypalUrl; // Redirect to PayPal with the correct total
                 } else {
+                    // Otherwise, redirect to the success page
                     window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
                 }
             } else {
@@ -396,5 +399,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 }
 
-    </script>
+</script>
+
 @endsection
