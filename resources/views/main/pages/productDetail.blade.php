@@ -5,7 +5,7 @@
 
 
     @component('main.components.breadcrumb', [
-        'pageTitle' => 'Products Details',
+        'pageTitle' => 'Product Details',
         'pageRoute' => '',
         'imageURL' => asset('assetsMain/images/PDetails.jpg'), // Evaluated here
     ])
