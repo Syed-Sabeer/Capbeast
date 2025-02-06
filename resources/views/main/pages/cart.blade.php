@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="alert alert-danger text-center text-capitalize mb-4 fs-14">
-                        There are <b>No Refunds</b> for any Order 
+                        Orders placed on our website are <b>Not Refundable</b> 
                     </div>
                 </div>
             </div>

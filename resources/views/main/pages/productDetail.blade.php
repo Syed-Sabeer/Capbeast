@@ -1,6 +1,7 @@
 @extends('main.layouts.master')
 
 @section('main-container')
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aldrich|Allan|Allerta|Allerta+Stencil|Anton|Archivo+Black|Arvo|Atomic+Age|Audiowide|Bangers|Berkshire+Swash|Bitter|Black+Ops+One|Butcherman|Calligraffitti|Ceviche+One|Changa+One|Chewy|Comfortaa|Coming+Soon|Contrail+One|Courgette|Coustard|Crafty+Girls|Domine|Fjalla+One|Fontdiner+Swanky|Francois+One|Geostar+Fill|Gloria+Hallelujah|Graduate|Grand+Hotel|Griffy|Hanalei+Fill|Indie+Flower|Jockey+One|Kaushan+Script|Keania+One|La+Belle+Aurore|Leckerli+One|Lilita+One|Lily+Script+One|Lobster|Marck+Script|Merienda+One|Mountains+of+Christmas|Mr+Dafoe|Nosifer|Nunito|Orbitron|Pacifico|Passero+One|Pathway+Gothic+One|Permanent+Marker|Piedra|Pirata+One|Plaster|Playball|Press+Start+2P|Quantico|Racing+Sans+One|Rationale|Rock+Salt|Ruslan+Display|Sancreek|Shadows+Into+Light+Two|Shojumaru|Sigmar+One|Six+Caps|Slackey|Special+Elite|UnifrakturCook|UnifrakturMaguntia|Waiting+for+the+Sunrise|Yanone+Kaffeesatz">
 
 
     @component('main.components.breadcrumb', [
@@ -22,7 +23,7 @@
                     <ul class="nav nav-tabs nav-tabs-custom mb-3" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-bs-toggle="tab" href="#pricechart" role="tab">
-                                Price Chart
+                                Pricing
                             </a>
                         </li>
                         <li class="nav-item">
@@ -120,27 +121,26 @@
                     <div class="container">
                         <div class="customization-section bg-white border border-light" id="customization-section">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <!-- Step 1 on the left -->
                                 <div class="d-flex align-items-center">
                                     <div class="step me-3">
                                         <strong>STEP 1</strong>
                                     </div>
                                     <h2 class="h4 mb-0">Enter Quantity</h2>
                                 </div>
-
-                                <!-- Total quantity and price on the right -->
                                 <div class="price-details">
                                     Total Qty: <span class="total-qty">0</span> | Price: <span id="total-price">$0.00</span>
                                 </div>
                             </div>
-
-
+                            
                             <div>
                                 <input type="number" id="quantity-input" placeholder="Qty" class="form-control"
                                     min="0">
                             </div>
                         </div>
                     </div>
+
+
+
 
                     <div class="container">
                         <div class="customization-section bg-white border border-light">
@@ -209,17 +209,17 @@
                                             <input type="radio" id="withoutpompom" name="pompom" value="0">
                                             <label for="withoutpompom">
                                                 <img src="{{ asset('assetsCommon/images/withoutPomPom.jpg') }}"
-                                                    alt="withoutpompom" style="width: 150px; height: auto;"> Without Pom
+                                                    alt="withoutpompom" class="pompomsize" > Without Pom
                                                 Pom
                                             </label>
                                         </div>
 
-                                        <div>
+                                        <div class="pompom2">
                                             <input type="radio" id="withpompom" name="pompom" value="1">
                                             <label for="withpompom">
                                                 <img src="{{ asset('assetsCommon/images/withPomPom.jpg') }}"
-                                                    alt="withpompom" style="width: 140px; height: auto;"> With Pom Pom
-                                                <span style="color: red">2$ Each </span>
+                                                    alt="withpompom"  class="pompomsize"> With Pom Pom
+                                                <span style="color: red">+$2 per unit </span>
                                             </label>
 
 
@@ -378,88 +378,86 @@
                                     <div class="mb-3">
                                         <label for="fontStyle" class="form-label fw-bold">Select Font Style</label>
                                         <select id="fontStyle" class="form-select">
-                                            <option value="Aldrich">Aldrich</option>
-                                            <option value="Allan">Allan</option>
-                                            <option value="Allerta">Allerta</option>
-                                            <option value="Allerta Stencil">Allerta Stencil</option>
-                                            <option value="Anton">Anton</option>
-                                            <option value="Archivo Black">Archivo Black</option>
-                                            <option value="Arvo">Arvo</option>
-                                            <option value="Atomic Age">Atomic Age</option>
-                                            <option value="Audiowide">Audiowide</option>
-                                            <option value="Bangers">Bangers</option>
-                                            <option value="Berkshire Swash">Berkshire Swash</option>
-                                            <option value="Bitter">Bitter</option>
-                                            <option value="Black Ops One">Black Ops One</option>
-                                            <option value="Butcherman">Butcherman</option>
-                                            <option value="Calligraffitti">Calligraffitti</option>
-                                            <option value="Ceviche One">Ceviche One</option>
-                                            <option value="Changa One">Changa One</option>
-                                            <option value="Chewy">Chewy</option>
-                                            <option value="Comfortaa">Comfortaa</option>
-                                            <option value="Coming Soon">Coming Soon</option>
-                                            <option value="Contrail One">Contrail One</option>
-                                            <option value="Courgette">Courgette</option>
-                                            <option value="Coustard">Coustard</option>
-                                            <option value="Crafty Girls">Crafty Girls</option>
-                                            <option value="Domine">Domine</option>
-                                            <option value="Fjalla One">Fjalla One</option>
-                                            <option value="Fontdiner Swanky">Fontdiner Swanky</option>
-                                            <option value="Francois One">Francois One</option>
-                                            <option value="Geostar Fill">Geostar Fill</option>
-                                            <option value="Gloria Hallelujah">Gloria Hallelujah</option>
-                                            <option value="Graduate">Graduate</option>
-                                            <option value="Grand Hotel">Grand Hotel</option>
-                                            <option value="Griffy">Griffy</option>
-                                            <option value="Hanalei Fill">Hanalei Fill</option>
-                                            <option value="Indie Flower">Indie Flower</option>
-                                            <option value="Jockey One">Jockey One</option>
-                                            <option value="Kaushan Script">Kaushan Script</option>
-                                            <option value="Keania One">Keania One</option>
-                                            <option value="La Belle Aurore">La Belle Aurore</option>
-                                            <option value="Leckerli One">Leckerli One</option>
-                                            <option value="Lilita One">Lilita One</option>
-                                            <option value="Lily Script One">Lily Script One</option>
-                                            <option value="Lobster">Lobster</option>
-                                            <option value="Marck Script">Marck Script</option>
-                                            <option value="Merienda One">Merienda One</option>
-                                            <option value="Mountains of Christmas">Mountains of Christmas</option>
-                                            <option value="Mr Dafoe">Mr Dafoe</option>
-                                            <option value="Nosifer">Nosifer</option>
-                                            <option value="Nunito">Nunito</option>
-                                            <option value="Orbitron">Orbitron</option>
-                                            <option value="Pacifico">Pacifico</option>
-                                            <option value="Passero One">Passero One</option>
-                                            <option value="Pathway Gothic One">Pathway Gothic One</option>
-                                            <option value="Permanent Marker">Permanent Marker</option>
-                                            <option value="Piedra">Piedra</option>
-                                            <option value="Pirata One">Pirata One</option>
-                                            <option value="Plaster">Plaster</option>
-                                            <option value="Playball">Playball</option>
-                                            <option value="Press Start 2P">Press Start 2P</option>
-                                            <option value="Quantico">Quantico</option>
-                                            <option value="Racing Sans One">Racing Sans One</option>
-                                            <option value="Rationale">Rationale</option>
-                                            <option value="Rock Salt">Rock Salt</option>
-                                            <option value="Ruslan Display">Ruslan Display</option>
-                                            <option value="Sancreek">Sancreek</option>
-                                            <option value="Shadows Into Light Two">Shadows Into Light Two</option>
-                                            <option value="Shojumaru">Shojumaru</option>
-                                            <option value="Sigmar One">Sigmar One</option>
-                                            <option value="Six Caps">Six Caps</option>
-                                            <option value="Slackey">Slackey</option>
-                                            <option value="Special Elite">Special Elite</option>
-                                            <option value="UnifrakturCook">UnifrakturCook</option>
-                                            <option value="UnifrakturMaguntia">UnifrakturMaguntia</option>
-                                            <option value="Waiting for the Sunrise">Waiting for the Sunrise</option>
-                                            <option value="Yanone Kaffeesatz">Yanone Kaffeesatz</option>
+                                            <option style="font-family: Aldrich;" value="Aldrich">Aldrich</option>
+                                            <option style="font-family: Allan;" value="Allan">Allan</option>
+                                            <option style="font-family: Allerta;" value="Allerta">Allerta</option>
+                                            <option style="font-family: 'Allerta Stencil';" value="Allerta Stencil">Allerta Stencil</option>
+                                            <option style="font-family: Anton;" value="Anton">Anton</option>
+                                            <option style="font-family: 'Archivo Black';" value="Archivo Black">Archivo Black</option>
+                                            <option style="font-family: Arvo;" value="Arvo">Arvo</option>
+                                            <option style="font-family: 'Atomic Age';" value="Atomic Age">Atomic Age</option>
+                                            <option style="font-family: Audiowide;" value="Audiowide">Audiowide</option>
+                                            <option style="font-family: Bangers;" value="Bangers">Bangers</option>
+                                            <option style="font-family: 'Berkshire Swash';" value="Berkshire Swash">Berkshire Swash</option>
+                                            <option style="font-family: Bitter;" value="Bitter">Bitter</option>
+                                            <option style="font-family: 'Black Ops One';" value="Black Ops One">Black Ops One</option>
+                                            <option style="font-family: Butcherman;" value="Butcherman">Butcherman</option>
+                                            <option style="font-family: Calligraffitti;" value="Calligraffitti">Calligraffitti</option>
+                                            <option style="font-family: 'Ceviche One';" value="Ceviche One">Ceviche One</option>
+                                            <option style="font-family: 'Changa One';" value="Changa One">Changa One</option>
+                                            <option style="font-family: Chewy;" value="Chewy">Chewy</option>
+                                            <option style="font-family: Comfortaa;" value="Comfortaa">Comfortaa</option>
+                                            <option style="font-family: 'Coming Soon';" value="Coming Soon">Coming Soon</option>
+                                            <option style="font-family: 'Contrail One';" value="Contrail One">Contrail One</option>
+                                            <option style="font-family: Courgette;" value="Courgette">Courgette</option>
+                                            <option style="font-family: Coustard;" value="Coustard">Coustard</option>
+                                            <option style="font-family: 'Crafty Girls';" value="Crafty Girls">Crafty Girls</option>
+                                            <option style="font-family: Domine;" value="Domine">Domine</option>
+                                            <option style="font-family: 'Fjalla One';" value="Fjalla One">Fjalla One</option>
+                                            <option style="font-family: 'Fontdiner Swanky';" value="Fontdiner Swanky">Fontdiner Swanky</option>
+                                            <option style="font-family: 'Francois One';" value="Francois One">Francois One</option>
+                                            <option style="font-family: 'Geostar Fill';" value="Geostar Fill">Geostar Fill</option>
+                                            <option style="font-family: 'Gloria Hallelujah';" value="Gloria Hallelujah">Gloria Hallelujah</option>
+                                            <option style="font-family: Graduate;" value="Graduate">Graduate</option>
+                                            <option style="font-family: 'Grand Hotel';" value="Grand Hotel">Grand Hotel</option>
+                                            <option style="font-family: Griffy;" value="Griffy">Griffy</option>
+                                            <option style="font-family: 'Hanalei Fill';" value="Hanalei Fill">Hanalei Fill</option>
+                                            <option style="font-family: 'Indie Flower';" value="Indie Flower">Indie Flower</option>
+                                            <option style="font-family: 'Jockey One';" value="Jockey One">Jockey One</option>
+                                            <option style="font-family: 'Kaushan Script';" value="Kaushan Script">Kaushan Script</option>
+                                            <option style="font-family: 'Keania One';" value="Keania One">Keania One</option>
+                                            <option style="font-family: 'La Belle Aurore';" value="La Belle Aurore">La Belle Aurore</option>
+                                            <option style="font-family: 'Leckerli One';" value="Leckerli One">Leckerli One</option>
+                                            <option style="font-family: 'Lilita One';" value="Lilita One">Lilita One</option>
+                                            <option style="font-family: 'Lily Script One';" value="Lily Script One">Lily Script One</option>
+                                            <option style="font-family: Lobster;" value="Lobster">Lobster</option>
+                                            <option style="font-family: 'Marck Script';" value="Marck Script">Marck Script</option>
+                                            <option style="font-family: 'Merienda One';" value="Merienda One">Merienda One</option>
+                                            <option style="font-family: 'Mountains of Christmas';" value="Mountains of Christmas">Mountains of Christmas</option>
+                                            <option style="font-family: 'Mr Dafoe';" value="Mr Dafoe">Mr Dafoe</option>
+                                            <option style="font-family: Nosifer;" value="Nosifer">Nosifer</option>
+                                            <option style="font-family: Nunito;" value="Nunito">Nunito</option>
+                                            <option style="font-family: Orbitron;" value="Orbitron">Orbitron</option>
+                                            <option style="font-family: Pacifico;" value="Pacifico">Pacifico</option>
+                                            <option style="font-family: 'Passero One';" value="Passero One">Passero One</option>
+                                            <option style="font-family: 'Pathway Gothic One';" value="Pathway Gothic One">Pathway Gothic One</option>
+                                            <option style="font-family: 'Permanent Marker';" value="Permanent Marker">Permanent Marker</option>
+                                            <option style="font-family: Piedra;" value="Piedra">Piedra</option>
+                                            <option style="font-family: 'Pirata One';" value="Pirata One">Pirata One</option>
+                                            <option style="font-family: Plaster;" value="Plaster">Plaster</option>
+                                            <option style="font-family: Playball;" value="Playball">Playball</option>
+                                            <option style="font-family: 'Press Start 2P';" value="Press Start 2P">Press Start 2P</option>
+                                            <option style="font-family: Quantico;" value="Quantico">Quantico</option>
+                                            <option style="font-family: 'Racing Sans One';" value="Racing Sans One">Racing Sans One</option>
+                                            <option style="font-family: Rationale;" value="Rationale">Rationale</option>
+                                            <option style="font-family: 'Rock Salt';" value="Rock Salt">Rock Salt</option>
+                                            <option style="font-family: 'Ruslan Display';" value="Ruslan Display">Ruslan Display</option>
+                                            <option style="font-family: Sancreek;" value="Sancreek">Sancreek</option>
+                                            <option style="font-family: 'Shadows Into Light Two';" value="Shadows Into Light Two">Shadows Into Light Two</option>
+                                            <option style="font-family: Shojumaru;" value="Shojumaru">Shojumaru</option>
+                                            <option style="font-family: 'Sigmar One';" value="Sigmar One">Sigmar One</option>
+                                            <option style="font-family: 'Six Caps';" value="Six Caps">Six Caps</option>
+                                            <option style="font-family: Slackey;" value="Slackey">Slackey</option>
+                                            <option style="font-family: 'Special Elite';" value="Special Elite">Special Elite</option>
+                                            <option style="font-family: 'UnifrakturCook';" value="UnifrakturCook">UnifrakturCook</option>
+                                            <option style="font-family: 'UnifrakturMaguntia';" value="UnifrakturMaguntia">UnifrakturMaguntia</option>
+                                            <option style="font-family: 'Waiting for the Sunrise';" value="Waiting for the Sunrise">Waiting for the Sunrise</option>
+                                            <option style="font-family: 'Yanone Kaffeesatz';" value="Yanone Kaffeesatz">Yanone Kaffeesatz</option>
                                         </select>
                                     </div>
+                                    
 
-                                    <div>
-                                        <a href="{{ url('/main/view-color-book') }}" target="_blank"
-                                            class="main-theme-color">View Color Card</a>
-                                    </div>
+                                    
 
                                     <!-- Imprint Colors -->
                                     <!-- Imprint Colors -->
@@ -476,7 +474,10 @@
                                             <option value="6">6</option>
                                         </select>
                                     </div>
-
+                                    <div>
+                                        <a href="{{ url('/main/view-color-book') }}" target="_blank"
+                                            class="main-theme-color">View Color Card</a>
+                                    </div>
                                     <div id="additionalDropdowns"></div>
 
 
@@ -516,10 +517,13 @@
                         <div class="customization-section bg-white border border-light">
 
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="step">
-                                    STEP 3
+                                <div class="d-flex align-items-center">
+                                    <div class="step me-3">
+                                        <strong>STEP 3</strong>
+                                    </div>
+                                    <h2 class="h4 mb-0">Shipping</h2>
                                 </div>
-                                <h2 class="h4 mb-0 ml-2">Shipping</h2>
+                                
                                 <div class="price-details">
                                     Total Qty: <span class="total-qty"></span> | Price: <span
                                         id="total-price3">$168.12</span>
@@ -528,7 +532,7 @@
                             <div class="radio-options">
                                 <label>
                                     <input type="radio" name="shippingOption" value="pickYourself" checked
-                                        onchange="toggleOptions()"> Pick Yourself
+                                        onchange="toggleOptions()"> Pickup order
                                 </label>
                                 <label>
                                     <input type="radio" name="shippingOption" value="viewBundle"
@@ -542,7 +546,7 @@
 
                                             <i class="fa-solid fa-truck white-color"></i>
                                         </span>
-                                        <div class="delivery_date w3_bg white-color">Pick Yourself
+                                        <div class="delivery_date w3_bg white-color">Pickup order
 
 
                                         </div>
@@ -566,15 +570,15 @@
                                                     </div>
                                                 </li>
 
-                                                <li class="shippingCharging">
+                                                <li class="shippingCharging" style="max-width: 190px">
                                                     <span class="check"><i class="fa-solid fa-truck"></i></span>
                                                     <div class="delivery_price w3_bg">
-                                                        <span class="delivery_price_number text-danger"
-                                                            style="font-weight:700">For Order more than 500 $</span>
+                                                        <span class="delivery_price_number "
+                                                            >For Orders Over 500$</span>
                                                     </div>
                                         
-                                                    <div class="delivery_price w3_bg">Price:
-                                                        0$
+                                                    <div class="delivery_price w3_bg text-danger" style="font-weight:700">FREE SHIPPING
+
                                                     </div>
                                                 </li>
                                             
@@ -1004,6 +1008,11 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
 
         });
     </script>
+<script>
+    document.getElementById("fontStyle").addEventListener("change", function() {
+        this.style.fontFamily = this.value;
+    });
+</script>
 
 <script src="{{ asset('assetsMain/js/frontend/productDetail.js') }}"></script>  
 @endsection 
