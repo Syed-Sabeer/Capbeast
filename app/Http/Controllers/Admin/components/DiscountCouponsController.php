@@ -79,18 +79,33 @@ class DiscountCouponsController extends Controller
             }
     
             // Handle the "Select All" case for item_id
-            if ($request->item_id == 0) {
-                // Log and skip saving the coupon for specific items
-                Log::info("Select All is chosen, skipping saving for specific items.");
+            $discountCoupon->is_all = $request->item_id == 0 ? 1 : 0;
+
+            if ($discountCoupon->is_all) {
+                // Apply to all products or printings
+                if ($request->discount_type == 1) {
+                    $discountCoupon->discountable_type = Product::class;
+                } elseif ($request->discount_type == 3) {
+                    $discountCoupon->discountable_type = ProductPrinting::class;
+                }
+                $discountCoupon->discountable_id = null; // Ensure ID is null
+                $discountCoupon->save(); // Save for global use
             } else {
+                // Apply to a specific product or printing item
                 if ($request->discount_type == 1) {
                     $product = Product::findOrFail($request->item_id);
+                    $discountCoupon->discountable_type = Product::class;
+                    $discountCoupon->discountable_id = $product->id;
                     $product->discountCoupons()->save($discountCoupon);
                 } elseif ($request->discount_type == 3) {
                     $printing = ProductPrinting::findOrFail($request->item_id);
+                    $discountCoupon->discountable_type = ProductPrinting::class;
+                    $discountCoupon->discountable_id = $printing->id;
                     $printing->discountCoupons()->save($discountCoupon);
                 }
             }
+            
+
     
             return redirect()->back()->with('success', 'Discount coupon added successfully!');
         } catch (ValidationException $e) {

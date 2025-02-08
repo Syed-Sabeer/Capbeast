@@ -50,7 +50,7 @@
                 $('#couponFor').on('change', function() {
                     let selectedType = $(this).val();
                     let itemSelect = $('#itemSelect');
-                    itemSelect.html('<option value="0">Select</option>'); // Reset dropdown
+                    itemSelect.html('<option value="0">Select All</option>'); // Reset dropdown
 
                     if (selectedType == "1" || selectedType == "3") {
                         $.ajax({
@@ -107,7 +107,7 @@
                         <div class="mb-3">
                             <label class="form-label">Select Item</label>
                             <select name="item_id" id="itemSelect" class="select2 form-select form-select-lg" required>
-                                <option value="0">Select</option>
+                                <option value="0">Select All</option>
                             </select>
                         </div>
 

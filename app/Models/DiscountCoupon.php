@@ -16,6 +16,7 @@ class DiscountCoupon extends Model
         'discount_type',
         'item_id',
         'percentage',
+        'is_all',
         'is_expiry',
         'expiry_type',
         'expiry_value',

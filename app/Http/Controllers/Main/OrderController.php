@@ -317,32 +317,50 @@ class OrderController extends Controller
         if (!$coupon) {
             return response()->json(['success' => false, 'message' => 'Invalid coupon code.'], 400);
         }
-
+    
         if ($coupon->visibility != 1) {
             return response()->json(['success' => false, 'message' => 'Coupon is not available.'], 400);
         }
+    
         $cartItems = Cart::where('user_id', auth()->id())->get();
-        $discountAmount = 0;
+        $maxDiscountAmount = 0;
     
         foreach ($cartItems as $item) {
-            if ($item->product_id == $coupon->discountable_id) {
-                $discountAmount = ($item->product_price * $coupon->percentage / 100) *$item->quantity;
+            $currentDiscount = 0;
+    
+            if ($coupon->is_all == 1) {
+                // Apply discount to all products or printings and find the max discount
+                if ($item->product_id != null) {
+                    $currentDiscount = ($item->product_price * $coupon->percentage / 100) * $item->quantity;
+                } elseif ($item->printing_id != null) {
+                    $currentDiscount = ($item->printing_price * $coupon->percentage / 100) * $item->quantity;
+                }
+            } else {
+                // Apply discount only to the specific product or printing
+                if ($item->product_id == $coupon->discountable_id) {
+                    $currentDiscount = ($item->product_price * $coupon->percentage / 100) * $item->quantity;
+                } elseif ($item->printing_id == $coupon->discountable_id) {
+                    $currentDiscount = ($item->printing_price * $coupon->percentage / 100) * $item->quantity;
+                }
             }
-            elseif ($item->printing_id == $coupon->discountable_id) {
-                $discountAmount = ($item->printing_price * $coupon->percentage / 100) *$item->quantity;
+    
+            // Keep track of the highest discount amount
+            if ($currentDiscount > $maxDiscountAmount) {
+                $maxDiscountAmount = $currentDiscount;
             }
         }
     
-        $discountId = $coupon->id;
-        if ($discountAmount > 0) {
+        if ($maxDiscountAmount > 0) {
             return response()->json([
                 'success' => true,
-                'discount' => $discountAmount,
-                'discountId' => $discountId,
+                'discount' => $maxDiscountAmount,
+                'discountId' => $coupon->id,
                 'message' => 'Discount applied successfully.',
             ]);
         }
     
         return response()->json(['success' => false, 'message' => 'Coupon not applicable for selected products.'], 400);
     }
+    
+    
 }
