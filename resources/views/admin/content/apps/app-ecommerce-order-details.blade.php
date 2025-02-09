@@ -75,9 +75,13 @@
                 <!-- Customer Details Card -->
                 <div class="col-md-4 col-lg-4">
                     <div class="card mb-4 card-equal-height">
-                        <div class="card-header">
-                            <h6 class="card-title m-0">Customer details</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="card-header">
+                                <h6 class="card-title m-0">Customer details</h6>
+                            </div>
+                            <span class="badge bg-label-info " style="margin-right: 5%">{{ $order->user->country }}</span>
                         </div>
+                        
                         <div class="card-body">
                             <div class="d-flex justify-content-start align-items-center mb-4">
                                 <div class="avatar me-2">
@@ -88,6 +92,8 @@
                                         <h6 class="mb-0">{{ $order->user->email }}</h6>
                                     </a>
                                     <small class="text-muted">Customer ID: #{{ $order->user->id }}</small>
+                                    
+                                   
                                 </div>
                             </div>
                             <div class="d-flex justify-content-start align-items-center mb-4">
@@ -265,8 +271,12 @@
                                 <h6 class="mb-0">${{ $order->subtotal_price }}</h6>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
+                                <span class="w-px-100 text-heading">Tax:</span>
+                                <h6 class="mb-0">${{ $order->tax_price }}</h6>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
                                 <span class="w-px-100 text-heading">Discount:</span>
-                                <h6 class="mb-0">${{ $order->discount_price }}</h6>
+                                <h6 class="mb-0">- ${{ $order->discount_price }}</h6>
                             </div>
                             {{-- <div class="d-flex justify-content-between mb-2">
               <span class="w-px-100 text-heading">Tax:</span>

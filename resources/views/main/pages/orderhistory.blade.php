@@ -30,6 +30,7 @@
                                             data-bs-date="{{ $order->created_at->format('d M, Y') }}"
                                             data-bs-subtotal="{{ number_format($order->subtotal_price, 2) }}"
                                             data-bs-discount="{{ number_format($order->discount_price, 2) }}"
+                                            data-bs-tax="{{ number_format($order->tax_price, 2) }}"
                                             data-bs-total="{{ number_format($order->total_price, 2) }}"
                                             data-bs-billing-name="{{ $order->billing_name }}"
                                             data-bs-billing-address="{{ $order->billing_address }}"
@@ -218,8 +219,13 @@
                                                 </tr>
 
                                                 <tr>
+                                                    <td>Tax <small class="text-muted"></small></td>
+                                                    <td class="text-end" id="tax-amount"></td>
+                                                </tr>
+
+                                                <tr>
                                                     <td>Discount <small class="text-muted"></small></td>
-                                                    <td class="text-end" id="discount-amount"></td>
+                                                    <td class="text-end" >-<span id="discount-amount"></span></td>
                                                 </tr>
 
                                                 <tr class="border-top border-top-dashed fs-15">
@@ -367,6 +373,7 @@
             const date = row.getAttribute('data-bs-date');
             const subtotal = row.getAttribute('data-bs-subtotal');
             const discount = row.getAttribute('data-bs-discount');
+            const tax = row.getAttribute('data-bs-tax');
             const completetotal = row.getAttribute('data-bs-total');
             const billingName = row.getAttribute('data-bs-billing-name');
             const billingAddress = row.getAttribute('data-bs-billing-address');
@@ -379,6 +386,7 @@
             document.getElementById('invoice-date').textContent = date;
             
             document.getElementById('discount-amount').textContent = discount;
+            document.getElementById('tax-amount').textContent = tax;
             document.getElementById('sub-total').textContent = subtotal;
             document.getElementById('total-amount').textContent = completetotal;
             document.getElementById('total-amount-summary').textContent = completetotal;

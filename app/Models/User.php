@@ -17,6 +17,7 @@ class User extends Authenticatable
         'is_reseller',
         'neq_number',
         'status',
+        'country',
     ];
 
     protected $hidden = [

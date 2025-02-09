@@ -46,6 +46,7 @@ class ProductDetailController extends Controller
         $pricing = $product->productPricing;
         $quantities = $pricing->pluck('quantity');
         $prices = $pricing->pluck('pricing');
+        $USAprices = $pricing->pluck('usa_pricing');
 
         // Fetch base images
         $baseImages = $product->productBaseImages;
@@ -66,6 +67,7 @@ class ProductDetailController extends Controller
             'colorImages' => $colorImages,
             'quantities' => $quantities,
             'prices' => $prices,
+            'USAprices' => $USAprices,
             'productPrintings' => $productPrintings,
             'latestProductDelivery' => $latestProductDelivery,
             'baseImages' => $baseImages,

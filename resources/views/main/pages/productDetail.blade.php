@@ -56,12 +56,28 @@
                                         <td>
                                             <a href="#" class="text-body">Price</a>
                                         </td>
+                                        @php
+                                        $user = Auth::user(); // Get the logged-in user
+                                        $country = $user ? $user->country : (session('country') ?? 'USA'); // Check session as fallback
+                                    @endphp
+                                    
+                                    @if($country === 'CANADA') 
                                         @foreach ($prices as $price)
                                             <td class="fw-medium text-align-center" data-price="{{ $price }}"
                                                 id="pricing-{{ $price }}">
                                                 ${{ number_format($price, 2) }}
                                             </td>
                                         @endforeach
+                                    @else
+                                        @foreach ($USAprices as $price)
+                                            <td class="fw-medium text-align-center" data-price="{{ $price }}"
+                                                id="pricing-{{ $price }}">
+                                                ${{ number_format($price, 2) }}
+                                            </td>
+                                        @endforeach
+                                    @endif
+                                    
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -644,7 +660,30 @@
 
             // Quantities and prices from server (ensure they are numbers)
             const quantities = @json($quantities).map(Number);
-            const prices = @json($prices).map(Number);
+            // if (condition) {
+                
+            // }
+            // const prices = @json($prices).map(Number);
+
+        
+      
+
+
+
+    const country = @json($country);
+
+    let prices;
+    if (country === 'CANADA') {
+        prices = @json($prices).map(Number);
+    } else {
+        prices = @json($USAprices).map(Number);
+    }
+
+
+
+    
+
+
             const quantitiesDelivery = @json($quantitiesdelivery).map(Number);
             const pricesDelivery = @json($pricesDelivery).map(Number);
 

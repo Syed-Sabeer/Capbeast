@@ -242,64 +242,106 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card overflow-hidden">
-                            <div class="card-header border-bottom-dashed">
-                                <h5 class="card-title mb-0 fs-15">Order Summary</h5>
-                            </div>
-                            <div class="card-body pt-4">
-                                <div class="table-responsive table-card">
-                                    <table class="table table-borderless mb-0 fs-15">
-                                        <tbody>
-                                            <tr>
-                                                <td>Sub Total :</td>
-                                                <td class="text-end cart-subtotal">${{ number_format($subtotal, 2) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Discount :</td>
-                                                <td class="text-end cart-discount">$0.00</td>
-                                            </tr>
-
-                                            <tr class="table-active">
-                                                <th>Total (USD) :</th>
-                                                <td class="text-end">
-                                                    <span
-                                                        class="fw-semibold cart-total">${{ number_format($subtotal, 2) }}</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            <div class="card overflow-hidden">
+                                <div class="card-header border-bottom-dashed">
+                                    <h5 class="card-title mb-0 fs-15">Order Summary</h5>
                                 </div>
-                                <!-- end table-responsive -->
+                                <div class="card-body pt-4">
+                                    <div class="table-responsive table-card">
+                                        <table class="table table-borderless mb-0 fs-15">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Sub Total :</td>
+                                                    <td class="text-end cart-subtotal">${{ number_format($subtotal, 2) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Discount :</td>
+                                                    <td class="text-end cart-discount">$0.00</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tax :</td>
+                                                    <td class="text-end cart-tax" data-tax="{{ $taxPercentage }}">$0.00</td>
+                                                </tr>
+                                                
+
+                                                <tr class="table-active">
+                                                    <th>Total (USD) :</th>
+                                                    <td class="text-end">
+                                                        <span
+                                                            class="fw-semibold cart-total">${{ number_format($subtotal, 2) }}</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- end table-responsive -->
+                                </div>
                             </div>
-                        </div>
-                        <div class="hstack gap-2 justify-content-between justify-content-end">
-                            <a href="{{ route('cart') }}" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
-                                    class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
-                            <button type="button" class="btn w-100 btn-hover btn-primary" id="checkoutButton"
-                                {{ count($cart) == 0 ? 'disabled' : '' }} onclick="proceedToCheckout()">
-                                Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i>
-                            </button>
-                        </div>
+                            <div class="hstack gap-2 justify-content-between justify-content-end">
+                                <a href="{{ route('cart') }}" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
+                                        class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
+                                <button type="button" class="btn w-100 btn-hover btn-primary" id="checkoutButton"
+                                    {{ count($cart) == 0 ? 'disabled' : '' }} onclick="proceedToCheckout()">
+                                    Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i>
+                                </button>
+                            </div>
 
-                    </div>
-                    <!-- end sticky -->
-                </div><!--end col-->
-            </div><!--end row-->
-        </div><!--end container-->
-    </section>
-   <script>
-    let appliedDiscount = 0; 
-    let discountId = null;
+                        </div>
+                        <!-- end sticky -->
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section>
+        @php
+        $user = Auth::user();
+        $country = $user ? $user->country : (session('country') ?? 'USA'); 
+        @endphp
+        
+        <script>
+            let userCountry = "{{ $country }}"; // Pass country to JavaScript
+        </script>
+        
 
-    document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('applyCoupon').addEventListener('click', function() {
-    let couponCode = document.getElementById('couponCode').value;
-    let subtotalElement = document.querySelector('.cart-subtotal');
-    let discountElement = document.querySelector('.cart-discount');
+
+    <script>
+     let appliedDiscount = 0; 
+     let discountId = null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            function updateTaxAndTotal(subtotal, appliedDiscount = 0) {
+    let taxElement = document.querySelector('.cart-tax');
     let totalElement = document.querySelector('.cart-total');
 
-    let subtotal = parseFloat(subtotalElement.innerText.replace('$', '').trim());
-    let total = subtotal - appliedDiscount;
+    let taxPercentage = parseFloat(taxElement.getAttribute('data-tax')) || 0;
+
+    let discountedTotal = subtotal - appliedDiscount;
+    if (discountedTotal < 0) discountedTotal = 0; // Prevent negative totals
+
+    // Check if the user is from the USA and set tax to 0
+    let taxAmount = userCountry === "USA" ? 0 : (discountedTotal * taxPercentage) / 100;
+    let finalTotal = discountedTotal + taxAmount;
+
+    taxElement.innerText = '$' + taxAmount.toFixed(2);
+    totalElement.innerText = '$' + finalTotal.toFixed(2);
+
+    console.log("User Country:", userCountry);
+    console.log("Discount Id:", discountId);
+    console.log("Subtotal: $" + subtotal.toFixed(2));
+    console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
+    console.log("Tax Amount: $" + taxAmount.toFixed(2));
+    console.log("Total after Tax: $" + finalTotal.toFixed(2));
+}
+
+    function getSubtotal() {
+        let subtotalElement = document.querySelector('.cart-subtotal');
+        return parseFloat(subtotalElement.innerText.replace(/[^0-9.]/g, '')) || 0;
+    }
+
+    // Initial Tax Calculation on Load
+    updateTaxAndTotal(getSubtotal());
+
+    document.getElementById('applyCoupon').addEventListener('click', function () {
+    let couponCode = document.getElementById('couponCode').value;
 
     fetch("{{ route('apply.discount') }}", {
         method: "POST",
@@ -307,21 +349,21 @@
             "X-CSRF-TOKEN": "{{ csrf_token() }}",
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            coupon_code: couponCode
-        })
+        body: JSON.stringify({ coupon_code: couponCode })
     })
     .then(response => response.json())
     .then(result => {
         if (result.success) {
             alert(result.message);
-            appliedDiscount = result.discount;
-            discountId = result.discountId; 
-            discountElement.innerText = '$' + appliedDiscount.toFixed(2);
-            let newTotal = subtotal - appliedDiscount;
-            totalElement.innerText = '$' + newTotal.toFixed(2);
-      
-            document.getElementById('discount').value = appliedDiscount;  // Ensure correct discount value
+            appliedDiscount = parseFloat(result.discount) || 0; 
+            discountId = result.discountId ?? null;
+
+            document.querySelector('.cart-discount').innerText = '$' + appliedDiscount.toFixed(2);
+            
+            updateTaxAndTotal(getSubtotal(), appliedDiscount);
+
+            console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
+            console.log("Discount ID:", discountId); // ✅ Log discountId in console
         } else {
             alert(result.message);
         }
@@ -329,27 +371,32 @@
     .catch(error => console.error('Error:', error));
 });
 
-    });
 
-    // Checkout function
-   // Checkout function
-function proceedToCheckout() {
+});
+
+
+
+
+        // Checkout function
+        function proceedToCheckout() {
     if (confirm('Are you sure you want to proceed to checkout?')) {
-        // Show loader and disable button to prevent multiple clicks
         let checkoutButton = document.getElementById('checkoutButton');
         checkoutButton.innerHTML = 'Processing... <span class="spinner-border spinner-border-sm"></span>';
         checkoutButton.disabled = true;
 
-        // Get the current subtotal again in case it changes dynamically after coupon application
         let subtotalElement = document.querySelector('.cart-subtotal');
-        let subtotal = parseFloat(subtotalElement.innerText.replace('$', '').trim());
-        
-        // Final total after applying the discount
-        let finalTotal = subtotal - appliedDiscount; // Declare first
-        
-        console.log('Applied Discount:', appliedDiscount);
-        console.log('Final Total:', finalTotal);
-        console.log('Discount Id:', discountId);
+        let subtotal = parseFloat(subtotalElement.innerText.replace(/[^0-9.]/g, '')) || 0;
+
+        let taxElement = document.querySelector('.cart-tax');
+        let taxAmount = parseFloat(taxElement.innerText.replace(/[^0-9.]/g, '')) || 0;
+
+        let finalTotal = subtotal - appliedDiscount + taxAmount;
+
+        console.log("Subtotal: $" + subtotal.toFixed(2));
+        console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
+        console.log("Discount ID:", discountId); 
+        console.log("Tax Amount: $" + taxAmount.toFixed(2));
+        console.log("Total after Tax: $" + finalTotal.toFixed(2));
 
         const formData = {
             firstname: document.getElementById('firstname').value,
@@ -361,12 +408,12 @@ function proceedToCheckout() {
             additional_info: document.getElementById('additional_info').value,
             paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value,
             DiscountAmount: appliedDiscount,
-            discountId: discountId,
-            finalTotal: finalTotal, // Ensure the correct final total is sent
-            subtotal: subtotal 
+            discountId: discountId ? discountId : null,  
+            subtotal: subtotal,
+            taxAmount: taxAmount,
+            finalTotal: finalTotal
         };
 
-        // Send the data to backend for further processing
         fetch("{{ route('checkout.add') }}", {
             method: "POST",
             headers: {
@@ -378,11 +425,9 @@ function proceedToCheckout() {
         .then(response => response.json())
         .then(result => {
             if (result.success) {
-                // If PayPal is chosen as the payment method, redirect to PayPal payment page
                 if (formData.paymentMethod === 'paypal') {
-                    window.location.href = result.paypalUrl; // Redirect to PayPal with the correct total
+                    window.location.href = result.paypalUrl;
                 } else {
-                    // Otherwise, redirect to the success page
                     window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
                 }
             } else {
@@ -399,6 +444,8 @@ function proceedToCheckout() {
     }
 }
 
-</script>
 
-@endsection
+
+    </script>
+
+    @endsection

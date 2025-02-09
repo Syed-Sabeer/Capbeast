@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 
 use App\Http\Controllers\Main\ProductDetailController;
@@ -27,7 +29,7 @@ use App\Http\Controllers\Admin\apps\EcommerceOrderDetails;
 use App\Http\Controllers\Admin\apps\EcommerceCustomerAll;
 
 use App\Http\Controllers\Admin\components\ProductColorController;
-use App\Http\Controllers\Admin\components\FontController;
+use App\Http\Controllers\Admin\components\TaxPricingController;
 use App\Http\Controllers\Admin\components\InternalStatusController;
 use App\Http\Controllers\Admin\components\DiscountCouponsController;
 
@@ -36,7 +38,8 @@ Route::get('/', function () {
   return redirect()->route('home');
 });
 
-Route::prefix('main')->group(function () {
+Route::prefix('main')->middleware(['web', 'CheckCountry'])->group(function () {
+
   // Routes that require authentication
   Route::middleware('auth')->group(function () {
     
@@ -60,6 +63,24 @@ Route::prefix('main')->group(function () {
 
     Route::get('/view-color-book', [ProductDetailController::class, 'showColorBook']);
   });
+
+ 
+  Route::get('/select-country', function () {
+      return view('main.global.country-selection');
+  })->name('select.country');
+  
+  // POST route to store country selection
+  Route::post('/set-country', function (Request $request) {
+      Session::put('country', $request->country);
+  
+      // Debug: Check if session is actually set
+      if (!Session::has('country')) {
+          return back()->with('error', 'Session not set!');
+      }
+  
+      return redirect()->route('home'); // Redirect to home after setting country
+  })->name('set.country');
+
   Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -115,15 +136,25 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name('content-discount-coupon-update');
     Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name('content-discount-coupon-delete');
     Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name('update.visibilitycoupon');
-
     Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name('get-items');
+
+
+
+    // Route::get('/taxprice/list', [TaxPricingController::class, 'index'])->name('content-embroidery-color-list');
+    Route::get('/taxprice/list', [TaxPricingController::class, 'index'])->name('tax_price.index');
+Route::get('/tax_price/create', [TaxPricingController::class, 'create'])->name('tax_price.create');
+Route::post('/tax_price/store', [TaxPricingController::class, 'store'])->name('tax_price.store');
+Route::get('/tax_price/{id}/edit', [TaxPricingController::class, 'edit'])->name('tax_price.edit');
+Route::put('/tax_price/{id}/update', [TaxPricingController::class, 'update'])->name('tax_price.update');
+Route::delete('/tax_price/{id}/delete', [TaxPricingController::class, 'destroy'])->name('tax_price.destroy');
+
   });
 
 
 
 
 
-  Route::get('/component/font/add', [FontController::class, 'index'])->name('app-ecommerce-font-add');
+  ;
 
   Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
 

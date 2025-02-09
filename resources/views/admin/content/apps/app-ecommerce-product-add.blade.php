@@ -87,13 +87,17 @@
                 <div class="card-body" id="pricing-section">
                     <div class="pricing-item">
                         <div class="row mb-3">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="form-label">Quantity</label>
                                 <input type="number" name="quantity[]" class="form-control" required>
                             </div>
-                            <div class="col-6">
-                                <label class="form-label">Price</label>
+                            <div class="col-4">
+                                <label class="form-label">Canadian Price</label>
                                 <input type="text" name="pricing[]" class="form-control" required>
+                            </div>
+                            <div class="col-4">
+                                <label class="form-label">US Price</label>
+                                <input type="text" name="usa_pricing[]" class="form-control" required>
                             </div>
                         </div>
                     </div>

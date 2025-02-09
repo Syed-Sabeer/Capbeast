@@ -36,6 +36,7 @@ class EcommerceProductAdd extends Controller
                 'images.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'quantity.*' => 'required|integer',
                 'pricing.*' => 'required|numeric',
+                'usa_pricing.*' => 'required|numeric',
             ]);
     
             // Save the product
@@ -86,12 +87,19 @@ foreach ($request->color as $index => $colorId) {
 
             // Save product pricing in separate rows
             foreach ($request->quantity as $index => $quantity) {
-                Log::info("Processing pricing: Quantity = $quantity, Price = " . $request->pricing[$index]);
+                Log::info("Processing pricing", [
+                    'Quantity' => $quantity,
+                    'Price' => $request->pricing[$index],
+                    'USA Price' => $request->usa_pricing[$index],
+                ]);
+                
                 ProductPricing::create([
                     'product_id' => $product->id,
                     'quantity' => $quantity,
                     'pricing' => $request->pricing[$index],
+                    'usa_pricing' => $request->usa_pricing[$index], // Fix the column name
                 ]);
+                
             }
 
             return redirect()->back()->with('success', 'Product added successfully!');

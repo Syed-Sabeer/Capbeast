@@ -10,7 +10,7 @@ class ProductPricing extends Model
     use HasFactory;
 
     protected $table = 'product_pricing';
-    protected $fillable = ['product_id', 'pricing', 'quantity'];
+    protected $fillable = ['product_id', 'pricing','usa_pricing', 'quantity'];
 
     public function product()
     {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartArtwork;
 use App\Models\Order;
+use App\Models\TaxPrice;
 use App\Models\DiscountCoupon;
 use App\Models\OrderItem;
 use App\Models\OrderShippingDetail;
@@ -98,8 +99,10 @@ class OrderController extends Controller
               // Retrieve total price and discount details from session
               $totalPrice = session('checkout_details')['total_price'] ?? 0;
               $discountAmount = session('checkout_details')['discount_amount'] ?? 0;
-              $discountId = session('checkout_details')['discount_id'] ;
+              $discountId = session('checkout_details')['discount_id'] ?? null;
+
               $subtotalPrice = session('checkout_details')['subtotal_price'] ?? 0;
+              $taxAmount = session('checkout_details')['tax_price'] ?? 0;
         $discount = session('checkout_details')['discount'] ?? null;
         $payment = Payment::get($paymentId, $this->_api_context);
         $execution = new PaymentExecution();
@@ -123,6 +126,7 @@ class OrderController extends Controller
                     'total_price' => $totalPrice,
                     'subtotal_price' => $subtotalPrice,
                     'discount_price' => $discountAmount,
+                    'tax_price' => $taxAmount,
                     'payment_status' => 'completed',
 
                 ]);
@@ -221,11 +225,13 @@ class OrderController extends Controller
             ->where('user_id', $userId)
             ->get();
 
+        $taxPercentage = TaxPrice::first()?->percentage ?? 0;
+
         if ($cart->isEmpty()) {
             return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
         }
 
-        return view('main.pages.checkout', compact('cart'));
+        return view('main.pages.checkout', compact('cart','taxPercentage'));
     }
 
     public function add(Request $request)
@@ -253,7 +259,8 @@ class OrderController extends Controller
             $totalPrice = (float) $request->input('finalTotal');
             $discountAmount = (float) $request->input('DiscountAmount') ?? 0;
             $subtotalPrice = (float) $request->input('subtotal');
-            $discountId = (integer) $request->input('discountId');
+            $discountId = $request->input('discountId') ? (integer) $request->input('discountId') : null;
+            $taxAmount = (float) $request->input('taxAmount') ?? 0;
 
             
             // Save session data
@@ -271,6 +278,7 @@ class OrderController extends Controller
                     'subtotal_price' => $subtotalPrice,
                     'discount_amount' => $discountAmount,
                     'discount_id' => $discountId,
+                    'tax_price' => $taxAmount,
                 ]
             ]);
     

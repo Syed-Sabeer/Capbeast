@@ -84,17 +84,17 @@
            
             {
               "name": "Product Color",
-              "slug": "app-ecommerce-customer-details",
+              "slug": "app-ecommerce-product-color",
               "submenu": [
                 {
                   "url": "admin/component/productcolor/add",
                   "name": "Add Color",
-                  "slug": "app-ecommerce-customer-details-overview"
+                  "slug": "content-product-color-add"
                 },
                 {
                   "url": "admin/component/productcolor/list",
                   "name": "View Color",
-                  "slug": "app-ecommerce-customer-details-security"
+                  "slug": "content-product-color-list"
                 }
               ]
             },
@@ -115,18 +115,13 @@
               ]
             },
             {
-              "name": "Fonts",
+              "name": "Tax",
               "slug": "app-ecommerce-customer-details",
               "submenu": [
                 {
-                  "url": "admin/component/font/add",
-                  "name": "Add Font",
+                  "url": "admin/component/taxprice/list",
+                  "name": "Modify Tax",
                   "slug": "app-ecommerce-customer-details-overview"
-                },
-                {
-                  "url": "admin/component/font/add",
-                  "name": "View Font",
-                  "slug": "app-ecommerce-customer-details-security"
                 }
               ]
             },
