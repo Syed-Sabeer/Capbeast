@@ -6,7 +6,7 @@
 
 
 @section('content')
-<form method="POST" action="{{ route('tax_price.update', $taxPercentage->id) }}">
+<form method="POST" action="{{ route('TPStax_price.update', $taxPercentage->id) }}">
     @csrf
     @method('PUT')
 
@@ -14,6 +14,17 @@
         <div class="col-12 col-lg-8">
             <div class="card mb-4">
                 <div class="card-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Tax No</label>
+                        <input type="number" name="taxno" class="form-control" 
+                        placeholder="Enter Tax No" 
+                        value="{{ old('taxno', $taxPercentage->taxno) }}" 
+                         required>
+                 
+                      </div>
+
+
                     <div class="mb-3">
                         <label class="form-label">Tax Percentage</label>
                         <input type="number" name="taxpercentage" class="form-control" 

@@ -259,8 +259,13 @@
                                                     <td class="text-end cart-discount">$0.00</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Tax :</td>
-                                                    <td class="text-end cart-tax" data-tax="{{ $taxPercentage }}">$0.00</td>
+                                                    <td>TPS Tax {{ $TPStaxPercentage->percentage }}% ({{ $TPStaxPercentage->taxno }}) :</td>
+                                                    <td class="text-end tps-cart-tax" tps-data-percentage="{{ $TPStaxPercentage->percentage }}" tps-data-taxno="{{ $TPStaxPercentage->taxno }}" tps-data-tax="{{ $TPStaxPercentage->percentage }}">$0.00</td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>TVQ Tax {{ $TVQtaxPercentage->percentage }}% ({{ $TVQtaxPercentage->taxno }}) :</td>
+                                                    <td class="text-end tvq-cart-tax" tvq-data-percentage="{{ $TVQtaxPercentage->percentage }}" tvq-data-taxno="{{ $TVQtaxPercentage->taxno }}" tvq-data-tax="{{ $TVQtaxPercentage->percentage  }}">$0.00</td>
                                                 </tr>
                                                 
 
@@ -309,26 +314,31 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             function updateTaxAndTotal(subtotal, appliedDiscount = 0) {
-    let taxElement = document.querySelector('.cart-tax');
+    let TPStaxElement = document.querySelector('.tps-cart-tax');
+    let TVQtaxElement = document.querySelector('.tvq-cart-tax');
     let totalElement = document.querySelector('.cart-total');
 
-    let taxPercentage = parseFloat(taxElement.getAttribute('data-tax')) || 0;
+    let TPStaxPercentage = parseFloat(TPStaxElement.getAttribute('tps-data-tax')) || 0;
+    let TVQtaxPercentage = parseFloat(TVQtaxElement.getAttribute('tvq-data-tax')) || 0;
 
     let discountedTotal = subtotal - appliedDiscount;
     if (discountedTotal < 0) discountedTotal = 0; // Prevent negative totals
 
     // Check if the user is from the USA and set tax to 0
-    let taxAmount = userCountry === "USA" ? 0 : (discountedTotal * taxPercentage) / 100;
-    let finalTotal = discountedTotal + taxAmount;
+    let TPStaxAmount = userCountry === "USA" ? 0 : (discountedTotal * TPStaxPercentage) / 100;
+    let TVQtaxAmount = userCountry === "USA" ? 0 : (discountedTotal * TVQtaxPercentage) / 100;
+    let finalTotal = discountedTotal + TPStaxAmount + TVQtaxAmount;
 
-    taxElement.innerText = '$' + taxAmount.toFixed(2);
+    TPStaxElement.innerText = '$' + TPStaxAmount.toFixed(2);
+    TVQtaxElement.innerText = '$' + TVQtaxAmount.toFixed(2);
     totalElement.innerText = '$' + finalTotal.toFixed(2);
 
     console.log("User Country:", userCountry);
     console.log("Discount Id:", discountId);
     console.log("Subtotal: $" + subtotal.toFixed(2));
     console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
-    console.log("Tax Amount: $" + taxAmount.toFixed(2));
+    console.log("TPS Tax Amount: $" + TPStaxAmount.toFixed(2));
+    console.log("TVQ Tax Amount: $" + TVQtaxAmount.toFixed(2));
     console.log("Total after Tax: $" + finalTotal.toFixed(2));
 }
 
@@ -387,15 +397,27 @@
         let subtotalElement = document.querySelector('.cart-subtotal');
         let subtotal = parseFloat(subtotalElement.innerText.replace(/[^0-9.]/g, '')) || 0;
 
-        let taxElement = document.querySelector('.cart-tax');
-        let taxAmount = parseFloat(taxElement.innerText.replace(/[^0-9.]/g, '')) || 0;
+        let TPStaxElement = document.querySelector('.tps-cart-tax');
+        let TPStaxAmount = parseFloat(TPStaxElement.innerText.replace(/[^0-9.]/g, '')) || 0;
+        let TPStaxNumber = TPStaxElement.getAttribute('tps-data-taxno'); // Extract TPS Tax Number
+        let TPStaxPercentage = TPStaxElement.getAttribute('tps-data-percentage'); // Extract TPS Tax Number
 
-        let finalTotal = subtotal - appliedDiscount + taxAmount;
+        let TVQtaxElement = document.querySelector('.tvq-cart-tax');
+        let TVQtaxAmount = parseFloat(TVQtaxElement.innerText.replace(/[^0-9.]/g, '')) || 0;
+        let TVQtaxNumber = TVQtaxElement.getAttribute('tvq-data-taxno'); // Extract TVQ Tax Number
+        let TVQtaxPercentage = TVQtaxElement.getAttribute('tvq-data-percentage');
+
+        let finalTotal = subtotal - appliedDiscount + TPStaxAmount + TVQtaxAmount;
 
         console.log("Subtotal: $" + subtotal.toFixed(2));
         console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
         console.log("Discount ID:", discountId); 
-        console.log("Tax Amount: $" + taxAmount.toFixed(2));
+        console.log("TPS Tax Amount: $" + TPStaxAmount.toFixed(2));
+        console.log("TPS Tax Number:", TPStaxNumber);
+        console.log("TPS Tax Percentage:", TPStaxPercentage);
+        console.log("TVQ Tax Amount: $" + TVQtaxAmount.toFixed(2));
+        console.log("TVQ Tax Number:", TVQtaxNumber);
+        console.log("TVQ Tax Percentage:", TVQtaxPercentage);
         console.log("Total after Tax: $" + finalTotal.toFixed(2));
 
         const formData = {
@@ -410,7 +432,13 @@
             DiscountAmount: appliedDiscount,
             discountId: discountId ? discountId : null,  
             subtotal: subtotal,
-            taxAmount: taxAmount,
+            TPStaxAmount: TPStaxAmount,
+            TPStaxNumber: TPStaxNumber,
+            TVQtaxAmount: TVQtaxAmount,
+            TPStaxPercentage: TPStaxPercentage,
+            TVQtaxPercentage: TVQtaxPercentage,
+            TVQtaxAmount: TVQtaxAmount,
+            TVQtaxNumber: TVQtaxNumber,
             finalTotal: finalTotal
         };
 
@@ -443,6 +471,7 @@
         });
     }
 }
+
 
 
 

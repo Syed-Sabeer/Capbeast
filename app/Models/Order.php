@@ -18,7 +18,8 @@ class Order extends Model
         'total_price',
         'subtotal_price',
         'discount_price',
-        'tax_price',
+        'tps_tax_price',
+        'tvq_tax_price',
         'status',
     ];
 

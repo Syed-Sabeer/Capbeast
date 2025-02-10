@@ -115,11 +115,22 @@
               ]
             },
             {
-              "name": "Tax",
+              "name": "TPS Tax",
               "slug": "app-ecommerce-customer-details",
               "submenu": [
                 {
-                  "url": "admin/component/taxprice/list",
+                  "url": "admin/component/TPS_TaxPrice/list",
+                  "name": "Modify Tax",
+                  "slug": "app-ecommerce-customer-details-overview"
+                }
+              ]
+            },
+            {
+              "name": "TVQ Tax",
+              "slug": "app-ecommerce-customer-details",
+              "submenu": [
+                {
+                  "url": "admin/component/TVQ_TaxPrice/list",
                   "name": "Modify Tax",
                   "slug": "app-ecommerce-customer-details-overview"
                 }

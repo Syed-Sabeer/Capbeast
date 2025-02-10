@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartArtwork;
 use App\Models\Order;
-use App\Models\TaxPrice;
+use App\Models\OrderTaxDetails;
+use App\Models\TVQTaxPrice;
+use App\Models\TPSTaxPrice;
 use App\Models\DiscountCoupon;
 use App\Models\OrderItem;
 use App\Models\OrderShippingDetail;
@@ -102,7 +104,12 @@ class OrderController extends Controller
               $discountId = session('checkout_details')['discount_id'] ?? null;
 
               $subtotalPrice = session('checkout_details')['subtotal_price'] ?? 0;
-              $taxAmount = session('checkout_details')['tax_price'] ?? 0;
+              $TPStaxAmount = session('checkout_details')['tps_tax_price'] ?? 0;
+              $TVQtaxAmount = session('checkout_details')['tvq_tax_price'] ?? 0;
+              $TPStaxNumber = session('checkout_details')['tps_tax_no'] ?? 0;
+              $TVQtaxNumber = session('checkout_details')['tvq_tax_no'] ?? 0;
+              $TPStaxPercentage = session('checkout_details')['tps_tax_percentage'] ?? 0;
+              $TVQtaxPercentage = session('checkout_details')['tvq_tax_percentage'] ?? 0;
         $discount = session('checkout_details')['discount'] ?? null;
         $payment = Payment::get($paymentId, $this->_api_context);
         $execution = new PaymentExecution();
@@ -126,8 +133,21 @@ class OrderController extends Controller
                     'total_price' => $totalPrice,
                     'subtotal_price' => $subtotalPrice,
                     'discount_price' => $discountAmount,
-                    'tax_price' => $taxAmount,
+                    'tps_tax_price' => $TPStaxAmount,
+                    'tvq_tax_price' => $TVQtaxAmount,
                     'payment_status' => 'completed',
+
+                ]);
+
+                OrderTaxDetails::create([
+                    'order_id' => $order->id,
+                    'tps_tax_no' => $TPStaxNumber,
+                    // 'tps_tax_amount' => $TPStaxAmount,
+                    'tps_tax_percentage' => $TPStaxPercentage,
+                    'tvq_tax_no' => $TVQtaxNumber,
+                    // 'tvq_tax_amount' => $TVQtaxAmount,
+                    'tvq_tax_percentage' => $TVQtaxPercentage,
+                    
 
                 ]);
                 
@@ -225,13 +245,14 @@ class OrderController extends Controller
             ->where('user_id', $userId)
             ->get();
 
-        $taxPercentage = TaxPrice::first()?->percentage ?? 0;
+        $TPStaxPercentage = TPSTaxPrice::first();
+        $TVQtaxPercentage = TVQTaxPrice::first();
 
         if ($cart->isEmpty()) {
             return redirect()->route('cart')->with('error', 'Your cart is empty. Please add items before proceeding to checkout.');
         }
 
-        return view('main.pages.checkout', compact('cart','taxPercentage'));
+        return view('main.pages.checkout', compact('cart','TPStaxPercentage','TVQtaxPercentage'));
     }
 
     public function add(Request $request)
@@ -260,7 +281,12 @@ class OrderController extends Controller
             $discountAmount = (float) $request->input('DiscountAmount') ?? 0;
             $subtotalPrice = (float) $request->input('subtotal');
             $discountId = $request->input('discountId') ? (integer) $request->input('discountId') : null;
-            $taxAmount = (float) $request->input('taxAmount') ?? 0;
+            $TPStaxAmount = (float) $request->input('TPStaxAmount') ?? 0;
+            $TVQtaxAmount = (float) $request->input('TVQtaxAmount') ?? 0;
+            $TPStaxPercentage = (float) $request->input('TPStaxPercentage') ?? 0;
+            $TVQtaxPercentage = (float) $request->input('TVQtaxPercentage') ?? 0;
+            $TPStaxNumber = (float) $request->input('TPStaxNumber') ?? 0;
+            $TVQtaxNumber = (float) $request->input('TVQtaxNumber') ?? 0;
 
             
             // Save session data
@@ -278,7 +304,12 @@ class OrderController extends Controller
                     'subtotal_price' => $subtotalPrice,
                     'discount_amount' => $discountAmount,
                     'discount_id' => $discountId,
-                    'tax_price' => $taxAmount,
+                    'tps_tax_price' => $TPStaxAmount,
+                    'tps_tax_percentage' => $TPStaxPercentage,
+                    'tvq_tax_price' => $TVQtaxAmount,
+                    'tvq_tax_percentage' => $TVQtaxPercentage,
+                    'tps_tax_no' => $TPStaxNumber,
+                    'tvq_tax_no' => $TVQtaxNumber,
                 ]
             ]);
     

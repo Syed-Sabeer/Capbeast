@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tax_price', function (Blueprint $table) {
+        Schema::create('tvq_tax_price', function (Blueprint $table) {
             $table->id();
-            $table->float('price',8,2);
+            $table->float('percentage',8,2);
+            $table->string('taxno');
             $table->timestamps();
         });
     }

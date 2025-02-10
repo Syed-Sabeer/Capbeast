@@ -29,7 +29,8 @@ use App\Http\Controllers\Admin\apps\EcommerceOrderDetails;
 use App\Http\Controllers\Admin\apps\EcommerceCustomerAll;
 
 use App\Http\Controllers\Admin\components\ProductColorController;
-use App\Http\Controllers\Admin\components\TaxPricingController;
+use App\Http\Controllers\Admin\components\TVQTaxPricingController;
+use App\Http\Controllers\Admin\components\TPSTaxPricingController;
 use App\Http\Controllers\Admin\components\InternalStatusController;
 use App\Http\Controllers\Admin\components\DiscountCouponsController;
 
@@ -141,12 +142,21 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
 
 
     // Route::get('/taxprice/list', [TaxPricingController::class, 'index'])->name('content-embroidery-color-list');
-    Route::get('/taxprice/list', [TaxPricingController::class, 'index'])->name('tax_price.index');
-Route::get('/tax_price/create', [TaxPricingController::class, 'create'])->name('tax_price.create');
-Route::post('/tax_price/store', [TaxPricingController::class, 'store'])->name('tax_price.store');
-Route::get('/tax_price/{id}/edit', [TaxPricingController::class, 'edit'])->name('tax_price.edit');
-Route::put('/tax_price/{id}/update', [TaxPricingController::class, 'update'])->name('tax_price.update');
-Route::delete('/tax_price/{id}/delete', [TaxPricingController::class, 'destroy'])->name('tax_price.destroy');
+    Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name('TVQtax_price.index');
+Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name('TVQtax_price.create');
+Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name('TVQtax_price.store');
+Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name('TVQtax_price.edit');
+Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name('TVQtax_price.update');
+Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name('TVQtax_price.destroy');
+
+
+Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name('TPStax_price.index');
+Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name('TPStax_price.create');
+Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name('TPStax_price.store');
+Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name('TPStax_price.edit');
+Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name('TPStax_price.update');
+Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name('TPStax_price.destroy');
+
 
   });
 
