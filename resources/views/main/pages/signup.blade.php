@@ -12,7 +12,7 @@
                             <div class="card-header bg-primary border-0">
                                 <div class="row">
                                     <div class="col-lg-4 col-3">
-                                        <img src="{{ asset('assetsMain/images/logo-dark.png') }}" alt="" class="img-fluid">
+                                      <a href="{{ route('home') }}">  <img src="{{ asset('assetsMain/images/logo-dark.png') }}" alt="" class="img-fluid"></a>
                                     </div>
                                     <div class="col-lg-8 col-9">
                                         <h2 class="text-white text-capitalize lh-base fw-lighter">Let's get started with Monkey Beanies</h2>

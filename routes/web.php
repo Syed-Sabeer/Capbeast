@@ -44,6 +44,8 @@ Route::prefix('main')->middleware(['web', 'CheckCountry'])->group(function () {
   // Routes that require authentication
   Route::middleware('auth')->group(function () {
     
+    Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
+
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
@@ -82,7 +84,7 @@ Route::prefix('main')->middleware(['web', 'CheckCountry'])->group(function () {
       return redirect()->route('home'); // Redirect to home after setting country
   })->name('set.country');
 
-  Route::get('/productDetail/{id}', [ProductDetailController::class, 'index'])->name('product.detail');
+  
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/about', [AboutController::class, 'index'])->name('about');
   Route::get('/home', [HomeController::class, 'index'])->name('home');

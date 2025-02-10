@@ -13,7 +13,7 @@
         </video>
     </div>
 </section>
-@php
+{{-- @php
 $user = Auth::user(); // Get the logged-in user
 $country = $user ? $user->country : (session('country') ?? 'USA'); // Check session as fallback
 @endphp
@@ -21,7 +21,7 @@ $country = $user ? $user->country : (session('country') ?? 'USA'); // Check sess
     <h1>Canada</h1>
 @else
     <h1>USA</h1>
-@endif
+@endif --}}
 
 <!-- START PRODUCT -->
 <section class="section pt-0 mt-5">

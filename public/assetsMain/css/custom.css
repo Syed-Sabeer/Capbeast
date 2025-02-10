@@ -387,6 +387,12 @@
 
 
 @media (max-width: 435px) {
+  #google_translate_element {
+    position: fixed;
+    top: 20px;
+    right: 135px;
+    z-index: 9999;
+  }
   .video-container {
     height: 60%;
   }
