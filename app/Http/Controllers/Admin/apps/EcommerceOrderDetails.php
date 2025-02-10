@@ -14,7 +14,7 @@ class EcommerceOrderDetails extends Controller
     public function index($orderId)
 {
    
-    $order = Order::with(['user', 'Order_files', 'ShippingDetails', 'items' => function ($query) {
+    $order = Order::with(['TaxDetails','user', 'Order_files', 'ShippingDetails', 'items' => function ($query) {
         $query->with('orderArtwork');
     }])->findOrFail($orderId);
 

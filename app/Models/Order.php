@@ -61,5 +61,9 @@ class Order extends Model
     {
         return $this->hasOne(OrderShippingDetail::class, 'order_id');
     }
+    public function TaxDetails()
+    {
+        return $this->hasOne(OrderTaxDetails::class, 'order_id');
+    }
   
 }

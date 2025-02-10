@@ -217,7 +217,7 @@ class OrderController extends Controller
     public function orderSuccess(Request $request)
     {
         $orderId = $request->query('orderId');
-        $order = Order::with(['user','discountCoupon', 'items','product'])->where('id', $orderId)->first();
+        $order = Order::with(['user','TaxDetails','discountCoupon', 'items','product'])->where('id', $orderId)->first();
 
         if (!$order) {
             return redirect()->route('home')->with('error', 'Order not found.');
@@ -230,7 +230,7 @@ class OrderController extends Controller
     {
         $userId = auth()->id();
 
-        $orderhistory = Order::with(['items' => function ($query) {
+        $orderhistory = Order::with(['TaxDetails','items' => function ($query) {
             $query->with('orderArtwork');
         }, 'user'])->where('user_id', $userId)->get();
 

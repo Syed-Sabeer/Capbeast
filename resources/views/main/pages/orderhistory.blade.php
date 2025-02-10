@@ -30,8 +30,13 @@
                                             data-bs-date="{{ $order->created_at->format('d M, Y') }}"
                                             data-bs-subtotal="{{ number_format($order->subtotal_price, 2) }}"
                                             data-bs-discount="{{ number_format($order->discount_price, 2) }}"
-                                            data-bs-tax="{{ number_format($order->tax_price, 2) }}"
+                                            data-bs-TVQtax="{{ number_format($order->tvq_tax_price, 2) }}"
+                                            data-bs-TPStax="{{ number_format($order->tps_tax_price, 2) }}"
                                             data-bs-total="{{ number_format($order->total_price, 2) }}"
+                                            data-bs-TPStax-percentage="{{ $order->TaxDetails->tps_tax_percentage ?? 'N/A' }}"
+                                            data-bs-TVQtax-percentage="{{ $order->TaxDetails->tvq_tax_percentage ?? 'N/A' }}"
+                                            data-bs-TPStax-no="{{ $order->TaxDetails->tps_tax_no ?? 'N/A' }}"
+                                            data-bs-TVQtax-no="{{ $order->TaxDetails->tvq_tax_no ?? 'N/A' }}"
                                             data-bs-billing-name="{{ $order->billing_name }}"
                                             data-bs-billing-address="{{ $order->billing_address }}"
                                             data-bs-shipping-name="{{ $order->shipping_name }}"
@@ -215,22 +220,29 @@
                                             <tbody>
                                                 <tr>
                                                     <td>Sub Total</td>
-                                                    <td class="text-end" id="sub-total"></td>
+                                                    <td class="text-end" ><span id="sub-total"></span> $</td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td>Tax <small class="text-muted"></small></td>
-                                                    <td class="text-end" id="tax-amount"></td>
+                                                    <td>TVQ Tax <span id="TVQtax-percentage"></span>% (<span id="TVQtax-no"></span>) <small class="text-muted"></small></td>
+                                                    <td class="text-end" ><span id="TVQtax-amount"></span> $</td>
                                                 </tr>
+
+                                                <tr>
+                                                    <td>TPS Tax <span id="TPStax-percentage"></span>%  (<span id="TPStax-no"></span>)<small class="text-muted"></small></td>
+                                                    <td class="text-end" ><span id="TPStax-amount"></span> $</td>
+                                                </tr>
+
+                                           
 
                                                 <tr>
                                                     <td>Discount <small class="text-muted"></small></td>
-                                                    <td class="text-end" >-<span id="discount-amount"></span></td>
+                                                    <td class="text-end" >-<span id="discount-amount"></span> $</td>
                                                 </tr>
 
                                                 <tr class="border-top border-top-dashed fs-15">
                                                     <th scope="row">Total Amount</th>
-                                                    <th class="text-end" id="total-amount-summary"></th>
+                                                    <th class="text-end" ><span id="total-amount-summary"></span> $</th>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -373,7 +385,12 @@
             const date = row.getAttribute('data-bs-date');
             const subtotal = row.getAttribute('data-bs-subtotal');
             const discount = row.getAttribute('data-bs-discount');
-            const tax = row.getAttribute('data-bs-tax');
+            const TVQtax = row.getAttribute('data-bs-TVQtax');
+            const TPStax = row.getAttribute('data-bs-TPStax');
+            const TPStaxNo = row.getAttribute('data-bs-TPStax-no');
+            const TVQtaxNo = row.getAttribute('data-bs-TVQtax-no');
+            const TVQtaxPercentage = row.getAttribute('data-bs-TVQtax-percentage');
+            const TPStaxPercentage = row.getAttribute('data-bs-TPStax-percentage');
             const completetotal = row.getAttribute('data-bs-total');
             const billingName = row.getAttribute('data-bs-billing-name');
             const billingAddress = row.getAttribute('data-bs-billing-address');
@@ -386,7 +403,12 @@
             document.getElementById('invoice-date').textContent = date;
             
             document.getElementById('discount-amount').textContent = discount;
-            document.getElementById('tax-amount').textContent = tax;
+            document.getElementById('TVQtax-amount').textContent = TVQtax;
+            document.getElementById('TPStax-amount').textContent = TPStax;
+            document.getElementById('TPStax-no').textContent = TPStaxNo;
+            document.getElementById('TVQtax-no').textContent = TVQtaxNo;
+            document.getElementById('TVQtax-percentage').textContent = TVQtaxPercentage;
+            document.getElementById('TPStax-percentage').textContent = TPStaxPercentage;
             document.getElementById('sub-total').textContent = subtotal;
             document.getElementById('total-amount').textContent = completetotal;
             document.getElementById('total-amount-summary').textContent = completetotal;

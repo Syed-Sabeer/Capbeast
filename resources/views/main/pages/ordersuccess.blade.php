@@ -132,16 +132,30 @@
                         </td>
                     </tr>
 
+
                     <tr>
                         <td colspan="3" style="padding: 12px 8px; font-size: 15px;">
-                            Tax 
+                            TVQ Tax {{$order->TaxDetails->tvq_tax_percentage}}% ({{$order->TaxDetails->tvq_tax_no}})
                         </td>
                         <td style="padding: 12px 8px; font-size: 15px;text-align: end; ">
                             <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
-                                ${{ number_format($order->tax_price, 2) ?? 0 }}
+                                ${{ number_format($order->tvq_tax_price, 2) ?? 0 }}
                             </h6>
                             </th>
                     </tr>
+
+                    <tr>
+                        <td colspan="3" style="padding: 12px 8px; font-size: 15px;">
+                            TPS Tax {{$order->TaxDetails->tps_tax_percentage}}% ({{$order->TaxDetails->tps_tax_no}})
+                        </td>
+                        <td style="padding: 12px 8px; font-size: 15px;text-align: end; ">
+                            <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
+                                ${{ number_format($order->tps_tax_price, 2) ?? 0 }}
+                            </h6>
+                            </th>
+                    </tr>
+
+                    
 
                     <tr>
                         <td colspan="3" style="padding: 12px 8px; font-size: 15px;">
