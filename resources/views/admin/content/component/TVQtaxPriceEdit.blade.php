@@ -28,10 +28,10 @@
                     <div class="mb-3">
                         <label class="form-label">Tax Percentage</label>
                         <input type="number" name="taxpercentage" class="form-control" 
-       placeholder="Enter Tax Percentage" 
-       value="{{ old('taxpercentage', $taxPercentage->percentage) }}" 
-       min="0" max="100" required>
-
+                        placeholder="Enter Tax Percentage" 
+                        value="{{ old('taxpercentage', $taxPercentage->percentage) }}" 
+                        min="0" max="100" step="0.001" required>
+                 
                     </div>
                 </div>
             </div>

@@ -31,6 +31,7 @@ public function register(Request $request)
         'password' => 'required|min:8|confirmed',
         'reseller' => 'required',
         'neq_number' => 'nullable|required_if:reseller,yes',
+        'country' => 'required|in:USA,CANADA',
     ]);
 
     // If validation fails, return back with errors
@@ -59,6 +60,7 @@ public function register(Request $request)
         'is_reseller' => $isReseller,
         'neq_number' => $neqNumber,
         'status' => $status,
+        'country' => $request->country,
     ]);
 
     // Log the created user

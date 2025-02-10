@@ -32,6 +32,20 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3">
+                                            <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
+                                            <select class="form-control" id="country" name="country" required>
+                                                <option value="" disabled selected>Select Country</option>
+                                                <option value="USA" {{ old('country') == 'USA' ? 'selected' : '' }}>USA</option>
+                                                <option value="CANADA" {{ old('country') == 'CANADA' ? 'selected' : '' }}>Canada</option>
+                                            </select>
+                                            @error('country')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        
+                                        
+
+                                        <div class="mb-3">
                                             <label class="form-label">Are You A Reseller? <span class="text-danger">*</span></label>
                                             <div class="d-flex">
                                                 <div>
