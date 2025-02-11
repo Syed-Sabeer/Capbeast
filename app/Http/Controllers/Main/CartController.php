@@ -47,7 +47,7 @@ class CartController extends Controller
                 'pompomPrice' => 'nullable|numeric',
                 'artworkType' => 'nullable|integer',
                 'artworkDataText' => 'nullable|string',
-                'artworkDataImage' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+                'artworkDataImage' => 'nullable|mimes:jpeg,png,jpg,gif,ai,svg,eps',
                 'patchLength' => 'nullable|numeric|min:1|max:4', 
                 'patchHeight' => 'nullable|numeric|max:2.5', 
                 'fontStyle' => 'nullable|string',

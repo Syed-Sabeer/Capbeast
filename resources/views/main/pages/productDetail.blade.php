@@ -298,9 +298,9 @@
                                             <input type="file" id="fileUpload" class="form-control">
                                         </form>
                                         <div class="form-text">
-                                            File Accepted: JPEG, JPG, GIF, PNG, EPS, PDF, PSD, AI, BMP, TIF, TIFF<br>
-                                            <strong>Preferred File Type for Better Quality Product:</strong> AI, EPS, PSD,
-                                            PDF
+                                            File Accepted: JPEG, JPG, GIF, PNG, AI, EPS<br>
+                                            {{-- <strong>Preferred File Type for Better Quality Product:</strong> AI, EPS, PSD,
+                                            PDF --}}
                                         </div>
                                     </div>
 
