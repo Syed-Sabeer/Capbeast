@@ -199,7 +199,7 @@
                                 </select>
 
 
-                                <label for="beanie-color" class="section-header mt-4">Select Beanies Type</label>
+                                <label for="beanie-color" class="section-header mt-4">Select Embroidery Position</label>
                                 <div class="d-flex " style="justify-content: space-between">
                                     <div>
                                         <input type="radio" id="flipped" name="beanie" value="1">
