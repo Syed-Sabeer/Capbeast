@@ -9,18 +9,24 @@
 
     <h3>Order Details:</h3>
     <p><strong>Order ID:</strong> {{ $order->order_id }}</p>
-    <p><strong>Customer:</strong> {{ $order->user->name }} ({{ $order->shippingDetails->email }})</p>
+    <p><strong>Customer:</strong> {{ $order->user->email }} </p>
     <p><strong>Total Price:</strong> ${{ $order->total_price }}</p>
 
     <h3>Products Ordered:</h3>
     <ul>
-        @foreach($order->orderItems as $item)
-            <li>
-                <strong>Product:</strong> {{ $item->product->name }} <br>
-                <strong>Quantity:</strong> {{ $item->quantity }} <br>
-                <strong>Price:</strong> ${{ $item->product_price }}
-            </li>
-        @endforeach
+        @if(isset($order->items) && $order->items->isNotEmpty())
+        <ul>
+            @foreach($order->items as $items)
+                <li>
+                    <strong>Product:</strong> {{ $items->product->title ?? 'Unknown Product' }} <br>
+                    <strong>Quantity:</strong> {{ $items->quantity ?? 'N/A' }} <br>
+                    <strong>Price:</strong> ${{ $items->product_price ?? '0.00' }}
+                </li>
+            @endforeach
+        </ul>
+    @else
+        <p>No items found in this order.</p>
+    @endif
     </ul>
 
     <h3>Shipping Details:</h3>

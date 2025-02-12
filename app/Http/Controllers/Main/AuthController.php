@@ -56,8 +56,10 @@ public function register(Request $request)
     Mail::to($user->email)->send(new UserRegisteredMail($user, $isReseller));
 
     if ($isReseller) {
-        Mail::to('info@monkeybeanies.com')->send(new UserRegisteredMail($user, $isReseller, true));
+        Log::info('Sending reseller email to sales@monkeybeanies.com for:', ['email' => $user->email]);
+        Mail::to('sales@monkeybeanies.com')->send(new UserRegisteredMail($user, $isReseller, true));
     }
+    
 
     return redirect()->route('home')->with('success', 'Registration successful!');
 }
