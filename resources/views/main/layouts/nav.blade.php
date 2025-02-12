@@ -126,6 +126,10 @@
                         <a href="{{ route('user.login') }}" class="dropdown-item"><i
                                 class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i>
                             <span class="align-middle" data-key="t-logout">Login</span></a>
+
+                            <a href="{{ route('user.register') }}" class="dropdown-item"><i
+                                class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i>
+                            <span class="align-middle" data-key="t-logout">Register</span></a>
                     @endauth
 
                 </div>
