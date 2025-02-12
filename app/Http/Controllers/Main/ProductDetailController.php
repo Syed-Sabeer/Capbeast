@@ -8,6 +8,8 @@ use App\Models\ProductPrinting;
 use App\Models\ProductDelivery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers\CurrencyHelper;
 
 class ProductDetailController extends Controller
 {
@@ -22,31 +24,41 @@ class ProductDetailController extends Controller
 
     public function index($id)
     {
-        // Fetch the product by ID
         $product = Product::findOrFail($id);
+        $productColors = $product->productColors->load('componentColor');
 
-        // Fetch the product colors (with associated component color and image)
-        $productColors = $product->productColors->load('componentColor');  
-
-        // Prepare color names and images
         $colorNames = [];
         $colorImages = [];
         foreach ($productColors as $productColor) {
             $colorNames[] = $productColor->componentColor->color_name;
-            $colorImages[] = asset('storage/' . $productColor->image);  // Assuming the image is stored in storage folder
+            $colorImages[] = asset('storage/' . $productColor->image);
         }
 
-        // Fetch product printings and delivery details
-        $productPrintings = ProductPrinting::where('visibility', 1)
-        ->get();
-    
+        $productPrintings = ProductPrinting::where('visibility', 1)->get();
+        
         $latestProductDelivery = ProductDelivery::latest('id')->first();
+
+        // Fetch User Country
+        $user = Auth::user();
+        $country = $user ? $user->country : (session('country') ?? 'USA'); // Default to USA
+
+
+        if ($country === 'USA') {
+            foreach ($productPrintings as $printing) {
+                $prices = is_string($printing->price) ? json_decode($printing->price, true) : $printing->price;
+                $printing->price = array_map(fn ($price) => CurrencyHelper::convert($price, 'CAD', 'USD'), $prices);
+            }
+        }
 
         // Fetch product pricing and quantities
         $pricing = $product->productPricing;
         $quantities = $pricing->pluck('quantity');
         $prices = $pricing->pluck('pricing');
-        $USAprices = $pricing->pluck('usa_pricing');
+
+        // Convert Prices if user is in the USA
+        if ($country === 'USA') {
+            $prices = $prices->map(fn ($price) => CurrencyHelper::convert($price, 'CAD', 'USD'));
+        }
 
         // Fetch base images
         $baseImages = $product->productBaseImages;
@@ -57,21 +69,24 @@ class ProductDetailController extends Controller
         if ($latestProductDelivery) {
             $quantitiesdelivery = json_decode($latestProductDelivery->quantity, true);
             $pricesDelivery = json_decode($latestProductDelivery->pricing, true);
+
+            // Convert Delivery Prices if user is in the USA
+            if ($country === 'USA') {
+                $pricesDelivery = array_map(fn ($price) => CurrencyHelper::convert($price, 'CAD', 'USD'), $pricesDelivery);
+            }
         }
 
-        // Return view with data
         return view('main.pages.productDetail', [
             'product' => $product,
-            'colors' => $productColors, 
+            'colors' => $productColors,
             'colorNames' => $colorNames,
             'colorImages' => $colorImages,
             'quantities' => $quantities,
             'prices' => $prices,
-            'USAprices' => $USAprices,
             'productPrintings' => $productPrintings,
             'latestProductDelivery' => $latestProductDelivery,
             'baseImages' => $baseImages,
-            'quantitiesdelivery' => $quantitiesdelivery, 
+            'quantitiesdelivery' => $quantitiesdelivery,
             'pricesDelivery' => $pricesDelivery,
         ]);
     }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Main;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartArtwork;
+use App\Mail\OrderPlacedMail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Order;
 use App\Models\OrderTaxDetails;
 use App\Models\TVQTaxPrice;
@@ -86,6 +88,7 @@ class OrderController extends Controller
     }
     
 
+
     public function GetPaymentStatus(Request $request)
     {
         $paymentId = $request->query('paymentId');
@@ -97,24 +100,23 @@ class OrderController extends Controller
         }
     
         try {
-
-              // Retrieve total price and discount details from session
-              $totalPrice = session('checkout_details')['total_price'] ?? 0;
-              $discountAmount = session('checkout_details')['discount_amount'] ?? 0;
-              $discountId = session('checkout_details')['discount_id'] ?? null;
-
-              $subtotalPrice = session('checkout_details')['subtotal_price'] ?? 0;
-              $TPStaxAmount = session('checkout_details')['tps_tax_price'] ?? 0;
-              $TVQtaxAmount = session('checkout_details')['tvq_tax_price'] ?? 0;
-              $TPStaxNumber = session('checkout_details')['tps_tax_no'] ?? 0;
-              $TVQtaxNumber = session('checkout_details')['tvq_tax_no'] ?? 0;
-              $TPStaxPercentage = session('checkout_details')['tps_tax_percentage'] ?? 0;
-              $TVQtaxPercentage = session('checkout_details')['tvq_tax_percentage'] ?? 0;
-        $discount = session('checkout_details')['discount'] ?? null;
-        $payment = Payment::get($paymentId, $this->_api_context);
-        $execution = new PaymentExecution();
-        $execution->setPayerId($payerId);
-        $result = $payment->execute($execution, $this->_api_context);
+            // Retrieve total price and discount details from session
+            $totalPrice = session('checkout_details')['total_price'] ?? 0;
+            $discountAmount = session('checkout_details')['discount_amount'] ?? 0;
+            $discountId = session('checkout_details')['discount_id'] ?? null;
+            $subtotalPrice = session('checkout_details')['subtotal_price'] ?? 0;
+            $TPStaxAmount = session('checkout_details')['tps_tax_price'] ?? 0;
+            $TVQtaxAmount = session('checkout_details')['tvq_tax_price'] ?? 0;
+            $TPStaxNumber = session('checkout_details')['tps_tax_no'] ?? 0;
+            $TVQtaxNumber = session('checkout_details')['tvq_tax_no'] ?? 0;
+            $TPStaxPercentage = session('checkout_details')['tps_tax_percentage'] ?? 0;
+            $TVQtaxPercentage = session('checkout_details')['tvq_tax_percentage'] ?? 0;
+            $discount = session('checkout_details')['discount'] ?? null;
+    
+            $payment = Payment::get($paymentId, $this->_api_context);
+            $execution = new PaymentExecution();
+            $execution->setPayerId($payerId);
+            $result = $payment->execute($execution, $this->_api_context);
     
             if ($result->state == 'approved') {
                 // Retrieve session data
@@ -136,21 +138,15 @@ class OrderController extends Controller
                     'tps_tax_price' => $TPStaxAmount,
                     'tvq_tax_price' => $TVQtaxAmount,
                     'payment_status' => 'completed',
-
                 ]);
-
+    
                 OrderTaxDetails::create([
                     'order_id' => $order->id,
                     'tps_tax_no' => $TPStaxNumber,
-                    // 'tps_tax_amount' => $TPStaxAmount,
                     'tps_tax_percentage' => $TPStaxPercentage,
                     'tvq_tax_no' => $TVQtaxNumber,
-                    // 'tvq_tax_amount' => $TVQtaxAmount,
                     'tvq_tax_percentage' => $TVQtaxPercentage,
-                    
-
                 ]);
-                
     
                 // Create Shipping Details
                 OrderShippingDetail::create([
@@ -203,6 +199,11 @@ class OrderController extends Controller
                 DB::commit();
                 session()->forget('checkout_details');
     
+                   // Send Emails
+            Mail::to(auth()->user()->email)->send(new OrderPlacedMail($order, false));
+            Mail::to('sales@monkeybeanies.com')->send(new OrderPlacedMail($order, true));
+
+
                 return redirect()->route('main.pages.success', ['orderId' => $order->id]);
             }
     
@@ -213,6 +214,7 @@ class OrderController extends Controller
             return redirect()->route('checkout')->with('error', 'Payment failed.');
         }
     }
+    
 
     public function orderSuccess(Request $request)
     {

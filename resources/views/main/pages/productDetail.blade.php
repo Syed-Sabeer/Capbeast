@@ -56,26 +56,26 @@
                                         <td>
                                             <a href="#" class="text-body">Price</a>
                                         </td>
-                                        @php
+                                        {{-- @php
                                         $user = Auth::user(); // Get the logged-in user
                                         $country = $user ? $user->country : (session('country') ?? 'USA'); // Check session as fallback
-                                    @endphp
+                                    @endphp --}}
                                     
-                                    @if($country === 'CANADA') 
+                                    {{-- @if($country === 'CANADA')  --}}
                                         @foreach ($prices as $price)
                                             <td class="fw-medium text-align-center" data-price="{{ $price }}"
                                                 id="pricing-{{ $price }}">
                                                 ${{ number_format($price, 2) }}
                                             </td>
                                         @endforeach
-                                    @else
+                                    {{-- @else
                                         @foreach ($USAprices as $price)
                                             <td class="fw-medium text-align-center" data-price="{{ $price }}"
                                                 id="pricing-{{ $price }}">
                                                 ${{ number_format($price, 2) }}
                                             </td>
                                         @endforeach
-                                    @endif
+                                    @endif --}}
                                     
 
                                     </tr>
@@ -262,14 +262,12 @@
                                                 <h3>{{ $printing->title }}</h3>
                                             </div>
                                         @endforeach
-                                    
-                                        {{-- <p  style="color: red; display: none;"></p> --}}
-
                                     @else
                                         <p>No printing options available.</p>
                                     @endif
-
                                 </div>
+
+                                
                                 <div id="printing-error" style="color: red; display: none;" class="mt-5 alert alert-danger text-center text-capitalize mb-4 fs-14">
                                   The Minimum Quantity for Leather Patches is 50
                                 </div>
@@ -670,15 +668,9 @@
 
 
 
-    const country = @json($country);
+    
 
-    let prices;
-    if (country === 'CANADA') {
-        prices = @json($prices).map(Number);
-    } else {
-        prices = @json($USAprices).map(Number);
-    }
-
+    prices = @json($prices).map(Number);
 
 
     
