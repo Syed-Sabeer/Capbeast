@@ -41,11 +41,9 @@ public function register(Request $request)
     $neqNumber = $isReseller ? $request->neq_number : null;
     $status = $isReseller ? 0 : 1;
 
-    $plainPassword = $request->password; // Store the plain password before hashing
-
     $user = User::create([
         'email' => $request->email,
-        'password' => Hash::make($plainPassword), // Hash the password
+        'password' => Hash::make($request->password),
         'is_reseller' => $isReseller,
         'neq_number' => $neqNumber,
         'status' => $status,
@@ -55,7 +53,7 @@ public function register(Request $request)
     auth()->login($user);
 
     // 📩 Send Email Based on User Type
-    Mail::to($user->email)->send(new UserRegisteredMail($user, $isReseller, $plainPassword));
+    Mail::to($user->email)->send(new UserRegisteredMail($user, $isReseller));
 
     if ($isReseller) {
         Log::info('Sending reseller email to sales@monkeybeanies.com for:', ['email' => $user->email]);

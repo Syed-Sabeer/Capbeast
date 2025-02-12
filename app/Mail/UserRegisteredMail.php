@@ -13,21 +13,19 @@ class UserRegisteredMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    use Queueable, SerializesModels;
-
     public $user;
     public $isReseller;
     public $isAdminEmail;
-    public $plainPassword; // Add this line
 
-    public function __construct($user, $isReseller, $plainPassword = null, $isAdminEmail = false)
+    /**
+     * Create a new message instance.
+     */
+    public function __construct($user, $isReseller, $isAdminEmail = false)
     {
         $this->user = $user;
         $this->isReseller = $isReseller;
-        $this->plainPassword = $plainPassword; // Store password
         $this->isAdminEmail = $isAdminEmail;
     }
-
 
     /**
      * Get the message envelope.
@@ -35,7 +33,7 @@ class UserRegisteredMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->isAdminEmail ? 'New Reseller Registered' : 'Welcome to Our Platform!',
+            subject: $this->isAdminEmail ? 'New Reseller Registered' : 'Welcome to Monkey Beanies!',
         );
     }
 
@@ -50,11 +48,9 @@ class UserRegisteredMail extends Mailable implements ShouldQueue
                 : 'emails.user_registered',
             with: [
                 'user' => $this->user,
-                'plainPassword' => $this->plainPassword, // Pass password to view
             ]
         );
     }
-
 
     /**
      * Get the attachments for the message.

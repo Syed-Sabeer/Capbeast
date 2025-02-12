@@ -4,11 +4,10 @@
     <title>Your Order Has Been Placed!</title>
 </head>
 <body>
-    <h2>Thank you for your order, {{ $order->user->email ?? 'Valued Customer' }}!</h2>
-    <p>Your order ID: <strong>{{ $order->order_id ?? 'N/A' }}</strong></p>
-    <p>We have received your order and will begin processing it soon.</p>
-
-    <h3>Order Details:</h3>
+    <h3>Dear, {{ $order->user->email ?? 'Valued Customer' }}!</h3>
+    <h2>Thank you for purchasing from Monkey Beanies. We are pleased to confirm your order # <strong>{{ $order->order_id ?? 'N/A' }}</strong></h2>
+        
+    <h4>Order Details:</h4>
     @if(isset($order->items) && $order->items->isNotEmpty())
         <ul>
             @foreach($order->items as $items)
@@ -37,6 +36,11 @@
         <p>Shipping details not available.</p>
     @endif
 
-    <p>We will notify you when your order has been shipped.</p>
+    <p>Should you have any questions or require additional support, please don't hesitate to get in touch with us. We appreciate your business. <br>Sincerely, </p>
+
+    <h4>Bruno Torres</h4>
+    <h4>CEO</h4>
+    <a href="monkeybeanies.com">Monkey Beanies</a>
+
 </body>
 </html>

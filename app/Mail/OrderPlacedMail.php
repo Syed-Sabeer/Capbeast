@@ -29,11 +29,11 @@ class OrderPlacedMail extends Mailable implements ShouldQueue
      * Get the message envelope.
      */
     public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: $this->isAdmin ? 'New Order Received!' : 'Your Order Has Been Placed!'
-        );
-    }
+{
+    return new Envelope(
+        subject: ($this->isAdmin ? 'New Order Received - Order # ' : 'Purchase Confirmation - Order # ') . $this->order->order_id,
+    );
+}
 
     /** 
      * Get the message content definition.
