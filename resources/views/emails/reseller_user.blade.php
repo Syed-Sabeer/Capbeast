@@ -6,7 +6,7 @@
 <body>
 
 @php
-    $lang = $order->user->language ?? 'en'; 
+    $lang = $user->language ?? 'en'; 
 @endphp
 
 

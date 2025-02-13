@@ -14,7 +14,7 @@
 
 
 @if($lang == 'fr')
-<h2>Cher, {{ $user->first_name ?? 'Client précieux' }}!</h2>
+<h2>Cher, {{ $order->user->first_name ?? 'Client précieux' }}!</h2>
 
 <h3>Merci d'avoir acheté Monkey Beanies. Nous sommes heureux de confirmer votre commande # <strong>{{ $order->order_id ?? 'N/A' }}</strong></h3>
 <h4>Détails de la commande:</h4>
