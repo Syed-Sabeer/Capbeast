@@ -62,12 +62,12 @@ public function register(Request $request)
     auth()->login($user);
 
     // 📩 Send Email Based on User Type
-    // Mail::to($user->email)->send(new UserRegisteredMail($user, $isReseller));
+    Mail::to($user->email)->send(new UserRegisteredMail($user, $isReseller));
 
-    // if ($isReseller) {
-    //     Log::info('Sending reseller email to sales@monkeybeanies.com for:', ['email' => $user->email]);
-    //     Mail::to('sales@monkeybeanies.com')->send(new UserRegisteredMail($user, $isReseller, true));
-    // }
+    if ($isReseller) {
+        Log::info('Sending reseller email to sales@monkeybeanies.com for:', ['email' => $user->email]);
+        Mail::to('sales@monkeybeanies.com')->send(new UserRegisteredMail($user, $isReseller, true));
+    }
     
 
     return redirect()->route('home')->with('success', 'Registration successful!');
