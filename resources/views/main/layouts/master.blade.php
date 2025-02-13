@@ -24,6 +24,17 @@
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=X0P2QVG8V9"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'X0P2QVG8V9');
+</script>
+<!-- End Google Analytics -->
+
     
 </head>
 

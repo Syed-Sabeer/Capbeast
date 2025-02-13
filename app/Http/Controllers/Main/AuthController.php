@@ -66,7 +66,7 @@ public function register(Request $request)
 
     if ($isReseller) {
         Log::info('Sending reseller email to sales@monkeybeanies.com for:', ['email' => $user->email]);
-        Mail::to('sales@monkeybeanies.com')->send(new UserRegisteredMail($user, $isReseller, true));
+        Mail::to('registration@monkeybeanies.com')->send(new UserRegisteredMail($user, $isReseller, true));
     }
     
 
