@@ -8,12 +8,9 @@
 </head>
 <body>
 
-    @php
-    $lang = $order->user->language ?? 'en'; 
-@endphp
 
 
-@if($lang == 'fr')
+@if($order->user->language == 'fr')
 <h2>Cher, {{ $order->user->first_name ?? 'Client précieux' }}!</h2>
 
 <h3>Merci d'avoir acheté Monkey Beanies. Nous sommes heureux de confirmer votre commande # <strong>{{ $order->order_id ?? 'N/A' }}</strong></h3>

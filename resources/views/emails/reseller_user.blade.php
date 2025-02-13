@@ -5,12 +5,10 @@
 </head>
 <body>
 
-@php
-    $lang = $user->language ?? 'en'; 
-@endphp
 
 
-@if($lang == 'fr')
+
+@if($user->language == 'fr')
 
     <h2>Cher, {{ $user->first_name ?? 'Client précieux' }}!</h2>
     <p>Bienvenue à Monkey Beanies! Nous sommes ravis de vous faire rejoindre notre communauté. Pour terminer votre inscription, nous devons vérifier que vous êtes une entreprise enregistrée comme promotion ou décorateur à des fins de marketing. Veuillez nous permettre un total de 24 à 48 heures.</p>

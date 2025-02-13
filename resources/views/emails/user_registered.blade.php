@@ -20,7 +20,6 @@
 @else
 
     <h2>Dear, {{ $user->first_name ?? 'Valuable Customer' }}!</h2>
-    <h2>lang, {{ $user->language ?? 'Valuable Customer' }}!</h2>
     <h4>Thank you for registering with Monkey Beanies! We're excited to have you on board. </h4>
     <p>If you have any questions or concerns, please refer to our FAQ section or contact our support team for assistance.</p>
     <p>Thank you for choosing Monkey Beanies. We look forward to serving you and providing you with an outstanding experience.Warm regards,</p>
