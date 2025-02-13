@@ -9,7 +9,8 @@
 
     <h3>Order Details:</h3>
     <p><strong>Order ID:</strong> {{ $order->order_id }}</p>
-    <p><strong>Customer:</strong> {{ $order->user->email }} </p>
+    <p><strong>Customer Email:</strong> {{ $order->user->email }} </p>
+    <p><strong>Customer Contact:</strong> {{ $order->user->contact_number }} </p>
     <p><strong>Total Price:</strong> ${{ $order->total_price }}</p>
 
     <h3>Products Ordered:</h3>

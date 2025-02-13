@@ -26,12 +26,17 @@ public function register(Request $request)
     Log::info('Register request data', $request->all());
 
     $validator = Validator::make($request->all(), [
+        'firstname' => 'required|string|max:255',
+        'lastname' => 'required|string|max:255',
+        'contact_number' => 'required|string|max:20',
+        'language' => 'required|string|in:en,fr,es,pt-PT',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:8|confirmed',
         'reseller' => 'required',
         'neq_number' => 'nullable|required_if:reseller,yes',
         'country' => 'required|in:USA,CANADA',
     ]);
+    
 
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput();
@@ -42,6 +47,10 @@ public function register(Request $request)
     $status = $isReseller ? 0 : 1;
 
     $user = User::create([
+        'first_name' => $request->firstname,
+        'last_name' => $request->lastname,
+        'contact_number' => $request->contact_number,
+        'language' => $request->language,
         'email' => $request->email,
         'password' => Hash::make($request->password),
         'is_reseller' => $isReseller,
@@ -53,12 +62,12 @@ public function register(Request $request)
     auth()->login($user);
 
     // 📩 Send Email Based on User Type
-    Mail::to($user->email)->send(new UserRegisteredMail($user, $isReseller));
+    // Mail::to($user->email)->send(new UserRegisteredMail($user, $isReseller));
 
-    if ($isReseller) {
-        Log::info('Sending reseller email to sales@monkeybeanies.com for:', ['email' => $user->email]);
-        Mail::to('sales@monkeybeanies.com')->send(new UserRegisteredMail($user, $isReseller, true));
-    }
+    // if ($isReseller) {
+    //     Log::info('Sending reseller email to sales@monkeybeanies.com for:', ['email' => $user->email]);
+    //     Mail::to('sales@monkeybeanies.com')->send(new UserRegisteredMail($user, $isReseller, true));
+    // }
     
 
     return redirect()->route('home')->with('success', 'Registration successful!');

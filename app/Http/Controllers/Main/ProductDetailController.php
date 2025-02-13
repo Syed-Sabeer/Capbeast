@@ -40,7 +40,9 @@ class ProductDetailController extends Controller
 
         // Fetch User Country
         $user = Auth::user();
-        $country = $user ? $user->country : (session('country') ?? 'USA'); // Default to USA
+
+        $country = $user ? $user->country : (session('country') ?? 'USA'); 
+        
 
 
         if ($country === 'USA') {
@@ -51,9 +53,16 @@ class ProductDetailController extends Controller
         }
 
         // Fetch product pricing and quantities
+        
         $pricing = $product->productPricing;
         $quantities = $pricing->pluck('quantity');
-        $prices = $pricing->pluck('pricing');
+        
+        if ($user->is_reseller == 1) {
+            $prices = $pricing->pluck('reseller_pricing');
+        }
+        else{
+            $prices = $pricing->pluck('pricing');
+        }
 
         // Convert Prices if user is in the USA
         if ($country === 'USA') {

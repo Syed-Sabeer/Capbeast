@@ -92,12 +92,12 @@
                                 <input type="number" name="quantity[]" class="form-control" required>
                             </div>
                             <div class="col-4">
-                                <label class="form-label">Canadian Price</label>
+                                <label class="form-label">Normal Price</label>
                                 <input type="text" name="pricing[]" class="form-control" required>
                             </div>
                             <div class="col-4">
-                                <label class="form-label">US Price</label>
-                                <input type="text" name="usa_pricing[]" class="form-control" required>
+                                <label class="form-label">Reseller Price</label>
+                                <input type="text" name="reseller_pricing[]" class="form-control" required>
                             </div>
                         </div>
                     </div>

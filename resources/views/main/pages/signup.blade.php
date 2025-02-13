@@ -24,6 +24,54 @@
                                 <div class="p-2">
                                     <form class="needs-validation" novalidate method="POST" action="{{ route('user.register.post') }}">
                                         @csrf
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="userfirstname" class="form-label">First Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="userfirstname" name="firstname" value="{{ old('firstname') }}" required>
+                                                @error('firstname')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="userlastname" class="form-label">Last Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="userlastname" name="lastname" value="{{ old('lastname') }}" required>
+                                                @error('lastname')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                        
+                                        <div class="mb-3 col-md-6">
+                                            <label for="contactnumber" class="form-label">Contact Number <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="contactnumber" name="contact_number" value="{{ old('contact_number') }}" required>
+                                            @error('contact_number')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        
+                                        <div class="mb-3 col-md-6">
+                                            <label for="language" class="form-label">Preferred Language <span class="text-danger">*</span></label>
+                                            <select class="form-control" id="language" name="language" required onchange="changeLanguage(this.value)">
+                                                <option value="" disabled selected>Select Language</option>
+                                                <option value="en">English</option>
+                                                <option value="fr">French</option>
+                                                <option value="es">Spanish</option>
+                                                <option value="pt-PT">Portuguese</option>
+                                            </select>
+                                            
+                                            @error('language')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+                                        
+
+                                        
+
                                         <div class="mb-3">
                                             <label for="useremail" class="form-label">Email <span class="text-danger">*</span></label>
                                             <input type="email" class="form-control" id="useremail" name="email" value="{{ old('email') }}" required>
