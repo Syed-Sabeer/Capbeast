@@ -26,13 +26,27 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=X0P2QVG8V9"></script>
+{{-- <script async src="https://www.googletagmanager.com/gtag/js?id=X0P2QVG8V9"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'X0P2QVG8V9');
-</script>
+</script> --}}
+
+
+
+<head>
+    <!-- Other head content -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X0P2QVG8V9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-X0P2QVG8V9');
+    </script>
+</head>
+
 <!-- End Google Analytics -->
 
     
