@@ -658,26 +658,14 @@
 
             // Quantities and prices from server (ensure they are numbers)
             const quantities = @json($quantities).map(Number);
-            // if (condition) {
-                
-            // }
-            // const prices = @json($prices).map(Number);
 
-        
-      
+            prices = @json($prices).map(Number);
 
-
-
-    
-
-    prices = @json($prices).map(Number);
-
-
-    
-
+            const pomPomPrice = @json($pomPomPrice); // Fetch converted pom-pom price from backend
 
             const quantitiesDelivery = @json($quantitiesdelivery).map(Number);
             const pricesDelivery = @json($pricesDelivery).map(Number);
+            const fixedDeliveryPrice = @json($fixedDeliveryPrice);
 
             // Handle printing option selection
             printingOptions.forEach(option => {
@@ -755,17 +743,12 @@
         }
     }
 
-
-
 if (selectedPrintingId !== null && (!isValidQuantity || (selectedPrintingPrice === 0 && selectedPrintingId > 1))) {
     console.log("Selected Printing ID:", selectedPrintingId);
     document.getElementById("printing-error").style.display = "block";
 } else {
     document.getElementById("printing-error").style.display = "none";
 }
-
-
-
 
     calculateTotalPrice();
 }
@@ -775,21 +758,21 @@ quantityInput.addEventListener("input", function () {
     document.getElementById("printing-error").style.display = "none";
 });
 
-
-
-
-
             // Update total price based on quantity and selected printing option
             function calculateTotalPrice() {
                 const enteredQty = parseInt(quantityInput.value) || 0;
                 let calculatedPrice = calculatePrice(enteredQty, quantities, prices);
 
                 const isWithPompom = document.querySelector('input[name="pompom"]:checked')?.value === "1";
-                const pompomCustomizationPrice = isWithPompom ? enteredQty * 2 : 0;
+const pompomCustomizationPrice = isWithPompom ? enteredQty * pomPomPrice : 0;
 
-                const total = calculatedPrice * enteredQty;
-                const totalCustomization = selectedPrintingPrice * enteredQty + pompomCustomizationPrice;
 
+          
+    const total = calculatedPrice * enteredQty;
+    const totalCustomization = selectedPrintingPrice * enteredQty + pompomCustomizationPrice;
+
+    console.log("Pom Pom Price per unit:", pomPomPrice);
+    console.log("Pom Pom Total:", pompomCustomizationPrice);
                 console.log("Quantity:", enteredQty);
                 console.log("Printing ID:", selectedPrintingQuantities);
                 console.log("Printing Price:", selectedPrintingPrice);
@@ -834,7 +817,7 @@ quantityInput.addEventListener("input", function () {
 
     let deliveryPrice = 0;
     if (selectedOption === "viewBundle") {
-        deliveryPrice = total > 500 ? 0 : 30;
+        deliveryPrice = total > 500 ? 0 : fixedDeliveryPrice;  // Use the dynamic fixedDeliveryPrice
     }
 
     // Update the delivery price display
@@ -842,7 +825,6 @@ quantityInput.addEventListener("input", function () {
 
     // Update the background color for selected shipping option
     document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
-        const freeprice = document.getElementById("")
         const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
         const priceMatch = priceText.match(/\d+(\.\d+)?/); // Extract numeric value
         const priceValue = priceMatch ? parseFloat(priceMatch[0]) : null;
@@ -940,7 +922,8 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
     const colorId = document.getElementById("beanie-color").value;
     const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
     const PomPomOption = document.querySelector('input[name="pompom"]:checked')?.value || 0;
-    const pompomPrice = PomPomOption === "1" ? 2 : 0;
+const pompomPrice = PomPomOption === "1" ? pomPomPrice : 0;
+
     const printingPrice = selectedPrintingPrice;
 
     // Declare and assign printingId based on the condition
@@ -966,14 +949,10 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
     if (selectedOption === "pickYourself") {
         deliveryPrice = 0;
     } else {
-        deliveryPrice = total > 500 ? 0 : 30;
+        deliveryPrice = total > 500 ? 0 : fixedDeliveryPrice;
     }
 
-
-    // Set delivery price based on total cost
-    // let deliveryPrice = total > 500 ? 0 : 30;
-    // const deliveryPrice = selectedOption === "pickYourself" ? 0 : calculatePrice(quantity, quantitiesDelivery, pricesDelivery);
-
+    
     const formData = new FormData();
     formData.append("productId", productId);
     formData.append("userId", userId);

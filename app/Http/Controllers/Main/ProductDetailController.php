@@ -52,6 +52,21 @@ class ProductDetailController extends Controller
             }
         }
 
+        $pomPomPrice = 2; // Assuming it's 2 CAD per unit
+
+// Convert Pom-Pom Price if user is in the USA
+if ($country === 'USA') {
+    $pomPomPrice = CurrencyHelper::convert($pomPomPrice, 'CAD', 'USD');
+}
+
+// Set fixed delivery price in CAD
+$fixedDeliveryPriceCAD = 30;
+
+// Convert delivery price if user is in the USA
+$fixedDeliveryPrice = ($country === 'USA') ? CurrencyHelper::convert($fixedDeliveryPriceCAD, 'CAD', 'USD') : $fixedDeliveryPriceCAD;
+
+
+
         // Fetch product pricing and quantities
         
         $pricing = $product->productPricing;
@@ -97,6 +112,8 @@ class ProductDetailController extends Controller
             'baseImages' => $baseImages,
             'quantitiesdelivery' => $quantitiesdelivery,
             'pricesDelivery' => $pricesDelivery,
+            'pomPomPrice' => $pomPomPrice, // Pass to view  
+            'fixedDeliveryPrice' => $fixedDeliveryPrice,
         ]);
     }
 }

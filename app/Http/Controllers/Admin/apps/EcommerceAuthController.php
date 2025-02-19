@@ -28,8 +28,11 @@ class EcommerceAuthController extends Controller
 
         if (Auth::guard('admin')->attempt($credentials)) {
             // Regenerate session to prevent fixation
+
             $request->session()->regenerate();
-            return redirect()->route('app-ecommerce-dashboard')->with('success', 'Welcome to the admin dashboard!');
+            $prefix = Auth::guard('admin')->user()->role ?? 'admin';
+            return redirect("$prefix/dashboard")->with('success', 'Welcome to the admin dashboard!');
+
         }
 
       
@@ -39,15 +42,21 @@ class EcommerceAuthController extends Controller
    
     public function logout(Request $request)
     {
-        // Log out the admin
-        Auth::guard('admin')->logout();
-
+        // Determine the current guard dynamically
+        $guards = ['admin', 'marketing', 'sale'];
+    
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                Auth::guard($guard)->logout();
+                break;
+            }
+        }
+    
         // Invalidate the session
         $request->session()->invalidate();
-
-        // Regenerate the CSRF token
         $request->session()->regenerateToken();
-
+    
         return redirect()->route('admin.login')->with('status', 'You have been logged out.');
     }
+    
 }

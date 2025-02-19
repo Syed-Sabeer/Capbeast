@@ -13,7 +13,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        'marketing' => [
+            'driver' => 'session',
+            'provider' => 'marketings',
+        ],
+        'sale' => [
+            'driver' => 'session',
+            'provider' => 'sales',
+        ],
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
@@ -27,6 +34,14 @@ return [
         ],
 
         'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'sales' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
+        ],
+        'marketings' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
