@@ -211,115 +211,140 @@
     </ul>
   </li>
   @elseif ( $prefix === 'sale')
-    {{-- Embroidery --}}
-    @php $activeClass = str_contains($currentRouteName, 'app-ecommerce-printing') ? 'active open' : ''; @endphp
-    <li class="menu-item {{$activeClass}}">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <div>Embroidery</div>
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/printing/list") }}" class="menu-link">Embroidery List</a></li>
-        <li class="menu-item"><a href="{{ url("$prefix/printing/add") }}" class="menu-link">Add Embroidery</a></li>
-      </ul>
-    </li>
-        {{-- Order --}}
-        @php $activeClass = $currentRouteName === 'app-ecommerce-order' ? 'active open' : ''; @endphp
-        <li class="menu-item {{$activeClass}}">
-          <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <div>Order</div>
-          </a>
-          <ul class="menu-sub">
-            <li class="menu-item"><a href="{{ url("$prefix/order/list") }}" class="menu-link">Order List</a></li>
-          </ul>
-        </li>
-        
-        {{-- Customer --}}
-        @php $activeClass = $currentRouteName === 'app-ecommerce-customer' ? 'active open' : ''; @endphp
-        <li class="menu-item {{$activeClass}}">
-          <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <div>Customer</div>
-          </a>
-          <ul class="menu-sub">
-            <li class="menu-item"><a href="{{ url("$prefix/customer/all") }}" class="menu-link">All Customers</a></li>
-          </ul>
-        </li>
-  {{-- Components --}}
- @php $activeClass = $currentRouteName === 'app-ecommerce-components' ? 'active open' : ''; @endphp
- <li class="menu-item {{$activeClass}}">
-   <a href="javascript:void(0);" class="menu-link menu-toggle">
-     <div>Components</div>
-   </a>
-   <ul class="menu-sub">
-
-    <li class="menu-item">
-     
-      <a  class="menu-link menu-toggle menu-link2">
-        <div>Product Color</div>
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/productcolor/add") }}" class="menu-link">Add Color</a></li>
-      </ul>
-
-      <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/productcolor/list") }}" class="menu-link">View Color</a></li>
-      </ul>
-
-    </li>
-
-    <li class="menu-item">
-     
-      <a  class="menu-link menu-toggle menu-link2">
-        <div>Internal Statuses</div>
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/InternalStatus/add") }}" class="menu-link">Add Internal Status</a></li>
-      </ul>
-
-      <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/InternalStatus/list") }}" class="menu-link">View Internal Status</a></li>
-      </ul>
-
-    </li>
+  <li class="menu-item {{$activeClass}}">
+    <a href="javascript:void(0);" class="menu-link menu-toggle">
+      <div>Products</div>
+    </a>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/product/list") }}" class="menu-link">Product List</a></li>
+      <li class="menu-item"><a href="{{ url("$prefix/product/add") }}" class="menu-link">Add Product</a></li>
+    </ul>
+  </li>
+  
+  {{-- Embroidery --}}
+  @php $activeClass = str_contains($currentRouteName, 'app-ecommerce-printing') ? 'active open' : ''; @endphp
+  <li class="menu-item {{$activeClass}}">
+    <a href="javascript:void(0);" class="menu-link menu-toggle">
+      <div>Embroidery</div>
+    </a>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/printing/list") }}" class="menu-link">Embroidery List</a></li>
+      <li class="menu-item"><a href="{{ url("$prefix/printing/add") }}" class="menu-link">Add Embroidery</a></li>
+    </ul>
+  </li>
+  
+  {{-- Deliveries --}}
+  @php $activeClass = str_contains($currentRouteName, 'app-ecommerce-delivery') ? 'active open' : ''; @endphp
+  <li class="menu-item {{$activeClass}}">
+    <a href="javascript:void(0);" class="menu-link menu-toggle">
+      <div>Deliveries</div>
+    </a>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/delivery/list") }}" class="menu-link">Delivery List</a></li>
+      <li class="menu-item"><a href="{{ url("$prefix/delivery/add") }}" class="menu-link">Add Delivery</a></li>
+    </ul>
+  </li>
+  
+  {{-- Order --}}
+  @php $activeClass = $currentRouteName === 'app-ecommerce-order' ? 'active open' : ''; @endphp
+  <li class="menu-item {{$activeClass}}">
+    <a href="javascript:void(0);" class="menu-link menu-toggle">
+      <div>Order</div>
+    </a>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/order/list") }}" class="menu-link">Order List</a></li>
+    </ul>
+  </li>
+  
+  {{-- Customer --}}
+  @php $activeClass = $currentRouteName === 'app-ecommerce-customer' ? 'active open' : ''; @endphp
+  <li class="menu-item {{$activeClass}}">
+    <a href="javascript:void(0);" class="menu-link menu-toggle">
+      <div>Customer</div>
+    </a>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/customer/all") }}" class="menu-link">All Customers</a></li>
+    </ul>
+  </li>
 
 
-    <li class="menu-item">
-     
-      <a  class="menu-link menu-toggle menu-link2">
-        <div>TPS Tax</div>
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/TPS_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
-      </ul>
+   {{-- Components --}}
+@php $activeClass = $currentRouteName === 'app-ecommerce-components' ? 'active open' : ''; @endphp
+<li class="menu-item {{$activeClass}}">
+ <a href="javascript:void(0);" class="menu-link menu-toggle">
+   <div>Components</div>
+ </a>
+ <ul class="menu-sub">
 
-     
+  <li class="menu-item">
+   
+    <a  class="menu-link menu-toggle menu-link2">
+      <div>Product Color</div>
+    </a>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/component/productcolor/add") }}" class="menu-link">Add Color</a></li>
+    </ul>
 
-    </li>
-    <li class="menu-item">
-     
-      <a  class="menu-link menu-toggle menu-link2">
-        <div>TVQ Tax</div>
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/TVQ_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
-      </ul>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/component/productcolor/list") }}" class="menu-link">View Color</a></li>
+    </ul>
 
-     
+  </li>
 
-    </li>
-     <li class="menu-item">
-     
-       <a  class="menu-link menu-toggle menu-link2">
-         <div>Discount Coupons</div>
-       </a>
-       <ul class="menu-sub">
-         <li class="menu-item"><a href="{{ url("$prefix/component/discountcoupon/add") }}" class="menu-link">Add Discount Coupons</a></li>
-       </ul>
+  <li class="menu-item">
+   
+    <a  class="menu-link menu-toggle menu-link2">
+      <div>Internal Statuses</div>
+    </a>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/component/InternalStatus/add") }}" class="menu-link">Add Internal Status</a></li>
+    </ul>
 
-       <ul class="menu-sub">
-         <li class="menu-item"><a href="{{ url("$prefix/component/discountcoupon/list") }}" class="menu-link">View Discount Coupons</a></li>
-       </ul>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/component/InternalStatus/list") }}" class="menu-link">View Internal Status</a></li>
+    </ul>
 
-     </li>
+  </li>
+
+
+  <li class="menu-item">
+   
+    <a  class="menu-link menu-toggle menu-link2">
+      <div>TPS Tax</div>
+    </a>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/component/TPS_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
+    </ul>
+
+   
+
+  </li>
+  <li class="menu-item">
+   
+    <a  class="menu-link menu-toggle menu-link2">
+      <div>TVQ Tax</div>
+    </a>
+    <ul class="menu-sub">
+      <li class="menu-item"><a href="{{ url("$prefix/component/TVQ_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
+    </ul>
+
+   
+
+  </li>
+   <li class="menu-item">
+   
+     <a  class="menu-link menu-toggle menu-link2">
+       <div>Discount Coupons</div>
+     </a>
+     <ul class="menu-sub">
+       <li class="menu-item"><a href="{{ url("$prefix/component/discountcoupon/add") }}" class="menu-link">Add Discount Coupons</a></li>
+     </ul>
+
+     <ul class="menu-sub">
+       <li class="menu-item"><a href="{{ url("$prefix/component/discountcoupon/list") }}" class="menu-link">View Discount Coupons</a></li>
+     </ul>
+
+   </li>
 
     @endif
 
