@@ -113,7 +113,7 @@
           </td>
           
           <td>
-            <a class="me-2" href=" {{ route('app-ecommerce-order-detail', $order->id) }}"  data-order-id="{{ $order->id }}" ><i class="fa-solid fa-eye"></i></a>
+            <a class="me-2" href=" {{ route($prefix .'.app-ecommerce-order-detail', $order->id) }}"  data-order-id="{{ $order->id }}" ><i class="fa-solid fa-eye"></i></a>
             <a href="javascript:void(0);" class="me-2" onclick="toggleDropdown({{ $order->id }})">
               <i class="fa-solid fa-ellipsis-vertical"></i>
             </a>
@@ -168,7 +168,7 @@
 
 function updateStatus(orderId, newStatus) {
         // Use the route name dynamically with a placeholder for `orderId`
-        const url = "{{ route('admin.orders.updateStatus', ':id') }}".replace(':id', orderId);
+        const url = "{{ route($prefix .'.admin.orders.updateStatus', ':id') }}".replace(':id', orderId);
         
         fetch(url, {
             method: 'POST',

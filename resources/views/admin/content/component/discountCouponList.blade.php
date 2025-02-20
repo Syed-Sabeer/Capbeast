@@ -57,7 +57,7 @@
                         </div>
                     </td>
                     <td>
-                        <a href="{{ route('content-discount-coupon-edit', $coupon->id) }}" class="btn btn-primary">Edit</a>
+                        <a href="{{ route($prefix .'.content-discount-coupon-edit', $coupon->id) }}" class="btn btn-primary">Edit</a>
                         {{-- <form action="{{ route('content-discount-coupon-delete', $coupon->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
@@ -81,7 +81,7 @@
                 const visibility = this.checked ? 1 : 0;
 
                 // Send AJAX request to update visibility
-                fetch("{{ route('update.visibilitycoupon', ':id') }}".replace(':id', couponId), {
+                fetch("{{ route($prefix .'.update.visibilitycoupon', ':id') }}".replace(':id', couponId), {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',

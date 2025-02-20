@@ -97,6 +97,7 @@ Route::prefix('main')->middleware(['web'])->group(function () {
 });
 
 
+
 function prefixedRouteName($prefix, $name) {
   return "{$prefix}.{$name}";
 }
@@ -110,186 +111,395 @@ $roles = [
 
 ];
 
+
 Route::prefix('admin')->middleware('guest:admin')->group(function () {
   Route::get('login', [EcommerceAuthController::class, 'showLoginForm'])->name('admin.login');
   Route::post('login', [EcommerceAuthController::class, 'login'])->name('admin.login.post');
 });
 
-Route::prefix('admin')->middleware(['role:admin'])->group(function () {
+foreach ($roles as $role => $prefix) {
+  Route::middleware(["auth:{$role}", "role:{$role}"])->group(function () use ($prefix) {
+
+      Route::prefix($prefix)->group(function () use ($prefix) {
+
+
+          if ($prefix == 'admin'){
+
+            
+              
+
+
+  Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-dashboard'));
+
+
+  Route::prefix('/component')->group(function () use ($prefix){
+
+    Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name(prefixedRouteName($prefix,'content-product-color-add'));
+    Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name(prefixedRouteName($prefix,'content-product-color-store'));
+    Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name(prefixedRouteName($prefix,'content-product-color-list'));
+    Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name(prefixedRouteName($prefix,'content-product-color-edit'));
+    Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name(prefixedRouteName($prefix,'content-product-color-update'));
+    Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name(prefixedRouteName($prefix,'content-product-color-delete'));
+
+    Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name(prefixedRouteName($prefix,'content-embroidery-color-list'));
+    Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name(prefixedRouteName($prefix,'InternalStatus.index'));
+    Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name(prefixedRouteName($prefix,'order-internal-status.store'));
+    Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name(prefixedRouteName($prefix,'order-internal-status.edit'));
+    Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name(prefixedRouteName($prefix,'order-internal-status.update'));
+    Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name(prefixedRouteName($prefix,'order-internal-status.destroy'));
+    Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name(prefixedRouteName($prefix,'order-internal-status.index'));
+
+    Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name(prefixedRouteName($prefix,'content-discount-coupon-add'));
+    Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name(prefixedRouteName($prefix,'content-discount-coupon-store'));
+    Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name(prefixedRouteName($prefix,'content-discount-coupon-list'));
+    Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name(prefixedRouteName($prefix,'content-discount-coupon-edit'));
+    Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name(prefixedRouteName($prefix,'content-discount-coupon-update'));
+    Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name(prefixedRouteName($prefix,'content-discount-coupon-delete'));
+    Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name(prefixedRouteName($prefix,'update.visibilitycoupon'));
+    Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name(prefixedRouteName($prefix,'get-items'));
+
+    Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name(prefixedRouteName($prefix,'TVQtax_price.index'));
+    Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name(prefixedRouteName($prefix,'TVQtax_price.create'));
+    Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name(prefixedRouteName($prefix,'TVQtax_price.store'));
+    Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name(prefixedRouteName($prefix,'TVQtax_price.edit'));
+    Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name(prefixedRouteName($prefix,'TVQtax_price.update'));
+    Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name(prefixedRouteName($prefix,'TVQtax_price.destroy'));
+
+    Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name(prefixedRouteName($prefix,'TPStax_price.index'));
+    Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name(prefixedRouteName($prefix,'TPStax_price.create'));
+    Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name(prefixedRouteName($prefix,'TPStax_price.store'));
+    Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name(prefixedRouteName($prefix,'TPStax_price.edit'));
+    Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name(prefixedRouteName($prefix,'TPStax_price.update'));
+    Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name(prefixedRouteName($prefix,'TPStax_price.destroy'));
+  });
+
+
+  Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-product-add'));
+  Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name(prefixedRouteName($prefix,'app-ecommerce-product-store'));
+  Route::get('/product/list', [EcommerceProductList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-product-list'));
+  Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name(prefixedRouteName($prefix,'app-ecommerce-product-edit'));
+  Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(prefixedRouteName($prefix,'app-ecommerce-product-update'));
+  Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(prefixedRouteName($prefix,'app-ecommerce-product-update'));
+  Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name(prefixedRouteName($prefix,'update.visibility'));
+
+
+    Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-delivery-add'));
+
+  Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-add'));
+  Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-store'));
+  Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-list'));
+
+  Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-order-list'));
+  Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-order-detail'));
+  Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name(prefixedRouteName($prefix,'order.file.upload'));
+  Route::post('/order/{orderId}/update-status', [EcommerceOrderDetails::class, 'updateOrderStatus'])->name(prefixedRouteName($prefix,'order-status.update'));
+
+  Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name(prefixedRouteName($prefix,'admin.orders.updateStatus'));
+
+  Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-customer-all'));
+  Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-customer-detail'));
+  Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name(prefixedRouteName($prefix,'update.status'));
+
+
+  Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(prefixedRouteName($prefix,'admin.logout'));
+            
+          }
+          if ($prefix == 'sale'){
+
+            
+              
+
+
+            Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-dashboard'));
+          
+          
+            Route::prefix('/component')->group(function () use ($prefix){
+          
+              Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name(prefixedRouteName($prefix,'content-product-color-add'));
+              Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name(prefixedRouteName($prefix,'content-product-color-store'));
+              Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name(prefixedRouteName($prefix,'content-product-color-list'));
+              Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name(prefixedRouteName($prefix,'content-product-color-edit'));
+              Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name(prefixedRouteName($prefix,'content-product-color-update'));
+              Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name(prefixedRouteName($prefix,'content-product-color-delete'));
+          
+              Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name(prefixedRouteName($prefix,'content-embroidery-color-list'));
+              Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name(prefixedRouteName($prefix,'InternalStatus.index'));
+              Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name(prefixedRouteName($prefix,'order-internal-status.store'));
+              Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name(prefixedRouteName($prefix,'order-internal-status.edit'));
+              Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name(prefixedRouteName($prefix,'order-internal-status.update'));
+              Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name(prefixedRouteName($prefix,'order-internal-status.destroy'));
+              Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name(prefixedRouteName($prefix,'order-internal-status.index'));
+          
+              Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name(prefixedRouteName($prefix,'content-discount-coupon-add'));
+              Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name(prefixedRouteName($prefix,'content-discount-coupon-store'));
+              Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name(prefixedRouteName($prefix,'content-discount-coupon-list'));
+              Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name(prefixedRouteName($prefix,'content-discount-coupon-edit'));
+              Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name(prefixedRouteName($prefix,'content-discount-coupon-update'));
+              Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name(prefixedRouteName($prefix,'content-discount-coupon-delete'));
+              Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name(prefixedRouteName($prefix,'update.visibilitycoupon'));
+              Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name(prefixedRouteName($prefix,'get-items'));
+          
+              Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name(prefixedRouteName($prefix,'TVQtax_price.index'));
+              Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name(prefixedRouteName($prefix,'TVQtax_price.create'));
+              Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name(prefixedRouteName($prefix,'TVQtax_price.store'));
+              Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name(prefixedRouteName($prefix,'TVQtax_price.edit'));
+              Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name(prefixedRouteName($prefix,'TVQtax_price.update'));
+              Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name(prefixedRouteName($prefix,'TVQtax_price.destroy'));
+          
+              Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name(prefixedRouteName($prefix,'TPStax_price.index'));
+              Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name(prefixedRouteName($prefix,'TPStax_price.create'));
+              Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name(prefixedRouteName($prefix,'TPStax_price.store'));
+              Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name(prefixedRouteName($prefix,'TPStax_price.edit'));
+              Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name(prefixedRouteName($prefix,'TPStax_price.update'));
+              Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name(prefixedRouteName($prefix,'TPStax_price.destroy'));
+            });
+          
+          
+            Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-product-add'));
+            Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name(prefixedRouteName($prefix,'app-ecommerce-product-store'));
+            Route::get('/product/list', [EcommerceProductList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-product-list'));
+            Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name(prefixedRouteName($prefix,'app-ecommerce-product-edit'));
+            Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(prefixedRouteName($prefix,'app-ecommerce-product-update'));
+            Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(prefixedRouteName($prefix,'app-ecommerce-product-update'));
+            Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name(prefixedRouteName($prefix,'update.visibility'));
+          
+          
+              Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-delivery-add'));
+          
+            Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-add'));
+            Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-store'));
+            Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-list'));
+          
+            Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-order-list'));
+            Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-order-detail'));
+            Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name(prefixedRouteName($prefix,'order.file.upload'));
+            Route::post('/order/{orderId}/update-status', [EcommerceOrderDetails::class, 'updateOrderStatus'])->name(prefixedRouteName($prefix,'order-status.update'));
+          
+            Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name(prefixedRouteName($prefix,'admin.orders.updateStatus'));
+          
+            Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-customer-all'));
+            Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-customer-detail'));
+            Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name(prefixedRouteName($prefix,'update.status'));
+          
+          
+            Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(prefixedRouteName($prefix,'admin.logout'));
+                      
+                    }
+
+                    if ($prefix == 'marketing'){
+
+            
+              
+
+
+                      Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-dashboard'));
+                    
+                    
+                      Route::prefix('/component')->group(function () use ($prefix){
+                    
+                        Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name(prefixedRouteName($prefix,'content-discount-coupon-add'));
+                        Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name(prefixedRouteName($prefix,'content-discount-coupon-store'));
+                        Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name(prefixedRouteName($prefix,'content-discount-coupon-list'));
+                        Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name(prefixedRouteName($prefix,'content-discount-coupon-edit'));
+                        Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name(prefixedRouteName($prefix,'content-discount-coupon-update'));
+                        Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name(prefixedRouteName($prefix,'content-discount-coupon-delete'));
+                        Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name(prefixedRouteName($prefix,'update.visibilitycoupon'));
+                        Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name(prefixedRouteName($prefix,'get-items'));
+                    
+                    
+                      });
+                    
+                    
+                    
+                      Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(prefixedRouteName($prefix,'admin.logout'));
+                                
+                              }
+
+        });
+    });
+  }
+
+
+// Route::prefix('admin')->middleware('guest:admin')->group(function () {
+//   Route::get('login', [EcommerceAuthController::class, 'showLoginForm'])->name('admin.login');
+//   Route::post('login', [EcommerceAuthController::class, 'login'])->name('admin.login.post');
+// });
+
+// Route::prefix('admin')->middleware(['role:admin'])->group(function () {
   
-  Route::prefix('/component')->group(function () {
+//   Route::prefix('/component')->group(function () {
 
-    Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name('content-product-color-add');
-    Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name('content-product-color-store');
-    Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name('content-product-color-list');
-    Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name('content-product-color-edit');
-    Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name('content-product-color-update');
-    Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name('content-product-color-delete');
+//     Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name('content-product-color-add');
+//     Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name('content-product-color-store');
+//     Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name('content-product-color-list');
+//     Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name('content-product-color-edit');
+//     Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name('content-product-color-update');
+//     Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name('content-product-color-delete');
 
-    Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name('content-embroidery-color-list');
-    Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name('InternalStatus.index');
-    Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name('order-internal-status.store');
-    Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name('order-internal-status.edit');
-    Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name('order-internal-status.update');
-    Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name('order-internal-status.destroy');
-    Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name('order-internal-status.index');
+//     Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name('content-embroidery-color-list');
+//     Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name('InternalStatus.index');
+//     Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name('order-internal-status.store');
+//     Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name('order-internal-status.edit');
+//     Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name('order-internal-status.update');
+//     Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name('order-internal-status.destroy');
+//     Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name('order-internal-status.index');
 
-    Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name('content-discount-coupon-add');
-    Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name('content-discount-coupon-store');
-    Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name('content-discount-coupon-list');
-    Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name('content-discount-coupon-edit');
-    Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name('content-discount-coupon-update');
-    Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name('content-discount-coupon-delete');
-    Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name('update.visibilitycoupon');
-    Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name('get-items');
+//     Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name('content-discount-coupon-add');
+//     Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name('content-discount-coupon-store');
+//     Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name('content-discount-coupon-list');
+//     Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name('content-discount-coupon-edit');
+//     Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name('content-discount-coupon-update');
+//     Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name('content-discount-coupon-delete');
+//     Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name('update.visibilitycoupon');
+//     Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name('get-items');
 
-    Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name('TVQtax_price.index');
-    Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name('TVQtax_price.create');
-    Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name('TVQtax_price.store');
-    Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name('TVQtax_price.edit');
-    Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name('TVQtax_price.update');
-    Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name('TVQtax_price.destroy');
+//     Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name('TVQtax_price.index');
+//     Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name('TVQtax_price.create');
+//     Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name('TVQtax_price.store');
+//     Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name('TVQtax_price.edit');
+//     Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name('TVQtax_price.update');
+//     Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name('TVQtax_price.destroy');
 
-    Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name('TPStax_price.index');
-    Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name('TPStax_price.create');
-    Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name('TPStax_price.store');
-    Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name('TPStax_price.edit');
-    Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name('TPStax_price.update');
-    Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name('TPStax_price.destroy');
-  });;
-
-
-  Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
-
-  Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');
-  Route::post('/delivery/add', [EcommerceDeliveryAdd::class, 'store'])->name('app-ecommerce-delivery-store');
-  Route::get('/delivery/list', [EcommerceDeliveryList::class, 'index'])->name('app-ecommerce-delivery-list');
-
-  Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name('app-ecommerce-printing-add');
-  Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name('app-ecommerce-printing-store');
-  Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name('app-ecommerce-printing-list');
-
-  Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name('app-ecommerce-order-list');
-  Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name('app-ecommerce-order-detail');
-  Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name('order.file.upload');
-  Route::post('/order/{orderId}/update-status', [EcommerceOrderDetails::class, 'updateOrderStatus'])->name('order-status.update');
-
-  Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name('admin.orders.updateStatus');
-
-  Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name('app-ecommerce-customer-all');
-  Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name('app-ecommerce-customer-detail');
-  Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name('update.status');
-
-  Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
-  Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
-  Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
-  Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name('app-ecommerce-product-edit');
-  Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name('app-ecommerce-product-update');
-  Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name('app-ecommerce-product-update');
-
-  Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
+//     Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name('TPStax_price.index');
+//     Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name('TPStax_price.create');
+//     Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name('TPStax_price.store');
+//     Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name('TPStax_price.edit');
+//     Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name('TPStax_price.update');
+//     Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name('TPStax_price.destroy');
+//   });;
 
 
-  Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name('admin.logout');
-});
+//   Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
+
+//   Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');
+//   Route::post('/delivery/add', [EcommerceDeliveryAdd::class, 'store'])->name('app-ecommerce-delivery-store');
+//   Route::get('/delivery/list', [EcommerceDeliveryList::class, 'index'])->name('app-ecommerce-delivery-list');
+
+//   Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name('app-ecommerce-printing-add');
+//   Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name('app-ecommerce-printing-store');
+//   Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name('app-ecommerce-printing-list');
+
+//   Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name('app-ecommerce-order-list');
+//   Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name('app-ecommerce-order-detail');
+//   Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name('order.file.upload');
+//   Route::post('/order/{orderId}/update-status', [EcommerceOrderDetails::class, 'updateOrderStatus'])->name('order-status.update');
+
+//   Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name('admin.orders.updateStatus');
+
+//   Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name('app-ecommerce-customer-all');
+//   Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name('app-ecommerce-customer-detail');
+//   Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name('update.status');
+
+//   Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
+//   Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
+//   Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
+//   Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name('app-ecommerce-product-edit');
+//   Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name('app-ecommerce-product-update');
+//   Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name('app-ecommerce-product-update');
+
+//   Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
 
 
-Route::prefix('marketing')->middleware(['role:marketing'])->group(function () {
+//   Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name('admin.logout');
+// });
+
+
+// Route::prefix('marketing')->middleware(['role:marketing'])->group(function () {
   
-  Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
+//   Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
 
-  Route::prefix('/component')->group(function () {
+//   Route::prefix('/component')->group(function () {
 
-    Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name('content-discount-coupon-add');
-    Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name('content-discount-coupon-store');
-    Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name('content-discount-coupon-list');
-    Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name('content-discount-coupon-edit');
-    Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name('content-discount-coupon-update');
-    Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name('content-discount-coupon-delete');
-    Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name('update.visibilitycoupon');
-    Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name('get-items');
-
-
-  });;
-  Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name('admin.logout');
-});
-
-Route::prefix('sale')->middleware(['role:sale'])->group(function () {
-  Route::prefix('/component')->group(function () {
-
-    Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name('content-product-color-add');
-    Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name('content-product-color-store');
-    Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name('content-product-color-list');
-    Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name('content-product-color-edit');
-    Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name('content-product-color-update');
-    Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name('content-product-color-delete');
-
-    Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name('content-embroidery-color-list');
-    Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name('InternalStatus.index');
-    Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name('order-internal-status.store');
-    Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name('order-internal-status.edit');
-    Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name('order-internal-status.update');
-    Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name('order-internal-status.destroy');
-    Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name('order-internal-status.index');
-
-    Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name('content-discount-coupon-add');
-    Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name('content-discount-coupon-store');
-    Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name('content-discount-coupon-list');
-    Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name('content-discount-coupon-edit');
-    Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name('content-discount-coupon-update');
-    Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name('content-discount-coupon-delete');
-    Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name('update.visibilitycoupon');
-    Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name('get-items');
-
-    Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name('TVQtax_price.index');
-    Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name('TVQtax_price.create');
-    Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name('TVQtax_price.store');
-    Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name('TVQtax_price.edit');
-    Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name('TVQtax_price.update');
-    Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name('TVQtax_price.destroy');
-
-    Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name('TPStax_price.index');
-    Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name('TPStax_price.create');
-    Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name('TPStax_price.store');
-    Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name('TPStax_price.edit');
-    Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name('TPStax_price.update');
-    Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name('TPStax_price.destroy');
-  });;
+//     Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name('content-discount-coupon-add');
+//     Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name('content-discount-coupon-store');
+//     Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name('content-discount-coupon-list');
+//     Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name('content-discount-coupon-edit');
+//     Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name('content-discount-coupon-update');
+//     Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name('content-discount-coupon-delete');
+//     Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name('update.visibilitycoupon');
+//     Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name('get-items');
 
 
-  Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
+//   });;
+//   Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name('admin.logout');
+// });
 
-  Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');
-  Route::post('/delivery/add', [EcommerceDeliveryAdd::class, 'store'])->name('app-ecommerce-delivery-store');
-  Route::get('/delivery/list', [EcommerceDeliveryList::class, 'index'])->name('app-ecommerce-delivery-list');
+// Route::prefix('sale')->middleware(['role:sale'])->group(function () {
+//   Route::prefix('/component')->group(function () {
 
-  Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name('app-ecommerce-printing-add');
-  Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name('app-ecommerce-printing-store');
-  Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name('app-ecommerce-printing-list');
+//     Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name('content-product-color-add');
+//     Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name('content-product-color-store');
+//     Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name('content-product-color-list');
+//     Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name('content-product-color-edit');
+//     Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name('content-product-color-update');
+//     Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name('content-product-color-delete');
 
-  Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name('app-ecommerce-order-list');
-  Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name('app-ecommerce-order-detail');
-  Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name('order.file.upload');
-  Route::post('/order/{orderId}/update-status', [EcommerceOrderDetails::class, 'updateOrderStatus'])->name('order-status.update');
+//     Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name('content-embroidery-color-list');
+//     Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name('InternalStatus.index');
+//     Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name('order-internal-status.store');
+//     Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name('order-internal-status.edit');
+//     Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name('order-internal-status.update');
+//     Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name('order-internal-status.destroy');
+//     Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name('order-internal-status.index');
 
-  Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name('admin.orders.updateStatus');
+//     Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name('content-discount-coupon-add');
+//     Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name('content-discount-coupon-store');
+//     Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name('content-discount-coupon-list');
+//     Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name('content-discount-coupon-edit');
+//     Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name('content-discount-coupon-update');
+//     Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name('content-discount-coupon-delete');
+//     Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name('update.visibilitycoupon');
+//     Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name('get-items');
 
-  Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name('app-ecommerce-customer-all');
-  Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name('app-ecommerce-customer-detail');
-  Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name('update.status');
+//     Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name('TVQtax_price.index');
+//     Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name('TVQtax_price.create');
+//     Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name('TVQtax_price.store');
+//     Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name('TVQtax_price.edit');
+//     Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name('TVQtax_price.update');
+//     Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name('TVQtax_price.destroy');
 
-  Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
-  Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
-  Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
-  Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name('app-ecommerce-product-edit');
-  Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name('app-ecommerce-product-update');
-  Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name('app-ecommerce-product-update');
+//     Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name('TPStax_price.index');
+//     Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name('TPStax_price.create');
+//     Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name('TPStax_price.store');
+//     Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name('TPStax_price.edit');
+//     Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name('TPStax_price.update');
+//     Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name('TPStax_price.destroy');
+//   });;
 
-  Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
+
+//   Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name('app-ecommerce-dashboard');
+
+//   Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name('app-ecommerce-delivery-add');
+//   Route::post('/delivery/add', [EcommerceDeliveryAdd::class, 'store'])->name('app-ecommerce-delivery-store');
+//   Route::get('/delivery/list', [EcommerceDeliveryList::class, 'index'])->name('app-ecommerce-delivery-list');
+
+//   Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name('app-ecommerce-printing-add');
+//   Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name('app-ecommerce-printing-store');
+//   Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name('app-ecommerce-printing-list');
+
+//   Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name('app-ecommerce-order-list');
+//   Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name('app-ecommerce-order-detail');
+//   Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name('order.file.upload');
+//   Route::post('/order/{orderId}/update-status', [EcommerceOrderDetails::class, 'updateOrderStatus'])->name('order-status.update');
+
+//   Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name('admin.orders.updateStatus');
+
+//   Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name('app-ecommerce-customer-all');
+//   Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name('app-ecommerce-customer-detail');
+//   Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name('update.status');
+
+//   Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name('app-ecommerce-product-add');
+//   Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name('app-ecommerce-product-store');
+//   Route::get('/product/list', [EcommerceProductList::class, 'index'])->name('app-ecommerce-product-list');
+//   Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name('app-ecommerce-product-edit');
+//   Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name('app-ecommerce-product-update');
+//   Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name('app-ecommerce-product-update');
+
+//   Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name('update.visibility');
 
 
-  Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name('admin.logout');
-});
+//   Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name('admin.logout');
+// });
 
 
 // foreach ($roles as $role => $prefix) {

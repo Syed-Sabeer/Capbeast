@@ -26,8 +26,8 @@
                     <td>{{ $taxPercentage->taxno }}</td>
                     <td>{{ $taxPercentage->percentage }}%</td>
                     <td>
-                        <a href="{{ route('TVQtax_price.edit', $taxPercentage->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('TVQtax_price.destroy', $taxPercentage->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route($prefix .'.TVQtax_price.edit', $taxPercentage->id) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route($prefix .'.TVQtax_price.destroy', $taxPercentage->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
@@ -37,7 +37,7 @@
                 @else
                 <tr>
                     <td colspan="2" class="text-center">
-                        <a href="{{ route('TVQtax_price.create') }}" class="btn btn-primary">Add</a>
+                        <a href="{{ route($prefix .'.TVQtax_price.create') }}" class="btn btn-primary">Add</a>
                     </td>
                 </tr>
                 @endif

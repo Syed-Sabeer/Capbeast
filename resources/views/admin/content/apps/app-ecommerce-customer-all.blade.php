@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Sending update for User ID:', userId, 'Status:', status); // Debugging line
 
             // Send AJAX request to update user status
-            fetch("{{ route('update.status', ':id') }}".replace(':id', userId), {
+            fetch("{{ route($prefix .'.update.status', ':id') }}".replace(':id', userId), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

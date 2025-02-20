@@ -6,7 +6,7 @@
 
 
 @section('content')
-<form method="POST" action="{{ route('TVQtax_price.store') }}">
+<form method="POST" action="{{ route($prefix .'.TVQtax_price.store') }}">
 
     @csrf
     <div class="row">

@@ -27,7 +27,7 @@ class RedirectIfAuthenticated
                 // Redirect based on the guard
                 if ($guard === 'admin') {
                     // Redirect to the correct named route
-                    return redirect()->route('app-ecommerce-dashboard');
+                    // return redirect()->route('app-ecommerce-dashboard');
                 }
 
                 return redirect('/home');

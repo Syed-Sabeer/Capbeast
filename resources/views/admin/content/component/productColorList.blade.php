@@ -45,12 +45,12 @@
                         </td>
                         <td>
                             <!-- Edit Button -->
-                            <a href="{{ route('content-product-color-edit', $color->id) }}" class="me-2">
+                            <a href="{{ route($prefix .'.content-product-color-edit', $color->id) }}" class="me-2">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
                         
                             <!-- Delete Button -->
-                            <form action="{{ route('content-product-color-delete', $color->id) }}" method="POST" style="display: inline;">
+                            <form action="{{ route($prefix .'.content-product-color-delete', $color->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" style="border: none; background: none;" onclick="return confirm('Are you sure you want to delete this color?')">

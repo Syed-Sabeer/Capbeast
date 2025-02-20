@@ -97,7 +97,7 @@
                             </div>
                         </td>
                         <td>
-                            <a href="{{ route('app-ecommerce-product-edit', $product->id) }}" class="me-2"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="{{ route($prefix .'.app-ecommerce-product-edit', $product->id) }}" class="me-2"><i class="fa-solid fa-pen-to-square"></i></a>
 
                     
                             <a href="javascript:void(0);" class="me-2 delete-product" data-id="{{ $product->id }}">
@@ -178,7 +178,7 @@
                     const visibility = this.checked ? 1 : 0;
 
                     // Send AJAX request to update visibility
-                    fetch("{{ route('update.visibility', ':id') }}".replace(':id', productId), {
+                    fetch("{{ route($prefix .'.update.visibility', ':id') }}".replace(':id', productId), {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

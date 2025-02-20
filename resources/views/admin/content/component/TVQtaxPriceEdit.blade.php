@@ -6,7 +6,7 @@
 
 
 @section('content')
-<form method="POST" action="{{ route('TVQtax_price.update', $taxPercentage->id) }}">
+<form method="POST" action="{{ route($prefix .'.TVQtax_price.update', $taxPercentage->id) }}">
     @csrf
     @method('PUT')
 

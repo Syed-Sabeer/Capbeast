@@ -27,7 +27,7 @@
 
                 if (selectedType == "1" || selectedType == "3") {
                     $.ajax({
-                        url: "{{ route('get-items') }}",
+                        url: "{{ route($prefix .'.get-items') }}",
                         type: "GET",
                         data: { type: selectedType },
                         dataType: "json",
@@ -52,7 +52,7 @@
 @endsection
 
 @section('content')
-<form method="POST" action="{{ route('content-discount-coupon-update', $discountCoupon->id) }}">
+<form method="POST" action="{{ route($prefix .'.content-discount-coupon-update', $discountCoupon->id) }}">
     @csrf
     @method('POST')
     <div class="row">

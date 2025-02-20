@@ -141,7 +141,7 @@
                 <div class="col-md-4 col-lg-2">
                   <div class="mb-6">
                       <label for="select2Basic" class="form-label">Update Internal Status</label>
-                      <form action="{{ route('order-status.update', $order->id) }}" method="POST">
+                      <form action="{{ route($prefix .'.order-status.update', $order->id) }}" method="POST">
                           @csrf
                           <select name="internal_status_id" id="select2Basic" class="select2 form-select form-select-lg">
                               <option value="">Select Status</option>
@@ -406,7 +406,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
-                        <form action="{{ route('order.file.upload', $order->id) }}" method="POST"
+                        <form action="{{ route($prefix .'.order.file.upload', $order->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">

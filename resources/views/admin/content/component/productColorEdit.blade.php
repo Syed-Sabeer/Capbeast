@@ -3,7 +3,7 @@
 @section('title', 'Edit Product Color')
 
 @section('content')
-<form method="POST" action="{{ route('content-product-color-update', $color->id) }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route($prefix .'.content-product-color-update', $color->id) }}" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-12 col-lg-8">

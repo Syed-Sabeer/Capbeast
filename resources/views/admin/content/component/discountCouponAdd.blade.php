@@ -12,40 +12,24 @@
 
     @section('page-script')
         <script src="{{ asset('assets/js/modal-add-new-address.js') }}"></script>
-
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                if (typeof $ === "undefined") {
-                    console.error("jQuery is not loaded!");
-                    return;
-                }
-
-                // Toggle the expiry-related fields based on the checkbox
-                $('#is_expiry_switch').on('change', function () {
-    if ($(this).is(':checked')) {
-        // Show expiry options when checked
-        $('#expiryOptions').show();
-        $('#is_expiry').val('1'); // Set is_expiry to 1 when the checkbox is checked
-    } else {
-        // Hide expiry options when unchecked
-        $('#expiryOptions').hide();
-        $('#expiryType').prop('checked', false); // Reset radio buttons
-        $('#countField, #durationField').hide(); // Hide input fields
-        $('#is_expiry').val('0'); // Set is_expiry to 0 when unchecked
-    }
-});
-
-                // Handle the expiry radio button selection
-                $('input[name="expiry_type"]').on('change', function () {
-                    let selectedExpiryType = $('input[name="expiry_type"]:checked').val();
-                    if (selectedExpiryType == 'time_limit') {
-                        $('#countField').show();  // Show count input field
-                        $('#durationField').hide(); // Hide duration input field
-                    } else if (selectedExpiryType == 'duration') {
-                        $('#countField').hide();  // Hide count input field
-                        $('#durationField').show(); // Show duration input field
+            $(document).ready(function () {
+                $('#expiryOptions').hide(); // Initially hide expiry options
+        
+                $('#is_expiry_switch').change(function () {
+                    if ($(this).is(':checked')) {
+                        $('#expiryOptions').show();
+                        $('#is_expiry').val(1);
+                    } else {
+                        $('#expiryOptions').hide();
+                        $('#is_expiry').val(0);
                     }
                 });
+            });
+        </script>
+                
+        <script>
+
 
                 $('#couponFor').on('change', function() {
                     let selectedType = $(this).val();
@@ -54,7 +38,7 @@
 
                     if (selectedType == "1" || selectedType == "3") {
                         $.ajax({
-                            url: "{{ route('get-items') }}",
+                            url: "{{ route($prefix .'.get-items') }}",
                             type: "GET",
                             data: { type: selectedType },
                             dataType: "json",
@@ -74,12 +58,12 @@
                         });
                     }
                 });
-            });
+            
         </script>
     @endsection
 
     @section('content')
-    <form method="POST" action="{{ route('content-discount-coupon-store') }}">
+    <form method="POST" action="{{ route($prefix .'.content-discount-coupon-store') }}">
         @csrf
         <div class="row">
             <div class="col-12 col-lg-8">
@@ -131,23 +115,27 @@
                         </div> 
 
                         <!-- Expiry Options (Hidden initially) -->
-                        <div id="expiryOptions" style="display: none;">
-                            <div class="mb-3">
-                                <label class="form-label">Expiry Type</label><br>
-                                <input type="radio" name="expiry_type" value="time_limit" id="timeLimit" /> Time Limit
-                                <input style="margin-left: 5%;" type="radio" name="expiry_type" value="duration" id="duration" /> Duration
-                            </div>
-                            <!-- Count (for time limit) -->
-                            <div id="countField" style="display: none;">
-                                <label class="form-label">Count</label>
-                                <input type="number" name="count" class="form-control" placeholder="Enter count" min="1" />
-                            </div>
-                            <!-- Duration (for duration option) -->
-                            <div id="durationField" style="display: none;">
-                                <label class="form-label">Duration (in days)</label>
-                                <input type="number" name="duration" class="form-control" placeholder="Enter duration in days" min="1" />
-                            </div>
-                        </div>
+                <!-- Expiry Options (Hidden initially) -->
+<div id="expiryOptions">
+    <!-- Count (for time limit) -->
+    <div id="countField" class="mb-3">
+        <label class="form-label">Count</label>
+        <input type="number" name="count" class="form-control" placeholder="Enter count" min="1">
+    </div>
+
+    <!-- Duration (from & to) in a single row -->
+    <div id="durationField" class="d-flex gap-3">
+        <div class="w-50">
+            <label class="form-label">Duration From</label>
+            <input type="datetime-local" name="duration_from" class="form-control">
+        </div>
+        <div class="w-50">
+            <label class="form-label">Duration To</label>
+            <input type="datetime-local" name="duration_to" class="form-control">
+        </div>
+    </div>
+</div>
+
                     </div>
                 </div>
             </div>

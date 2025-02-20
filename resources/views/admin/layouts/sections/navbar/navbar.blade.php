@@ -420,13 +420,13 @@ $navbarDetached = ($navbarDetached ?? '');
               @if (Auth::guard('admin')->check())
     <!-- Show Logout option when authenticated as admin -->
     <li>
-      <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
+      {{-- <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
         @csrf
         <button type="submit" class="dropdown-item">
           <i class='ti ti-logout me-2'></i>
           <span class="align-middle">Logout</span>
         </button>
-      </form>
+      </form> --}}
     </li>
   @else
     <!-- Show Login option when not authenticated -->

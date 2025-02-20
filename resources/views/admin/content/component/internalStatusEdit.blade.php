@@ -3,7 +3,7 @@
 @section('title', 'Edit Status')
 
 @section('content')
-<form method="POST" action="{{ route('order-internal-status.update', $status->id) }}">
+<form method="POST" action="{{ route($prefix .'.order-internal-status.update', $status->id) }}">
     @csrf
     @method('PUT')
     <div class="row">

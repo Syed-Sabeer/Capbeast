@@ -35,7 +35,7 @@ class ProductColorController extends Controller
             'color_code' => $validatedData['color_code'],
         ]);
 
-        return redirect()->route('content-product-color-list')->with('success', 'Color added successfully!');
+        return redirect()->route('admin.content-product-color-list')->with('success', 'Color added successfully!');
     }
 
     // Edit page
@@ -59,7 +59,7 @@ class ProductColorController extends Controller
             'color_code' => $validatedData['color_code'],
         ]);
 
-        return redirect()->route('content-product-color-list')->with('success', 'Color updated successfully!');
+        return redirect()->route('admin.content-product-color-list')->with('success', 'Color updated successfully!');
     }
 
     // Delete color
@@ -68,13 +68,13 @@ class ProductColorController extends Controller
         $color = ComponentProductColor::findOrFail($id);
         $color->delete();
 
-        return redirect()->route('content-product-color-list')->with('success', 'Color deleted successfully!');
+        return redirect()->route('admin.content-product-color-list')->with('success', 'Color deleted successfully!');
     }
     public function restore($id)
     {
         $status = ComponentProductColor::withTrashed()->findOrFail($id);
         $status->restore();
 
-        return redirect()->route('content-product-color-list')->with('success', 'Status restored successfully.');
+        return redirect()->route('admin.content-product-color-list')->with('success', 'Status restored successfully.');
     }
 }

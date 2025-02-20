@@ -3,7 +3,7 @@
 @section('title', 'Add New Status')
 
 @section('content')
-<form method="POST" action="{{ route('order-internal-status.store') }}">
+<form method="POST" action="{{ route($prefix .'.order-internal-status.store') }}">
     @csrf
     <div class="row">
         <div class="col-12 col-lg-8">

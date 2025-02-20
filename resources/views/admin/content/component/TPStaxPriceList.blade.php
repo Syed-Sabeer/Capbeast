@@ -26,8 +26,8 @@
                     <td>{{ $taxPercentage->taxno }}</td>
                     <td>{{ $taxPercentage->percentage }}%</td>
                     <td>
-                        <a href="{{ route('TPStax_price.edit', $taxPercentage->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('TPStax_price.destroy', $taxPercentage->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route($prefix .'.TPStax_price.edit', $taxPercentage->id) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route($prefix .'.TPStax_price.destroy', $taxPercentage->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>

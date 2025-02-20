@@ -41,16 +41,16 @@
                         <td>{{ $status->title }}</td>
                         <td>{{ $status->description }}</td>
                         <td>
-                            <a href="{{ route('order-internal-status.edit', $status->id) }}" class="btn btn-warning">Edit</a>
+                            <a href="{{ route($prefix .'.order-internal-status.edit', $status->id) }}" class="btn btn-warning">Edit</a>
                             
                             @if ($status->deleted_at)
-                                <form action="{{ route('order-internal-status.restore', $status->id) }}" method="POST" style="display:inline;">
+                                <form action="{{ route($prefix .'.order-internal-status.restore', $status->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit" class="btn btn-success">Restore</button>
                                 </form>
                             @else
-                                <form action="{{ route('order-internal-status.destroy', $status->id) }}" method="POST" style="display:inline;">
+                                <form action="{{ route($prefix .'.order-internal-status.destroy', $status->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>
