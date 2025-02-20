@@ -363,6 +363,18 @@ class OrderController extends Controller
             return response()->json(['success' => false, 'message' => 'Coupon is not available.'], 400);
         }
     
+        // Validate expiration date
+        $currentDate = now();
+        if ($coupon->is_expiry && ($currentDate < $coupon->duration_from || $currentDate > $coupon->duration_to)) {
+            return response()->json(['success' => false, 'message' => 'Coupon has expired.'], 400);
+        }
+    
+        // Validate usage count
+        $usageCount = Order::where('discount_id', $coupon->id)->count();
+        if ($coupon->is_expiry && $coupon->count !== null && $usageCount >= $coupon->count) {
+            return response()->json(['success' => false, 'message' => 'Coupon usage limit reached.'], 400);
+        }
+    
         $cartItems = Cart::where('user_id', auth()->id())->get();
         $maxDiscountAmount = 0;
     
@@ -370,14 +382,12 @@ class OrderController extends Controller
             $currentDiscount = 0;
     
             if ($coupon->is_all == 1) {
-                // Apply discount to all products or printings and find the max discount
                 if ($item->product_id != null) {
                     $currentDiscount = ($item->product_price * $coupon->percentage / 100) * $item->quantity;
                 } elseif ($item->printing_id != null) {
                     $currentDiscount = ($item->printing_price * $coupon->percentage / 100) * $item->quantity;
                 }
             } else {
-                // Apply discount only to the specific product or printing
                 if ($item->product_id == $coupon->discountable_id) {
                     $currentDiscount = ($item->product_price * $coupon->percentage / 100) * $item->quantity;
                 } elseif ($item->printing_id == $coupon->discountable_id) {
@@ -385,7 +395,6 @@ class OrderController extends Controller
                 }
             }
     
-            // Keep track of the highest discount amount
             if ($currentDiscount > $maxDiscountAmount) {
                 $maxDiscountAmount = $currentDiscount;
             }
@@ -402,6 +411,7 @@ class OrderController extends Controller
     
         return response()->json(['success' => false, 'message' => 'Coupon not applicable for selected products.'], 400);
     }
+    
     
     
 }

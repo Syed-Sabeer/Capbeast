@@ -51,9 +51,12 @@ class DiscountCouponsController extends Controller
                 'percentage' => 'required|numeric|min:0|max:100',
                 // Validation for expiry fields
                 'is_expiry' => 'required|boolean', // For expiry switch
-                'expiry_type' => 'nullable|in:time_limit,duration', // Expiry type (time limit or duration)
+                
                 'count' => 'nullable|integer|min:1', // If time limit is selected
-                'duration' => 'nullable|integer|min:1', // If duration is selected
+                'duration_from' => 'nullable|date',
+'duration_to' => 'nullable|date',
+
+
             ]);
     
             $discountCoupon = new DiscountCoupon();
@@ -66,16 +69,15 @@ class DiscountCouponsController extends Controller
             $discountCoupon->is_expiry = $request->is_expiry ? 1 : 0; // Set expiry status (1 if on, 0 if off)
             
             if ($request->is_expiry) { // If expiry switch is on
-                $expiryType = $request->expiry_type;
+           
     
-                // Handle expiry type (time limit or duration)
-                if ($expiryType == 'time_limit') {
-                    $discountCoupon->expiry_type = 1; // Time limit
-                    $discountCoupon->expiry_value = $request->count; // Set the count for the time limit
-                } elseif ($expiryType == 'duration') {
-                    $discountCoupon->expiry_type = 2; // Duration
-                    $discountCoupon->expiry_value = $request->duration; // Set the duration in days
-                }
+                
+               
+                    $discountCoupon->count = $request->count; 
+               
+                    $discountCoupon->duration_from = $request->duration_from;
+                    $discountCoupon->duration_to = $request->duration_to;
+               
             }
     
             // Handle the "Select All" case for item_id
