@@ -16,7 +16,7 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, string $role): Response
     {
-        $guards = ['admin', 'marketing', 'sale']; // List of admin-related guards
+        $guards = ['superadmin', 'marketing', 'sale']; // List of admin-related guards
         $authenticatedUser = null;
 
         // Check each guard for an authenticated user
@@ -28,9 +28,10 @@ class RoleMiddleware
         }
 
         // If no admin user is authenticated or role mismatch, deny access
-        if (!$authenticatedUser || $authenticatedUser->role !== $role) {
+        if (!$authenticatedUser || strtolower($authenticatedUser->role) !== strtolower($role)) {
             abort(403, 'Unauthorized access');
         }
+        
 
         return $next($request);
     }

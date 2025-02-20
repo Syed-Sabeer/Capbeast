@@ -31,7 +31,7 @@ class ViewComposerServiceProvider extends ServiceProvider
 
             // Set prefix based on role if user is authenticated, else set empty prefix
             $prefix = $user ? (
-                $user->role === 'admin' ? 'admin'
+                $user->role === 'superadmin' ? 'superadmin'
                 : ($user->role === 'sale' ? 'sale'
                 
                 : ($user->role === 'marketing' ? 'marketing' : ''))

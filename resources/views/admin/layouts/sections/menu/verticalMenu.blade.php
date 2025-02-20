@@ -26,9 +26,9 @@
   </div>
   @endif
 
-  @php
+  {{-- @php
     $prefix = Auth::guard('admin')->user()->role ?? 'admin';
-    @endphp
+    @endphp --}}
 
   <div class="menu-inner-shadow"></div>
 
@@ -49,7 +49,7 @@
     $activeClass = str_contains($currentRouteName, 'app-ecommerce-product') ? 'active open' : ''; 
     
     @endphp
-  @if ( $prefix === 'admin')
+  @if ( $prefix === 'superadmin')
     
     <li class="menu-item {{$activeClass}}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">

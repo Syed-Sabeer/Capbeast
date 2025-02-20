@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin\Apps;
-
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,32 +20,53 @@ class EcommerceAuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::guard('admin')->attempt($credentials)) {
-            $request->session()->regenerate();
-
-            // Get the authenticated admin user
-            $user = Auth::guard('admin')->user();
-            Log::info('Admin Login:', ['role' => $user->role]);
-
-            // Ensure the role is mapped to the correct prefix
-            $validRoles = ['admin', 'sale', 'marketing'];
-            $prefix = in_array($user->role, $validRoles) ? $user->role : 'admin';
-
-            return redirect()->intended(route(prefixedRouteName($prefix, 'app-ecommerce-dashboard')))
-    ->with('success', "Welcome to the {$user->role} dashboard!");
-
-        
+    
+        // Define available guards
+        $validGuards = ['superadmin', 'sale', 'marketing'];
+        $authenticatedGuard = null;
+        $user = null;
+    
+        // Attempt login with each guard
+        foreach ($validGuards as $guard) {
+            if (Auth::guard($guard)->attempt($request->only('email', 'password'))) {
+                $user = Auth::guard($guard)->user();
+                
+                // Check if the user's role matches the guard
+                if ($user->role === $guard) {
+                    $authenticatedGuard = $guard;
+                    break;
+                }
+    
+                // Logout from the wrong guard to prevent session mix-up
+                Auth::guard($guard)->logout();
+            }
         }
-
+    
+        if ($authenticatedGuard) {
+            $request->session()->regenerate();
+    
+            Log::info("Login Successful", [
+                'email' => $user->email,
+                'role' => $user->role,
+                'guard' => $authenticatedGuard
+            ]);
+    
+            return redirect()->intended(route(Route::prefixed($authenticatedGuard, 'app-ecommerce-dashboard')))
+                ->with('success', "Welcome to the {$user->role} dashboard!");
+        }
+    
+        Log::warning("Login Failed", [
+            'email' => $request->input('email'),
+        ]);
+    
         return redirect()->back()->withErrors(['email' => 'Invalid email or password.'])->withInput($request->except('password'));
     }
-
+    
+        
+    
     public function logout(Request $request)
     {
-        $guards = ['admin', 'marketing', 'sale'];
+        $guards = ['superadmin', 'marketing', 'sale'];
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {

@@ -13,8 +13,14 @@ class Authenticate extends Middleware
     protected function redirectTo(Request $request): ?string
     {
         // Check if the current route belongs to the admin prefix
-        if ($request->is('admin/*')) {
-            return route('admin.login'); // Redirect to admin login
+        if ($request->is('superadmin/*')) {
+            return route('admin.login'); 
+        }
+        if ($request->is('sale/*')) {
+            return route('admin.login'); 
+        }
+        if ($request->is('marketing/*')) {
+            return route('admin.login'); 
         }
 
         // Default to user login

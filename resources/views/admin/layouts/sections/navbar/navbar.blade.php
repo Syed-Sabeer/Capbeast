@@ -417,8 +417,8 @@ $navbarDetached = ($navbarDetached ?? '');
                 <div class="dropdown-divider"></div>
               </li>
               
-              @if (Auth::guard('admin')->check())
-    <!-- Show Logout option when authenticated as admin -->
+              @if (Auth::guard('superadmin')->check() || Auth::guard('sale')->check() || Auth::guard('marketing')->check())
+    
     <li>
       <form action="{{ route($prefix .'.admin.logout') }}" method="POST" style="display: inline;">
         @csrf

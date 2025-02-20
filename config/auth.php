@@ -21,9 +21,9 @@ return [
             'driver' => 'session',
             'provider' => 'sales',
         ],
-        'admin' => [
+        'superadmin' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'superadmins',
         ],
     ],
 
@@ -33,7 +33,7 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'admins' => [
+        'superadmins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],

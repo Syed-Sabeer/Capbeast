@@ -98,21 +98,21 @@ Route::prefix('main')->middleware(['web'])->group(function () {
 
 
 
-function prefixedRouteName($prefix, $name) {
-  return "{$prefix}.{$name}";
-}
+// function Route::prefixed($prefix, $name) {
+//   return "{$prefix}.{$name}";
+// }
 
 // Define roles
 $roles = [
   
-  'admin' => 'admin',
+  'superadmin' => 'superadmin',
   'sale' => 'sale',
   'marketing' => 'marketing',
 
 ];
 
 
-Route::prefix('admin')->middleware('guest:admin')->group(function () {
+Route::prefix('backend')->group(function () {
   Route::get('login', [EcommerceAuthController::class, 'showLoginForm'])->name('admin.login');
   Route::post('login', [EcommerceAuthController::class, 'login'])->name('admin.login.post');
 });
@@ -123,195 +123,186 @@ foreach ($roles as $role => $prefix) {
       Route::prefix($prefix)->group(function () use ($prefix) {
 
 
-          if ($prefix == 'admin'){
+          if ($prefix == 'superadmin'){
 
             
               
 
 
-  Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-dashboard'));
+  Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-dashboard'));
 
 
   Route::prefix('/component')->group(function () use ($prefix){
 
-    Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name(prefixedRouteName($prefix,'content-product-color-add'));
-    Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name(prefixedRouteName($prefix,'content-product-color-store'));
-    Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name(prefixedRouteName($prefix,'content-product-color-list'));
-    Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name(prefixedRouteName($prefix,'content-product-color-edit'));
-    Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name(prefixedRouteName($prefix,'content-product-color-update'));
-    Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name(prefixedRouteName($prefix,'content-product-color-delete'));
+    Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name(Route::prefixed($prefix,'content-product-color-add'));
+    Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name(Route::prefixed($prefix,'content-product-color-store'));
+    Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name(Route::prefixed($prefix,'content-product-color-list'));
+    Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name(Route::prefixed($prefix,'content-product-color-edit'));
+    Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name(Route::prefixed($prefix,'content-product-color-update'));
+    Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name(Route::prefixed($prefix,'content-product-color-delete'));
 
-    Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name(prefixedRouteName($prefix,'content-embroidery-color-list'));
-    Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name(prefixedRouteName($prefix,'InternalStatus.index'));
-    Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name(prefixedRouteName($prefix,'order-internal-status.store'));
-    Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name(prefixedRouteName($prefix,'order-internal-status.edit'));
-    Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name(prefixedRouteName($prefix,'order-internal-status.update'));
-    Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name(prefixedRouteName($prefix,'order-internal-status.destroy'));
-    Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name(prefixedRouteName($prefix,'order-internal-status.index'));
+    Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name(Route::prefixed($prefix,'content-embroidery-color-list'));
+    Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name(Route::prefixed($prefix,'InternalStatus.index'));
+    Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name(Route::prefixed($prefix,'order-internal-status.store'));
+    Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name(Route::prefixed($prefix,'order-internal-status.edit'));
+    Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name(Route::prefixed($prefix,'order-internal-status.update'));
+    Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name(Route::prefixed($prefix,'order-internal-status.destroy'));
+    Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name(Route::prefixed($prefix,'order-internal-status.index'));
 
-    Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name(prefixedRouteName($prefix,'content-discount-coupon-add'));
-    Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name(prefixedRouteName($prefix,'content-discount-coupon-store'));
-    Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name(prefixedRouteName($prefix,'content-discount-coupon-list'));
-    Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name(prefixedRouteName($prefix,'content-discount-coupon-edit'));
-    Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name(prefixedRouteName($prefix,'content-discount-coupon-update'));
-    Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name(prefixedRouteName($prefix,'content-discount-coupon-delete'));
-    Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name(prefixedRouteName($prefix,'update.visibilitycoupon'));
-    Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name(prefixedRouteName($prefix,'get-items'));
+    Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name(Route::prefixed($prefix,'content-discount-coupon-add'));
+    Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name(Route::prefixed($prefix,'content-discount-coupon-store'));
+    Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name(Route::prefixed($prefix,'content-discount-coupon-list'));
+    Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name(Route::prefixed($prefix,'content-discount-coupon-edit'));
+    Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name(Route::prefixed($prefix,'content-discount-coupon-update'));
+    Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name(Route::prefixed($prefix,'content-discount-coupon-delete'));
+    Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name(Route::prefixed($prefix,'update.visibilitycoupon'));
+    Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name(Route::prefixed($prefix,'get-items'));
 
-    Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name(prefixedRouteName($prefix,'TVQtax_price.index'));
-    Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name(prefixedRouteName($prefix,'TVQtax_price.create'));
-    Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name(prefixedRouteName($prefix,'TVQtax_price.store'));
-    Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name(prefixedRouteName($prefix,'TVQtax_price.edit'));
-    Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name(prefixedRouteName($prefix,'TVQtax_price.update'));
-    Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name(prefixedRouteName($prefix,'TVQtax_price.destroy'));
+    Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name(Route::prefixed($prefix,'TVQtax_price.index'));
+    Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name(Route::prefixed($prefix,'TVQtax_price.create'));
+    Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name(Route::prefixed($prefix,'TVQtax_price.store'));
+    Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name(Route::prefixed($prefix,'TVQtax_price.edit'));
+    Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name(Route::prefixed($prefix,'TVQtax_price.update'));
+    Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name(Route::prefixed($prefix,'TVQtax_price.destroy'));
 
-    Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name(prefixedRouteName($prefix,'TPStax_price.index'));
-    Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name(prefixedRouteName($prefix,'TPStax_price.create'));
-    Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name(prefixedRouteName($prefix,'TPStax_price.store'));
-    Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name(prefixedRouteName($prefix,'TPStax_price.edit'));
-    Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name(prefixedRouteName($prefix,'TPStax_price.update'));
-    Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name(prefixedRouteName($prefix,'TPStax_price.destroy'));
+    Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name(Route::prefixed($prefix,'TPStax_price.index'));
+    Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name(Route::prefixed($prefix,'TPStax_price.create'));
+    Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name(Route::prefixed($prefix,'TPStax_price.store'));
+    Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name(Route::prefixed($prefix,'TPStax_price.edit'));
+    Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name(Route::prefixed($prefix,'TPStax_price.update'));
+    Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name(Route::prefixed($prefix,'TPStax_price.destroy'));
   });
 
 
-  Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-product-add'));
-  Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name(prefixedRouteName($prefix,'app-ecommerce-product-store'));
-  Route::get('/product/list', [EcommerceProductList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-product-list'));
-  Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name(prefixedRouteName($prefix,'app-ecommerce-product-edit'));
-  Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(prefixedRouteName($prefix,'app-ecommerce-product-update'));
-  Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(prefixedRouteName($prefix,'app-ecommerce-product-update'));
-  Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name(prefixedRouteName($prefix,'update.visibility'));
+  Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-product-add'));
+  Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name(Route::prefixed($prefix,'app-ecommerce-product-store'));
+  Route::get('/product/list', [EcommerceProductList::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-product-list'));
+  Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name(Route::prefixed($prefix,'app-ecommerce-product-edit'));
+  Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(Route::prefixed($prefix,'app-ecommerce-product-update'));
+  Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(Route::prefixed($prefix,'app-ecommerce-product-update'));
+  Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name(Route::prefixed($prefix,'update.visibility'));
 
 
-    Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-delivery-add'));
+    Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-delivery-add'));
 
-  Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-add'));
-  Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-store'));
-  Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-list'));
+  Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-printing-add'));
+  Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name(Route::prefixed($prefix,'app-ecommerce-printing-store'));
+  Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-printing-list'));
 
-  Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-order-list'));
-  Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-order-detail'));
-  Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name(prefixedRouteName($prefix,'order.file.upload'));
-  Route::post('/order/{orderId}/update-status', [EcommerceOrderDetails::class, 'updateOrderStatus'])->name(prefixedRouteName($prefix,'order-status.update'));
+  Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-order-list'));
+  Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-order-detail'));
+  Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name(Route::prefixed($prefix,'order.file.upload'));
+  Route::post('/order/{orderId}/update-status', [EcommerceOrderDetails::class, 'updateOrderStatus'])->name(Route::prefixed($prefix,'order-status.update'));
 
-  Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name(prefixedRouteName($prefix,'admin.orders.updateStatus'));
+  Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name(Route::prefixed($prefix,'admin.orders.updateStatus'));
 
-  Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-customer-all'));
-  Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-customer-detail'));
-  Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name(prefixedRouteName($prefix,'update.status'));
+  Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-customer-all'));
+  Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-customer-detail'));
+  Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name(Route::prefixed($prefix,'update.status'));
 
 
-  Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(prefixedRouteName($prefix,'admin.logout'));
+  Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(Route::prefixed($prefix,'admin.logout'));
             
           }
-          if ($prefix == 'sale'){
+          elseif ($prefix == 'sale'){
 
-            
-              
-
-
-            Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-dashboard'));
+            Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-dashboard'));
           
           
             Route::prefix('/component')->group(function () use ($prefix){
           
-              Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name(prefixedRouteName($prefix,'content-product-color-add'));
-              Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name(prefixedRouteName($prefix,'content-product-color-store'));
-              Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name(prefixedRouteName($prefix,'content-product-color-list'));
-              Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name(prefixedRouteName($prefix,'content-product-color-edit'));
-              Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name(prefixedRouteName($prefix,'content-product-color-update'));
-              Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name(prefixedRouteName($prefix,'content-product-color-delete'));
+              Route::get('/productcolor/add', [ProductColorController::class, 'index'])->name(Route::prefixed($prefix,'content-product-color-add'));
+              Route::post('/productcolor/add', [ProductColorController::class, 'store'])->name(Route::prefixed($prefix,'content-product-color-store'));
+              Route::get('/productcolor/list', [ProductColorController::class, 'list'])->name(Route::prefixed($prefix,'content-product-color-list'));
+              Route::get('/productcolor/edit/{id}', [ProductColorController::class, 'edit'])->name(Route::prefixed($prefix,'content-product-color-edit'));
+              Route::post('/productcolor/update/{id}', [ProductColorController::class, 'update'])->name(Route::prefixed($prefix,'content-product-color-update'));
+              Route::delete('/productcolor/delete/{id}', [ProductColorController::class, 'destroy'])->name(Route::prefixed($prefix,'content-product-color-delete'));
           
-              Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name(prefixedRouteName($prefix,'content-embroidery-color-list'));
-              Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name(prefixedRouteName($prefix,'InternalStatus.index'));
-              Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name(prefixedRouteName($prefix,'order-internal-status.store'));
-              Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name(prefixedRouteName($prefix,'order-internal-status.edit'));
-              Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name(prefixedRouteName($prefix,'order-internal-status.update'));
-              Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name(prefixedRouteName($prefix,'order-internal-status.destroy'));
-              Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name(prefixedRouteName($prefix,'order-internal-status.index'));
+              Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name(Route::prefixed($prefix,'content-embroidery-color-list'));
+              Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name(Route::prefixed($prefix,'InternalStatus.index'));
+              Route::post('/InternalStatus/store', [InternalStatusController::class, 'store'])->name(Route::prefixed($prefix,'order-internal-status.store'));
+              Route::get('/InternalStatus/edit/{id}', [InternalStatusController::class, 'edit'])->name(Route::prefixed($prefix,'order-internal-status.edit'));
+              Route::put('/InternalStatus/update/{id}', [InternalStatusController::class, 'update'])->name(Route::prefixed($prefix,'order-internal-status.update'));
+              Route::delete('/InternalStatus/delete/{id}', [InternalStatusController::class, 'destroy'])->name(Route::prefixed($prefix,'order-internal-status.destroy'));
+              Route::patch('/InternalStatus/restore/{id}', [InternalStatusController::class, 'restore'])->name(Route::prefixed($prefix,'order-internal-status.index'));
           
-              Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name(prefixedRouteName($prefix,'content-discount-coupon-add'));
-              Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name(prefixedRouteName($prefix,'content-discount-coupon-store'));
-              Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name(prefixedRouteName($prefix,'content-discount-coupon-list'));
-              Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name(prefixedRouteName($prefix,'content-discount-coupon-edit'));
-              Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name(prefixedRouteName($prefix,'content-discount-coupon-update'));
-              Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name(prefixedRouteName($prefix,'content-discount-coupon-delete'));
-              Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name(prefixedRouteName($prefix,'update.visibilitycoupon'));
-              Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name(prefixedRouteName($prefix,'get-items'));
+              Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name(Route::prefixed($prefix,'content-discount-coupon-add'));
+              Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name(Route::prefixed($prefix,'content-discount-coupon-store'));
+              Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name(Route::prefixed($prefix,'content-discount-coupon-list'));
+              Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name(Route::prefixed($prefix,'content-discount-coupon-edit'));
+              Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name(Route::prefixed($prefix,'content-discount-coupon-update'));
+              Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name(Route::prefixed($prefix,'content-discount-coupon-delete'));
+              Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name(Route::prefixed($prefix,'update.visibilitycoupon'));
+              Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name(Route::prefixed($prefix,'get-items'));
           
-              Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name(prefixedRouteName($prefix,'TVQtax_price.index'));
-              Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name(prefixedRouteName($prefix,'TVQtax_price.create'));
-              Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name(prefixedRouteName($prefix,'TVQtax_price.store'));
-              Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name(prefixedRouteName($prefix,'TVQtax_price.edit'));
-              Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name(prefixedRouteName($prefix,'TVQtax_price.update'));
-              Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name(prefixedRouteName($prefix,'TVQtax_price.destroy'));
+              Route::get('/TVQ_TaxPrice/list', [TVQTaxPricingController::class, 'index'])->name(Route::prefixed($prefix,'TVQtax_price.index'));
+              Route::get('/TVQ_TaxPrice/create', [TVQTaxPricingController::class, 'create'])->name(Route::prefixed($prefix,'TVQtax_price.create'));
+              Route::post('/TVQ_TaxPrice/store', [TVQTaxPricingController::class, 'store'])->name(Route::prefixed($prefix,'TVQtax_price.store'));
+              Route::get('/TVQ_TaxPrice/{id}/edit', [TVQTaxPricingController::class, 'edit'])->name(Route::prefixed($prefix,'TVQtax_price.edit'));
+              Route::put('/TVQ_TaxPrice/{id}/update', [TVQTaxPricingController::class, 'update'])->name(Route::prefixed($prefix,'TVQtax_price.update'));
+              Route::delete('/TVQ_TaxPrice/{id}/delete', [TVQTaxPricingController::class, 'destroy'])->name(Route::prefixed($prefix,'TVQtax_price.destroy'));
           
-              Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name(prefixedRouteName($prefix,'TPStax_price.index'));
-              Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name(prefixedRouteName($prefix,'TPStax_price.create'));
-              Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name(prefixedRouteName($prefix,'TPStax_price.store'));
-              Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name(prefixedRouteName($prefix,'TPStax_price.edit'));
-              Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name(prefixedRouteName($prefix,'TPStax_price.update'));
-              Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name(prefixedRouteName($prefix,'TPStax_price.destroy'));
+              Route::get('/TPS_TaxPrice/list', [TPSTaxPricingController::class, 'index'])->name(Route::prefixed($prefix,'TPStax_price.index'));
+              Route::get('/TPS_TaxPrice/create', [TPSTaxPricingController::class, 'create'])->name(Route::prefixed($prefix,'TPStax_price.create'));
+              Route::post('/TPS_TaxPrice/store', [TPSTaxPricingController::class, 'store'])->name(Route::prefixed($prefix,'TPStax_price.store'));
+              Route::get('/TPS_TaxPrice/{id}/edit', [TPSTaxPricingController::class, 'edit'])->name(Route::prefixed($prefix,'TPStax_price.edit'));
+              Route::put('/TPS_TaxPrice/{id}/update', [TPSTaxPricingController::class, 'update'])->name(Route::prefixed($prefix,'TPStax_price.update'));
+              Route::delete('/TPS_TaxPrice/{id}/delete', [TPSTaxPricingController::class, 'destroy'])->name(Route::prefixed($prefix,'TPStax_price.destroy'));
             });
           
           
-            Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-product-add'));
-            Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name(prefixedRouteName($prefix,'app-ecommerce-product-store'));
-            Route::get('/product/list', [EcommerceProductList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-product-list'));
-            Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name(prefixedRouteName($prefix,'app-ecommerce-product-edit'));
-            Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(prefixedRouteName($prefix,'app-ecommerce-product-update'));
-            Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(prefixedRouteName($prefix,'app-ecommerce-product-update'));
-            Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name(prefixedRouteName($prefix,'update.visibility'));
+            Route::get('/product/add', [EcommerceProductAdd::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-product-add'));
+            Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name(Route::prefixed($prefix,'app-ecommerce-product-store'));
+            Route::get('/product/list', [EcommerceProductList::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-product-list'));
+            Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name(Route::prefixed($prefix,'app-ecommerce-product-edit'));
+            Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(Route::prefixed($prefix,'app-ecommerce-product-update'));
+            Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(Route::prefixed($prefix,'app-ecommerce-product-update'));
+            Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name(Route::prefixed($prefix,'update.visibility'));
           
           
-              Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-delivery-add'));
+              Route::get('/delivery/add', [EcommerceDeliveryAdd::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-delivery-add'));
           
-            Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-add'));
-            Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-store'));
-            Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-printing-list'));
+            Route::get('/printing/add', [EcommercePrintingAdd::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-printing-add'));
+            Route::post('/printing/add', [EcommercePrintingAdd::class, 'store'])->name(Route::prefixed($prefix,'app-ecommerce-printing-store'));
+            Route::get('/printing/list', [EcommercePrintingList::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-printing-list'));
           
-            Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-order-list'));
-            Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-order-detail'));
-            Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name(prefixedRouteName($prefix,'order.file.upload'));
-            Route::post('/order/{orderId}/update-status', [EcommerceOrderDetails::class, 'updateOrderStatus'])->name(prefixedRouteName($prefix,'order-status.update'));
+            Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-order-list'));
+            Route::get('/order/detail/{orderId}', [EcommerceOrderDetails::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-order-detail'));
+            Route::post('/order/upload-file/{id}', [EcommerceOrderDetails::class, 'orderfileupload'])->name(Route::prefixed($prefix,'order.file.upload'));
+            Route::post('/order/{orderId}/update-status', [EcommerceOrderDetails::class, 'updateOrderStatus'])->name(Route::prefixed($prefix,'order-status.update'));
           
-            Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name(prefixedRouteName($prefix,'admin.orders.updateStatus'));
+            Route::post('/admin/orders/{id}/status', [EcommerceOrderList::class, 'updateStatus'])->name(Route::prefixed($prefix,'admin.orders.updateStatus'));
           
-            Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-customer-all'));
-            Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-customer-detail'));
-            Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name(prefixedRouteName($prefix,'update.status'));
+            Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-customer-all'));
+            Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-customer-detail'));
+            Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name(Route::prefixed($prefix,'update.status'));
           
           
-            Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(prefixedRouteName($prefix,'admin.logout'));
+            Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(Route::prefixed($prefix,'admin.logout'));
                       
                     }
 
-                    if ($prefix == 'marketing'){
+                    elseif ($prefix == 'marketing'){
 
-            
-              
-
-
-                      Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(prefixedRouteName($prefix,'app-ecommerce-dashboard'));
-                    
+                      Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-dashboard'));                    
                     
                       Route::prefix('/component')->group(function () use ($prefix){
                     
-                        Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name(prefixedRouteName($prefix,'content-discount-coupon-add'));
-                        Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name(prefixedRouteName($prefix,'content-discount-coupon-store'));
-                        Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name(prefixedRouteName($prefix,'content-discount-coupon-list'));
-                        Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name(prefixedRouteName($prefix,'content-discount-coupon-edit'));
-                        Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name(prefixedRouteName($prefix,'content-discount-coupon-update'));
-                        Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name(prefixedRouteName($prefix,'content-discount-coupon-delete'));
-                        Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name(prefixedRouteName($prefix,'update.visibilitycoupon'));
-                        Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name(prefixedRouteName($prefix,'get-items'));
+                        Route::get('/discountcoupon/add', [DiscountCouponsController::class, 'index'])->name(Route::prefixed($prefix,'content-discount-coupon-add'));
+                        Route::post('/discountcoupon/add', [DiscountCouponsController::class, 'store'])->name(Route::prefixed($prefix,'content-discount-coupon-store'));
+                        Route::get('/discountcoupon/list', [DiscountCouponsController::class, 'list'])->name(Route::prefixed($prefix,'content-discount-coupon-list'));
+                        Route::get('/discountcoupon/edit/{id}', [DiscountCouponsController::class, 'edit'])->name(Route::prefixed($prefix,'content-discount-coupon-edit'));
+                        Route::post('/discountcoupon/update/{id}', [DiscountCouponsController::class, 'update'])->name(Route::prefixed($prefix,'content-discount-coupon-update'));
+                        Route::delete('/discountcoupon/delete/{id}', [DiscountCouponsController::class, 'destroy'])->name(Route::prefixed($prefix,'content-discount-coupon-delete'));
+                        Route::patch('/update-visibility/{id}', [DiscountCouponsController::class, 'updateVisibility'])->name(Route::prefixed($prefix,'update.visibilitycoupon'));
+                        Route::get('/get-items', [DiscountCouponsController::class, 'getItems'])->name(Route::prefixed($prefix,'get-items'));
                     
                     
                       });
                     
                     
                     
-                      Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(prefixedRouteName($prefix,'admin.logout'));
+                      Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(Route::prefixed($prefix,'admin.logout'));
                                 
                               }
 

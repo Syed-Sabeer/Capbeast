@@ -25,7 +25,15 @@ class RedirectIfAuthenticated
                 Log::info("Authenticated with guard: {$guard}");
                 
                 // Redirect based on the guard
-                if ($guard === 'admin') {
+                if ($guard === 'superadmin') {
+                    // Redirect to the correct named route
+                    // return redirect()->route('app-ecommerce-dashboard');
+                }
+                elseif ($guard === 'marketing') {
+                    // Redirect to the correct named route
+                    // return redirect()->route('app-ecommerce-dashboard');
+                }
+                elseif ($guard === 'sale') {
                     // Redirect to the correct named route
                     // return redirect()->route('app-ecommerce-dashboard');
                 }
