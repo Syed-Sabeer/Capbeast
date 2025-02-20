@@ -17,6 +17,7 @@ class CreateAdminsTable extends Migration
             $table->id(); // Primary Key
             $table->string('email')->unique(); // Admin Email
             $table->string('password'); // Admin Password
+            $table->enum('role', ['superadmin', 'marketing', 'sale'])->default('admin'); 
             $table->timestamps(); // Created and Updated At Timestamps
         });
     }

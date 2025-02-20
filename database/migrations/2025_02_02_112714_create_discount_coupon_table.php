@@ -18,9 +18,14 @@ return new class extends Migration
             $table->integer('discount_type');
             $table->morphs('discountable');
             $table->float('percentage',8,2);
+            $table->integer('is_all')->nullable();
             $table->integer('is_expiry');
-            $table->integer('expiry_type')->nullable();
-            $table->integer('expiry_value')->nullable();
+            $table->integer('count')->nullable();
+            $table->timestamp('duration_from')->nullable();
+            $table->timestamp('duration_to')->nullable();
+            $table->integer('visibility');
+            
+
             $table->timestamps();
         });
     }

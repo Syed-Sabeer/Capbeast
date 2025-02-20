@@ -11,8 +11,9 @@ class CreateProductPricingTable extends Migration
         Schema::create('product_pricing', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
-            $table->decimal('pricing', 8, 2); // Store single pricing value
-            $table->integer('quantity'); // Store single quantity value
+            $table->decimal('pricing', 8, 2); 
+            $table->decimal('reseller_pricing', 8, 2); 
+            $table->integer('quantity'); 
             $table->timestamps();
         });
     }
