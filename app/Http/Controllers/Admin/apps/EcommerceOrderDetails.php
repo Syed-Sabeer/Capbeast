@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Apps;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 use App\Models\OrderFiles;
 use App\Models\InternalStatus;
 use App\Models\OrderInternalStatus;
@@ -38,33 +39,52 @@ class EcommerceOrderDetails extends Controller
 
     
     
+public function updateOrderStatus(Request $request, $orderId)
+{
+    $request->validate([
+        'internal_status_id' => 'required|exists:internal_status,id',
+    ]);
 
-    public function updateOrderStatus(Request $request, $orderId)
-    {
-        $request->validate([
-            'internal_status_id' => 'required|exists:internal_status,id',
-        ]);
-    
-        // Check if the status already exists for this order
-        $existingOrderStatus = OrderInternalStatus::where('order_id', $orderId)
-            ->where('internal_status_id', $request->internal_status_id)
-            ->first();
-    
-        if ($existingOrderStatus) {
-           
-            if ($existingOrderStatus->internal_status_id == $request->internal_status_id) {
-                $existingOrderStatus->touch(); // This will update the updated_at field
+    // Determine the authenticated guard
+    $validGuards = ['superadmin', 'sale', 'marketing'];
+    $authenticatedGuard = null;
+    $user = null;
+
+    foreach ($validGuards as $guard) {
+        if (Auth::guard($guard)->check()) {
+            $user = Auth::guard($guard)->user();
+            
+            if ($user->role === $guard) {
+                $authenticatedGuard = $guard;
+                break;
             }
-        } else {
-         
-            OrderInternalStatus::create([
-                'order_id' => $orderId,
-                'internal_status_id' => $request->internal_status_id,
-            ]);
         }
-    
-        return redirect()->route('app-ecommerce-order-detail', $orderId)->with('success', 'Order status updated successfully.');
     }
+
+    if (!$authenticatedGuard) {
+        return redirect()->back()->with('error', 'Unauthorized access.');
+    }
+
+    // Check if the status already exists for this order
+    $existingOrderStatus = OrderInternalStatus::where('order_id', $orderId)
+        ->where('internal_status_id', $request->internal_status_id)
+        ->first();
+
+    if ($existingOrderStatus) {
+        if ($existingOrderStatus->internal_status_id == $request->internal_status_id) {
+            $existingOrderStatus->touch(); // Update the updated_at field
+        }
+    } else {
+        OrderInternalStatus::create([
+            'order_id' => $orderId,
+            'internal_status_id' => $request->internal_status_id,
+        ]);
+    }
+
+    return redirect()->route($authenticatedGuard . '.app-ecommerce-order-detail', $orderId)
+        ->with('success', 'Order status updated successfully.');
+}
+
     
     
 
