@@ -79,17 +79,22 @@ $country = $user ? $user->country : (session('country') ?? 'USA'); // Check sess
                       
 
                         <h5 class="card-title">{{ $product->title }}</h5>
-                        <div class="stars">
+                        <div class="stars mb-4">
                             @for ($i = 0; $i < 5; $i++)
                                 <i class="fas fa-star"></i>
                             @endfor
                         </div>
 
-                        <form action="{{ route('product.detail', ['id' => $product->id]) }}" method="GET">
+                        {{-- <form action="{{ route('product.detail', ['slug' => $product->slug]) }}" method="GET">
                             <button type="submit" class="add-to-cart-btn font-weight-bold">
                                 <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;Customize
                             </button>
-                        </form>
+                        </form> --}}
+
+                        <a href="{{ route('product.detail', ['slug' => $product->slug]) }}" class="add-to-cart-btn font-weight-bold" style="margin-top: 5% !important; padding-right: 40px; padding-left:40px;">
+                            <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;Customize
+                        </a>
+                        
                     </div>
                 </div>
             @endforeach

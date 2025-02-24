@@ -46,11 +46,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
+                             
                                 <div class="col-sm">
-                                    <a href="{{ route('product.detail', ['id' => $item->product->id]) }}">
+                                    <a href="{{ route('product.detail', ['slug' => $item->product->slug]) }}">
                                         <h5 class="fs-16 lh-base mb-1">{{ $item->product->title }}</h5>
                                     </a>
+                                    
                                     @php
                                     // Ensure beanie_type is checked properly
                                     $type = ($item->beanie_type === 1 || $item->beanie_type === '1') 

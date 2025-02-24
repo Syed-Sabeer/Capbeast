@@ -29,6 +29,7 @@ class EcommerceProductAdd extends Controller
 
             $request->validate([
                 'title' => 'required|string|max:255',
+                'slug' => 'required|string|unique:products,slug|max:255',
                 'description' => 'required|string',
                 'is_pompom' => 'required|integer',
                 'base_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
@@ -38,13 +39,16 @@ class EcommerceProductAdd extends Controller
                 'pricing.*' => 'required|numeric',
                 'reseller_pricing.*' => 'required|numeric',
             ]);
+            
     
             // Save the product
             $product = Product::create([
                 'title' => $request->title,
+                'slug' => $request->slug,
                 'description' => $request->description,
                 'is_pompom' => $request->is_pompom,
             ]);
+            
 
             // Process and store base images
             if ($request->hasFile('base_images')) {

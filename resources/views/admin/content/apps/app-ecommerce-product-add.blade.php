@@ -38,6 +38,11 @@
                         <input type="text" name="title" class="form-control" placeholder="Product title" required>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Slug</label>
+                        <input type="text" name="slug" class="form-control" placeholder="Product slug" required>
+                    </div>
+                    
+                    <div class="mb-3">
                         <label class="form-label">Description</label>
                         <textarea name="description" class="form-control" rows="5" required></textarea>
                     </div>

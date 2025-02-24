@@ -30,10 +30,11 @@ class Cart extends Model
      * Fetch only the basic product data: title, description, visibility
      */
     public function product()
-    {
-        return $this->belongsTo(Product::class, 'product_id')
-            ->select(['id', 'title', 'description', 'visibility']);
-    }
+{
+    return $this->belongsTo(Product::class, 'product_id')
+        ->select(['id', 'title', 'slug', 'description', 'visibility']);
+}
+
 
     /**
      * Relationship with User

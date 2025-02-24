@@ -22,9 +22,9 @@ class ProductDetailController extends Controller
         ]);
     }
 
-    public function index($id)
-    {
-        $product = Product::findOrFail($id);
+    public function index($slug)
+{
+    $product = Product::where('slug', $slug)->firstOrFail();
         $productColors = $product->productColors->load('componentColor');
 
         $colorNames = [];
