@@ -1,5 +1,11 @@
 @extends('main.layouts.master')
 
+<title>Cool Beanies For Men & Women in Montreal, Canada</title>
+<meta name="description" content="Shop Cool Beanies For Men & Women in Montreal, Canada. Stay stylish and warm with our high-quality collection of Cool Beanies, perfect for any season!">
+<meta name="keywords" content="Cool Beanies For Men, Cool Beanies For Women">
+<link rel="canonical" href="https://monkeybeanies.com/about">
+
+
 @section('main-container')
     @component('main.components.breadcrumb', [
         'pageTitle' => 'About',

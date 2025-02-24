@@ -1,5 +1,12 @@
 @extends('main.layouts.master')
 
+
+<title>Design Your Own Beanie Hat in Montreal, Canada</title>
+<meta name="description" content="Design Your Own Beanie Hat in Montreal, Canada, with custom colors and logos. Stand out in style and comfort—Design Your Own Beanie Hat today!">
+<meta name="keywords" content="Design Your Own Beanie Hat in Montreal, Design Your Own Beanie Hat in Canada">
+<link rel="canonical" href="https://monkeybeanies.com/products">
+
+
 @section('main-container')
 
 @component('main.components.breadcrumb', [

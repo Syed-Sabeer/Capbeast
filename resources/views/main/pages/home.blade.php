@@ -3,6 +3,12 @@
 <script src="{{ asset('assetsMain/js/frontend/owl.carousel.min.js')}}"></script>
 <link href="{{ asset('assetsMain/css/owl.carousel.min.css')}}" rel="stylesheet" type="text/css" />
 
+<title>Customize Embroidered Beanies in Montreal-Nord, Canada</title>
+<meta name="description" content="Customize Embroidered Beanies in Montreal-Nord, Canada, with unique designs. Get high-quality, stylish, and cozy Customize Embroidered Beanies for any occasion.">
+<meta name="keywords" content="customize beanies, embroidered beanies, Customize Embroidered Beanies in Montreal-Nord, Customize Embroidered Beanies in Canada">
+<link rel="canonical" href="https://monkeybeanies.com/main/home">
+
+
 @section('main-container')
 
 <section class="position-relative">
