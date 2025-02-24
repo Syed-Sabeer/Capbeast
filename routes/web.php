@@ -40,7 +40,7 @@ Route::get('/', function () {
 });
 
 // Route::prefix('main')->middleware(['web', 'CheckCountry'])->group(function () {
-Route::prefix('main')->middleware(['web'])->group(function () {
+Route::middleware(['web'])->group(function () {
 
   // Routes that require authentication
   Route::middleware('auth')->group(function () {
@@ -199,7 +199,9 @@ foreach ($roles as $role => $prefix) {
   Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-customer-all'));
   Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-customer-detail'));
   Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name(Route::prefixed($prefix,'update.status'));
-
+  Route::get('/customers/edit/{id}', [EcommerceCustomerAll::class, 'edit'])->name(Route::prefixed($prefix,'admin.customers.edit'));
+  Route::post('/customers/update/{id}', [EcommerceCustomerAll::class, 'update'])->name(Route::prefixed($prefix,'admin.customers.update'));
+  Route::delete('/customers/delete/{id}', [EcommerceCustomerAll::class, 'destroy'])->name(Route::prefixed($prefix,'admin.customers.destroy'));
 
   Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(Route::prefixed($prefix,'admin.logout'));
             
@@ -276,7 +278,9 @@ foreach ($roles as $role => $prefix) {
             Route::get('/customer/all', [EcommerceCustomerAll::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-customer-all'));
             Route::get('/customer/{id}', [EcommerceCustomerDetailsOverview::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-customer-detail'));
             Route::post('/update-status/{id}', [EcommerceCustomerAll::class, 'updateStatus'])->name(Route::prefixed($prefix,'update.status'));
-          
+            Route::get('/customers/edit/{id}', [EcommerceCustomerAll::class, 'edit'])->name(Route::prefixed($prefix,'admin.customers.edit'));
+            Route::post('/customers/update/{id}', [EcommerceCustomerAll::class, 'update'])->name(Route::prefixed($prefix,'admin.customers.update'));
+            Route::delete('/customers/delete/{id}', [EcommerceCustomerAll::class, 'destroy'])->name(Route::prefixed($prefix,'admin.customers.destroy'));
           
             Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(Route::prefixed($prefix,'admin.logout'));
                       
