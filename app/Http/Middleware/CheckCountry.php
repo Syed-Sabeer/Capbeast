@@ -10,7 +10,7 @@ class CheckCountry
     public function handle(Request $request, Closure $next)
     {
         // Allow admin routes to bypass this middleware
-        if ($request->is('admin/*')) {
+        if ($request->is('backend/*')) {
             return $next($request);
         }
     

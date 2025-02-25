@@ -63,7 +63,7 @@ Route::middleware(['web'])->group(function () {
 
 
   // for country selection through pop up
-  /*
+  
  
   Route::get('/select-country', function () {
       return view('main.global.country-selection');
@@ -80,7 +80,7 @@ Route::middleware(['web'])->group(function () {
   
       return redirect()->route('home'); // Redirect to home after setting country
   })->name('set.country');
-*/
+
 
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/about', [AboutController::class, 'index'])->name('about');
