@@ -45,7 +45,7 @@ Route::middleware(['web'])->group(function () {
   // Routes that require authentication
   Route::middleware('auth')->group(function () {
 
-    Route::get('/productDetail/{slug}', [ProductDetailController::class, 'index'])->name('product.detail');
+   
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
@@ -83,6 +83,8 @@ Route::middleware(['web'])->group(function () {
 
 
   Route::get('/products', [ProductController::class, 'index'])->name('products');
+  Route::get('/productDetail/{slug}', [ProductDetailController::class, 'index'])->name('product.detail');
+  
   Route::get('/about', [AboutController::class, 'index'])->name('about');
   Route::get('/home', [HomeController::class, 'index'])->name('home');
   Route::get('/contact', [ContactController::class, 'index'])->name('contact');
@@ -120,9 +122,8 @@ Route::prefix('backend')->group(function () {
 
 foreach ($roles as $role => $prefix) {
   Route::middleware(["auth:{$role}", "role:{$role}"])->group(function () use ($prefix) {
-
-      Route::prefix($prefix)->group(function () use ($prefix) {
-
+      
+      Route::prefix("backend/{$prefix}")->group(function () use ($prefix) {  // Apply backend prefix
 
           if ($prefix == 'superadmin'){
 

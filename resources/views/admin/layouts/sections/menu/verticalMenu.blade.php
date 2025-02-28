@@ -37,7 +37,7 @@
     {{-- Dashboard --}}
     @php $activeClass = $currentRouteName === 'app-ecommerce-dashboard' ? 'active' : ''; @endphp
     <li class="menu-item {{$activeClass}}">
-      <a href="{{ url("$prefix/dashboard") }}" class="menu-link">
+      <a href="{{ url("backend/$prefix/dashboard") }}" class="menu-link">
         <div>Dashboard</div>
       </a>
     </li>
@@ -56,8 +56,8 @@
         <div>Products</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/product/list") }}" class="menu-link">Product List</a></li>
-        <li class="menu-item"><a href="{{ url("$prefix/product/add") }}" class="menu-link">Add Product</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/product/list") }}" class="menu-link">Product List</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/product/add") }}" class="menu-link">Add Product</a></li>
       </ul>
     </li>
     
@@ -68,8 +68,8 @@
         <div>Embroidery</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/printing/list") }}" class="menu-link">Embroidery List</a></li>
-        <li class="menu-item"><a href="{{ url("$prefix/printing/add") }}" class="menu-link">Add Embroidery</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/printing/list") }}" class="menu-link">Embroidery List</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/printing/add") }}" class="menu-link">Add Embroidery</a></li>
       </ul>
     </li>
     
@@ -80,8 +80,8 @@
         <div>Deliveries</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/delivery/list") }}" class="menu-link">Delivery List</a></li>
-        <li class="menu-item"><a href="{{ url("$prefix/delivery/add") }}" class="menu-link">Add Delivery</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/delivery/list") }}" class="menu-link">Delivery List</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/delivery/add") }}" class="menu-link">Add Delivery</a></li>
       </ul>
     </li>
     
@@ -92,7 +92,7 @@
         <div>Order</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/order/list") }}" class="menu-link">Order List</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/order/list") }}" class="menu-link">Order List</a></li>
       </ul>
     </li>
     
@@ -103,7 +103,7 @@
         <div>Customer</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/customer/all") }}" class="menu-link">All Customers</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/customer/all") }}" class="menu-link">All Customers</a></li>
       </ul>
     </li>
 
@@ -122,11 +122,11 @@
         <div>Product Color</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/productcolor/add") }}" class="menu-link">Add Color</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/component/productcolor/add") }}" class="menu-link">Add Color</a></li>
       </ul>
 
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/productcolor/list") }}" class="menu-link">View Color</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/component/productcolor/list") }}" class="menu-link">View Color</a></li>
       </ul>
 
     </li>
@@ -137,11 +137,11 @@
         <div>Internal Statuses</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/InternalStatus/add") }}" class="menu-link">Add Internal Status</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/component/InternalStatus/add") }}" class="menu-link">Add Internal Status</a></li>
       </ul>
 
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/InternalStatus/list") }}" class="menu-link">View Internal Status</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/component/InternalStatus/list") }}" class="menu-link">View Internal Status</a></li>
       </ul>
 
     </li>
@@ -153,7 +153,7 @@
         <div>TPS Tax</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/TPS_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/component/TPS_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
       </ul>
 
      
@@ -165,7 +165,7 @@
         <div>TVQ Tax</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("$prefix/component/TVQ_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
+        <li class="menu-item"><a href="{{ url("backend/$prefix/component/TVQ_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
       </ul>
 
      
@@ -177,11 +177,11 @@
          <div>Discount Coupons</div>
        </a>
        <ul class="menu-sub">
-         <li class="menu-item"><a href="{{ url("$prefix/component/discountcoupon/add") }}" class="menu-link">Add Discount Coupons</a></li>
+         <li class="menu-item"><a href="{{ url("backend/$prefix/component/discountcoupon/add") }}" class="menu-link">Add Discount Coupons</a></li>
        </ul>
 
        <ul class="menu-sub">
-         <li class="menu-item"><a href="{{ url("$prefix/component/discountcoupon/list") }}" class="menu-link">View Discount Coupons</a></li>
+         <li class="menu-item"><a href="{{ url("backend/$prefix/component/discountcoupon/list") }}" class="menu-link">View Discount Coupons</a></li>
        </ul>
 
      </li>
@@ -200,11 +200,11 @@
           <div>Discount Coupons</div>
         </a>
         <ul class="menu-sub">
-          <li class="menu-item"><a href="{{ url("$prefix/component/discountcoupon/add") }}" class="menu-link">Add Discount Coupons</a></li>
+          <li class="menu-item"><a href="{{ url("backend/$prefix/component/discountcoupon/add") }}" class="menu-link">Add Discount Coupons</a></li>
         </ul>
 
         <ul class="menu-sub">
-          <li class="menu-item"><a href="{{ url("$prefix/component/discountcoupon/list") }}" class="menu-link">View Discount Coupons</a></li>
+          <li class="menu-item"><a href="{{ url("backend/$prefix/component/discountcoupon/list") }}" class="menu-link">View Discount Coupons</a></li>
         </ul>
 
       </li>
@@ -216,8 +216,8 @@
       <div>Products</div>
     </a>
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/product/list") }}" class="menu-link">Product List</a></li>
-      <li class="menu-item"><a href="{{ url("$prefix/product/add") }}" class="menu-link">Add Product</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/product/list") }}" class="menu-link">Product List</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/product/add") }}" class="menu-link">Add Product</a></li>
     </ul>
   </li>
   
@@ -228,8 +228,8 @@
       <div>Embroidery</div>
     </a>
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/printing/list") }}" class="menu-link">Embroidery List</a></li>
-      <li class="menu-item"><a href="{{ url("$prefix/printing/add") }}" class="menu-link">Add Embroidery</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/printing/list") }}" class="menu-link">Embroidery List</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/printing/add") }}" class="menu-link">Add Embroidery</a></li>
     </ul>
   </li>
   
@@ -240,8 +240,8 @@
       <div>Deliveries</div>
     </a>
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/delivery/list") }}" class="menu-link">Delivery List</a></li>
-      <li class="menu-item"><a href="{{ url("$prefix/delivery/add") }}" class="menu-link">Add Delivery</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/delivery/list") }}" class="menu-link">Delivery List</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/delivery/add") }}" class="menu-link">Add Delivery</a></li>
     </ul>
   </li>
   
@@ -252,7 +252,7 @@
       <div>Order</div>
     </a>
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/order/list") }}" class="menu-link">Order List</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/order/list") }}" class="menu-link">Order List</a></li>
     </ul>
   </li>
   
@@ -263,7 +263,7 @@
       <div>Customer</div>
     </a>
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/customer/all") }}" class="menu-link">All Customers</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/customer/all") }}" class="menu-link">All Customers</a></li>
     </ul>
   </li>
 
@@ -282,11 +282,11 @@
       <div>Product Color</div>
     </a>
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/component/productcolor/add") }}" class="menu-link">Add Color</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/component/productcolor/add") }}" class="menu-link">Add Color</a></li>
     </ul>
 
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/component/productcolor/list") }}" class="menu-link">View Color</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/component/productcolor/list") }}" class="menu-link">View Color</a></li>
     </ul>
 
   </li>
@@ -297,11 +297,11 @@
       <div>Internal Statuses</div>
     </a>
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/component/InternalStatus/add") }}" class="menu-link">Add Internal Status</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/component/InternalStatus/add") }}" class="menu-link">Add Internal Status</a></li>
     </ul>
 
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/component/InternalStatus/list") }}" class="menu-link">View Internal Status</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/component/InternalStatus/list") }}" class="menu-link">View Internal Status</a></li>
     </ul>
 
   </li>
@@ -313,7 +313,7 @@
       <div>TPS Tax</div>
     </a>
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/component/TPS_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/component/TPS_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
     </ul>
 
    
@@ -325,7 +325,7 @@
       <div>TVQ Tax</div>
     </a>
     <ul class="menu-sub">
-      <li class="menu-item"><a href="{{ url("$prefix/component/TVQ_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
+      <li class="menu-item"><a href="{{ url("backend/$prefix/component/TVQ_TaxPrice/list") }}" class="menu-link">Modify Tax</a></li>
     </ul>
 
    
@@ -337,11 +337,11 @@
        <div>Discount Coupons</div>
      </a>
      <ul class="menu-sub">
-       <li class="menu-item"><a href="{{ url("$prefix/component/discountcoupon/add") }}" class="menu-link">Add Discount Coupons</a></li>
+       <li class="menu-item"><a href="{{ url("backend/$prefix/component/discountcoupon/add") }}" class="menu-link">Add Discount Coupons</a></li>
      </ul>
 
      <ul class="menu-sub">
-       <li class="menu-item"><a href="{{ url("$prefix/component/discountcoupon/list") }}" class="menu-link">View Discount Coupons</a></li>
+       <li class="menu-item"><a href="{{ url("backend/$prefix/component/discountcoupon/list") }}" class="menu-link">View Discount Coupons</a></li>
      </ul>
 
    </li>
