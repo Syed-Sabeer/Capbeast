@@ -5,8 +5,7 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 
-class 
-CurrencyHelper {
+class CurrencyHelper {
     public static function convert($amount, $from = 'CAD', $to = 'USD') {
         if ($from === $to) return (float) $amount; // Ensure numeric return
 
@@ -21,9 +20,9 @@ CurrencyHelper {
 
         $convertedAmount = (float) $amount * $exchangeRate;
 
-        // If converting to USD, add extra $0.08
+        // If converting to USD, add a 10% charge
         if ($to === 'USD') {
-            $convertedAmount += 0.08;
+            $convertedAmount *= 1.1;
         }
 
         return $convertedAmount;

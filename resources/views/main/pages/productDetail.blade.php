@@ -62,12 +62,14 @@
                                     @endphp --}}
                                     
                                     {{-- @if($country === 'CANADA')  --}}
-                                        @foreach ($prices as $price)
-                                            <td class="fw-medium text-align-center" data-price="{{ $price }}"
-                                                id="pricing-{{ $price }}">
-                                                ${{ number_format($price, 2) }}
-                                            </td>
-                                        @endforeach
+                                    @foreach ($prices as $price)
+                                    @php $roundedPrice = round($price, 2); @endphp
+                                    <td class="fw-medium text-align-center" data-price="{{ $roundedPrice }}"
+                                        id="pricing-{{ $roundedPrice }}">
+                                        ${{ number_format($roundedPrice, 2) }}
+                                    </td>
+                                @endforeach
+                                
                                     {{-- @else
                                         @foreach ($USAprices as $price)
                                             <td class="fw-medium text-align-center" data-price="{{ $price }}"
@@ -235,7 +237,7 @@
                                             <label for="withpompom">
                                                 <img src="{{ asset('assetsCommon/images/withPomPom.jpg') }}"
                                                     alt="withpompom"  class="pompomsize"> With Pom Pom
-                                                <span style="color: red">+$2 per unit </span>
+                                                <span style="color: red">$<span id="pompomvalue"></span> per unit </span>
                                             </label>
 
 
@@ -580,7 +582,7 @@
                                                          
                                                         </div> --}}
                                                     <div class="delivery_price w3_bg">Price:
-                                                        30 $
+                                                       <span id="total-price3span"></span>
                                                     </div>
                                                 </li>
 
@@ -643,6 +645,7 @@
             const totalPrice = document.getElementById("total-price");
             const totalPriceCustomization = document.getElementById("total-price2");
             const totalPriceDelivery = document.getElementById("total-price3");
+            const totalPriceDeliverySpan = document.getElementById("total-price3span");
             const printingOptions = document.querySelectorAll(".printing-option");
             const shippingOptions = document.querySelectorAll('input[name="shippingOption"]');
             const pickYourselfBox = document.getElementById("pickYourselfBox");
@@ -662,6 +665,8 @@
             prices = @json($prices).map(Number);
 
             const pomPomPrice = @json($pomPomPrice); // Fetch converted pom-pom price from backend
+            document.getElementById("pompomvalue").innerText = pomPomPrice.toFixed(2);
+            
 
             const quantitiesDelivery = @json($quantitiesdelivery).map(Number);
             const pricesDelivery = @json($pricesDelivery).map(Number);
@@ -789,20 +794,26 @@ const pompomCustomizationPrice = isWithPompom ? enteredQty * pomPomPrice : 0;
                 }
 
                 document.querySelectorAll('[id^="pricing-"]').forEach(function(priceElement) {
-                    const priceValue = parseFloat(priceElement.getAttribute('data-price'));
+    const priceValue = parseFloat(priceElement.getAttribute('data-price'));
+    const roundedPrice = parseFloat(priceValue.toFixed(2));
+    const roundedCalculatedPrice = parseFloat(calculatedPrice.toFixed(2));
 
-                    if (priceValue === calculatedPrice) {
-                        priceElement.style.backgroundColor = "#F7B708";
-                        priceElement.style.color = "#fff";
-                    } else {
-                        priceElement.style.backgroundColor = "";
-                        priceElement.style.color = "black";
-                    }
-                });
+    console.log("Checking:", { priceValue, roundedPrice, calculatedPrice, roundedCalculatedPrice });
+
+    if (roundedPrice === roundedCalculatedPrice) {
+        priceElement.style.backgroundColor = "#F7B708";
+        priceElement.style.color = "#fff";
+    } else {
+        priceElement.style.backgroundColor = "";
+        priceElement.style.color = "black";
+    }
+});
+
             }
 
             // Update delivery price and total cost for "View Shipping Bundle"
-            function updateDeliveryPriceAndTotal() {
+        // Update delivery price and total cost for "View Shipping Bundle"
+function updateDeliveryPriceAndTotal() {
     const enteredQty = parseInt(quantityInput.value) || 0;
     const productPrice = calculatePrice(enteredQty, quantities, prices);
     const printingPrice = selectedPrintingPrice * enteredQty;
@@ -817,17 +828,24 @@ const pompomCustomizationPrice = isWithPompom ? enteredQty * pomPomPrice : 0;
 
     let deliveryPrice = 0;
     if (selectedOption === "viewBundle") {
-        deliveryPrice = total > 500 ? 0 : fixedDeliveryPrice;  // Use the dynamic fixedDeliveryPrice
+        deliveryPrice = total > 500 ? 0 : fixedDeliveryPrice; // Use the dynamic fixedDeliveryPrice
     }
 
+    // Round delivery price to ensure consistency
+    deliveryPrice = parseFloat(deliveryPrice.toFixed(2));
+    
     // Update the delivery price display
     totalPriceDelivery.textContent = `$${deliveryPrice.toFixed(2)}`;
+    totalPriceDeliverySpan.textContent = `$${deliveryPrice.toFixed(2)}`;
 
-    // Update the background color for selected shipping option
+    console.log("Calculated Delivery Price:", deliveryPrice);
+
+    // Update the background color for the selected shipping option
     document.querySelectorAll(".shippingCharging").forEach((shippingElement) => {
-        const priceText = shippingElement.querySelector(".delivery_price").textContent.trim();
-        const priceMatch = priceText.match(/\d+(\.\d+)?/); // Extract numeric value
-        const priceValue = priceMatch ? parseFloat(priceMatch[0]) : null;
+        const priceText = shippingElement.querySelector(".delivery_price")?.textContent.match(/[\d.]+/);
+        const priceValue = priceText ? parseFloat(priceText[0]) : null;
+
+        console.log("Extracted Price from UI:", priceValue);
 
         if (priceValue !== null && priceValue === deliveryPrice) {
             shippingElement.style.backgroundColor = "#F7B708";
@@ -838,6 +856,7 @@ const pompomCustomizationPrice = isWithPompom ? enteredQty * pomPomPrice : 0;
         }
     });
 }
+
 
 
             // Toggle between "Pick Yourself" and "View Shipping Bundle"

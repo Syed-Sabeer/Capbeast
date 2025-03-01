@@ -72,12 +72,12 @@ $fixedDeliveryPrice = ($country === 'USA') ? CurrencyHelper::convert($fixedDeliv
         $pricing = $product->productPricing;
         $quantities = $pricing->pluck('quantity');
         
-        if ($user->is_reseller == 1) {
+        if ($user && $user->is_reseller == 1) {
             $prices = $pricing->pluck('reseller_pricing');
-        }
-        else{
+        } else {
             $prices = $pricing->pluck('pricing');
         }
+        
 
         // Convert Prices if user is in the USA
         if ($country === 'USA') {
