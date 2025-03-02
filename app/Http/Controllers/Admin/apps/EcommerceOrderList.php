@@ -9,15 +9,23 @@ class EcommerceOrderList extends Controller
 {
   public function index()
   {
-    
-
-    $orders = Order::with(['user', 'items' => function ($query) {
-      $query->with('orderArtwork');
-  }])->get();
-
-
-
-    return view('admin.content.apps.app-ecommerce-order-list', compact('orders'));
+      // Count orders based on their status
+      $processingCount = Order::where('status', 0)->count();
+      $inProductionCount = Order::where('status', 1)->count();
+      $completedCount = Order::where('status', 2)->count();
+      $shippedCount = Order::where('status', 3)->count();
+      $canceledCount = Order::where('status', 4)->count();
+  
+      // Fetch orders with related user and items (including order artwork)
+      $orders = Order::with(['user', 'items' => function ($query) {
+          $query->with('orderArtwork');
+      }])->get();
+  
+      // Pass all required variables to the view
+      return view('admin.content.apps.app-ecommerce-order-list', compact(
+          'orders', 'processingCount', 'inProductionCount', 
+          'completedCount', 'shippedCount', 'canceledCount'
+      ));
   }
   public function updateStatus(Request $request, $id)
   {

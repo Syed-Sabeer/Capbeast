@@ -927,51 +927,23 @@ function updateDeliveryPriceAndTotal() {
                 });
             });
             let printingId;  // Declare printingId outside the blocks
-
-document.getElementById("add-to-cart-button").addEventListener("click", function() {
-    const isAuthenticated = {{ Auth::check() ? 'true' : 'false' }};
-
-    if (!isAuthenticated) {
-        // Redirect to the login page if not authenticated
-        window.location.href = "{{ route('user.login') }}";
-        return;
-    }
+            document.getElementById("add-to-cart-button").addEventListener("click", function () {
+    const isAuthenticated = "{{ Auth::check() }}" === "1"; // Ensure proper boolean conversion
 
     const quantity = parseInt(quantityInput.value) || 0;
     const colorId = document.getElementById("beanie-color").value;
     const beanieType = document.querySelector('input[name="beanie"]:checked')?.value || null;
     const PomPomOption = document.querySelector('input[name="pompom"]:checked')?.value || 0;
-const pompomPrice = PomPomOption === "1" ? pomPomPrice : 0;
-
+    const pompomPrice = PomPomOption === "1" ? pomPomPrice : 0;
     const printingPrice = selectedPrintingPrice;
-
-    // Declare and assign printingId based on the condition
-    if (printingPrice === 0) {
-        printingId = 1;
-    } else {
-        printingId = parseInt(document.querySelector(".printing-option.active")?.getAttribute("data-id")) || null;
-    }
-
-    // const total = (printingPrice * quantity) + (productPrice * quantity);
     
-
+    let printingId = printingPrice === 0 ? 1 : parseInt(document.querySelector(".printing-option.active")?.getAttribute("data-id")) || null;
     const productPrice = calculatePrice(quantity, quantities, prices);
-
-    // Check which shipping option is selected
-    const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
-    
-    // Calculate total cost
+    const selectedOption = document.querySelector('input[name="shippingOption"]:checked')?.value;
     const total = (productPrice * quantity) + (printingPrice * quantity) + pompomPrice;
 
-   // Set delivery price based on total cost and selected shipping option
-    let deliveryPrice;
-    if (selectedOption === "pickYourself") {
-        deliveryPrice = 0;
-    } else {
-        deliveryPrice = total > 500 ? 0 : fixedDeliveryPrice;
-    }
+    let deliveryPrice = (selectedOption === "pickYourself") ? 0 : (total > 500 ? 0 : fixedDeliveryPrice);
 
-    
     const formData = new FormData();
     formData.append("productId", productId);
     formData.append("userId", userId);
@@ -985,7 +957,6 @@ const pompomPrice = PomPomOption === "1" ? pomPomPrice : 0;
     formData.append("deliveryPrice", deliveryPrice);
     formData.append("pompomPrice", pompomPrice);
 
-    // Only include artwork data if the artwork form is visible
     if (artworkSelection.style.display !== "none") {
         const artworkType = parseInt(document.getElementById("artworkType").value) || null;
         const artworkDataText = document.getElementById("messageInput").value || null;
@@ -996,13 +967,15 @@ const pompomPrice = PomPomOption === "1" ? pomPomPrice : 0;
         if (artworkDataImage) {
             formData.append("artworkDataImage", artworkDataImage);
         }
-        const leathercolor = document.getElementById("leathercolor").value;
-        const patchLength = document.getElementById("patchLength").value ? parseFloat(document.getElementById("patchLength").value) : null;
-        const patchHeight = document.getElementById("patchHeight").value ? parseFloat(document.getElementById("patchHeight").value) : null;
-        const fontStyle = document.getElementById("fontStyle").value || null;
-        const numOfImprint = document.getElementById("imprintColors").value ? parseInt(document.getElementById("imprintColors").value) : null;
 
-        const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns input")).map(input => parseInt(input.value, 10));
+        const leathercolor = document.getElementById("leathercolor").value;
+        const patchLength = parseFloat(document.getElementById("patchLength").value) || null;
+        const patchHeight = parseFloat(document.getElementById("patchHeight").value) || null;
+        const fontStyle = document.getElementById("fontStyle").value || null;
+        const numOfImprint = parseInt(document.getElementById("imprintColors").value) || null;
+
+        const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns input"))
+            .map(input => parseInt(input.value, 10));
 
         formData.append("leathercolor", leathercolor);
         formData.append("patchLength", patchLength);
@@ -1012,6 +985,29 @@ const pompomPrice = PomPomOption === "1" ? pomPomPrice : 0;
         imprintColors.forEach((color, index) => {
             formData.append(`imprintColors[${index}]`, color);
         });
+    }
+
+    if (!isAuthenticated) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        console.log("Cart before adding item:", cart);
+
+        let newItem = Object.fromEntries(formData.entries());
+        console.log("New item being added:", newItem);
+
+        cart.push(newItem);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=3600; SameSite=Lax`;
+console.log("Stored cart in cookie before redirect:", document.cookie);
+
+setTimeout(() => {
+    console.log("Final cart from cookie before redirect:", document.cookie);
+    window.location.href = "{{ route('user.login') }}";
+}, 2000);
+
+
+       
+
+        return;
     }
 
     fetch("{{ route('cart.add') }}", {
@@ -1034,6 +1030,8 @@ const pompomPrice = PomPomOption === "1" ? pomPomPrice : 0;
         console.error("Error:", error);
     });
 });
+
+
 
         });
     </script>

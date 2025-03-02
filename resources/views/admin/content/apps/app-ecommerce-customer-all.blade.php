@@ -67,8 +67,19 @@
               </div>
           </td>
           <td>
-             {{-- <a href="{{ route('app-ecommerce-order-detail', $order->id) }}"  data-user-id="{{ $order->id }}" class="badge bg-label-info">View Profile</a> --}}
-            </td>
+            @if ($prefix == 'superadmin')
+            <a href="{{ route($prefix.'.admin.customers.edit', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
+            <form action="{{ route($prefix.'.admin.customers.destroy', $user->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+            </form>
+
+            @else
+            <a href="{{ route($prefix.'.admin.customers.edit', $user->id) }}" class="btn btn-sm btn-warning">Edit</a>
+            @endif
+            
+        </td>
           
         </tr>
     @endforeach

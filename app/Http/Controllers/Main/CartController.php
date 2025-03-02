@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Main;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartArtwork;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -29,6 +30,14 @@ class CartController extends Controller
     public function add(Request $request)
     {
         
+
+        $user = Auth::user();
+        $sessionCountry = session('country', 'USA');
+    
+        if ($user->country !== $sessionCountry) {
+            return response()->json(['success' => false, 'message' => 'Country mismatch! Order not saved.'], 403);
+        }
+
         Log::info('Request Data:', $request->all());
 
         try {
