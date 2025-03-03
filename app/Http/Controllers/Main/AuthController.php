@@ -170,22 +170,39 @@ public function login(Request $request)
                 ]);
 
                 if (!empty($item['artworkType']) && (!empty($item['artworkDataText']) || !empty($item['artworkDataImage']))) {
-                    $tempImage = TempCartImage::where('session_id', session()->getId())->first();
-
+                    $originalSessionId = $request->cookie('original_session_id', session()->getId());
+                    $tempImage = TempCartImage::where('session_id', $originalSessionId)->first();
+                    
+                    if (!$tempImage) {
+                        Log::error('No temp image found for session', ['session_id' => session()->getId()]);
+                    } else {
+                        Log::info('Temp image found', ['tempImage' => $tempImage]);
+                    }
+                    
                     if ($tempImage && empty($item['artworkDataImage'])) {
                         Log::info('Migrating temp image to permanent storage', ['tempImage' => $tempImage]);
-
-                        $oldPath = str_replace('storage/', 'public/', $tempImage->artwork_dataImage);
-                        $newPath = 'public/CustomerArtworkImages/' . basename($oldPath);
-
-                        if (Storage::exists($oldPath)) {
-                            Storage::move($oldPath, $newPath);
-                            $item['artworkDataImage'] = str_replace('public/', 'storage/', $newPath);
-                            Log::info('Image migration successful', ['newPath' => $item['artworkDataImage']]);
+                    
+                        $oldPath = 'public/' . $tempImage->artwork_dataImage;  // Corrected path
+                        $newPath = 'CustomerArtworkImages/' . basename($oldPath);  // Corrected path
+                    
+                        if (Storage::disk('public')->exists(str_replace('public/', '', $oldPath))) {
+                            $moved = Storage::disk('public')->move(str_replace('public/', '', $oldPath), $newPath);
+                            if ($moved) {
+                                $item['artworkDataImage'] = 'storage/' . $newPath;
+                    
+                                Log::info('Image migration successful', [
+                                    'oldPath' => $oldPath,
+                                    'newPath' => $newPath,
+                                    'storedPath' => $item['artworkDataImage']
+                                ]);
+                            } else {
+                                Log::error('Failed to move image', ['oldPath' => $oldPath, 'newPath' => $newPath]);
+                            }
                         } else {
                             Log::error('Temp image not found for migration', ['path' => $oldPath]);
                         }
                     }
+                    
 
                     if ($request->hasFile('artworkDataImage')) {
                         $item['artworkDataImage'] = $request->file('artworkDataImage')->store('public/CustomerArtworkImages');
@@ -212,9 +229,20 @@ public function login(Request $request)
 
                     // 🗑️ Delete temp image from temp_cart_images
                     if ($tempImage) {
-                        Storage::delete($oldPath); // Delete the physical file
-                        $tempImage->delete();       // Delete from the database
-                        Log::info('Temp image deleted successfully', ['tempImage' => $tempImage->id]);
+                        if (Storage::exists(str_replace('public/', '', $newPath))) {  // Correct path for Storage facade
+                            Storage::delete(str_replace('public/', '', $newPath));
+                            Log::info('Temp image file deleted successfully', ['path' => $newPath]);
+                        } else {
+                            Log::error('Temp image file not found for deletion', ['path' => $newPath]);
+                        }
+                        
+                        
+                        if ($tempImage->delete()) {
+                            Log::info('Temp image record deleted successfully', ['tempImageId' => $tempImage->id]);
+                        } else {
+                            Log::error('Failed to delete temp image record', ['tempImageId' => $tempImage->id]);
+                        }
+                        
                     }
                 }
             }
@@ -230,36 +258,35 @@ public function login(Request $request)
     Log::error('Invalid login attempt', ['email' => $request->email]);
     return back()->withErrors(['email' => 'Invalid credentials']);
 }
-
 public function uploadTempCartImage(Request $request)
 {
-    Log::info('uploadTempCartImage called', ['session_id' => $request->session_id]);
+    $sessionId = session()->getId(); // Get the current session ID
+    Log::info('uploadTempCartImage called', ['session_id' => $sessionId]);
 
     if ($request->hasFile('artworkDataImage')) {
         $file = $request->file('artworkDataImage');
         $fileName = time() . '_' . $file->getClientOriginalName();
         $path = $file->storeAs('TempCartImages', $fileName, 'public');
-        // $storedPath = 'storage/' . $path;
-        
 
         Log::info('Image uploaded successfully', ['path' => $path]);
 
         TempCartImage::create([
-            'session_id' => $request->session_id,
-            'artwork_dataImage' => $path,
+            'session_id' => $sessionId,
+            'artwork_dataImage' => 'storage/' . $path,  // Store the relative path
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Image uploaded successfully',
-            'path' => $path,
-        ]);
-    } else {
-        Log::error('No image uploaded or file missing');
+            'path' => 'storage/' . $path,
+        ])->withCookie(cookie('original_session_id', $sessionId, 60)); // Store session ID in a cookie for 60 minutes
     }
 
+    Log::error('No image uploaded or file missing');
     return response()->json(['success' => false, 'message' => 'No image uploaded']);
 }
+
+
 
 
 
