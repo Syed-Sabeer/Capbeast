@@ -1,8 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Main;
+
 use App\Models\Cart;
 use App\Models\CartArtwork;
+use App\Models\TempCartImage;
+use Illuminate\Support\Facades\Storage;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,13 +19,13 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-    // Show Registration Form
-    public function showRegistrationForm()
-    {
-        return view('main.pages.signup');
-    }
+// Show Registration Form
+public function showRegistrationForm()
+{
+    return view('main.pages.signup');
+}
 
- 
+
 public function register(Request $request)
 {
     Log::info('Register request data', $request->all());
@@ -37,7 +41,7 @@ public function register(Request $request)
         'neq_number' => 'nullable|required_if:reseller,yes',
         'country' => 'required|in:USA,CANADA',
     ]);
-    
+
 
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput();
@@ -62,10 +66,10 @@ public function register(Request $request)
 
     if ($user) {
         auth()->login($user);
-        
+
         $cartCookie = $request->cookie('cart');
         $cartFromLocalStorage = $cartCookie ? json_decode($cartCookie, true) : [];
-        
+
         if ($cartFromLocalStorage) {
             foreach ($cartFromLocalStorage as $item) {
                 $cartItem = Cart::create([
@@ -92,7 +96,10 @@ public function register(Request $request)
                         'patch_height' => $item['patchHeight'] ?? null,
                         'font_style' => $item['fontStyle'] ?? null,
                         'num_of_imprint' => $item['numOfImprint'] ?? null,
-                        'imprint_color' => $item['imprintColors'] ?? [],
+                      'imprint_color' => isset($item['imprintColors']) && is_array($item['imprintColors'])
+    ? json_encode($item['imprintColors'])
+    : json_encode([]),
+
                         'leathercolor' => $item['leathercolor'] ?? null,
                     ]);
                 }
@@ -100,145 +107,166 @@ public function register(Request $request)
             return redirect()->route('cart')->withCookie(cookie()->forget('cart'));
         }
 
-    // 📩 Send Email Based on User Type
-    // Mail::to($user->email)->send(new UserRegisteredMail($user, $isReseller));
+        // 📩 Send Email Based on User Type
+        // Mail::to($user->email)->send(new UserRegisteredMail($user, $isReseller));
 
-    if ($isReseller) {
-        Log::info('Sending reseller email to sales@monkeybeanies.com for:', ['email' => $user->email]);
-        Mail::to('registration@monkeybeanies.com')->send(new UserRegisteredMail($user, $isReseller, true));
+        if ($isReseller) {
+            Log::info('Sending reseller email to sales@monkeybeanies.com for:', ['email' => $user->email]);
+            Mail::to('registration@monkeybeanies.com')->send(new UserRegisteredMail($user, $isReseller, true));
+        }
+
+
+        return redirect()->route('home')->with('success', 'Registration successful!');
     }
-    
-
-    return redirect()->route('home')->with('success', 'Registration successful!');
-}
 }
 
-    // Show Login Form
-    public function showLoginForm()
-    {
-        return view('main.pages.signin');
-    }
+// Show Login Form
+public function showLoginForm()
+{
+    return view('main.pages.signin');
+}
 
-    // Handle Login Form Submission
-    public function login(Request $request)
-    {
-        Log::info('Login request received', $request->all());
-    
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-    
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            Log::info('User authenticated successfully', ['user_id' => $user->id]);
-    
-            $sessionCountry = session('country', 'USA');
-            Log::info('Session country:', ['sessionCountry' => $sessionCountry]);
-    
-            // Retrieve cart from both cookie and request
-            $cartCookie = request()->cookie('cart') ?? $_COOKIE['cart'] ?? null;
-Log::info('Cart cookie received:', ['cartCookie' => $cartCookie]);
+// Handle Login Form Submission
+public function login(Request $request)
+{
+    Log::info('Login request received', $request->all());
 
-            Log::info('Raw cart cookie received:', ['cartCookie' => $cartCookie]); // Add this log for debugging
-            
-            $cartFromLocalStorage = json_decode($cartCookie, true) ?? [];
-            if (!$cartFromLocalStorage) {
-                Log::error('Cart cookie is empty or not received properly!');
-            }
-            
-            Log::info('Cart from cookie before processing:', ['cart' => $cartFromLocalStorage]);
-    
-            if ($user->country === $sessionCountry) {
-                foreach ($cartFromLocalStorage as $item) {
-                    // dd($item);
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
-                    $cartItem = Cart::create([
-                        'user_id' => $user->id,
-                        'product_id' => $item['productId'],
-                        'color_id' => $item['colorId'],
-                        'quantity' => $item['quantity'],
-                        'beanie_type' => $item['beanieType'],
-                        'is_pompom' => $item['PomPomOption'],
-                        'printing_id' => $item['printingId'],
-                        'printing_price' => $item['printingPrice'],
-                        'product_price' => $item['productPrice'],
-                        'delivery_price' => $item['deliveryPrice'],
-                        'pompom_price' => $item['pompomPrice'],
-                    ]);
-            
-                    if (!empty($item['artworkType']) && (!empty($item['artworkDataText']) || !empty($item['artworkDataImage']))) {
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user();
+        Log::info('User authenticated successfully', ['user_id' => $user->id]);
 
-                        if ($request->hasFile('artworkDataImage')) {
-                            Log::info('Uploaded file:', ['artworkDataImage' => $request->file('artworkDataImage')]);
+        $sessionCountry = session('country', 'USA');
+        Log::info('Session country:', ['sessionCountry' => $sessionCountry]);
 
-                            $item['artworkDataImage'] = $request->file('artworkDataImage')->store('CustomerArtworkImages', 'public');
-                            Log::info('Uploaded file:', ['artworkDataImage' => $request->file('artworkDataImage')]);
+        $cartCookie = request()->cookie('cart') ?? $_COOKIE['cart'] ?? null;
+        Log::info('Cart cookie received:', ['cartCookie' => $cartCookie]);
 
+        $cartFromLocalStorage = json_decode($cartCookie, true) ?? [];
+        if (!$cartFromLocalStorage) {
+            Log::error('Cart cookie is empty or not received properly!');
+        }
+
+        Log::info('Cart from cookie before processing:', ['cart' => $cartFromLocalStorage]);
+
+        if ($user->country === $sessionCountry) {
+            foreach ($cartFromLocalStorage as $item) {
+                $cartItem = Cart::create([
+                    'user_id' => $user->id,
+                    'product_id' => $item['productId'],
+                    'color_id' => $item['colorId'],
+                    'quantity' => $item['quantity'],
+                    'beanie_type' => $item['beanieType'],
+                    'is_pompom' => $item['PomPomOption'],
+                    'printing_id' => $item['printingId'],
+                    'printing_price' => $item['printingPrice'],
+                    'product_price' => $item['productPrice'],
+                    'delivery_price' => $item['deliveryPrice'],
+                    'pompom_price' => $item['pompomPrice'],
+                ]);
+
+                if (!empty($item['artworkType']) && (!empty($item['artworkDataText']) || !empty($item['artworkDataImage']))) {
+                    $tempImage = TempCartImage::where('session_id', session()->getId())->first();
+
+                    if ($tempImage && empty($item['artworkDataImage'])) {
+                        Log::info('Migrating temp image to permanent storage', ['tempImage' => $tempImage]);
+
+                        $oldPath = str_replace('storage/', 'public/', $tempImage->artwork_dataImage);
+                        $newPath = 'public/CustomerArtworkImages/' . basename($oldPath);
+
+                        if (Storage::exists($oldPath)) {
+                            Storage::move($oldPath, $newPath);
+                            $item['artworkDataImage'] = str_replace('public/', 'storage/', $newPath);
+                            Log::info('Image migration successful', ['newPath' => $item['artworkDataImage']]);
+                        } else {
+                            Log::error('Temp image not found for migration', ['path' => $oldPath]);
                         }
-                        Log::info('CartArtwork data:', [
-                            'cart_id' => $cartItem->id,
-                            'artwork_type' => $item['artworkType'],
-                            'artwork_dataText' => $item['artworkDataText'] ?? null,
-                            'artwork_dataImage' => $item['artworkDataImage'] ?? null,
-                            'patch_length' => $item['patchLength'] ?? null,
-                            'patch_height' => $item['patchHeight'] ?? null,
-                            'font_style' => $item['fontStyle'] ?? null,
-                            'num_of_imprint' => $item['numOfImprint'] ?? null,
+                    }
 
-    'imprint_color' => isset($item['imprintColors']) && is_array($item['imprintColors']) 
-    ? json_encode($item['imprintColors']) 
-    : json_encode([]),
+                    if ($request->hasFile('artworkDataImage')) {
+                        $item['artworkDataImage'] = $request->file('artworkDataImage')->store('public/CustomerArtworkImages');
+                        $item['artworkDataImage'] = str_replace('public/', 'storage/', $item['artworkDataImage']);
+                    }
 
-                            'leathercolor' => $item['leathercolor'] ?? null,
-                        ]);
-                                                
-                        
-                        CartArtwork::create([
-                            'cart_id' => $cartItem->id,
-                            'artwork_type' => $item['artworkType'],
-                            'artwork_dataText' => $item['artworkDataText'] ?? null,
-                            'artwork_dataImage' => $item['artworkDataImage'] ?? null,
-                            'patch_length' => $item['patchLength'] ?? null,
-                            'patch_height' => $item['patchHeight'] ?? null,
-                            'font_style' => $item['fontStyle'] ?? null,
-                            'num_of_imprint' =>  $item['numOfImprint'] ?? null,
+                    // 🖼️ Save artwork data to cart_artwork
+                    CartArtwork::create([
+                        'cart_id' => $cartItem->id,
+                        'artwork_type' => $item['artworkType'],
+                        'artwork_dataText' => $item['artworkDataText'] ?? null,
+                        'artwork_dataImage' => !empty($item['artworkDataImage']) ? $item['artworkDataImage'] : null,
+                        'patch_length' => $item['patchLength'] ?? null,
+                        'patch_height' => $item['patchHeight'] ?? null,
+                        'font_style' => $item['fontStyle'] ?? null,
+                        'num_of_imprint' => $item['numOfImprint'] ?? null,
+                        'imprint_color' => isset($item['imprintColors']) && is_array($item['imprintColors'])
+                            ? json_encode($item['imprintColors'])
+                            : json_encode([]),
+                            'leathercolor' => !empty($item['leathercolor']) ? $item['leathercolor'] : null,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
 
-'imprint_color' => isset($item['imprintColors']) && is_array($item['imprintColors']) 
-    ? json_encode($item['imprintColors']) 
-    : json_encode([]),
-
-
-
-
-              'leathercolor' => !empty($item['leathercolor']) ? $item['leathercolor'] : null,
-
-
-
-
-
-                        ]);
+                    // 🗑️ Delete temp image from temp_cart_images
+                    if ($tempImage) {
+                        Storage::delete($oldPath); // Delete the physical file
+                        $tempImage->delete();       // Delete from the database
+                        Log::info('Temp image deleted successfully', ['tempImage' => $tempImage->id]);
                     }
                 }
-            
-                Log::info('Cart & Artwork migrated, clearing cookie');
-                return redirect()->route('cart')->withCookie(cookie()->forget('cart'));
-            } else {
-                Log::warning('Country mismatch, cart not saved', ['user_country' => $user->country]);
-                return redirect()->route('home')->with('error', 'Country mismatch! Cart not saved.');
             }
-            
-        }
-    
-        Log::error('Invalid login attempt', ['email' => $request->email]);
-        return back()->withErrors(['email' => 'Invalid credentials']);
-    }
-    
 
-    // Logout the user
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->route('user.login')->with('status', 'You have been logged out.');
+            Log::info('Cart & Artwork migrated, clearing cookie');
+            return redirect()->route('cart')->withCookie(cookie()->forget('cart'));
+        } else {
+            Log::warning('Country mismatch, cart not saved', ['user_country' => $user->country]);
+            return redirect()->route('home')->with('error', 'Country mismatch! Cart not saved.');
+        }
     }
+
+    Log::error('Invalid login attempt', ['email' => $request->email]);
+    return back()->withErrors(['email' => 'Invalid credentials']);
+}
+
+public function uploadTempCartImage(Request $request)
+{
+    Log::info('uploadTempCartImage called', ['session_id' => $request->session_id]);
+
+    if ($request->hasFile('artworkDataImage')) {
+        $file = $request->file('artworkDataImage');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('TempCartImages', $fileName, 'public');
+        // $storedPath = 'storage/' . $path;
+        
+
+        Log::info('Image uploaded successfully', ['path' => $path]);
+
+        TempCartImage::create([
+            'session_id' => $request->session_id,
+            'artwork_dataImage' => $path,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Image uploaded successfully',
+            'path' => $path,
+        ]);
+    } else {
+        Log::error('No image uploaded or file missing');
+    }
+
+    return response()->json(['success' => false, 'message' => 'No image uploaded']);
+}
+
+
+
+// Logout the user
+public function logout()
+{
+    Auth::logout();
+    return redirect()->route('user.login')->with('status', 'You have been logged out.');
+}
 }

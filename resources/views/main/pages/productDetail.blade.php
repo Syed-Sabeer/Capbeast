@@ -927,7 +927,9 @@ function updateDeliveryPriceAndTotal() {
                 });
             });
             let printingId;  // Declare printingId outside the blocks
-            document.getElementById("add-to-cart-button").addEventListener("click", function () {
+        
+
+document.getElementById("add-to-cart-button").addEventListener("click", function () {
     const isAuthenticated = "{{ Auth::check() }}" === "1"; // Ensure proper boolean conversion
 
     const quantity = parseInt(quantityInput.value) || 0;
@@ -960,8 +962,7 @@ function updateDeliveryPriceAndTotal() {
     if (artworkSelection.style.display !== "none") {
         const artworkType = parseInt(document.getElementById("artworkType").value) || null;
         const artworkDataText = document.getElementById("messageInput").value || null;
-        const artworkDataImage = document.getElementById("fileUpload").files[0] || null;
-
+        const artworkDataImage = document.getElementById("fileUpload")?.files[0] || null;  
         formData.append("artworkType", artworkType);
         formData.append("artworkDataText", artworkDataText);
         if (artworkDataImage) {
@@ -986,23 +987,46 @@ function updateDeliveryPriceAndTotal() {
             formData.append(`imprintColors[${index}]`, color);
         });
     }
-
+    const artworkDataImage = document.getElementById("fileUpload")?.files[0] || null;  
     if (!isAuthenticated) {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        console.log("Cart before adding item:", cart);
-
         let newItem = Object.fromEntries(formData.entries());
-        console.log("New item being added:", newItem);
 
         cart.push(newItem);
         localStorage.setItem("cart", JSON.stringify(cart));
         document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=3600; SameSite=Lax`;
-console.log("Stored cart in cookie before redirect:", document.cookie);
 
-setTimeout(() => {
-    console.log("Final cart from cookie before redirect:", document.cookie);
-    window.location.href = "{{ route('user.login') }}";
-}, 2000);
+        // Upload image to temp_cart_images table
+        if (artworkDataImage) {
+    const tempFormData = new FormData();
+    tempFormData.append("artworkDataImage", artworkDataImage);
+    tempFormData.append("session_id", "{{ session()->getId() }}");
+
+    console.log("Uploading temp image...");
+
+    fetch("{{ route('temp_cart_images.upload') }}", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+        },
+        body: tempFormData,
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log("Temp image upload result:", result);
+        if (result.success) {
+            console.log("Image uploaded to:", result.path);
+        } else {
+            console.error("Image upload failed:", result.message);
+        }
+    })
+    .catch(error => console.error("Error uploading temp image:", error));
+}
+
+
+        setTimeout(() => {
+            window.location.href = "{{ route('user.login') }}";
+        }, 2000);
 
         return;
     }
@@ -1027,6 +1051,7 @@ setTimeout(() => {
         console.error("Error:", error);
     });
 });
+
 
 
 

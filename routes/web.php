@@ -85,6 +85,9 @@ Route::middleware(['web'])->group(function () {
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/productDetail/{slug}', [ProductDetailController::class, 'index'])->name('product.detail');
 
+  Route::post('/temp-cart-images/upload', [AuthController::class, 'uploadTempCartImage'])->name('temp_cart_images.upload');
+
+
   Route::get('/about', [AboutController::class, 'index'])->name('about');
   Route::get('/home', [HomeController::class, 'index'])->name('home');
   Route::get('/contact', [ContactController::class, 'index'])->name('contact');
