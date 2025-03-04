@@ -13,6 +13,7 @@ use App\Models\TVQTaxPrice;
 use App\Models\TPSTaxPrice;
 use App\Models\DiscountCoupon;
 use App\Models\OrderItem;
+use Illuminate\Support\Facades\Auth;
 use App\Models\OrderShippingDetail;
 use App\Models\OrderArtwork;
 use Illuminate\Http\Request;
@@ -50,7 +51,15 @@ class OrderController extends Controller
         $amount = new Amount();
         $amount->setTotal((float)$totalPrice); 
     
-        $amount->setCurrency('CAD'); 
+        $user = Auth::user(); // Get the logged-in user
+        $country = $user ? $user->country : (session('country') ?? 'CANADA'); // Default to Canada if not set
+        
+        // Set currency based on country with default to CAD
+        $currency = ($country === 'USA') ? 'USD' : 'CAD';
+        
+        $amount->setCurrency($currency);
+
+        // $amount->setCurrency('CAD'); 
     
         $transaction = new Transaction();
         $transaction->setAmount($amount);
