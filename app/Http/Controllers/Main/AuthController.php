@@ -182,14 +182,15 @@ public function login(Request $request)
                     if ($tempImage && empty($item['artworkDataImage'])) {
                         Log::info('Migrating temp image to permanent storage', ['tempImage' => $tempImage]);
                     
-                        $oldPath = 'public/' . $tempImage->artwork_dataImage;  // Corrected path
-                        $newPath = 'CustomerArtworkImages/' . basename($oldPath);  // Corrected path
+                        $relativePath = $tempImage->artwork_dataImage;
+                        $oldPath = public_path('storage/' . $relativePath);
+                        $newRelativePath = 'CustomerArtworkImages/' . basename($relativePath);
+                        $newPath = public_path('storage/' . $newRelativePath);
                     
-                        if (Storage::disk('public')->exists(str_replace('public/', '', $oldPath))) {
-                            $moved = Storage::disk('public')->move(str_replace('public/', '', $oldPath), $newPath);
+                        if (file_exists($oldPath)) {
+                            $moved = rename($oldPath, $newPath);
                             if ($moved) {
-                                $item['artworkDataImage'] = 'storage/' . $newPath;
-                    
+                                $item['artworkDataImage'] = $newRelativePath;
                                 Log::info('Image migration successful', [
                                     'oldPath' => $oldPath,
                                     'newPath' => $newPath,
@@ -205,8 +206,15 @@ public function login(Request $request)
                     
 
                     if ($request->hasFile('artworkDataImage')) {
-                        $item['artworkDataImage'] = $request->file('artworkDataImage')->store('public/CustomerArtworkImages');
-                        $item['artworkDataImage'] = str_replace('public/', 'storage/', $item['artworkDataImage']);
+                        if ($request->hasFile('artworkDataImage')) {
+                            $file = $request->file('artworkDataImage');
+                            $fileName = time() . '_' . $file->getClientOriginalName();
+                            $path = 'storage/CustomerArtworkImages/' . $fileName;
+                            $file->move(public_path('storage/CustomerArtworkImages'), $fileName);
+                            
+                            $item['artworkDataImage'] = $path;
+                        }
+                        
                     }
 
                     // 🖼️ Save artwork data to cart_artwork
@@ -229,21 +237,21 @@ public function login(Request $request)
 
                     // 🗑️ Delete temp image from temp_cart_images
                     if ($tempImage) {
-                        if (Storage::exists(str_replace('public/', '', $newPath))) {  // Correct path for Storage facade
-                            Storage::delete(str_replace('public/', '', $newPath));
-                            Log::info('Temp image file deleted successfully', ['path' => $newPath]);
+                        $oldPath = public_path('storage/' . $relativePath);
+                        if (file_exists($oldPath)) {
+                            unlink($oldPath);
+                            Log::info('Temp image file deleted successfully', ['path' => $oldPath]);
                         } else {
-                            Log::error('Temp image file not found for deletion', ['path' => $newPath]);
+                            Log::error('Temp image file not found for deletion', ['path' => $oldPath]);
                         }
-                        
-                        
+                    
                         if ($tempImage->delete()) {
                             Log::info('Temp image record deleted successfully', ['tempImageId' => $tempImage->id]);
                         } else {
                             Log::error('Failed to delete temp image record', ['tempImageId' => $tempImage->id]);
                         }
-                        
                     }
+                    
                 }
             }
 
@@ -260,35 +268,33 @@ public function login(Request $request)
 }
 public function uploadTempCartImage(Request $request)
 {
-    $sessionId = session()->getId(); // Get the current session ID
+    $sessionId = session()->getId();
     Log::info('uploadTempCartImage called', ['session_id' => $sessionId]);
 
     if ($request->hasFile('artworkDataImage')) {
         $file = $request->file('artworkDataImage');
         $fileName = time() . '_' . $file->getClientOriginalName();
-        $path = $file->storeAs('TempCartImages', $fileName, 'public');
+        $relativePath = 'TempCartImages/' . $fileName;
+        $absolutePath = public_path('storage/' . $relativePath);
+        $file->move(dirname($absolutePath), $fileName);
 
-        Log::info('Image uploaded successfully', ['path' => $path]);
+        Log::info('Image uploaded successfully', ['path' => $relativePath]);
 
         TempCartImage::create([
             'session_id' => $sessionId,
-            'artwork_dataImage' => 'storage/' . $path,  // Store the relative path
+            'artwork_dataImage' => $relativePath  // Store relative path in the database
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Image uploaded successfully',
-            'path' => 'storage/' . $path,
-        ])->withCookie(cookie('original_session_id', $sessionId, 60)); // Store session ID in a cookie for 60 minutes
+            'path' => $relativePath
+        ])->withCookie(cookie('original_session_id', $sessionId, 60));
     }
 
     Log::error('No image uploaded or file missing');
     return response()->json(['success' => false, 'message' => 'No image uploaded']);
 }
-
-
-
-
 
 // Logout the user
 public function logout()
