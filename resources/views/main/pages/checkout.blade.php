@@ -252,30 +252,53 @@
                                             <tbody>
                                                 <tr>
                                                     <td>Sub Total :</td>
-                                                    <td class="text-end cart-subtotal">${{ number_format($subtotal, 2) }}</td>
+                                                    <td class="text-end cart-subtotal">
+                                                      
+                                                        <x-currency-symbol-usd />{{ number_format($subtotal, 2) }}<x-currency-symbol-cad />
+                                                    </td>
                                                 </tr>
+                                                
                                                 <tr>
                                                     <td>Discount :</td>
-                                                    <td class="text-end cart-discount">$0.00</td>
+                                                    <td class="text-end cart-discount">
+                                                        <x-currency-symbol-usd /><span id="discount-amount">0.00</span><x-currency-symbol-cad />
+                                                    </td>
                                                 </tr>
+                                                
+                                                
                                                 <tr>
                                                     <td>TPS Tax {{ $TPStaxPercentage->percentage }}% ({{ $TPStaxPercentage->taxno }}) :</td>
-                                                    <td class="text-end tps-cart-tax" tps-data-percentage="{{ $TPStaxPercentage->percentage }}" tps-data-taxno="{{ $TPStaxPercentage->taxno }}" tps-data-tax="{{ $TPStaxPercentage->percentage }}">$0.00</td>
+                                                    <td class="text-end tps-cart-tax" 
+                                                        tps-data-percentage="{{ $TPStaxPercentage->percentage }}" 
+                                                        tps-data-taxno="{{ $TPStaxPercentage->taxno }}" 
+                                                        tps-data-tax="{{ $TPStaxPercentage->percentage }}">
+                                                        
+                                                        {{-- Dynamic currency symbols with JS updatable ID --}}
+                                                        <x-currency-symbol-usd /><span id="tps-tax-amount">0.00</span><x-currency-symbol-cad />
+                                                    </td>
                                                 </tr>
                                                 
                                                 <tr>
                                                     <td>TVQ Tax {{ $TVQtaxPercentage->percentage }}% ({{ $TVQtaxPercentage->taxno }}) :</td>
-                                                    <td class="text-end tvq-cart-tax" tvq-data-percentage="{{ $TVQtaxPercentage->percentage }}" tvq-data-taxno="{{ $TVQtaxPercentage->taxno }}" tvq-data-tax="{{ $TVQtaxPercentage->percentage  }}">$0.00</td>
+                                                    <td class="text-end tvq-cart-tax" 
+                                                        tvq-data-percentage="{{ $TVQtaxPercentage->percentage }}" 
+                                                        tvq-data-taxno="{{ $TVQtaxPercentage->taxno }}" 
+                                                        tvq-data-tax="{{ $TVQtaxPercentage->percentage }}">
+                                                        
+                                                        {{-- Dynamic currency symbols with JS updatable ID --}}
+                                                        <x-currency-symbol-usd /><span id="tvq-tax-amount">0.00</span><x-currency-symbol-cad />
+                                                    </td>
                                                 </tr>
                                                 
 
                                                 <tr class="table-active">
-                                                    <th>Total (USD) :</th>
+                                                    <th>Total ( <x-currency-display /> ) :</th>
                                                     <td class="text-end">
-                                                        <span
-                                                            class="fw-semibold cart-total">${{ number_format($subtotal, 2) }}</span>
+                                                        {{-- Currency symbol components stay, only amount updates --}}
+                                                        <x-currency-symbol-usd /><span id="final-total-amount">{{ number_format($subtotal, 2) }}</span><x-currency-symbol-cad />
                                                     </td>
                                                 </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -329,9 +352,10 @@
     let TVQtaxAmount = userCountry === "USA" ? 0 : (discountedTotal * TVQtaxPercentage) / 100;
     let finalTotal = discountedTotal + TPStaxAmount + TVQtaxAmount;
 
-    TPStaxElement.innerText = '$' + TPStaxAmount.toFixed(2);
-    TVQtaxElement.innerText = '$' + TVQtaxAmount.toFixed(2);
-    totalElement.innerText = '$' + finalTotal.toFixed(2);
+     // ✅ Only update the amount, keep symbols intact
+     document.getElementById('tps-tax-amount').textContent = TPStaxAmount.toFixed(2);
+    document.getElementById('tvq-tax-amount').textContent = TVQtaxAmount.toFixed(2);
+    document.getElementById('final-total-amount').textContent = finalTotal.toFixed(2);
 
     console.log("User Country:", userCountry);
     console.log("Discount Id:", discountId);
@@ -368,7 +392,9 @@
             appliedDiscount = parseFloat(result.discount) || 0; 
             discountId = result.discountId ?? null;
 
-            document.querySelector('.cart-discount').innerText = '$' + appliedDiscount.toFixed(2);
+          // ✅ Only update the amount, keep symbols intact
+document.getElementById('discount-amount').textContent = appliedDiscount.toFixed(2);
+
             
             updateTaxAndTotal(getSubtotal(), appliedDiscount);
 

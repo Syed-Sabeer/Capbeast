@@ -146,7 +146,10 @@
                                     <h2 class="h4 mb-0">Enter Quantity</h2>
                                 </div>
                                 <div class="price-details">
-                                    Total Qty: <span class="total-qty">0</span> | Price: <span id="total-price">$0.00</span>
+                                    Total Qty: <span class="total-qty">0</span> | Price: 
+                                    <x-currency-symbol-usd />
+                                    <span id="total-price">0.00</span>
+                                    <x-currency-symbol-cad />
                                 </div>
                             </div>
                             
@@ -174,8 +177,10 @@
 
                                 <!-- Total quantity and price on the right -->
                                 <div class="price-details">
-                                    Total Qty: <span class="total-qty">0</span> | Price: <span
-                                        id="total-price2">$0.00</span>
+                                    Total Qty: <span class="total-qty">0</span> | Price: 
+                                    <x-currency-symbol-usd />
+                                    <span id="total-price2">0.00</span>
+                                    <x-currency-symbol-cad />
                                 </div>
                             </div>
 
@@ -574,8 +579,10 @@
                                 </div>
                                 
                                 <div class="price-details">
-                                    Total Qty: <span class="total-qty"></span> | Price: <span
-                                        id="total-price3">$168.12</span>
+                                    Total Qty: <span class="total-qty"></span> | Price: 
+                                    <x-currency-symbol-usd />
+                                    <span id="total-price3">168.12</span>
+                                    <x-currency-symbol-cad />
                                 </div>
                             </div>
                             <div class="radio-options">
@@ -614,9 +621,13 @@
                                                     {{-- <div class="delivery_date w3_bg">
                                                          
                                                         </div> --}}
-                                                    <div class="delivery_price w3_bg">Price:
-                                                       <span id="total-price3span"></span>
-                                                    </div>
+                                                    
+<div class="delivery_price w3_bg">
+    Price:
+    <x-currency-symbol-usd />
+    <span id="total-price3span">0.00</span>
+    <x-currency-symbol-cad />
+</div>
                                                 </li>
 
                                                 <li class="shippingCharging" style="max-width: 190px">
@@ -817,8 +828,8 @@ const pompomCustomizationPrice = isWithPompom ? enteredQty * pomPomPrice : 0;
                 console.log("Product Price:", calculatedPrice);
                 console.log("Delivery Price:", calculatePrice(enteredQty, quantitiesDelivery, pricesDelivery));
 
-                totalPrice.textContent = `$${total.toFixed(2)}`;
-                totalPriceCustomization.textContent = `$${totalCustomization.toFixed(2)}`;
+                totalPrice.textContent = total.toFixed(2);
+                totalPriceCustomization.textContent = totalCustomization.toFixed(2);
 
                 if (selectedPrintingPrice === 0 && total >= 1) {
                     artworkSelection.style.display = "none";
@@ -868,8 +879,8 @@ function updateDeliveryPriceAndTotal() {
     deliveryPrice = parseFloat(deliveryPrice.toFixed(2));
     
     // Update the delivery price display
-    totalPriceDelivery.textContent = `$${deliveryPrice.toFixed(2)}`;
-    totalPriceDeliverySpan.textContent = `$${deliveryPrice.toFixed(2)}`;
+    totalPriceDelivery.textContent = deliveryPrice.toFixed(2);
+    totalPriceDeliverySpan.textContent = deliveryPrice.toFixed(2);
 
     console.log("Calculated Delivery Price:", deliveryPrice);
 
@@ -896,7 +907,7 @@ function updateDeliveryPriceAndTotal() {
                 if (selectedOption === 'pickYourself') {
                     pickYourselfBox.style.display = 'block';
                     viewBundleBox.style.display = 'none';
-                    totalPriceDelivery.textContent = '$0.00';
+                    totalPriceDelivery.textContent = '0.00';
                     resetTotalPrice();
 
                     // Reset highlights for shippingCharging elements
@@ -920,8 +931,8 @@ function updateDeliveryPriceAndTotal() {
 
             // Reset the total price to $0 for "Pick Yourself"
             function resetTotalPrice() {
-                totalPrice.textContent = "$0.00";
-                totalPriceCustomization.textContent = "$0.00";
+                totalPrice.textContent = "0.00";
+                totalPriceCustomization.textContent = "0.00";
             }
 
             shippingOptions.forEach(option => {
@@ -932,7 +943,7 @@ function updateDeliveryPriceAndTotal() {
                 const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
 
                 if (selectedOption === 'pickYourself') {
-                    totalPriceDelivery.textContent = '$0.00';
+                    totalPriceDelivery.textContent = '  0.00';
                     resetTotalPrice();
                 } else {
                     updateDeliveryPriceAndTotal();

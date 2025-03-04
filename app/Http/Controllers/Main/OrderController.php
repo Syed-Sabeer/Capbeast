@@ -51,10 +51,8 @@ class OrderController extends Controller
         $amount = new Amount();
         $amount->setTotal((float)$totalPrice); 
     
-        $user = Auth::user(); // Get the logged-in user
-        $country = $user ? $user->country : (session('country') ?? 'CANADA'); // Default to Canada if not set
-        
-        // Set currency based on country with default to CAD
+        $user = Auth::user();
+        $country = $user ? $user->country : (session('country') ?? 'CANADA'); 
         $currency = ($country === 'USA') ? 'USD' : 'CAD';
         
         $amount->setCurrency($currency);

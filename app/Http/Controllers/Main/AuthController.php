@@ -69,11 +69,18 @@ class AuthController extends Controller
     if ($user) {
         auth()->login($user);
 
-        $cartCookie = $request->cookie('cart');
+        $cartCookie = $request->cookie('cart') ?? $_COOKIE['cart'] ?? null;
+
         $cartFromLocalStorage = $cartCookie ? json_decode($cartCookie, true) : [];
 
         $sessionCountry = session('country', 'CANADA');
-        if ($user->country === $sessionCountry && $cartFromLocalStorage) {
+        if ($user->country === $sessionCountry) {
+            if (empty($cartFromLocalStorage)) {
+                Log::warning('Cart is empty during registration');
+                return redirect()->route('cart')->with('error', 'Your cart is empty!');
+            }
+        
+            
 
             foreach ($cartFromLocalStorage as $item) {
                 $cartItem = Cart::create([

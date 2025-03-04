@@ -77,18 +77,24 @@
                                     <div class="text-lg-end">
                                         <p class="text-muted mb-1 fs-12">Product Price:</p>
                                         <h5 class="fs-16">
-                                            $<span class="product-price">{{ $item->product_price * $item->quantity }}</span>
+                                            <x-currency-symbol-usd /><span class="product-price" id="product-price">{{ number_format($item->product_price * $item->quantity, 2) }}</span><x-currency-symbol-cad />
                                         </h5>
-                                        
                                     </div>
+                                    
                                     <div class="text-lg-end">
                                         <p class="text-muted mb-1 fs-12">Customization Price:</p>
-                                        <h5 class="fs-16">$<span class="product-price">{{ $item->printing_price * $item->quantity + $item->pompom_price * $item->quantity }}</span></h5>
+                                        <h5 class="fs-16">
+                                            <x-currency-symbol-usd /><span class="customization-price" id="customization-price">{{ number_format($item->printing_price * $item->quantity + $item->pompom_price * $item->quantity, 2) }}</span><x-currency-symbol-cad />
+                                        </h5>
                                     </div>
+                                    
                                     <div class="text-lg-end">
                                         <p class="text-muted mb-1 fs-12">Delivery Price:</p>
-                                        <h5 class="fs-16">$<span class="product-price">{{ $item->delivery_price  }}</span></h5>
+                                        <h5 class="fs-16">
+                                            <x-currency-symbol-usd /><span class="delivery-price" id="delivery-price">{{ number_format($item->delivery_price, 2) }}</span><x-currency-symbol-cad />
+                                        </h5>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -113,10 +119,15 @@
                                     </div>
                                     <div class="d-flex align-items-center gap-2 text-muted">
                                         <div>Total :</div>
-                                        <h5 class="fs-14 mb-0">$<span class="product-line-price">
-                                            {{ ($item->product_price * $item->quantity) + ($item->printing_price * $item->quantity) + ($item->delivery_price ) + ($item->pompom_price * $item->quantity)  }}
-                                        </span></h5>
+                                        <h5 class="fs-14 mb-0">
+                                            <x-currency-symbol-usd />
+                                            <span class="product-line-price" id="total-price">
+                                                {{ number_format(($item->product_price * $item->quantity) + ($item->printing_price * $item->quantity) + ($item->delivery_price) + ($item->pompom_price * $item->quantity), 2) }}
+                                            </span>
+                                            <x-currency-symbol-cad />
+                                        </h5>
                                     </div>
+                                    
                                 </div>
                                 
                             </div>
@@ -150,19 +161,25 @@
                                         <tbody>
                                             <tr>
                                                 <td>Sub Total :</td>
-                                                <td class="text-end">${{ number_format($subtotal, 2) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Discount <span class="text-muted"></span>:</td>
-                                                <td class="text-end "></td>
-                                            </tr>
-                                       
-                                            <tr class="table-active">
-                                                <th>Total (CAD) :</th>
                                                 <td class="text-end">
-                                                    <span class="fw-semibold ">${{ number_format($subtotal, 2) }}</span>
+                                                    <x-currency-symbol-usd /><span id="subtotal-amount">{{ number_format($subtotal, 2) }}</span><x-currency-symbol-cad />
                                                 </td>
                                             </tr>
+                                            
+                                            <tr>
+                                                <td>Discount <span class="text-muted"></span>:</td>
+                                                <td class="text-end cart-discount">
+                                                    <x-currency-symbol-usd /><span id="discount-amount">0.00</span><x-currency-symbol-cad />
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr class="table-active">
+                                                <th>Total ( <x-currency-display /> ) :</th>
+                                                <td class="text-end">
+                                                    <x-currency-symbol-usd /><span id="final-total-amount">{{ number_format($subtotal, 2) }}</span><x-currency-symbol-cad />
+                                                </td>
+                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
