@@ -32,11 +32,11 @@ class CartController extends Controller
         
 
         $user = Auth::user();
-        $sessionCountry = session('country', 'USA');
+        // $sessionCountry = session('country', 'USA');
     
-        if ($user->country !== $sessionCountry) {
-            return response()->json(['success' => false, 'message' => 'Country mismatch! Order not saved.'], 403);
-        }
+        // if ($user->country !== $sessionCountry) {
+        //     return response()->json(['success' => false, 'message' => 'Country mismatch! Order not saved.'], 403);
+        // }
 
         Log::info('Request Data:', $request->all());
 
