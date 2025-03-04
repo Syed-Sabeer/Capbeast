@@ -475,7 +475,7 @@
 
                                     
 
-                                    <!-- Imprint Colors -->
+                                
                                     <!-- Imprint Colors -->
                                     <div class="mb-3 mt-3">
                                         <label for="imprintColors" class="form-label fw-bold">Select Number Of Imprint
@@ -497,30 +497,63 @@
                                     <div id="additionalDropdowns"></div>
 
 
-
                                     <script>
+                                        // Define the function first
+                                        function updateAddToCartButtonState() {
+                                            const addToCartButton = document.getElementById("add-to-cart-button");
+                                            const imprintColors = parseInt(document.getElementById("imprintColors").value);
+                                            let isValidImprintColors = true;
+                                    
+                                            if (imprintColors !== 0) {
+                                                for (let i = 1; i <= imprintColors; i++) {
+                                                    const colorInput = document.getElementById(`color${i}`);
+                                                    const colorCode = colorInput?.value.trim() || "";
+                                                    const isValidColorCode = /^\d{4}$/.test(colorCode);  // Must be exactly 4 digits
+                                                    isValidImprintColors = isValidImprintColors && isValidColorCode;
+                                                    document.getElementById(`colorError${i}`).style.display = isValidColorCode ? "none" : "block";
+                                                }
+                                            }
+                                    
+                                            addToCartButton.disabled = !isValidImprintColors;  // Example logic for disabling button
+                                        }
+                                    
+                                        // Rest of your code
                                         const imprintColors = document.getElementById('imprintColors');
                                         const additionalDropdowns = document.getElementById('additionalDropdowns');
-
-                                        imprintColors.addEventListener('change', function() {
+                                    
+                                        imprintColors.addEventListener('change', function () {
                                             const numColors = parseInt(imprintColors.value);
-                                            additionalDropdowns.innerHTML = ''; // Clear previous dropdowns
-
-                                            if (numColors !== 0) { // Exclude Full Color Imprint (value = 0)
+                                            additionalDropdowns.innerHTML = '';
+                                    
+                                            if (numColors !== 0) {
                                                 for (let i = 1; i <= numColors; i++) {
                                                     const newSelect = document.createElement('div');
                                                     newSelect.classList.add('mb-3');
                                                     newSelect.innerHTML = `
-                                            <label for="color${i}" class="form-label fw-bold">Enter Color Code ${i}</label>
-                <input id="color${i}" type="number" class="form-control" placeholder="Enter color code ${i}" 
-                       maxlength="4" oninput="validateColorCode(this, ${i})">
-                                               <p id="colorError${i}" class="text-danger" style="display:none; font-size: 0.9rem;">Color code must be exactly 4 digits.</p>
-                                        `;
+                                                        <label for="color${i}" class="form-label fw-bold">Enter Color Code ${i}</label>
+                                                        <input id="color${i}" type="number" class="form-control" placeholder="Enter color code ${i}" 
+                                                               maxlength="4" oninput="validateColorCode(this, ${i})">
+                                                        <p id="colorError${i}" class="text-danger" style="display:none; font-size: 0.9rem;">Color code must be exactly 4 digits.</p>
+                                                    `;
                                                     additionalDropdowns.appendChild(newSelect);
+                                    
+                                                    const colorInput = document.getElementById(`color${i}`);
+                                                    colorInput.addEventListener('input', updateAddToCartButtonState);
                                                 }
                                             }
+                                    
+                                            updateAddToCartButtonState();
                                         });
+                                    
+                                        function validateColorCode(input, index) {
+                                            const colorCode = input.value.trim();
+                                            const isValidColorCode = /^\d{4}$/.test(colorCode);
+                                            document.getElementById(`colorError${index}`).style.display = isValidColorCode ? 'none' : 'block';
+                                        }
+                                    
+                                        updateAddToCartButtonState();
                                     </script>
+                                    
                                 </div>
 
 
@@ -856,9 +889,6 @@ function updateDeliveryPriceAndTotal() {
         }
     });
 }
-
-
-
             // Toggle between "Pick Yourself" and "View Shipping Bundle"
             function toggleOptions() {
                 const selectedOption = document.querySelector('input[name="shippingOption"]:checked').value;
@@ -927,7 +957,103 @@ function updateDeliveryPriceAndTotal() {
                 });
             });
             let printingId;  // Declare printingId outside the blocks
-        
+            function updateAddToCartButtonState() {
+    const addToCartButton = document.getElementById("add-to-cart-button");
+    
+    // Check if quantity is valid
+    const quantity = parseInt(quantityInput.value) || 0;
+    const minQty = Math.min(...quantities);
+    const isValidQuantity = quantity >= minQty;
+
+    // Check if a beanie color is selected
+    const colorId = beanieColorSelect.value;
+    const isColorSelected = colorId !== "";
+
+    // Check if a beanie type is selected
+    const beanieTypeSelected = document.querySelector('input[name="beanie"]:checked') !== null;
+
+    // Check if a pom-pom option is selected
+    const pompomSelected = document.querySelector('input[name="pompom"]:checked') !== null;
+
+    // Check if a printing option is selected
+    const printingOptionSelected = document.querySelector(".printing-option.active") !== null;
+
+    // Check if a shipping option is selected
+    const shippingOptionSelected = document.querySelector('input[name="shippingOption"]:checked') !== null;
+
+    // Check if artwork is required and validate based on artwork type
+    const artworkRequired = artworkSelection.style.display !== "none";
+    const artworkType = document.getElementById("artworkType").value;
+    const artworkDataImage = document.getElementById("fileUpload")?.files[0] || null;
+    const artworkText = document.getElementById("messageInput")?.value.trim() || "";
+    let isArtworkValid = true;
+
+    if (artworkRequired) {
+        if (artworkType === "1") {  // "Upload my Artwork"
+            isArtworkValid = !!artworkDataImage;
+        } else if (artworkType === "2") {  // "Enter Your Message"
+            isArtworkValid = artworkText !== "";
+        }
+    }
+
+    // Validate Patch Length and Height only if artwork is required
+    let isValidPatchLength = true;
+    let isValidPatchHeight = true;
+    let isFontStyleSelected = true;
+    let isValidImprintColors = true;
+
+    if (artworkRequired) {
+        // Validate Patch Length
+        const patchLength = parseFloat(document.getElementById("patchLength").value);
+        isValidPatchLength = patchLength >= 1 && patchLength <= 4;
+        document.getElementById("patchLengthError").style.display = isValidPatchLength ? "none" : "block";
+
+        // Validate Patch Height
+        const patchHeight = parseFloat(document.getElementById("patchHeight").value);
+        isValidPatchHeight = patchHeight <= 2.5;
+        document.getElementById("patchHeightError").style.display = isValidPatchHeight ? "none" : "block";
+
+        // Validate Font Style selection
+        const fontStyle = document.getElementById("fontStyle").value;
+        isFontStyleSelected = fontStyle !== "";
+
+        // Validate Imprint Colors and Color Codes
+        const imprintColors = parseInt(document.getElementById("imprintColors").value);
+        if (imprintColors !== 0) {
+            for (let i = 1; i <= imprintColors; i++) {
+                const colorInput = document.getElementById(`color${i}`);
+                const colorCode = colorInput?.value.trim() || "";
+                const isValidColorCode = /^\d{4}$/.test(colorCode);  // Must be exactly 4 digits
+                isValidImprintColors = isValidImprintColors && isValidColorCode;
+                document.getElementById(`colorError${i}`).style.display = isValidColorCode ? "none" : "block";
+            }
+        }
+    }
+
+    // Final check to enable or disable the button
+    const allValid = isValidQuantity && isColorSelected && beanieTypeSelected && pompomSelected && printingOptionSelected && shippingOptionSelected && isArtworkValid && isValidPatchLength && isValidPatchHeight && isFontStyleSelected && isValidImprintColors;
+
+    addToCartButton.disabled = !allValid;
+}
+
+// Add event listeners to update button state on input changes
+quantityInput.addEventListener("input", updateAddToCartButtonState);
+beanieColorSelect.addEventListener("change", updateAddToCartButtonState);
+beanieOptions.forEach(option => option.addEventListener("change", updateAddToCartButtonState));
+pompomOptions.forEach(option => option.addEventListener("change", updateAddToCartButtonState));
+printingOptions.forEach(option => option.addEventListener("click", updateAddToCartButtonState));
+shippingOptions.forEach(option => option.addEventListener("change", updateAddToCartButtonState));
+document.getElementById("artworkType")?.addEventListener("change", updateAddToCartButtonState);
+document.getElementById("messageInput")?.addEventListener("input", updateAddToCartButtonState);
+document.getElementById("fileUpload")?.addEventListener("change", updateAddToCartButtonState);
+document.getElementById("patchLength")?.addEventListener("input", updateAddToCartButtonState);
+document.getElementById("patchHeight")?.addEventListener("input", updateAddToCartButtonState);
+document.getElementById("fontStyle")?.addEventListener("change", updateAddToCartButtonState);
+document.getElementById("imprintColors")?.addEventListener("change", updateAddToCartButtonState);
+
+updateAddToCartButtonState();
+
+
 
 document.getElementById("add-to-cart-button").addEventListener("click", function () {
     const isAuthenticated = "{{ Auth::check() }}" === "1"; // Ensure proper boolean conversion
@@ -973,7 +1099,8 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
         const patchLength = parseFloat(document.getElementById("patchLength").value) || null;
         const patchHeight = parseFloat(document.getElementById("patchHeight").value) || null;
         const fontStyle = document.getElementById("fontStyle").value || null;
-        const numOfImprint = parseInt(document.getElementById("imprintColors").value) || null;
+        const numOfImprint = parseInt(document.getElementById("imprintColors").value);
+
 
         const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns input"))
             .map(input => parseInt(input.value, 10));
@@ -1051,9 +1178,6 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
         console.error("Error:", error);
     });
 });
-
-
-
 
         });
     </script>
