@@ -355,70 +355,91 @@ class OrderController extends Controller
     }
 
     public function applyDiscount(Request $request)
-    {
-        $request->validate([
-            'coupon_code' => 'required|string',
-        ]);
-    
-        $coupon = DiscountCoupon::where('code', $request->coupon_code)->first();
-    
-        if (!$coupon) {
-            return response()->json(['success' => false, 'message' => 'Invalid coupon code.'], 400);
-        }
-    
-        if ($coupon->visibility != 1) {
-            return response()->json(['success' => false, 'message' => 'Coupon is not available.'], 400);
-        }
-    
-        // Validate expiration date
-        $currentDate = now();
-        if ($coupon->is_expiry && ($currentDate < $coupon->duration_from || $currentDate > $coupon->duration_to)) {
-            return response()->json(['success' => false, 'message' => 'Coupon has expired.'], 400);
-        }
-    
-        // Validate usage count
-        $usageCount = Order::where('discount_id', $coupon->id)->count();
-        if ($coupon->is_expiry && $coupon->count !== null && $usageCount >= $coupon->count) {
-            return response()->json(['success' => false, 'message' => 'Coupon usage limit reached.'], 400);
-        }
-    
-        $cartItems = Cart::where('user_id', auth()->id())->get();
-        $maxDiscountAmount = 0;
-    
-        foreach ($cartItems as $item) {
-            $currentDiscount = 0;
-    
-            if ($coupon->is_all == 1) {
-                if ($item->product_id != null) {
-                    $currentDiscount = ($item->product_price * $coupon->percentage / 100) * $item->quantity;
-                } elseif ($item->printing_id != null) {
-                    $currentDiscount = ($item->printing_price * $coupon->percentage / 100) * $item->quantity;
-                }
-            } else {
-                if ($item->product_id == $coupon->discountable_id) {
-                    $currentDiscount = ($item->product_price * $coupon->percentage / 100) * $item->quantity;
-                } elseif ($item->printing_id == $coupon->discountable_id) {
-                    $currentDiscount = ($item->printing_price * $coupon->percentage / 100) * $item->quantity;
-                }
-            }
-    
-            if ($currentDiscount > $maxDiscountAmount) {
-                $maxDiscountAmount = $currentDiscount;
-            }
-        }
-    
-        if ($maxDiscountAmount > 0) {
-            return response()->json([
-                'success' => true,
-                'discount' => $maxDiscountAmount,
-                'discountId' => $coupon->id,
-                'message' => 'Discount applied successfully.',
-            ]);
-        }
-    
-        return response()->json(['success' => false, 'message' => 'Coupon not applicable for selected products.'], 400);
+{
+    $request->validate([
+        'coupon_code' => 'required|string',
+    ]);
+
+    $user = Auth::user();
+    $coupon = DiscountCoupon::where('code', $request->coupon_code)->first();
+
+    if (!$coupon) {
+        return response()->json(['success' => false, 'message' => 'Invalid coupon code.'], 400);
     }
-    
+
+    // Check coupon visibility
+    if ($coupon->visibility != 1) {
+        return response()->json(['success' => false, 'message' => 'Coupon is not available.'], 400);
+    }
+
+    // Check country-based coupon eligibility
+    if ($user->country) {
+        $countryMap = [
+            'CANADA' => 1,
+            'USA' => 2,
+        ];
+
+        $userCountryCode = $countryMap[strtoupper($user->country)] ?? 0; // Default to 0 if not found
+
+        if ($coupon->coupon_country != 0 && $coupon->coupon_country != $userCountryCode) {
+            return response()->json(['success' => false, 'message' => 'Coupon not applicable in your country.'], 400);
+        }
+    }
+
+    // Check user type-based coupon eligibility
+    $userType = $user->is_reseller ? 1 : 2; // 1 = Reseller, 2 = Regular Customer
+    if ($coupon->coupon_user != 0 && $coupon->coupon_user != $userType) {
+        return response()->json(['success' => false, 'message' => 'Coupon not applicable for your user type.'], 400);
+    }
+
+    // Validate expiration date
+    $currentDate = now();
+    if ($coupon->is_expiry && ($currentDate < $coupon->duration_from || $currentDate > $coupon->duration_to)) {
+        return response()->json(['success' => false, 'message' => 'Coupon has expired.'], 400);
+    }
+
+    // Validate usage count
+    $usageCount = Order::where('discount_id', $coupon->id)->count();
+    if ($coupon->is_expiry && $coupon->count !== null && $usageCount >= $coupon->count) {
+        return response()->json(['success' => false, 'message' => 'Coupon usage limit reached.'], 400);
+    }
+
+    $cartItems = Cart::where('user_id', auth()->id())->get();
+    $maxDiscountAmount = 0;
+
+    foreach ($cartItems as $item) {
+        $currentDiscount = 0;
+
+        if ($coupon->is_all == 1) {
+            if ($item->product_id != null) {
+                $currentDiscount = ($item->product_price * $coupon->percentage / 100) * $item->quantity;
+            } elseif ($item->printing_id != null) {
+                $currentDiscount = ($item->printing_price * $coupon->percentage / 100) * $item->quantity;
+            }
+        } else {
+            if ($item->product_id == $coupon->discountable_id) {
+                $currentDiscount = ($item->product_price * $coupon->percentage / 100) * $item->quantity;
+            } elseif ($item->printing_id == $coupon->discountable_id) {
+                $currentDiscount = ($item->printing_price * $coupon->percentage / 100) * $item->quantity;
+            }
+        }
+
+        if ($currentDiscount > $maxDiscountAmount) {
+            $maxDiscountAmount = $currentDiscount;
+        }
+    }
+
+    if ($maxDiscountAmount > 0) {
+        return response()->json([
+            'success' => true,
+            'discount' => $maxDiscountAmount,
+            'discountId' => $coupon->id,
+            'message' => 'Discount applied successfully.',
+        ]);
+    }
+
+    return response()->json(['success' => false, 'message' => 'Coupon not applicable for selected products.'], 400);
+}
     
     
 }

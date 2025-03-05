@@ -80,6 +80,24 @@
                         </div>
 
                         <div class="mb-3">
+                            <label class="form-label">Coupon Country</label>
+                            <select name="coupon_country" id="couponCountry" class="select2 form-select form-select-lg">
+                                <option value="0">All</option>
+                                <option value="1">CANADA</option>
+                                <option value="2">USA</option>  
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Coupon User</label>
+                            <select name="coupon_user" id="couponUser" class="select2 form-select form-select-lg">
+                                <option value="0">Both</option>
+                                <option value="1">Reseller</option>
+                                <option value="2">Regular Customer</option>  
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
                             <label class="form-label">Coupon For</label>
                             <select name="discount_type" id="couponFor" class="select2 form-select form-select-lg">
                                 <option value="">Select Status</option>

@@ -13,6 +13,8 @@ class DiscountCoupon extends Model
     protected $fillable = [
         'title',
         'code',
+        'coupon_country',
+        'coupon_user',
         'discount_type',
         'item_id',
         'percentage',

@@ -46,6 +46,8 @@ class DiscountCouponsController extends Controller
             $request->validate([
                 'title' => 'required|string',
                 'code' => 'required|string|unique:discount_coupon',
+                'coupon_country' => 'required|integer',
+                'coupon_user' => 'required|integer',
                 'discount_type' => 'required|integer|in:1,3',
                 'item_id' => 'required|integer',
                 'percentage' => 'required|numeric|min:0|max:100',
@@ -62,6 +64,8 @@ class DiscountCouponsController extends Controller
             $discountCoupon = new DiscountCoupon();
             $discountCoupon->title = $request->title;
             $discountCoupon->code = $request->code;
+            $discountCoupon->coupon_country = $request->coupon_country;
+            $discountCoupon->coupon_user = $request->coupon_user;
             $discountCoupon->discount_type = $request->discount_type;
             $discountCoupon->percentage = $request->percentage;
     
