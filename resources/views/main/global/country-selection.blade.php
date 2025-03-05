@@ -86,6 +86,11 @@
     </style>
 </head>
 <body>
+    <title>Customize Embroidered Beanies in Montreal-Nord, Canada</title>
+<meta name="description" content="Customize Embroidered Beanies in Montreal-Nord, Canada, with unique designs. Get high-quality, stylish, and cozy Customize Embroidered Beanies for any occasion.">
+<meta name="keywords" content="customize beanies, embroidered beanies, Customize Embroidered Beanies in Montreal-Nord, Customize Embroidered Beanies in Canada">
+{{-- <link rel="canonical" href="https://monkeybeanies.com/selec"> --}}
+
     <div class="modal">
         <div class="modal-content">
             <img src="{{ asset('assetsMain/images/logo-light.png') }}" alt="Logo" class="logo">
