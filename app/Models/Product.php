@@ -18,7 +18,7 @@ class Product extends Model
         return $this->hasMany(ProductColor::class, 'product_id');
     }
 
-    public function productSEO()
+    public function productSEOs()
     {
         return $this->hasOne(ProductSEO::class, 'product_id');
     }
