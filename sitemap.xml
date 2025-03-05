@@ -8,40 +8,60 @@
 
 
 <url>
-  <loc>https://monkeybeanies.com/home</loc>
-  <lastmod>2025-02-24T06:34:58+00:00</lastmod>
-  <priority>1.00</priority>
+  <loc>https://monkeybeanies.com/select-country</loc>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
 </url>
+
 <url>
-  <loc>https://monkeybeanies.com/about</loc>
-  <lastmod>2025-02-24T06:34:58+00:00</lastmod>
-  <priority>0.80</priority>
+  <loc>https://monkeybeanies.com/product/mb-classic-967-w</loc>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
 </url>
+
+<url>
+  <loc>https://monkeybeanies.com/product/mb-classic-965</loc>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://monkeybeanies.com/product/mb-classic-963</loc>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://monkeybeanies.com/product/mb-classic-867</loc>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://monkeybeanies.com/product/mb-classic-867-b</loc>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
+</url>
+
+<url>
+  <loc>https://monkeybeanies.com/product/mb-classic-867-r</loc>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
+</url>
+
 <url>
   <loc>https://monkeybeanies.com/products</loc>
-  <lastmod>2025-02-24T06:34:58+00:00</lastmod>
-  <priority>0.80</priority>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
 </url>
+
 <url>
   <loc>https://monkeybeanies.com/faqs</loc>
-  <lastmod>2025-02-24T06:34:58+00:00</lastmod>
-  <priority>0.80</priority>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
 </url>
+
 <url>
   <loc>https://monkeybeanies.com/contact</loc>
-  <lastmod>2025-02-24T06:34:58+00:00</lastmod>
-  <priority>0.80</priority>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
 </url>
+
 <url>
-  <loc>https://monkeybeanies.com/login</loc>
-  <lastmod>2025-02-24T06:34:58+00:00</lastmod>
-  <priority>0.80</priority>
+  <loc>https://monkeybeanies.com/home</loc>
+  <lastmod>2025-03-05T08:30:56+00:00</lastmod>
 </url>
-<url>
-  <loc>https://monkeybeanies.com/register</loc>
-  <lastmod>2025-02-24T06:34:58+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
+
 
 
 </urlset>

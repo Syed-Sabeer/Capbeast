@@ -83,7 +83,7 @@ Route::middleware(['web'])->group(function () {
 
 
   Route::get('/products', [ProductController::class, 'index'])->name('products');
-  Route::get('/productDetail/{slug}', [ProductDetailController::class, 'index'])->name('product.detail');
+  Route::get('/product/{slug}', [ProductDetailController::class, 'index'])->name('product.detail');
 
   Route::post('/temp-cart-images/upload', [AuthController::class, 'uploadTempCartImage'])->name('temp_cart_images.upload');
 
