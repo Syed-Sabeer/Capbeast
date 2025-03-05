@@ -13,6 +13,12 @@ class CheckCountry
         if ($request->is('backend/*')) {
             return $next($request);
         }
+
+        // Bypass middleware for sitemap.xml
+if ($request->is('sitemap.xml')) {
+    return $next($request);
+}
+
     
         // Allow access to country selection routes
         if ($request->route()->getName() === 'select.country' || $request->route()->getName() === 'set.country') {

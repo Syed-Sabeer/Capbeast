@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
-
+use App\Http\Controllers\Main\SitemapController;
 use App\Http\Controllers\Main\ProductDetailController;
 use App\Http\Controllers\Main\ProductController;
 use App\Http\Controllers\Main\AboutController;
@@ -81,6 +81,10 @@ Route::middleware(['web'])->group(function () {
     return redirect()->route('home'); // Redirect to home after setting country
   })->name('set.country');
 
+
+
+  Route::get('/sitemap.xml', [SitemapController::class, 'index']);
+  
 
   Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/product/{slug}', [ProductDetailController::class, 'index'])->name('product.detail');

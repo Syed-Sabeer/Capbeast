@@ -7,7 +7,7 @@
 <link rel="canonical" href="https://monkeybeanies.com/products">
 
 
-@section('main-container')
+@section('main-container')  
 
 @component('main.components.breadcrumb', [
     'pageTitle' => 'Products',
