@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Country</title>
+    <title>Customize Embroidered Beanies in Montreal-Nord, Canada</title>
+    <meta name="description" content="Customize Embroidered Beanies in Montreal-Nord, Canada, with unique designs. Get high-quality, stylish, and cozy Customize Embroidered Beanies for any occasion.">
+    <meta name="keywords" content="customize beanies, embroidered beanies, Customize Embroidered Beanies in Montreal-Nord, Customize Embroidered Beanies in Canada">
     <style>
         body {
             margin: 0;
@@ -86,9 +88,7 @@
     </style>
 </head>
 <body>
-    <title>Customize Embroidered Beanies in Montreal-Nord, Canada</title>
-<meta name="description" content="Customize Embroidered Beanies in Montreal-Nord, Canada, with unique designs. Get high-quality, stylish, and cozy Customize Embroidered Beanies for any occasion.">
-<meta name="keywords" content="customize beanies, embroidered beanies, Customize Embroidered Beanies in Montreal-Nord, Customize Embroidered Beanies in Canada">
+  
 {{-- <link rel="canonical" href="https://monkeybeanies.com/selec"> --}}
 
     <div class="modal">
