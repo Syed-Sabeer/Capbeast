@@ -85,7 +85,7 @@ class EcommerceProductList extends Controller
     public function edit($id)
     {
         // Retrieve the product with its related pricing, color images, and base images
-        $product = Product::with(['productSEOs','productPricing', 'productColors.componentColor', 'productBaseImages'])->findOrFail($id);
+        $product = Product::with(['productSEO','productPricing', 'productColors.componentColor', 'productBaseImages'])->findOrFail($id);
     
         // Fetch available color options for the product
         $colorData = ComponentProductColor::all();
