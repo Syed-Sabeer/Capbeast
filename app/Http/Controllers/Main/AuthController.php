@@ -127,7 +127,7 @@ class AuthController extends Controller
                         'font_style' => $item['fontStyle'] ?? null,
                         'num_of_imprint' => $item['numOfImprint'] ?? null,
                         'imprint_color' => $imprintColors,
-                        'leathercolor' => $item['leathercolor'] ?? null,
+                        'leathercolor' => !empty($item['leathercolor']) ? $item['leathercolor'] : null,
                     ]);
 
                     if ($tempImage) {
