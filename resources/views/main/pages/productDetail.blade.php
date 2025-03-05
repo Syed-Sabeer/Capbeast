@@ -1,6 +1,6 @@
 @extends('main.layouts.master')
 
-
+<title>{{ $product->productSEO->metatitle }}</title>
 <meta name="title" content="{{ $product->productSEO->metatitle }}">
 <meta name="description" content="{{ $product->productSEO->metadescription }}">
 <meta name="keywords" content="{{ $product->productSEO->metakeywords }}">
