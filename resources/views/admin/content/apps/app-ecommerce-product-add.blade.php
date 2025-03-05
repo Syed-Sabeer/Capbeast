@@ -41,6 +41,7 @@
                         <label class="form-label">Slug</label>
                         <input type="text" name="slug" class="form-control" placeholder="Product slug" required>
                     </div>
+                   
                     
                     <div class="mb-3">
                         <label class="form-label">Description</label>
@@ -113,6 +114,25 @@
 
         <div class="col-12 col-lg-4">
             <div class="card mb-4">
+                <div class="card-header">Product SEO</div>
+                <div class="card-body" id="base-image-section">
+                <div class="mb-3">
+                    <label class="form-label">Meta Title</label>
+                    <input type="text" name="metatitle" class="form-control" placeholder="Meta Title" >
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Meta Description</label>
+                    <textarea name="metadescription" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Meta Keywords</label>
+                    <input type="text" name="metakeywords" class="form-control" placeholder="Meta Title" >
+                </div>
+            </div>
+            </div>
+
+
+            <div class="card mb-4">
                 <div class="card-header">Base Images</div>
                 <div class="card-body" id="base-image-section">
                     <div class="mb-3">
@@ -123,6 +143,7 @@
                 <button type="button" class="btn btn-primary" id="add-base-image">Add another image</button>
             </div>
         </div>
+        
     </div>
 
     <button type="submit" class="btn btn-success">Save Product</button>

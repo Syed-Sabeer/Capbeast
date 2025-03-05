@@ -420,7 +420,11 @@ $navbarDetached = ($navbarDetached ?? '');
               @if (Auth::guard('superadmin')->check() || Auth::guard('sale')->check() || Auth::guard('marketing')->check())
     
     <li>
+      @if ($prefix)
       <form action="{{ route($prefix .'.admin.logout') }}" method="POST" style="display: inline;">
+
+      @endif
+      {{-- <form action="{{ route($prefix .'.admin.logout') }}" method="POST" style="display: inline;"> --}}
         @csrf
         <button type="submit" class="dropdown-item">
           <i class='ti ti-logout me-2'></i>

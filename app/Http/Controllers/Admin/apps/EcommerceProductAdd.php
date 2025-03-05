@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\ProductSEO;
 use App\Models\ProductColor;
 use App\Models\ProductPricing;
 use App\Models\ComponentProductColor;
@@ -30,6 +31,9 @@ class EcommerceProductAdd extends Controller
 
             $request->validate([
                 'title' => 'required|string|max:255',
+                'metatitle' => 'nullable|string',
+                'metadescription' => 'nullable|string',
+                'metakeywords' => 'nullable|string',
                 'slug' => 'required|string|unique:products,slug|max:255',
                 'description' => 'required|string',
                 'is_pompom' => 'required|integer',
@@ -50,6 +54,13 @@ class EcommerceProductAdd extends Controller
                 'is_pompom' => $request->is_pompom,
             ]);
 
+            ProductSEO::create([
+                'product_id' => $product->id,
+                'metatitle' => $request->metatitle,
+                'metadescription' => $request->metadescription,
+                'metakeywords' => $request->metakeywords,
+               
+            ]);
 
             // Process and store base images
             if ($request->hasFile('base_images')) {
