@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductColor;
+use App\Models\ProductSEO;
 use App\Models\ProductPricing;
 use App\Models\ComponentProductColor;
 use App\Models\ProductBaseImage;
@@ -84,7 +85,7 @@ class EcommerceProductList extends Controller
     public function edit($id)
     {
         // Retrieve the product with its related pricing, color images, and base images
-        $product = Product::with(['productPricing', 'productColors.componentColor', 'productBaseImages'])->findOrFail($id);
+        $product = Product::with(['productSEO','productPricing', 'productColors.componentColor', 'productBaseImages'])->findOrFail($id);
     
         // Fetch available color options for the product
         $colorData = ComponentProductColor::all();
@@ -97,12 +98,14 @@ class EcommerceProductList extends Controller
     
     public function update($id, Request $request)
     {
-        
         try {
             // Validate the incoming request
             $request->validate([
                 'title' => 'required|string|max:255',
-                'slug' => 'required|string|max:255|unique:products,slug,'.$id,
+                'metatitle' => 'nullable|string',
+                'metadescription' => 'nullable|string',
+                'metakeywords' => 'nullable|string',
+                'slug' => 'required|string|max:255|unique:products,slug,' . $id,
                 'description' => 'required|string',
                 'is_pompom' => 'required|integer',
                 'base_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
@@ -112,7 +115,9 @@ class EcommerceProductList extends Controller
                 'pricing.*' => 'required|numeric',
                 'reseller_pricing.*' => 'required|numeric',
             ]);
+    
             DB::beginTransaction();
+    
             // Find the product by its ID
             $product = Product::findOrFail($id);
     
@@ -124,7 +129,15 @@ class EcommerceProductList extends Controller
                 'is_pompom' => $request->is_pompom,
             ]);
     
-            // Handle base image upload, color images, and pricing as in the `store` method...
+            // Update or create Product SEO data
+            ProductSEO::updateOrCreate(
+                ['product_id' => $product->id],
+                [
+                    'metatitle' => $request->metatitle,
+                    'metadescription' => $request->metadescription,
+                    'metakeywords' => $request->metakeywords,
+                ]
+            );
     
             // Process and store base images
             if ($request->hasFile('base_images')) {
@@ -144,7 +157,7 @@ class EcommerceProductList extends Controller
             }
     
             // Process and store color images
-            if(isset($request->color) && count($request->color) > 0){
+            if (isset($request->color) && count($request->color) > 0) {
                 foreach ($request->color as $index => $colorId) {
                     Log::info("Processing color ID $colorId with images:");
                     if ($request->hasFile("images.$index")) {
@@ -154,7 +167,7 @@ class EcommerceProductList extends Controller
                             if ($colorImagePath) {
                                 ProductColor::create([
                                     'product_id' => $product->id,
-                                    'color_id' => $colorId, // Store the color ID here
+                                    'color_id' => $colorId,
                                     'image' => $colorImagePath,
                                 ]);
                             } else {
@@ -165,9 +178,9 @@ class EcommerceProductList extends Controller
                 }
             }
     
-
-            // 🔴 DELETE ALL EXISTING PRODUCT PRICING FIRST
+            // Delete all existing product pricing first
             ProductPricing::where('product_id', $id)->delete();
+    
             // Save product pricing in separate rows
             foreach ($request->quantity as $index => $quantity) {
                 Log::info("Processing pricing", [
@@ -175,26 +188,24 @@ class EcommerceProductList extends Controller
                     'Price' => $request->pricing[$index],
                     'Reseller Price' => $request->reseller_pricing[$index],
                 ]);
-
+    
                 ProductPricing::create([
                     'product_id' => $product->id,
                     'quantity' => $quantity,
                     'pricing' => $request->pricing[$index],
-                    'reseller_pricing' => $request->reseller_pricing[$index], // Fix the column name
+                    'reseller_pricing' => $request->reseller_pricing[$index],
                 ]);
-
             }
     
             DB::commit();
-            // Return a success response or redirect
             return redirect()->back()->with('success', 'Product updated successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
-            // Log error and return failure response
             Log::error("Error occurred while updating product: " . $e->getMessage());
             return redirect()->back()->with('error', 'Failed to update product. Please try again.');
         }
     }
+    
 
     public function deleteProductColor($id)
     {

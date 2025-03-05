@@ -137,6 +137,28 @@
             </div>
 
             <div class="col-12 col-lg-4">
+           
+                    <div class="card mb-4">
+                        <div class="card-header">Product SEO</div>
+                        <div class="card-body" id="base-image-section">
+                            <div class="mb-3">
+                                <label class="form-label">Meta Title</label>
+                                <input type="text" name="metatitle" class="form-control" placeholder="Meta Title"
+                                    value="{{ old('metatitle', $product->productSEO->metatitle ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Meta Description</label>
+                                <textarea name="metadescription" class="form-control" rows="2">{{ old('metadescription', $product->productSEO->metadescription ?? '') }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Meta Keywords</label>
+                                <input type="text" name="metakeywords" class="form-control" placeholder="Meta Keywords"
+                                    value="{{ old('metakeywords', $product->productSEO->metakeywords ?? '') }}">
+                            </div>
+                        </div>
+                    </div>
+
+                
                 <div class="card mb-4">
                     <div class="card-header">Base Images</div>
                     <div class="card-body" id="base-image-section">
