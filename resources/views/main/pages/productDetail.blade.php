@@ -1,9 +1,9 @@
 @extends('main.layouts.master')
 
-<title>{{ $product->productSEO->metatitle }}</title>
-<meta name="title" content="{{ $product->productSEO->metatitle }}">
-<meta name="description" content="{{ $product->productSEO->metadescription }}">
-<meta name="keywords" content="{{ $product->productSEO->metakeywords }}">
+<title>{{ $product->productSEO->metatitle ?? 'Customize Embroidered Beanies in Montreal-Nord, Canada'}}</title>
+<meta name="title" content="{{ $product->productSEO->metatitle ?? 'Customize Embroidered Beanies in Montreal-Nord, Canada'}}">
+<meta name="description" content="{{ $product->productSEO->metadescription ?? 'Customize Embroidered Beanies in Montreal-Nord, Canada, with unique designs. Get high-quality, stylish, and cozy Customize Embroidered Beanies for any occasion.'}}">
+<meta name="keywords" content="{{ $product->productSEO->metakeywords ?? 'customize beanies, embroidered beanies, Customize Embroidered Beanies in Montreal-Nord, Customize Embroidered Beanies in Canada'}}">
 <link rel="canonical" href="https://monkeybeanies.com/products">
 
 @section('main-container')
@@ -1071,8 +1071,15 @@ document.getElementById("imprintColors")?.addEventListener("change", updateAddTo
 updateAddToCartButtonState();
 
 
-
 document.getElementById("add-to-cart-button").addEventListener("click", function () {
+    const button = this;
+    const originalText = button.textContent;
+
+    // Show loading state
+    button.disabled = true;
+    button.textContent = "Processing...  ";
+    button.classList.add("loading"); // Optional: Add a loading class for CSS styling
+
     const isAuthenticated = "{{ Auth::check() }}" === "1"; // Ensure proper boolean conversion
 
     const quantity = parseInt(quantityInput.value) || 0;
@@ -1118,7 +1125,6 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
         const fontStyle = document.getElementById("fontStyle").value || null;
         const numOfImprint = parseInt(document.getElementById("imprintColors").value);
 
-
         const imprintColors = Array.from(document.querySelectorAll("#additionalDropdowns input"))
             .map(input => parseInt(input.value, 10));
 
@@ -1131,6 +1137,7 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
             formData.append(`imprintColors[${index}]`, color);
         });
     }
+
     const artworkDataImage = document.getElementById("fileUpload")?.files[0] || null;  
     if (!isAuthenticated) {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -1140,33 +1147,22 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
         localStorage.setItem("cart", JSON.stringify(cart));
         document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=3600; SameSite=Lax`;
 
-        // Upload image to temp_cart_images table
         if (artworkDataImage) {
-    const tempFormData = new FormData();
-    tempFormData.append("artworkDataImage", artworkDataImage);
-    tempFormData.append("session_id", "{{ session()->getId() }}");
+            const tempFormData = new FormData();
+            tempFormData.append("artworkDataImage", artworkDataImage);
+            tempFormData.append("session_id", "{{ session()->getId() }}");
 
-    console.log("Uploading temp image...");
-
-    fetch("{{ route('temp_cart_images.upload') }}", {
-        method: "POST",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-        },
-        body: tempFormData,
-    })
-    .then(response => response.json())
-    .then(result => {
-        console.log("Temp image upload result:", result);
-        if (result.success) {
-            console.log("Image uploaded to:", result.path);
-        } else {
-            console.error("Image upload failed:", result.message);
+            fetch("{{ route('temp_cart_images.upload') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+                body: tempFormData,
+            })
+            .then(response => response.json())
+            .then(result => console.log("Temp image upload result:", result))
+            .catch(error => console.error("Error uploading temp image:", error));
         }
-    })
-    .catch(error => console.error("Error uploading temp image:", error));
-}
-
 
         setTimeout(() => {
             window.location.href = "{{ route('user.login') }}";
@@ -1191,10 +1187,15 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
             alert("Failed to add product to cart.");
         }
     })
-    .catch(error => {
-        console.error("Error:", error);
+    .catch(error => console.error("Error:", error))
+    .finally(() => {
+        // Revert button state
+        button.disabled = false;
+        button.textContent = originalText;
+        button.classList.remove("loading");
     });
 });
+
 
         });
     </script>
@@ -1203,6 +1204,30 @@ document.getElementById("add-to-cart-button").addEventListener("click", function
         this.style.fontFamily = this.value;
     });
 </script>
+<style>
+    button.loading {
+    cursor: not-allowed;
+    opacity: 0.7;
+    position: relative;
+}
+button.loading::after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    border: 2px solid transparent;
+    border-top-color: #fff;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+</style>
 
 <script src="{{ asset('assetsMain/js/frontend/productDetail.js') }}"></script>  
 @endsection 
