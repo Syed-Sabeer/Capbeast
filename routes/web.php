@@ -18,6 +18,8 @@ use App\Http\Controllers\Main\OrderController;
 use App\Http\Controllers\Admin\apps\EcommercePrintingList;
 use App\Http\Controllers\Admin\apps\EcommerceDashboard;
 use App\Http\Controllers\Admin\apps\EcommerceProductAdd;
+use App\Http\Controllers\Admin\apps\EcommerceProductCategory;
+use App\Http\Controllers\Admin\apps\EcommerceProductBrand;
 use App\Http\Controllers\Admin\apps\EcommerceProductList;
 use App\Http\Controllers\Admin\apps\EcommerceAuthController;
 use App\Http\Controllers\Admin\apps\EcommercePrintingAdd;
@@ -137,7 +139,21 @@ foreach ($roles as $role => $prefix) {
       if ($prefix == 'superadmin') {
 
 
+        Route::get('/category', [EcommerceProductCategory::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-product-category'));
+        Route::get('/category/add', [EcommerceProductCategory::class, 'create'])->name(Route::prefixed($prefix,'category.add'));
+        Route::post('/category/store', [EcommerceProductCategory::class, 'store'])->name(Route::prefixed($prefix,'category.store'));
+        Route::get('/category/edit/{category}', [EcommerceProductCategory::class, 'edit'])->name(Route::prefixed($prefix,'category.edit'));
+        Route::post('/category/update/{category}', [EcommerceProductCategory::class, 'update'])->name(Route::prefixed($prefix,'category.update'));
+        Route::delete('/category/delete/{category}', [EcommerceProductCategory::class, 'destroy'])->name(Route::prefixed($prefix,'category.delete'));
 
+
+        Route::get('/brand', [EcommerceProductBrand::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-product-brand'));
+        Route::get('/brand/add', [EcommerceProductBrand::class, 'create'])->name(Route::prefixed($prefix,'brand.add'));
+        Route::post('/brand/store', [EcommerceProductBrand::class, 'store'])->name(Route::prefixed($prefix,'brand.store'));
+        Route::get('/brand/edit/{brand}', [EcommerceProductBrand::class, 'edit'])->name(Route::prefixed($prefix,'brand.edit'));
+        Route::post('/brand/update/{brand}', [EcommerceProductBrand::class, 'update'])->name(Route::prefixed($prefix,'brand.update'));
+        Route::delete('/brand/delete/{brand}', [EcommerceProductBrand::class, 'destroy'])->name(Route::prefixed($prefix,'brand.delete'));
+        
 
 
         Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(Route::prefixed($prefix, 'app-ecommerce-dashboard'));

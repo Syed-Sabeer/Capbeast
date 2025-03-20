@@ -23,7 +23,7 @@
 
 @section('content')
 <h4 class="py-3 mb-4">
-  <span class="text-muted fw-light">eCommerce /</span> Category List
+  <span class="text-muted fw-light">eCommerce /</span> Product List
 </h4>
 
 <!-- Product List Widget -->
@@ -88,7 +88,7 @@
 </div>
 
 <div class="d-flex justify-content-end mb-4">
-  <a href="{{ route($prefix.'.category.add') }}" class="btn btn-primary">Add Category</a>
+  <a href="{{ route($prefix.'.brand.add') }}" class="btn btn-primary">Add Brand</a>
 </div>
 
 <div class="card">
@@ -105,23 +105,24 @@
         </tr>
       </thead>
       <tbody>
-        @foreach($categories as $key => $category)
+        @foreach($brands as $key => $brand)
         <tr>
           <td>{{ $key + 1 }}</td>
-          <td>{{ $category->title }}</td>
-          <td>{{ Str::limit($category->description, 30, '...') }}</td>
+          <td>{{ $brand->title }}</td>
+          <td>{{ Str::limit($brand->description, 30, '...') }}</td>
+
           <td>
-            @if($category->image)
-              <img src="{{ asset('storage/' . $category->image) }}" alt="Category Image" width="50">
+            @if($brand->image)
+              <img src="{{ asset('storage/' . $brand->image) }}" alt="Brand Image" width="50">
             @else
               No Image
             @endif
           </td>
-          <td>{{ $category->visibility ? 'Visible' : 'Hidden' }}</td>
+          <td>{{ $brand->visibility ? 'Visible' : 'Hidden' }}</td>
           <td>
-            <a href="{{ route($prefix.'.category.edit', $category->id) }}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{{ route($prefix.'.brand.edit', $brand->id) }}" class="btn btn-sm btn-warning">Edit</a>
             <button type="button" class="btn btn-sm btn-danger delete-btn" 
-            data-url="{{ route($prefix.'.category.delete', $category->id) }}" 
+            data-url="{{ route($prefix.'.brand.delete', $brand->id) }}" 
             data-bs-toggle="modal" 
             data-bs-target="#deleteModal">
         Delete

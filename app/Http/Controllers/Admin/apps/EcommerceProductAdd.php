@@ -11,6 +11,8 @@ use App\Models\ProductColor;
 use App\Models\ProductPricing;
 use App\Models\ComponentProductColor;
 use App\Models\ProductBaseImage;
+use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Support\Facades\Log;
 
 class EcommerceProductAdd extends Controller
@@ -18,8 +20,10 @@ class EcommerceProductAdd extends Controller
     public function index()
     {
         $colorData = ComponentProductColor::all();
+        $categories = Category::all();
+        $brands = Brand::all();
         // $colorData = json_decode(file_get_contents(public_path('assetsCommon/api/color_api.json')), true);
-        return view('admin.content.apps.app-ecommerce-product-add', compact('colorData'));
+        return view('admin.content.apps.app-ecommerce-product-add', compact('colorData','categories','brands'));
     }
 
     public function store(Request $request)
@@ -36,23 +40,27 @@ class EcommerceProductAdd extends Controller
                 'metakeywords' => 'nullable|string',
                 'slug' => 'required|string|unique:products,slug|max:255',
                 'description' => 'required|string',
-                'is_pompom' => 'required|integer',
                 'base_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'color.*' => 'required|string',
                 'images.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+                'front_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+                'back_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+                'right_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+                'left_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'quantity.*' => 'required|integer',
                 'pricing.*' => 'required|numeric',
-                'reseller_pricing.*' => 'required|numeric',
+                
             ]);
 
 
-            // Save the product
-            $product = Product::create([
-                'title' => $request->title,
-                'slug' => $request->slug,
-                'description' => $request->description,
-                'is_pompom' => $request->is_pompom,
-            ]);
+         // Save the product
+$product = Product::create([
+    'category_id' => $request->category_id, // Get category ID
+    'brand_id' => $request->brand_id,       // Get brand ID
+    'title' => $request->title,
+    'slug' => $request->slug,
+    'description' => $request->description,
+]);
 
             ProductSEO::create([
                 'product_id' => $product->id,
@@ -62,57 +70,78 @@ class EcommerceProductAdd extends Controller
                
             ]);
 
-            // Process and store base images
-            if ($request->hasFile('base_images')) {
-                foreach ($request->file('base_images') as $baseImage) {
-                    Log::info('Processing base image: ', [$baseImage->getClientOriginalName()]);
-                    $baseImagePath = $baseImage->store('ProductImages', 'public');
-                    if ($baseImagePath) {
-                        ProductBaseImage::create([
+            
+
+            if (is_array($request->colorname1)) {
+                foreach ($request->colorname1 as $index => $colorName1) {
+                    $colorName2 = $request->colorname2[$index] ?? null;
+                    $colorCode1 = $request->colorcode1[$index] ?? null;
+                    $colorCode2 = $request->colorcode2[$index] ?? null;
+            
+                    Log::info("Processing color entry", [
+                        'index' => $index,
+                        'color_name_1' => $colorName1,
+                        'color_code_1' => $colorCode1,
+                        'color_name_2' => $colorName2,
+                        'color_code_2' => $colorCode2,
+                    ]);
+            
+                    // Store images if they exist
+                    $frontImagePath = $request->hasFile("frontimage.$index") ? $request->file("frontimage.$index")->store('ProductImages/FrontImage', 'public') : null;
+                    $backImagePath = $request->hasFile("backimage.$index") ? $request->file("backimage.$index")->store('ProductImages/BackImage', 'public') : null;
+                    $rightImagePath = $request->hasFile("rightimage.$index") ? $request->file("rightimage.$index")->store('ProductImages/RightImage', 'public') : null;
+                    $leftImagePath = $request->hasFile("leftimage.$index") ? $request->file("leftimage.$index")->store('ProductImages/LeftImage', 'public') : null;
+            
+                    Log::info("Image paths", [
+                        'front' => $frontImagePath,
+                        'back' => $backImagePath,
+                        'right' => $rightImagePath,
+                        'left' => $leftImagePath,
+                    ]);
+            
+                    // Ensure at least one image is uploaded
+                    if ($frontImagePath || $backImagePath || $rightImagePath || $leftImagePath) {
+                        $productColor = ProductColor::create([
                             'product_id' => $product->id,
-                            'base_image' => $baseImagePath,
+                            'color_name_1' => $colorName1,
+                            'color_code_1' => $colorCode1,
+                            'color_name_2' => $colorName2,
+                            'color_code_2' => $colorCode2,
+                            'front_image' => $frontImagePath,
+                            'back_image' => $backImagePath,
+                            'right_image' => $rightImagePath,
+                            'left_image' => $leftImagePath,
                         ]);
-                    } else {
-                        Log::error('Base image upload failed for file: ', [$baseImage->getClientOriginalName()]);
-                        return redirect()->back()->with('error', 'Base image upload failed.');
-                    }
-                }
-            }
-
-            // Process and store color images
-            foreach ($request->color as $index => $colorId) {
-                Log::info("Processing color ID $colorId with images:");
-                if ($request->hasFile("images.$index")) {
-                    foreach ($request->file("images.$index") as $colorImage) {
-                        Log::info('Processing color image: ', [$colorImage->getClientOriginalName()]);
-                        $colorImagePath = $colorImage->store('ProductImages/ColorVariations', 'public');
-                        if ($colorImagePath) {
-                            ProductColor::create([
-                                'product_id' => $product->id,
-                                'color_id' => $colorId, // Store the color ID here
-                                'image' => $colorImagePath,
-                            ]);
+            
+                        if ($productColor) {
+                            Log::info("Product color entry created successfully", ['product_color_id' => $productColor->id]);
                         } else {
-                            return redirect()->back()->with('error', 'Color image upload failed.');
+                            Log::error("Failed to create product color entry", ['product_id' => $product->id]);
                         }
+                    } else {
+                        Log::warning("Skipping entry due to no images uploaded", ['index' => $index]);
                     }
                 }
+            } else {
+                Log::error("colorname1 is not an array", ['colorname1' => $request->colorname1]);
             }
-
+            
+              
+            
 
             // Save product pricing in separate rows
             foreach ($request->quantity as $index => $quantity) {
                 Log::info("Processing pricing", [
                     'Quantity' => $quantity,
                     'Price' => $request->pricing[$index],
-                    'Reseller Price' => $request->reseller_pricing[$index],
+                    
                 ]);
 
                 ProductPricing::create([
                     'product_id' => $product->id,
                     'quantity' => $quantity,
                     'pricing' => $request->pricing[$index],
-                    'reseller_pricing' => $request->reseller_pricing[$index], // Fix the column name
+                  
                 ]);
 
             }

@@ -19,10 +19,12 @@
 @endsection
 
 @section('content')
-    <h4 class="py-3 mb-4">
+<div class="d-flex align-items-center justify-content-between py-3 mb-4">
+    <h4 class="mb-0">
         <span class="text-muted fw-light">eCommerce /</span> Product List
     </h4>
-
+    <a href="{{ route($prefix.'.app-ecommerce-product-add') }}" class="btn btn-primary">Add Product</a>
+</div>
 
 
     <!-- Product List Table -->
