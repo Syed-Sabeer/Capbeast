@@ -51,15 +51,24 @@
     @endphp
   @if ( $prefix === 'superadmin')
     
-    <li class="menu-item {{$activeClass}}">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <div>Products</div>
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("backend/$prefix/product/list") }}" class="menu-link">Product List</a></li>
-        <li class="menu-item"><a href="{{ url("backend/$prefix/product/add") }}" class="menu-link">Add Product</a></li>
-      </ul>
-    </li>
+  <li class="menu-item {{$activeClass}}">
+    <a href="{{ url("backend/$prefix/product/list") }}" class="menu-link">
+      <div>Products</div>
+    </a>
+  </li>
+
+  <li class="menu-item {{$activeClass}}">
+    <a href="{{ url("backend/$prefix/category") }}" class="menu-link">
+      <div>Categories</div>
+    </a>
+  </li>
+
+  <li class="menu-item {{$activeClass}}">
+    <a href="{{ url("backend/$prefix/brand") }}" class="menu-link">
+      <div>Brands</div>
+    </a>
+  </li>
+  
     
     {{-- Embroidery --}}
     @php $activeClass = str_contains($currentRouteName, 'app-ecommerce-printing') ? 'active open' : ''; @endphp

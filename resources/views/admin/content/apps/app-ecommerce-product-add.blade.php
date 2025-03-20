@@ -22,9 +22,20 @@
     <script src="{{ asset('assets/vendor/libs/tagify/tagify.js') }}"></script>
 @endsection
 
+<style>
+    body{
+        overflow-x: hidden
+    }
+</style>
 @section('page-script')
-    {{-- <script src="{{ asset('assets/js/app-ecommerce-product-add.js') }}"></script> --}}
+<script>
+    $(document).ready(function() {
+        $('#select2Category').select2();
+        $('#select2Brand').select2();
+    });
+</script>
 @endsection
+
 
 @section('content')
 <form method="POST" action="{{ route($prefix .'.app-ecommerce-product-store') }}" enctype="multipart/form-data">
@@ -32,166 +43,196 @@
     <div class="row">
         <div class="col-12 col-lg-8">
             <div class="card mb-4">
+
                 <div class="card-body">
-                    <div class="mb-3">
+                    <div class="row">
+                    <div class="mb-3 col-7">
                         <label class="form-label">Product Name</label>
                         <input type="text" name="title" class="form-control" placeholder="Product title" required>
                     </div>
-                    <div class="mb-3">
+                   <div class="mb-3 col-5">
+    <label for="select2Category" class="form-label">Select Category</label>
+    <select name="category_id" id="select2Category" class="select2 form-select form-select-lg">
+        <option value="">Select Category</option>
+        @foreach ($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->title }}</option>
+        @endforeach
+    </select>
+</div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-7">
                         <label class="form-label">Slug</label>
                         <input type="text" name="slug" class="form-control" placeholder="Product slug" required>
                     </div>
-                   
+
+                    <div class="mb-3 col-5">
+                        <label for="select2Brand" class="form-label">Select Brand</label>
+                        <select name="brand_id" id="select2Brand" class="select2 form-select form-select-lg">
+                            <option value="">Select Brand</option>
+                            @foreach ($brands as $brand)
+                                <option value="{{ $brand->id }}">{{ $brand->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                     
                     <div class="mb-3">
                         <label class="form-label">Description</label>
                         <textarea name="description" class="form-control" rows="5" required></textarea>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Pom Pom Option</label>
-                        <br>
-                        <label class="switch switch-primary switch-sm me-4 pe-2">
-                            <input type="checkbox" class="switch-input" id="is_pompom_switch">
-                            <span class="switch-toggle-slider">
-                                <span class="switch-on"></span>
-                                <span class="switch-off"></span>
-                            </span>
-                        </label>
-                        <input type="hidden" name="is_pompom" id="is_pompom" value="0"> <!-- Hidden input to store is_pompom value -->
-                    </div>
-                    
                 </div>
-            </div>
-            
-            <div class="card mb-4">
-                <div class="card-header">Colors</div>
-                <div class="card-body" id="color-section">
-                    <div class="color-item">
-                        <div class="row mb-3">
-                            <div class="col-6">
-                                <label class="form-label">Color</label>
-                                <select name="color[]" class="form-control color-select" required>
-                                    @foreach ($colorData as $color)
-                                        <option value="{{ $color->id }}">{{ $color->color_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            
-                            <div class="col-6">
-                                <label class="form-label">Images</label>
-                                <input type="file" name="images[0][]" class="form-control" multiple>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-primary" id="add-color">Add another color</button>
-            </div>
 
-            <div class="card mb-4">
-                <div class="card-header">Pricing</div>
-                <div class="card-body" id="pricing-section">
-                    <div class="pricing-item">
-                        <div class="row mb-3">
-                            <div class="col-4">
-                                <label class="form-label">Quantity</label>
-                                <input type="number" name="quantity[]" class="form-control" required>
-                            </div>
-                            <div class="col-4">
-                                <label class="form-label">Normal Price</label>
-                                <input type="text" name="pricing[]" class="form-control" required>
-                            </div>
-                            <div class="col-4">
-                                <label class="form-label">Reseller Price</label>
-                                <input type="text" name="reseller_pricing[]" class="form-control" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-primary" id="add-pricing">Add another pricing</button>
+
             </div>
         </div>
-
-        <div class="col-12 col-lg-4">
-            <div class="card mb-4">
-                <div class="card-header">Product SEO</div>
-                <div class="card-body" id="base-image-section">
-                <div class="mb-3">
-                    <label class="form-label">Meta Title</label>
-                    <input type="text" name="metatitle" class="form-control" placeholder="Meta Title" >
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Meta Description</label>
-                    <textarea name="metadescription" class="form-control" rows="2"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Meta Keywords</label>
-                    <input type="text" name="metakeywords" class="form-control" placeholder="Meta Title" >
-                </div>
-            </div>
-            </div>
-
-
-            <div class="card mb-4">
-                <div class="card-header">Base Images</div>
-                <div class="card-body" id="base-image-section">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header">Product SEO</div>
+                    <div class="card-body" id="base-image-section">
                     <div class="mb-3">
-                        <label class="form-label">Images</label>
-                        <input type="file" name="base_images[]" class="form-control" multiple>
+                        <label class="form-label">Meta Title</label>
+                        <input type="text" name="metatitle" class="form-control" placeholder="Meta Title" >
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Meta Description</label>
+                        <textarea name="metadescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Meta Keywords</label>
+                        <input type="text" name="metakeywords" class="form-control" placeholder="Meta Title" >
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary" id="add-base-image">Add another image</button>
+                </div>
             </div>
+
         </div>
         
+            <div class="col-12 col-lg-12">
+        <div class="card mb-4">
+            <div class="card-header">Colors</div>
+            <div class="card-body" id="color-section">
+                <div class="color-item">
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label class="form-label">Color Name 1</label>
+                            <input type="text" name="colorname1[]" class="form-control">
+                        </div>
+                        <div class="col-3">
+                            <label class="form-label">Color Code 1</label>
+                            <input type="color" name="colorcode1[]" class="form-control">
+                        </div>
+
+                        <div class="col-3">
+                            <label class="form-label">Color Name 2 (Optional)</label>
+                            <input type="text" name="colorname2[]" class="form-control" >
+                        </div>
+                        <div class="col-3">
+                            <label class="form-label">Color Code 2 (Optional)</label>
+                            <input type="color" name="colorcode2[]" class="form-control">
+                        </div>
+                        
+                        <div class="col-3 mt-4">
+                            <label class="form-label">Front Image</label>
+                            <input type="file" name="frontimage[]" class="form-control" multiple>
+                        </div>
+                        <div class="col-3 mt-4">
+                            <label class="form-label">Back Image</label>
+                            <input type="file" name="backimage[]" class="form-control" multiple>
+                        </div>
+                        <div class="col-3 mt-4">
+                            <label class="form-label">Right Image</label>
+                            <input type="file" name="rightimage[]" class="form-control" multiple>
+                        </div>
+                        <div class="col-3 mt-4">
+                            <label class="form-label">Left Image</label>
+                            <input type="file" name="leftimage[]" class="form-control" multiple>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" id="add-color">Add another color</button>
+        </div>
     </div>
 
+    <div class="col-12 col-lg-8">
+        <div class="card mb-4">
+            <div class="card-header">Pricing</div>
+            <div class="card-body" id="pricing-section">
+                <div class="pricing-item">
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <label class="form-label">Quantity</label>
+                            <input type="number" name="quantity[]" class="form-control" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Price</label>
+                            <input type="text" name="pricing[]" class="form-control" required>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" id="add-pricing">Add another pricing</button>
+        </div>
+
+    </div>
     <button type="submit" class="btn btn-success">Save Product</button>
 </form>
-
 <script>
     document.getElementById('add-color').addEventListener('click', () => {
         const colorSection = document.getElementById('color-section');
-        const newColorItem = colorSection.firstElementChild.cloneNode(true); // Clone the first color item
-        const imageInput = newColorItem.querySelector('input[type="file"]');
-        const colorInput = newColorItem.querySelector('select');
-        
-        const newIndex = colorSection.children.length; // New index for unique names
-        imageInput.name = `images[${newIndex}][]`; // Make sure name is unique
-        colorInput.name = `color[${newIndex}]`; // Make sure color field is unique
-        
-        // Reinitialize Select2 for the new color dropdown
-        $(colorInput).select2({
-            placeholder: "Select a color",
-            allowClear: true,
-            width: '100%'
+        const newColorItem = colorSection.firstElementChild.cloneNode(true);
+        const variationNumber = colorSection.children.length + 1;
+    
+        newColorItem.querySelectorAll('input').forEach(input => {
+            input.value = '';
+            input.name = input.name.replace(/\d+/, variationNumber);
         });
-
-        colorSection.appendChild(newColorItem);
+    
+        // Create remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.classList.add('btn', 'btn-danger', 'mt-2');
+        removeBtn.textContent = 'Remove';
+        removeBtn.onclick = function() {
+            this.parentElement.remove();
+        };
+    
+        // Wrap new color item in a div and append the remove button
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('color-item');
+        wrapper.appendChild(newColorItem);
+        wrapper.appendChild(removeBtn);
+    
+        colorSection.appendChild(wrapper);
     });
-
+    
     document.getElementById('add-pricing').addEventListener('click', () => {
         const pricingSection = document.getElementById('pricing-section');
         const newPricingItem = pricingSection.firstElementChild.cloneNode(true);
-        newPricingItem.querySelectorAll('input').forEach(input => input.value = ''); // Reset input fields
-        pricingSection.appendChild(newPricingItem);
+        newPricingItem.querySelectorAll('input').forEach(input => input.value = '');
+    
+        // Create remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.classList.add('btn', 'btn-danger', 'mt-2');
+        removeBtn.textContent = 'Remove';
+        removeBtn.onclick = function() {
+            this.parentElement.remove();
+        };
+    
+        // Wrap new pricing item in a div and append the remove button
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('pricing-item');
+        wrapper.appendChild(newPricingItem);
+        wrapper.appendChild(removeBtn);
+    
+        pricingSection.appendChild(wrapper);
     });
+    </script>
+    
 
-    document.getElementById('add-base-image').addEventListener('click', () => {
-        const baseImageSection = document.getElementById('base-image-section');
-        const newImageInput = baseImageSection.firstElementChild.cloneNode(true);
-        
-        // Ensure unique names for each base image input
-        const allInputs = baseImageSection.getElementsByTagName('input');
-        newImageInput.querySelector('input[type="file"]').name = `base_images[]`; // This keeps it flat
-        
-        baseImageSection.appendChild(newImageInput);
-    });
 
-    document.getElementById('is_pompom_switch').addEventListener('change', function () {
-        const isPompomInput = document.getElementById('is_pompom');
-        // If the switch is on, set value to 1, otherwise set it to 0
-        isPompomInput.value = this.checked ? 1 : 0;
-    });
-</script>
 @endsection
