@@ -18,7 +18,8 @@ class EcommerceProductList extends Controller
     public function index()
     {
         // Fetch all products and their pricing information
-        $products = Product::with('productPricing', 'productBaseImages')->get(); // Include the base images and pricing in the query
+        $products = Product::all();
+
     
         // Calculate min_price and max_price in the controller
         foreach ($products as $product) {
@@ -224,22 +225,6 @@ class EcommerceProductList extends Controller
         }
     }
 
-    public function deleteProductBaseImage($id)
-    {
-        try {
-            // dd($id);
-            $productBaseImage = ProductBaseImage::findOrFail($id);
-            if($productBaseImage){
-                $productBaseImage->delete();
-                return redirect()->back()->with('success', 'Product Base Image has been removed successfully.');
-            }else{
-                return redirect()->back()->with('error', 'Product Base Image not found.');
-            }
-        } catch (\Throwable $th) {
-            //throw $th;
-            Log::error("Error occurred while deleting product Base Image: " . $th->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete product Base Image. Please try again.');
-        }
-    }
+   
     
 }

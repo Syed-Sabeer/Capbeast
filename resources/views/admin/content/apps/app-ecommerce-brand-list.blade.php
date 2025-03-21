@@ -118,7 +118,17 @@
               No Image
             @endif
           </td>
-          <td>{{ $brand->visibility ? 'Visible' : 'Hidden' }}</td>
+          <td>
+            <div class="w-25 d-flex justify-content-end">
+                <label class="switch switch-primary switch-sm me-4 pe-2">
+                    <input type="checkbox" class="switch-input" data-id="{{ $brand->id }}" {{ $brand->visibility == 1 ? 'checked' : '' }}>
+                    <span class="switch-toggle-slider">
+                        <span class="switch-on"></span>
+                        <span class="switch-off"></span>
+                    </span>
+                </label>
+            </div>
+        </td>
           <td>
             <a href="{{ route($prefix.'.brand.edit', $brand->id) }}" class="btn btn-sm btn-warning">Edit</a>
             <button type="button" class="btn btn-sm btn-danger delete-btn" 
@@ -152,6 +162,37 @@
 
 </script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".switch-input").forEach(function (checkbox) {
+        checkbox.addEventListener("change", function () {
+            const id = this.dataset.id;
+            const visibility = this.checked ? 1 : 0;
 
+            // Ensure the correct route is used
+            const route = "{{ route($prefix . '.brand.update.visibility', ':id') }}".replace(':id', id);
+
+            fetch(route, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+                body: JSON.stringify({ visibility }),
+            })
+                .then(response => response.json()) // Ensure the response is JSON
+                .then(data => {
+                    if (data.success) {
+                        console.log("Visibility updated successfully");
+                    } else {
+                        console.error("Failed to update visibility");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        });
+    });
+});
+
+</script>
 
 @endsection

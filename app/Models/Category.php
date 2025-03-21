@@ -12,9 +12,5 @@ class Category extends Model
     protected $table = 'categories'; 
     protected $fillable = ['title', 'description', 'image', 'visibility'];
 
-    // Relationship with Product (One-to-Many)
-    public function products()
-    {
-        return $this->hasMany(Product::class, 'category_id');
-    }
+    
 }
