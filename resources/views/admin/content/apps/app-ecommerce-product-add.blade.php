@@ -181,34 +181,32 @@
     <button type="submit" class="btn btn-success">Save Product</button>
 </form>
 <script>
-    document.getElementById('add-color').addEventListener('click', () => {
-        const colorSection = document.getElementById('color-section');
-        const newColorItem = colorSection.firstElementChild.cloneNode(true);
-        const variationNumber = colorSection.children.length + 1;
-    
-        newColorItem.querySelectorAll('input').forEach(input => {
-            input.value = '';
-            input.name = input.name.replace(/\d+/, variationNumber);
-        });
-    
-        // Create remove button
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.classList.add('btn', 'btn-danger', 'mt-2');
-        removeBtn.textContent = 'Remove';
-        removeBtn.onclick = function() {
-            this.parentElement.remove();
-        };
-    
-        // Wrap new color item in a div and append the remove button
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('color-item');
-        wrapper.appendChild(newColorItem);
-        wrapper.appendChild(removeBtn);
-    
-        colorSection.appendChild(wrapper);
+document.getElementById('add-color').addEventListener('click', () => {
+    const colorSection = document.getElementById('color-section');
+    const newColorItem = colorSection.firstElementChild.cloneNode(true);
+
+    newColorItem.querySelectorAll('input').forEach(input => {
+        input.value = '';  // Clear input values
     });
-    
+
+    // Add a remove button
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.classList.add('btn', 'btn-danger', 'mt-2');
+    removeBtn.textContent = 'Remove';
+    removeBtn.onclick = function () {
+        this.parentElement.remove();
+    };
+
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('color-item');
+    wrapper.appendChild(newColorItem);
+    wrapper.appendChild(removeBtn);
+
+    colorSection.appendChild(wrapper);
+});
+
+
     document.getElementById('add-pricing').addEventListener('click', () => {
         const pricingSection = document.getElementById('pricing-section');
         const newPricingItem = pricingSection.firstElementChild.cloneNode(true);

@@ -78,29 +78,18 @@ $product = Product::create([
                     $colorCode1 = $request->colorcode1[$index] ?? null;
                     $colorCode2 = $request->colorcode2[$index] ?? null;
             
-                    Log::info("Processing color entry", [
-                        'index' => $index,
-                        'color_name_1' => $colorName1,
-                        'color_code_1' => $colorCode1,
-                        'color_name_2' => $colorName2,
-                        'color_code_2' => $colorCode2,
-                    ]);
+                    Log::info("Processing color entry", compact('index', 'colorName1', 'colorCode1', 'colorName2', 'colorCode2'));
             
-                    // Store images if they exist
-                    $frontImagePath = $request->hasFile("frontimage.$index") ? $request->file("frontimage.$index")->store('ProductImages/FrontImage', 'public') : null;
-                    $backImagePath = $request->hasFile("backimage.$index") ? $request->file("backimage.$index")->store('ProductImages/BackImage', 'public') : null;
-                    $rightImagePath = $request->hasFile("rightimage.$index") ? $request->file("rightimage.$index")->store('ProductImages/RightImage', 'public') : null;
-                    $leftImagePath = $request->hasFile("leftimage.$index") ? $request->file("leftimage.$index")->store('ProductImages/LeftImage', 'public') : null;
+                    // Ensure each file input is correctly retrieved
+                    $frontImagePath = $request->hasFile("frontimage.$index") ? $request->file("frontimage")[$index]->store('ProductImages/FrontImage', 'public') : null;
+                    $backImagePath = $request->hasFile("backimage.$index") ? $request->file("backimage")[$index]->store('ProductImages/BackImage', 'public') : null;
+                    $rightImagePath = $request->hasFile("rightimage.$index") ? $request->file("rightimage")[$index]->store('ProductImages/RightImage', 'public') : null;
+                    $leftImagePath = $request->hasFile("leftimage.$index") ? $request->file("leftimage")[$index]->store('ProductImages/LeftImage', 'public') : null;
             
-                    Log::info("Image paths", [
-                        'front' => $frontImagePath,
-                        'back' => $backImagePath,
-                        'right' => $rightImagePath,
-                        'left' => $leftImagePath,
-                    ]);
+                    Log::info("Image paths", compact('frontImagePath', 'backImagePath', 'rightImagePath', 'leftImagePath'));
             
-                    // Ensure at least one image is uploaded
-                    if ($frontImagePath || $backImagePath || $rightImagePath || $leftImagePath) {
+                    // Create the product color entry if any image or color exists
+                    if ($colorName1 || $colorName2 || $frontImagePath || $backImagePath || $rightImagePath || $leftImagePath) {
                         $productColor = ProductColor::create([
                             'product_id' => $product->id,
                             'color_name_1' => $colorName1,
@@ -119,12 +108,13 @@ $product = Product::create([
                             Log::error("Failed to create product color entry", ['product_id' => $product->id]);
                         }
                     } else {
-                        Log::warning("Skipping entry due to no images uploaded", ['index' => $index]);
+                        Log::warning("Skipping color entry due to missing data", ['index' => $index]);
                     }
                 }
             } else {
                 Log::error("colorname1 is not an array", ['colorname1' => $request->colorname1]);
             }
+            
             
               
             
