@@ -3,7 +3,7 @@
 return [
   "creatorName" => "SuperSoft Technologies",
   "creatorUrl" => "https://SuperSoft Technologies.com",
-  "templateName" => "Beanies",
+  "templateName" => "CapBeast",
   "templateSuffix" => "Bootstrap Admin Template",
   "templateVersion" => "1.0.0",
   "templateFree" => false,
