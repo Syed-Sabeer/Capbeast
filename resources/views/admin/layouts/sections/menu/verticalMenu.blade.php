@@ -13,7 +13,7 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
   @if(!isset($navbarFull))
   <div class="app-brand demo">
-    <a href="{{url('/')}}" class="app-brand-link">
+    <a href="{{ url("backend/$prefix/dashboard") }}" class="app-brand-link">
       <span class="app-brand-logo demo">
         @include('admin._partials.macros',["height"=>20])
       </span>
@@ -35,65 +35,86 @@
   <ul class="menu-inner py-1">
     
     {{-- Dashboard --}}
-    @php $activeClass = $currentRouteName === 'app-ecommerce-dashboard' ? 'active' : ''; @endphp
+    {{-- @php $activeClass = $currentRouteName === 'app-ecommerce-dashboard' ? 'active' : ''; @endphp
     <li class="menu-item {{$activeClass}}">
       <a href="{{ url("backend/$prefix/dashboard") }}" class="menu-link">
         <div>Dashboard</div>
       </a>
-    </li>
+    </li> --}}
 
     
     {{-- Products --}}
-@php
+{{-- @php
 
     $activeClass = str_contains($currentRouteName, 'app-ecommerce-product') ? 'active open' : ''; 
     
-    @endphp
+    @endphp --}}
   @if ( $prefix === 'superadmin')
-    
+  {{-- @php $activeClass = $currentRouteName === 'app-ecommerce-dashboard' ? 'active' : ''; @endphp
   <li class="menu-item {{$activeClass}}">
     <a href="{{ url("backend/$prefix/product/list") }}" class="menu-link">
       <div>Products</div>
     </a>
   </li>
-
+  @php $activeClass = $currentRouteName === 'app-ecommerce-dashboard' ? 'active' : ''; @endphp
   <li class="menu-item {{$activeClass}}">
     <a href="{{ url("backend/$prefix/category") }}" class="menu-link">
       <div>Categories</div>
     </a>
   </li>
-
+  @php $activeClass = $currentRouteName === 'app-ecommerce-dashboard' ? 'active' : ''; @endphp
   <li class="menu-item {{$activeClass}}">
     <a href="{{ url("backend/$prefix/brand") }}" class="menu-link">
       <div>Brands</div>
     </a>
   </li>
-  
+   --}}
+{{-- Dashboard --}}
+<li class="menu-item {{ $currentRouteName === Route::prefixed($prefix, 'app-ecommerce-dashboard') ? 'active' : '' }}">
+  <a href="{{ url("backend/$prefix/dashboard") }}" class="menu-link">
+    <div>Dashboard</div>
+  </a>
+</li>
+
+
+{{-- Products --}}
+<li class="menu-item {{ in_array($currentRouteName, [
+  Route::prefixed($prefix, 'app-ecommerce-product-list'),
+  Route::prefixed($prefix, 'app-ecommerce-product-add'),
+  Route::prefixed($prefix, 'app-ecommerce-product-edit')
+]) ? 'active open' : '' }}">
+<a href="{{ url("backend/$prefix/product/list") }}" class="menu-link">
+  <div>Products</div>
+</a>
+</li>
+
+{{-- Categories --}}
+<li class="menu-item {{ in_array($currentRouteName, [
+  Route::prefixed($prefix, 'app-ecommerce-product-category'),
+  Route::prefixed($prefix, 'category.add'),
+  Route::prefixed($prefix, 'category.edit')
+]) ? 'active open' : '' }}">
+<a href="{{ url("backend/$prefix/category") }}" class="menu-link">
+  <div>Categories</div>
+</a>
+</li>
+
+
+{{-- Brands --}}
+<li class="menu-item {{ in_array($currentRouteName, [
+  Route::prefixed($prefix, 'app-ecommerce-product-brand'),
+  Route::prefixed($prefix, 'brand.add'),
+  Route::prefixed($prefix, 'brand.edit')
+]) ? 'active open' : '' }}">
+<a href="{{ url("backend/$prefix/brand") }}" class="menu-link">
+  <div>Brands</div>
+</a>
+</li>
+
+
+
     
-    {{-- Embroidery --}}
-    @php $activeClass = str_contains($currentRouteName, 'app-ecommerce-printing') ? 'active open' : ''; @endphp
-    <li class="menu-item {{$activeClass}}">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <div>Embroidery</div>
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("backend/$prefix/printing/list") }}" class="menu-link">Embroidery List</a></li>
-        <li class="menu-item"><a href="{{ url("backend/$prefix/printing/add") }}" class="menu-link">Add Embroidery</a></li>
-      </ul>
-    </li>
-    
-    {{-- Deliveries --}}
-    @php $activeClass = str_contains($currentRouteName, 'app-ecommerce-delivery') ? 'active open' : ''; @endphp
-    <li class="menu-item {{$activeClass}}">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <div>Deliveries</div>
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item"><a href="{{ url("backend/$prefix/delivery/list") }}" class="menu-link">Delivery List</a></li>
-        <li class="menu-item"><a href="{{ url("backend/$prefix/delivery/add") }}" class="menu-link">Add Delivery</a></li>
-      </ul>
-    </li>
-    
+   
     {{-- Order --}}
     @php $activeClass = $currentRouteName === 'app-ecommerce-order' ? 'active open' : ''; @endphp
     <li class="menu-item {{$activeClass}}">

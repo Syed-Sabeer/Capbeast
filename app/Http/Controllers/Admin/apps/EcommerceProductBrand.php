@@ -20,7 +20,17 @@ class EcommerceProductBrand extends Controller
         return view('admin.content.apps.app-ecommerce-brand-add');
     }
 
-
+    public function updateBrandVisibility($id, Request $request)
+    {
+        $request->validate([
+            'visibility' => 'required|boolean',
+        ]);
+    
+        $brand = Brand::findOrFail($id);
+        $brand->update(['visibility' => $request->visibility]);
+    
+        return response()->json(['success' => true]);
+    }
 
     public function store(Request $request)
     {

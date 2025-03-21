@@ -41,31 +41,35 @@
             <table class="datatables-products table">
                 <thead class="border-top">
                     <tr>
-                        <th>Id</th>
+                        <th>#</th>
                         <th>Image</th>
                         <th>Product</th>
                         <th>Price Range</th>
+                        <th>Brand</th>
+                        <th>Category</th>
                         <th>Visibility</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($products as $product)
+                    @foreach ($products as $key => $product)
                     <tr>
-                        <td>{{ $product->id }}</td>
-                        @php
-                        // Check if the product has base images
-                        $baseImages = $product->productBaseImages; // Retrieve the base images using the relationship
-                        @endphp
-                    
-                        @if ($baseImages->isNotEmpty())
+                        
+                        <td>{{ $key + 1 }}</td>
+                        
                         <td>
-                            <!-- Get the first base image, or use default if none exists -->
-                            <img src="{{ asset('storage/' . ($baseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}" alt="Product Image" width="50">
+                            <img src="{{ asset('storage/' . (
+                                $product->productColors->first()->front_image 
+                                ?? $product->productColors->first()->right_image 
+                                ?? $product->productColors->first()->left_image 
+                                ?? $product->productColors->first()->back_image 
+                                ?? 'ProductImages/default.jpg'
+                            )) }}" alt="Product Image" width="50">
+                            
+                       
+                       
                         </td>
-                        @else
-                        <td>No Image Available</td>
-                        @endif
+                        
                     
                         <td>{{ $product->title }}</td>
                         <td>
@@ -85,6 +89,8 @@
                                 Not Available
                             @endif
                         </td>
+                        <td>{{ Str::limit($product->productBrand->title, 15, '...') }}</td>
+                        <td>{{ Str::limit($product->productCategory->title, 15, '...') }}</td>
                         
                     
                         <td>

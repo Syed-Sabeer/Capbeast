@@ -18,10 +18,24 @@ class Product extends Model
         return $this->hasMany(ProductColor::class, 'product_id');
     }
 
+
+
     public function productSEO()
     {
         return $this->hasOne(ProductSEO::class, 'product_id');
     }
+ 
+  // Product.php (Model)
+public function productBrand()
+{
+    return $this->belongsTo(Brand::class, 'brand_id');
+}
+
+public function productCategory()
+{
+    return $this->belongsTo(Category::class, 'category_id');
+}
+
     
     public function componentColors()
     {

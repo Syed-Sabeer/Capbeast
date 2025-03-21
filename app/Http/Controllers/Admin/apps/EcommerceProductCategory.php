@@ -26,7 +26,18 @@ class EcommerceProductCategory extends Controller
         return view('admin.content.apps.app-ecommerce-category-add');
     }
 
-
+    public function updateCategoryVisibility($id, Request $request)
+    {
+        $request->validate([
+            'visibility' => 'required|boolean',
+        ]);
+    
+        $category = Category::findOrFail($id);
+        $category->update(['visibility' => $request->visibility]);
+    
+        return response()->json(['success' => true]);
+    }
+    
 
     public function store(Request $request)
     {
