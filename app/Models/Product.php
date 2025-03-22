@@ -11,7 +11,7 @@ class Product extends Model
     use HasFactory;
 
     protected $table = 'products'; // Define the table name
-    protected $fillable = ['category_id', 'brand_id', 'title','slug', 'description', 'visibility'];
+    protected $fillable = ['category_id', 'brand_id', 'title','slug', 'description','cost_price','selling_price', 'visibility'];
 
     public function productColors()
     {
