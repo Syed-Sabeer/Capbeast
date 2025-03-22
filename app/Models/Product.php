@@ -49,9 +49,9 @@ public function productCategory()
         );
     }
 
-    public function productPricing()
+    public function ProductVolumeDiscount()
     {
-        return $this->hasMany(ProductPricing::class, 'product_id'); // Updated to hasMany for multiple pricing options
+        return $this->hasMany(ProductVolumeDiscount::class, 'product_id'); // Updated to hasMany for multiple pricing options
     }
 
     public function productBaseImages()
