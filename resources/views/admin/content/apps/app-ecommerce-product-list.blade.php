@@ -76,8 +76,9 @@
                             {{ $product->selling_price }}
                            
                         </td>
-                        <td>{{ Str::limit($product->productBrand->title, 15, '...') }}</td>
-                        <td>{{ Str::limit($product->productCategory->title, 15, '...') }}</td>
+                        <td>{{ Str::limit($product->productBrand->title ?? 'No Brand', 15, '...') }}</td>
+<td>{{ Str::limit($product->productCategory->title ?? 'No Category', 15, '...') }}</td>
+
                         
                     
                         <td>
