@@ -44,7 +44,7 @@
                         <th>#</th>
                         <th>Image</th>
                         <th>Product</th>
-                        <th>Price Range</th>
+                        <th>Selling Price</th>
                         <th>Brand</th>
                         <th>Category</th>
                         <th>Visibility</th>
@@ -73,21 +73,8 @@
                     
                         <td>{{ $product->title }}</td>
                         <td>
-                            @php
-                            // Ensure min_price and max_price are numeric and greater than zero
-                            $minPrice = isset($product->min_price) && is_numeric($product->min_price) && $product->min_price > 0
-                                        ? $product->min_price
-                                        : 0;
-                            $maxPrice = isset($product->max_price) && is_numeric($product->max_price) && $product->max_price > 0
-                                        ? $product->max_price
-                                        : 0;
-                            @endphp
-                        
-                            @if($minPrice > 0 && $maxPrice > 0)
-                                ${{ number_format($minPrice, 2) }} ~ ${{ number_format($maxPrice, 2) }}
-                            @else
-                                Not Available
-                            @endif
+                            {{ $product->selling_price }}
+                           
                         </td>
                         <td>{{ Str::limit($product->productBrand->title, 15, '...') }}</td>
                         <td>{{ Str::limit($product->productCategory->title, 15, '...') }}</td>
