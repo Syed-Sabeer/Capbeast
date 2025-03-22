@@ -88,14 +88,7 @@
                             </select>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Coupon User</label>
-                            <select name="coupon_user" id="couponUser" class="select2 form-select form-select-lg">
-                                <option value="0">Both</option>
-                                <option value="1">Reseller</option>
-                                <option value="2">Regular Customer</option>  
-                            </select>
-                        </div>
+                       
 
                         <div class="mb-3">
                             <label class="form-label">Coupon For</label>

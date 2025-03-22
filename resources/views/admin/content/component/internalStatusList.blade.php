@@ -15,9 +15,15 @@
 @endsection
 
 @section('content')
-<h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">Component /</span>Internal Status
-</h4>
+
+
+<div class="d-flex align-items-center justify-content-between py-3 mb-4">
+    <h4 class="mb-0">
+        <span class="text-muted fw-light">eCommerce /</span> Internal Status
+    </h4>
+    <a href="{{ route($prefix.'.InternalStatus.index') }}" class="btn btn-primary">Add New Status</a>
+</div>
+
 
 <!-- Internal Status Table -->
 <div class="card">

@@ -17,7 +17,7 @@ class EcommerceProductCategory extends Controller
     
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(25);
         return view('admin.content.apps.app-ecommerce-category-list', compact('categories'));
     }
 

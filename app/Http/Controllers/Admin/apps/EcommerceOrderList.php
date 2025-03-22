@@ -18,8 +18,9 @@ class EcommerceOrderList extends Controller
   
       // Fetch orders with related user and items (including order artwork)
       $orders = Order::with(['user', 'items' => function ($query) {
-          $query->with('orderArtwork');
-      }])->get();
+        $query->with('orderArtwork');
+    }])->paginate(25);
+    
   
       // Pass all required variables to the view
       return view('admin.content.apps.app-ecommerce-order-list', compact(

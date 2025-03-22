@@ -15,9 +15,15 @@
 @endsection
 
 @section('content')
-<h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">Discount /</span>Coupon List
-</h4>
+
+
+<div class="d-flex align-items-center justify-content-between py-3 mb-4">
+    <h4 class="mb-0">
+        <span class="text-muted fw-light">eCommerce /</span> Discount Coupon List
+    </h4>
+    <a href="{{ route($prefix.'.content-discount-coupon-add') }}" class="btn btn-primary">Add New Coupon</a>
+</div>
+
 
 <!-- Internal Status Table -->
 <div class="card">
@@ -69,6 +75,10 @@
             </tbody>
         </table>
     </div>
+
+    <div class="d-flex justify-content-end mt-3 me-3">
+        <x-pagination :paginator="$discountCoupons" />
+      </div>
 </div>
 <script>
     // Wait for the document to be ready

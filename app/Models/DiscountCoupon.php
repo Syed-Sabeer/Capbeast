@@ -14,7 +14,7 @@ class DiscountCoupon extends Model
         'title',
         'code',
         'coupon_country',
-        'coupon_user',
+        
         'discount_type',
         'item_id',
         'percentage',

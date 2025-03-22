@@ -38,10 +38,10 @@
       <thead>
         <tr>
           <th></th>
-          
+          <th>Name</th>
           <th>Email</th>
-          <th>NEQ Number</th>
-          <th>Reseller</th>
+          <th>Country</th>
+          
           
           <th>Status</th>
           <th>Actions</th>
@@ -52,9 +52,9 @@
         @foreach ($users as $user)
         <tr>
           <td></td>
+          <td>{{ $user->first_name ?? 'Unknown' }} {{ $user->last_name ?? 'Unknown' }}</td>
             <td>{{ $user->email }}</td>
-            <td>{{ $user->neq_number }}</td>
-            <td>{{ $user->is_reseller == 0 ? 'No' : 'Yes' }}</td>
+            <td>{{ $user->country }}</td>
             <td>
               <div class="w-25 d-flex justify-content-end">
                   <label class="switch switch-primary switch-sm me-4 pe-2">
@@ -86,7 +86,14 @@
     
       </tbody>
     </table>
+    
   </div>
+
+  <div class="d-flex justify-content-end mt-3 me-3">
+    <x-pagination :paginator="$users" />
+  </div>
+  
+  
 
 </div>
 
