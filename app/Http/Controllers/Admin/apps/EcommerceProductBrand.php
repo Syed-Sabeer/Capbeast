@@ -11,7 +11,7 @@ class EcommerceProductBrand extends Controller
 {
     public function index()
     {
-        $brands = Brand::all();
+        $brands = Brand::paginate(25);
         return view('admin.content.apps.app-ecommerce-brand-list', compact('brands'));
     }
 

@@ -11,11 +11,13 @@ use Illuminate\Http\Request;
 
 class EcommerceCustomerAll extends BaseAdminController
 {
+
     public function index()
-    {
-        $users = User::all();
-        return view('admin.content.apps.app-ecommerce-customer-all', compact('users'));
-    }
+{
+    $users = User::paginate(25); // Change 10 to the desired number of users per page
+    return view('admin.content.apps.app-ecommerce-customer-all', compact('users'));
+}
+
 
     public function updateStatus($id, Request $request)
     {

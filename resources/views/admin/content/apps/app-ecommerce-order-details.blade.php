@@ -155,6 +155,9 @@
                           </select>
                           <button type="submit" class="btn btn-primary mt-2">Update Status</button>
                       </form>
+                <div class="mt-5">
+                      <a href="{{ route($prefix.'.content-internal-status-list') }}" >Add New Status Name</a>
+                    </div>
                   </div>
               </div>
               

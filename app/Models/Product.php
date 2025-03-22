@@ -26,10 +26,7 @@ class Product extends Model
     }
  
   // Product.php (Model)
-public function productBrand()
-{
-    return $this->belongsTo(Brand::class, 'brand_id');
-}
+
 
 public function productCategory()
 {
@@ -37,17 +34,6 @@ public function productCategory()
 }
 
     
-    public function componentColors()
-    {
-        return $this->hasManyThrough(
-            ComponentProductColor::class,   // Final model
-            ProductColor::class,           // Intermediate model
-            'product_id',                  // Foreign key on ProductColor
-            'id',                          // Foreign key on ComponentProductColor
-            'id',                          // Local key on Product
-            'color_id'                     // Local key on ProductColor
-        );
-    }
 
     public function ProductVolumeDiscount()
     {

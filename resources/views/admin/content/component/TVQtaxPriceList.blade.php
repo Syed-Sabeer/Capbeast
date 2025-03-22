@@ -3,9 +3,18 @@
 @section('title', 'Tax Pricing Modification')
 
 @section('content')
-<h4 class="py-3 mb-4">
-    <span class="text-muted fw-light">Component /</span> TVQ Tax Pricing Modification
-</h4>
+
+
+<div class="d-flex align-items-center justify-content-between py-3 mb-4">
+    <h4 class="mb-0">
+        <span class="text-muted fw-light">eCommerce /</span> TVQ Tax Pricing Modification
+    </h4>
+    @if(!$taxPercentage)
+    <a href="{{ route($prefix.'.TVQtax_price.create') }}" class="btn btn-primary">Add Tax</a>
+    
+    @endif
+    
+</div>
 
 <div class="card">
     <div class="card-header">
@@ -34,12 +43,8 @@
                         </form>
                     </td>
                 </tr>
-                @else
-                <tr>
-                    <td colspan="2" class="text-center">
-                        <a href="{{ route($prefix .'.TVQtax_price.create') }}" class="btn btn-primary">Add</a>
-                    </td>
-                </tr>
+             
+             
                 @endif
             </tbody>
         </table>

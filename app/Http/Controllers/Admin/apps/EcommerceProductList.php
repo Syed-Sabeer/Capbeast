@@ -18,7 +18,7 @@ class EcommerceProductList extends Controller
     public function index()
     {
         // Fetch all products and their pricing information
-        $products = Product::all();
+        $products = Product::paginate(25);
 
     
         // Return the view with the products and their pricing

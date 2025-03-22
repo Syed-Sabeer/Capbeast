@@ -129,7 +129,8 @@ class DiscountCouponsController extends Controller
 
     public function list()
     {
-        $discountCoupons = DiscountCoupon::with(['discountable'])->get(); // eager load discountable relationship
+        $discountCoupons = DiscountCoupon::with(['discountable'])->paginate(25);
+
         return view('admin.content.component.discountCouponList', compact('discountCoupons'));
     }
 

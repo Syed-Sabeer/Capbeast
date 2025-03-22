@@ -145,6 +145,11 @@
       </tbody>
     </table>
   </div>
+
+  <div class="d-flex justify-content-end mt-3 me-3">
+    <x-pagination :paginator="$categories" />
+  </div>
+
 </div>
 
 
