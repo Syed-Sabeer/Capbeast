@@ -76,6 +76,23 @@
                         </select>
                     </div>
                 </div>
+
+
+
+
+                <div class="row">
+                    <div class="mb-3 col-6">
+                        <label class="form-label">Cost Price</label>
+                        <input type="text" name="cost_price" class="form-control" placeholder="Product Cost Price" required>
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <label class="form-label">Selling Price</label>
+                        <input type="text" name="selling_price" class="form-control" placeholder="Product Selling Price" required>
+                    </div>
+
+                   
+                </div>
                     
                     <div class="mb-3">
                         <label class="form-label">Description</label>
@@ -158,23 +175,23 @@
 
     <div class="col-12 col-lg-8">
         <div class="card mb-4">
-            <div class="card-header">Pricing</div>
-            <div class="card-body" id="pricing-section">
-                <div class="pricing-item">
+            <div class="card-header">Volume  Discount (Optional)</div>
+            <div class="card-body" id="discount-section">
+                <div class="discount-item">
                     <div class="row mb-3">
                         <div class="col-6">
-                            <label class="form-label">Quantity</label>
-                            <input type="number" name="quantity[]" class="form-control" required>
+                            <label class="form-label">Minimum Quantity</label>
+                            <input type="number" name="quantity[]" class="form-control" >
                         </div>
                         <div class="col-6">
-                            <label class="form-label">Price</label>
-                            <input type="text" name="pricing[]" class="form-control" required>
+                            <label class="form-label">Discount Percenatge</label>
+                            <input type="text" name="discount[]" class="form-control" >
                         </div>
                         
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-primary" id="add-pricing">Add another pricing</button>
+            <button type="button" class="btn btn-primary" id="add-discount">Add Another Discount</button>
         </div>
 
     </div>
@@ -207,8 +224,8 @@ document.getElementById('add-color').addEventListener('click', () => {
 });
 
 
-    document.getElementById('add-pricing').addEventListener('click', () => {
-        const pricingSection = document.getElementById('pricing-section');
+    document.getElementById('add-discount').addEventListener('click', () => {
+        const pricingSection = document.getElementById('discount-section');
         const newPricingItem = pricingSection.firstElementChild.cloneNode(true);
         newPricingItem.querySelectorAll('input').forEach(input => input.value = '');
     
@@ -223,7 +240,7 @@ document.getElementById('add-color').addEventListener('click', () => {
     
         // Wrap new pricing item in a div and append the remove button
         const wrapper = document.createElement('div');
-        wrapper.classList.add('pricing-item');
+        wrapper.classList.add('discount-item');
         wrapper.appendChild(newPricingItem);
         wrapper.appendChild(removeBtn);
     

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductSEO;
 use App\Models\ProductColor;
-use App\Models\ProductPricing;
+use App\Models\ProductVolumeDiscount;
 use App\Models\ComponentProductColor;
 use App\Models\ProductBaseImage;
 use App\Models\Brand;
@@ -47,8 +47,8 @@ class EcommerceProductAdd extends Controller
                 'back_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'right_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
                 'left_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-                'quantity.*' => 'required|integer',
-                'pricing.*' => 'required|numeric',
+                'quantity.*' => 'nullable|integer',
+                'discount.*' => 'nullable|numeric',
                 
             ]);
 
@@ -60,6 +60,8 @@ $product = Product::create([
     'title' => $request->title,
     'slug' => $request->slug,
     'description' => $request->description,
+    'cost_price' => $request->cost_price,
+    'selling_price' => $request->selling_price,
 ]);
 
             ProductSEO::create([
@@ -119,22 +121,19 @@ $product = Product::create([
               
             
 
-            // Save product pricing in separate rows
-            foreach ($request->quantity as $index => $quantity) {
-                Log::info("Processing pricing", [
-                    'Quantity' => $quantity,
-                    'Price' => $request->pricing[$index],
-                    
-                ]);
-
-                ProductPricing::create([
-                    'product_id' => $product->id,
-                    'quantity' => $quantity,
-                    'pricing' => $request->pricing[$index],
-                  
-                ]);
-
+         // Save product pricing in separate rows
+         if ($request->has('quantity')) {
+            foreach ($request->quantity as $key => $qty) {
+                if (!empty($qty)) { // Skip empty entries
+                    ProductVolumeDiscount::create([
+                        'product_id' => $product->id,
+                        'quantity' => $qty,
+                        'discount' => $request->discount[$key] ?? 0, // Default discount to 0 if missing
+                    ]);
+                }
             }
+        }
+        
 
             return redirect()->back()->with('success', 'Product added successfully!');
         } catch (\Exception $e) {

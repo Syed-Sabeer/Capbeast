@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductPricing extends Model
+class ProductVolumeDiscount extends Model
 {
     use HasFactory;
 
-    protected $table = 'product_pricing';
-    protected $fillable = ['product_id', 'pricing','reseller_pricing', 'quantity'];
+    protected $table = 'product_volume_discount';
+    protected $fillable = ['product_id', 'discount', 'quantity'];
 
     public function product()
     {
