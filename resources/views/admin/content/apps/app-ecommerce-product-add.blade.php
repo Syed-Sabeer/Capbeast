@@ -83,7 +83,7 @@
                 <div class="row">
                     <div class="mb-3 col-6">
                         <label class="form-label">Cost Price</label>
-                        <input type="text" name="cost_price" class="form-control" placeholder="Product Cost Price" required>
+                        <input type="text" name="cost_price" class="form-control" placeholder="Product Cost Price" >
                     </div>
 
                     <div class="mb-3 col-6">
