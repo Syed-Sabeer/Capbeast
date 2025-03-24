@@ -23,7 +23,7 @@ class EcommerceProductAdd extends Controller
         $categories = Category::all();
         $brands = Brand::all();
         // $colorData = json_decode(file_get_contents(public_path('assetsCommon/api/color_api.json')), true);
-        return view('admin.content.apps.app-ecommerce-product-add', compact('colorData','categories','brands'));
+        return view('admin.content.apps.app-ecommerce-product-add', compact('categories','brands'));
     }
 
     public function store(Request $request)
