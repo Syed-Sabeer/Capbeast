@@ -10,13 +10,13 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #F7B708;
+  background: #000000;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #F7B708;
+  background: #000000;
 }
 
 .customization-section {
@@ -27,7 +27,7 @@
 }
 
 .step {
-  background-color: #F7B708;
+  background-color: #000000;
   color: #ffffff;
   font-weight: bold;
   font-style: italic;
@@ -340,7 +340,7 @@
 
 .active-tab {
   color: #fff !important;
-  background-color: #F7B708;
+  background-color: #000000;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -367,7 +367,7 @@
 
 /* Highlighted option styling */
 .option-card.selected {
-    border-color: #F7B708;
+    border-color: #000000;
 }
 #google_translate_element {
   position: fixed;

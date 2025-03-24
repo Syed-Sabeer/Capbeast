@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\Admin\Apps;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRegisteredMail;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Admin\Apps\BaseAdminController;
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class EcommerceCustomerAll extends Controller
 {
-
     public function index()
-{
-    $users = User::paginate(25); // Change 10 to the desired number of users per page
-    return view('admin.content.apps.app-ecommerce-customer-all', compact('users'));
-}
-
+    {
+        $users = User::all();
+        return view('admin.content.apps.app-ecommerce-customer-all', compact('users'));
+    }
 
     public function updateStatus($id, Request $request)
     {
@@ -41,8 +41,10 @@ class EcommerceCustomerAll extends Controller
 
     public function edit($id)
     {
+        // dd(Auth::user());
+        $authUser = Auth::user();
         $user = User::findOrFail($id);
-        return view("{$this->prefix}.content.apps.edit-customer", compact('user'));
+        return view("admin.content.apps.edit-customer", compact('user'));
     }
 
     public function update($id, Request $request)
@@ -54,12 +56,11 @@ class EcommerceCustomerAll extends Controller
             'contact_number' => 'required',
             'email' => 'required|email',
             'password' => 'nullable|min:6',
-            'is_reseller' => 'required|boolean',
-            'neq_number' => 'required',
+           
             'status' => 'required|boolean',
             'country' => 'required',
         ]);
-
+        
         $user = User::findOrFail($id);
         $data = $request->all();
         if (!$request->filled('password')) {
@@ -67,14 +68,15 @@ class EcommerceCustomerAll extends Controller
         }
         $user->update($data);
 
-        return redirect()->route("{$this->prefix}.app-ecommerce-customer-all")->with('success', 'User updated successfully');
+        return redirect()->route(app('authUser')->role . '.app-ecommerce-customer-all')->with('success', 'User updated successfully');
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route(route($this->prefix . '.app-ecommerce-customer-all', [], false));
+        return redirect()->back()->with('success', 'User deleted successfully');
+        
 
     }
 }
