@@ -11,11 +11,12 @@ class ProductController extends Controller
     public function index()
     {
         
-        $products = Product::with(['productColors', 'productPricing', 'productBaseImages'])
-        ->where('visibility', 1)
-        ->get();
+        // $products = Product::with(['productColors', 'productPricing', 'productBaseImages'])
+        // ->where('visibility', 1)
+        // ->get();
 
        
-        return view('main.pages.products', compact('products'));
+        // return view('main.pages.products', compact('products'));
+        return view('main.pages.products');
     }
 }
