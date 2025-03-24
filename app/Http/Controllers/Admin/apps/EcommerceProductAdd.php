@@ -9,7 +9,7 @@ use App\Models\Product;
 use App\Models\ProductSEO;
 use App\Models\ProductColor;
 use App\Models\ProductVolumeDiscount;
-use App\Models\ComponentProductColor;
+// use App\Models\ComponentProductColor;
 use App\Models\ProductBaseImage;
 use App\Models\Brand;
 use App\Models\Category;
@@ -19,7 +19,7 @@ class EcommerceProductAdd extends Controller
 {
     public function index()
     {
-        $colorData = ComponentProductColor::all();
+        // $colorData = ComponentProductColor::all();
         $categories = Category::all();
         $brands = Brand::all();
         // $colorData = json_decode(file_get_contents(public_path('assetsCommon/api/color_api.json')), true);
