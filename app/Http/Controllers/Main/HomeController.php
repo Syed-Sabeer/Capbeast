@@ -16,15 +16,16 @@ class HomeController extends Controller
     public function index()
     {
         // Fetch latest products
-        $products = Product::where('visibility', 1)
-            ->latest()
-            ->take(8)
-            ->get();
+        // $products = Product::where('visibility', 1)
+        //     ->latest()
+        //     ->take(8)
+        //     ->get();
 
-        // Fetch Instagram posts
-        $instagramPosts = $this->getInstagramPosts();
+        // // Fetch Instagram posts
+        // $instagramPosts = $this->getInstagramPosts();
 
-        return view('main.pages.home', compact('products', 'instagramPosts'));
+        // return view('main.pages.home', compact('products', 'instagramPosts'));
+        return view('main.pages.home');
     }
 
     /**
@@ -67,7 +68,7 @@ class HomeController extends Controller
         }
     }
 
-    
-    
-    
+
+
+
 }
