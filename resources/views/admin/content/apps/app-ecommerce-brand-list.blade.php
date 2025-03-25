@@ -131,15 +131,16 @@
         </td>
           <td>
             <a href="{{ route($prefix.'.brand.edit', $brand->id) }}" class="btn btn-sm btn-warning">Edit</a>
-            <button type="button" class="btn btn-sm btn-danger delete-btn" 
-            data-url="{{ route($prefix.'.brand.delete', $brand->id) }}" 
-            data-bs-toggle="modal" 
-            data-bs-target="#deleteModal">
-        Delete
-    </button>
-    
+            <a href="{{ route($prefix.'.brand.delete', $brand->id) }}" class="btn btn-sm btn-danger delete_confirm">Delete</a>
+            {{-- <button type="button" class="btn btn-sm btn-danger delete-btn"
+                    data-url="{{ route($prefix.'.brand.delete', $brand->id) }}"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteModal">
+                Delete
+            </button> --}}
+
         </td>
-                
+
         </tr>
         @endforeach
       </tbody>
@@ -149,7 +150,7 @@
   <div class="d-flex justify-content-end mt-3 me-3">
     <x-pagination :paginator="$brands" />
   </div>
-  
+
 </div>
 
 

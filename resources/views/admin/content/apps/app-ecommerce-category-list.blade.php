@@ -128,18 +128,19 @@
                 </label>
             </div>
         </td>
-        
+
           <td>
             <a href="{{ route($prefix.'.category.edit', $category->id) }}" class="btn btn-sm btn-warning">Edit</a>
-            <button type="button" class="btn btn-sm btn-danger delete-btn" 
-            data-url="{{ route($prefix.'.category.delete', $category->id) }}" 
-            data-bs-toggle="modal" 
+            <a href="{{ route($prefix.'.category.delete', $category->id) }}" class="btn btn-sm btn-danger delete_confirm">Delete</a>
+            {{-- <button type="button" class="btn btn-sm btn-danger delete-btn"
+            data-url="{{ route($prefix.'.category.delete', $category->id) }}"
+            data-bs-toggle="modal"
             data-bs-target="#deleteModal">
         Delete
-    </button>
-    
+    </button> --}}
+
         </td>
-                
+
         </tr>
         @endforeach
       </tbody>

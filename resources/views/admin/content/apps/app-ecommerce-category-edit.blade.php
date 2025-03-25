@@ -22,7 +22,7 @@
       <div class="card-body">
         <form action="{{ route($prefix.'.category.update', $category->id) }}" method="POST" enctype="multipart/form-data">
           @csrf
-          @method('PUT')
+          @method('POST')
 
           <div class="mb-3">
             <label for="title" class="form-label">Category Title</label>
@@ -43,9 +43,6 @@
               </div>
             @endif
           </div>
-
-          
-
           <button type="submit" class="btn btn-primary">Update Category</button>
         </form>
       </div>

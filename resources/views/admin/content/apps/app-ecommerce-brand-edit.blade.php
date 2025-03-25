@@ -20,18 +20,18 @@
         <h5 class="mb-0">Edit Brand</h5>
       </div>
       <div class="card-body">
-        <form action="{{ route($prefix.'.brand.update', $brands->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route($prefix.'.brand.update', $brand->id) }}" method="POST" enctype="multipart/form-data">
           @csrf
-          @method('PUT')
+          @method('POST')
 
           <div class="mb-3">
             <label for="title" class="form-label">Brand Title</label>
-            <input type="text" class="form-control" id="title" name="title" value="{{ $brands->title }}" required>
+            <input type="text" class="form-control" id="title" name="title" value="{{ $brand->title }}" required>
           </div>
 
           <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description">{{ $brands->description }}</textarea>
+            <textarea class="form-control" id="description" name="description">{{ $brand->description }}</textarea>
           </div>
 
           <div class="mb-3">
@@ -39,12 +39,12 @@
             <input type="file" class="form-control" id="image" name="image">
             @if($brand->image)
               <div class="mt-2">
-                <img src="{{ asset('storage/' .$brands->image) }}" alt="Brand Image" width="100">
+                <img src="{{ asset('storage/' .$brand->image) }}" alt="Brand Image" width="100">
               </div>
             @endif
           </div>
 
-          
+
 
           <button type="submit" class="btn btn-primary">Update Brand</button>
         </form>
