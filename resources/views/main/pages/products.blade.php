@@ -15,33 +15,7 @@
         'imageURL' => asset('assetsMain/images/profile-bg.jpg'), // Evaluated here
     ])
     @endcomponent
-<<<<<<< HEAD
-=======
 
-    <style>
-        .category-container {
-            position: relative;
-            width: 100%;
-            max-width: 1200px;
-            overflow: hidden;
-            padding: 20px 0;
-        }
-
-        .category-slider {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding: 15px;
-            scrollbar-width: none;
-        }
->>>>>>> e5cafc9 (many frontend changes)
-
-        .category-slider::-webkit-scrollbar {
-            display: none;
-        }
-
-<<<<<<< HEAD
 
     <div class="position-relative section">
         <div class="container">
@@ -82,152 +56,11 @@
                             <div
                                 class="pagination-block pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
 
-=======
-        .category-card {
-            flex: 0 0 auto;
-            width: 160px;
-            height: 200px;
-            background: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .category-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .category-card img {
-            width: 90px;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            border: 3px solid #000;
-        }
-
-        .category-card p {
-            margin: 0;
-            font-size: 15px;
-            font-weight: bold;
-            color: black;
-        }
-
-        .categoryarrow {
-            position: absolute;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 15px;
-            cursor: pointer;
-            font-size: 24px;
-            border-radius: 50%;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-            transition: background 0.3s ease;
-        }
-
-        .categoryarrow:hover {
-            background: rgba(0, 0, 0, 0.7);
-        }
-
-
-
-        .categoryarrow-left {
-            left: 10px;
-        }
-
-        .categoryarrow-right {
-            right: 10px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .category-card {
-                width: 130px;
-                height: 160px;
-            }
-
-            .category-card img {
-                width: 80px;
-                height: 80px;
-            }
-
-            .categoryarrow {
-                padding: 12px;
-                font-size: 18px;
-            }
-        }
-
-        .category-card.active {
-            border: 2px solid black;
-            background: #f0f0f0;
-            transform: scale(1.1);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-    </style>
-
-    {{-- <div class="position-relative section">
-        <div class="container">
-            <div class="ecommerce-product gap-4">
-                <div class="flex-grow-1">
-
-
-                    <div class="category-container">
-                        <button class="categoryarrow categoryarrow-left" onclick="scrollSlider(-200)">&#10094;</button>
-                        <div class="category-slider" id="categorySlider">
-                            <div class="category-card">
-                                <img src="https://source.unsplash.com/150x150/?cap" alt="Caps">
-                                <p>Caps</p>
-                            </div>
-                            <div class="category-card">
-                                <img src="https://source.unsplash.com/150x150/?beanie" alt="Beanies">
-                                <p>Beanies</p>
-                            </div>
-                            <div class="category-card">
-                                <img src="https://source.unsplash.com/150x150/?shoes" alt="Shoes">
-                                <p>Shoes</p>
-                            </div>
-                            <div class="category-card">
-                                <img src="https://source.unsplash.com/150x150/?jacket" alt="Jackets">
-                                <p>Jackets</p>
-                            </div>
-                            <div class="category-card">
-                                <img src="https://source.unsplash.com/150x150/?watch" alt="Watches">
-                                <p>Watches</p>
-                            </div>
-                            <div class="category-card">
-                                <img src="https://source.unsplash.com/150x150/?shoes" alt="Shoes">
-                                <p>Shoes</p>
-                            </div>
-                            <div class="category-card">
-                                <img src="https://source.unsplash.com/150x150/?jacket" alt="Jackets">
-                                <p>Jackets</p>
-                            </div>
-                            <div class="category-card">
-                                <img src="https://source.unsplash.com/150x150/?watch" alt="Watches">
-                                <p>Watches</p>
-                            </div>
-                            <div class="category-card">
-                                <img src="https://source.unsplash.com/150x150/?glasses" alt="Glasses">
-                                <p>Glasses</p>
->>>>>>> e5cafc9 (many frontend changes)
                             </div>
                         </div>
                         <button class="categoryarrow categoryarrow-right" onclick="scrollSlider(200)">&#10095;</button>
                     </div>
 
-<<<<<<< HEAD
                     <div class="row d-none" id="search-result-elem">
                         <div class="col-lg-12">
                             <div class="text-center py-5">
@@ -236,200 +69,6 @@
                                         <i class="bi bi-search"></i>
                                     </div>
                                 </div>
-=======
-
-                    <div class="d-flex align-items-center gap-2 mb-4">
-                        <p class="text-muted flex-grow-1 mb-0">
-                            Showing 1-12 of 84 results
-                        </p>
-
-                        <div class="flex-shrink-0">
-                            <div class="d-flex gap-2">
-                                <div class="flex-shrink-0">
-                                    <label for="sort-elem" class="col-form-label">Sort By:</label>
-                                </div>
-                                <div class="flex-shrink-0">
-                                    <select class="form-select w-md" id="sort-elem">
-                                        <option value="">All</option>
-                                        <option value="low_to_high">Low to High</option>
-                                        <option value="high_to_low">High to Low</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row justify-content-center">
-
-                        <div class="col-md-4 col-lg-3 mb-4">
-                            <div class="product-card">
-                                <div class="ProductCardBadge">HOT</div>
-
-                                <img src="" alt="product" class="img-fluid" id="mainImage">
-
-                                <div class="color-slider-container">
-                                    <span class="arrow left"><i class="fa-solid fa-circle-chevron-left"></i></span>
-                                    <div class="color-slider" id="colorSlider">
-
-                                        <div class="color-option" style="background-color: red;" title="Color: Red"
-                                            data-image="">
-                                        </div>
-
-                                    </div>
-                                    <span class="arrow right"><i class="fa-solid fa-circle-chevron-right"></i></span>
-                                </div>
-
-
-
-
-                                <h5 class="card-title">JDKDJKJKD</h5>
-                                <div class="stars mb-4">
-                                    @for ($i = 0; $i < 5; $i++)
-                                        <i class="fas fa-star"></i>
-                                    @endfor
-                                </div>
-
-
-                                <a href="" class="add-to-cart-btn font-weight-bold"
-                                    style="margin-top: 5% !important; padding-right: 40px; padding-left:40px;">
-                                    <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;Customize
-                                </a>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-lg-3 mb-4">
-                            <div class="product-card">
-                                <div class="ProductCardBadge">HOT</div>
-
-                                <img src="" alt="product" class="img-fluid" id="mainImage">
-
-                                <div class="color-slider-container">
-                                    <span class="arrow left"><i class="fa-solid fa-circle-chevron-left"></i></span>
-                                    <div class="color-slider" id="colorSlider">
-
-                                        <div class="color-option" style="background-color: red;" title="Color: Red"
-                                            data-image="">
-                                        </div>
-
-                                    </div>
-                                    <span class="arrow right"><i class="fa-solid fa-circle-chevron-right"></i></span>
-                                </div>
-
-
-
-
-                                <h5 class="card-title">JDKDJKJKD</h5>
-                                <div class="stars mb-4">
-                                    @for ($i = 0; $i < 5; $i++)
-                                        <i class="fas fa-star"></i>
-                                    @endfor
-                                </div>
-
-
-                                <a href="" class="add-to-cart-btn font-weight-bold"
-                                    style="margin-top: 5% !important; padding-right: 40px; padding-left:40px;">
-                                    <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;Customize
-                                </a>
-
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-4 col-lg-3 mb-4">
-                            <div class="product-card">
-                                <div class="ProductCardBadge">HOT</div>
-
-                                <img src="" alt="product" class="img-fluid" id="mainImage">
-
-                                <div class="color-slider-container">
-                                    <span class="arrow left"><i class="fa-solid fa-circle-chevron-left"></i></span>
-                                    <div class="color-slider" id="colorSlider">
-
-                                        <div class="color-option" style="background-color: red;" title="Color: Red"
-                                            data-image="">
-                                        </div>
-
-                                    </div>
-                                    <span class="arrow right"><i class="fa-solid fa-circle-chevron-right"></i></span>
-                                </div>
-
-
-
-
-                                <h5 class="card-title">JDKDJKJKD</h5>
-                                <div class="stars mb-4">
-                                    @for ($i = 0; $i < 5; $i++)
-                                        <i class="fas fa-star"></i>
-                                    @endfor
-                                </div>
-
-
-                                <a href="" class="add-to-cart-btn font-weight-bold"
-                                    style="margin-top: 5% !important; padding-right: 40px; padding-left:40px;">
-                                    <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;Customize
-                                </a>
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 col-lg-3 mb-4">
-                            <div class="product-card">
-                                <div class="ProductCardBadge">HOT</div>
-
-                                <img src="" alt="product" class="img-fluid" id="mainImage">
-
-                                <div class="color-slider-container">
-                                    <span class="arrow left"><i class="fa-solid fa-circle-chevron-left"></i></span>
-                                    <div class="color-slider" id="colorSlider">
-
-                                        <div class="color-option" style="background-color: red;" title="Color: Red"
-                                            data-image="">
-                                        </div>
-
-                                    </div>
-                                    <span class="arrow right"><i class="fa-solid fa-circle-chevron-right"></i></span>
-                                </div>
-
-
-
-
-                                <h5 class="card-title">JDKDJKJKD</h5>
-                                <div class="stars mb-4">
-                                    @for ($i = 0; $i < 5; $i++)
-                                        <i class="fas fa-star"></i>
-                                    @endfor
-                                </div>
-
-
-                                <a href="" class="add-to-cart-btn font-weight-bold"
-                                    style="margin-top: 5% !important; padding-right: 40px; padding-left:40px;">
-                                    <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp;Customize
-                                </a>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row" id="pagination-element">
-                        <div class="col-lg-12">
-                            <div
-                                class="pagination-block pagination pagination-separated justify-content-center justify-content-sm-end mb-sm-0">
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row d-none" id="search-result-elem">
-                        <div class="col-lg-12">
-                            <div class="text-center py-5">
-                                <div class="avatar-lg mx-auto mb-4">
-                                    <div class="avatar-title bg-primary-subtle text-primary rounded-circle fs-24">
-                                        <i class="bi bi-search"></i>
-                                    </div>
-                                </div>
->>>>>>> e5cafc9 (many frontend changes)
                                 <h5>No matching records found</h5>
                             </div>
                         </div>
@@ -437,372 +76,12 @@
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div> 
 
     <div class="position-relative section">
         <div class="container">
             <div class="ecommerce-product gap-4">
-                {{-- <div class="sidebar small-sidebar flex-shrink-0">
-                  <div class="card overflow-hidden">
-                      <div class="card-header">
-                          <div class="d-flex mb-3">
-                              <div class="flex-grow-1">
-                                  <h5 class="fs-16">Filters</h5>
-                              </div>
-                              <div class="flex-shrink-0">
-                                  <a href="#" class="text-decoration-underline" id="clearall">Clear All</a>
-                              </div>
-                          </div>
-
-                          <div class="search-box">
-                              <input type="text" class="form-control" id="searchProductList" autocomplete="off" placeholder="Search Products...">
-                              <i class="ri-search-line search-icon"></i>
-                          </div>
-                      </div>
-
-                      <div class="accordion accordion-flush filter-accordion">
-
-                          <div class="card-body border-bottom">
-                              <div>
-                                  <p class="text-muted text-uppercase fs-13 fw-medium mb-3">Products</p>
-                                  <ul class="list-unstyled mb-0 filter-list">
-                                      <li>
-                                          <a href="javascript:void(0)" class="d-flex py-1 align-items-center">
-                                              <div class="flex-grow-1">
-                                                  <h5 class="fs-14 mb-0 listname">Grocery</h5>
-                                              </div>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a href="javascript:void(0)" class="d-flex py-1 align-items-center">
-                                              <div class="flex-grow-1">
-                                                  <h5 class="fs-14 mb-0 listname">Fashion</h5>
-                                              </div>
-                                              <div class="flex-shrink-0 ms-2">
-                                                  <span class="badge bg-light text-muted">5</span>
-                                              </div>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a href="javascript:void(0)" class="d-flex py-1 align-items-center">
-                                              <div class="flex-grow-1">
-                                                  <h5 class="fs-14 mb-0 listname">Watches</h5>
-                                              </div>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a href="javascript:void(0)" class="d-flex py-1 align-items-center">
-                                              <div class="flex-grow-1">
-                                                  <h5 class="fs-14 mb-0 listname">Electronics</h5>
-                                              </div>
-                                              <div class="flex-shrink-0 ms-2">
-                                                  <span class="badge bg-light text-muted">5</span>
-                                              </div>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a href="javascript:void(0)" class="d-flex py-1 align-items-center">
-                                              <div class="flex-grow-1">
-                                                  <h5 class="fs-14 mb-0 listname">Furniture</h5>
-                                              </div>
-                                              <div class="flex-shrink-0 ms-2">
-                                                  <span class="badge bg-light text-muted">6</span>
-                                              </div>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a href="javascript:void(0)" class="d-flex py-1 align-items-center">
-                                              <div class="flex-grow-1">
-                                                  <h5 class="fs-14 mb-0 listname">Automotive Accessories</h5>
-                                              </div>
-                                          </a>
-                                      </li>
-                                      <li>
-                                          <a href="javascript:void(0)" class="d-flex py-1 align-items-center">
-                                              <div class="flex-grow-1">
-                                                  <h5 class="fs-14 mb-0 listname">Appliances</h5>
-                                              </div>
-                                              <div class="flex-shrink-0 ms-2">
-                                                  <span class="badge bg-light text-muted">7</span>
-                                              </div>
-                                          </a>
-                                      </li>
-
-                                      <li>
-                                          <a href="javascript:void(0)" class="d-flex py-1 align-items-center">
-                                              <div class="flex-grow-1">
-                                                  <h5 class="fs-14 mb-0 listname">Kids</h5>
-                                              </div>
-                                          </a>
-                                      </li>
-                                  </ul>
-                              </div>
-                          </div>
-
-                          <div class="card-body border-bottom">
-                              <p class="text-muted text-uppercase fs-13 fw-medium mb-4">Price</p>
-
-                              <div id="product-price-range" data-slider-color="info"></div>
-                              <div class="formCost d-flex gap-2 align-items-center mt-3">
-                                  <input class="form-control form-control-sm" type="text" id="minCost" value="0"> <span class="fw-semibold text-muted">to</span> <input class="form-control form-control-sm" type="text" id="maxCost" value="1000">
-                              </div>
-                          </div>
-
-                          <div class="accordion-item">
-                              <h2 class="accordion-header" id="flush-headingColors">
-                                  <button class="accordion-button bg-transparent shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseColors" aria-expanded="true" aria-controls="flush-collapseColors">
-                                      <span class="text-muted text-uppercase fs-13 fw-medium">Colors</span> <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge"></span>
-                                  </button>
-                              </h2>
-
-                              <div id="flush-collapseColors" class="accordion-collapse collapse show" aria-labelledby="flush-headingColors">
-                                  <div class="accordion-body text-body pt-0">
-                                      <ul class="clothe-colors list-unstyled hstack gap-3 mb-0 flex-wrap" id="color-filter">
-                                          <li>
-                                              <input type="radio" name="colors" value="success" id="color-1">
-                                              <label class="avatar-xs btn btn-success p-0 d-flex align-items-center justify-content-center rounded-circle" for="color-1"></label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="colors" value="info" id="color-2">
-                                              <label class="avatar-xs btn btn-info p-0 d-flex align-items-center justify-content-center rounded-circle" for="color-2"></label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="colors" value="warning" id="color-3">
-                                              <label class="avatar-xs btn btn-warning p-0 d-flex align-items-center justify-content-center rounded-circle" for="color-3"></label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="colors" value="danger" id="color-4">
-                                              <label class="avatar-xs btn btn-danger p-0 d-flex align-items-center justify-content-center rounded-circle" for="color-4"></label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="colors" value="primary" id="color-5">
-                                              <label class="avatar-xs btn btn-primary p-0 d-flex align-items-center justify-content-center rounded-circle" for="color-5"></label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="colors" value="secondary" id="color-6">
-                                              <label class="avatar-xs btn btn-secondary p-0 d-flex align-items-center justify-content-center rounded-circle" for="color-6"></label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="colors" value="dark" id="color-7">
-                                              <label class="avatar-xs btn btn-dark p-0 d-flex align-items-center justify-content-center rounded-circle" for="color-7"></label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="colors" value="light" id="color-8">
-                                              <label class="avatar-xs btn btn-light p-0 d-flex align-items-center justify-content-center rounded-circle" for="color-8"></label>
-                                          </li>
-                                      </ul>
-                                  </div>
-                              </div>
-                          </div>
-                          <!-- end accordion-item -->
-
-                          <div class="accordion-item">
-                              <h2 class="accordion-header" id="flush-headingSize">
-                                  <button class="accordion-button bg-transparent shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSize" aria-expanded="true" aria-controls="flush-collapseSize">
-                                      <span class="text-muted text-uppercase fs-13 fw-medium">Sizes</span> <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge"></span>
-                                  </button>
-                              </h2>
-
-                              <div id="flush-collapseSize" class="accordion-collapse collapse show" aria-labelledby="flush-headingSize">
-                                  <div class="accordion-body text-body pt-0">
-                                      <ul class="clothe-size list-unstyled hstack gap-3 mb-0 flex-wrap" id="size-filter">
-                                          <li>
-                                              <input type="radio" name="sizes" value="xs" id="sizeXs">
-                                              <label class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle" for="sizeXs">XS</label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="sizes" value="s" id="sizeS">
-                                              <label class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle" for="sizeS">S</label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="sizes" value="m" id="sizeM">
-                                              <label class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle" for="sizeM">M</label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="sizes" value="l" id="sizeL">
-                                              <label class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle" for="sizeL">L</label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="sizes" value="xl" id="sizeXl">
-                                              <label class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle" for="sizeXl">XL</label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="sizes" value="2xl" id="size2xl">
-                                              <label class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle" for="size2xl">2XL</label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="sizes" value="3xl" id="size3xl">
-                                              <label class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle" for="size3xl">3XL</label>
-                                          </li>
-                                          <li>
-                                              <input type="radio" name="sizes" value="4xl" id="size4xl">
-                                              <label class="avatar-xs btn btn-soft-primary p-0 d-flex align-items-center justify-content-center rounded-circle" for="size4xl">4XL</label>
-                                          </li>
-                                      </ul>
-                                  </div>
-                              </div>
-                          </div>
-                          <!-- end accordion-item -->
-
-                          <div class="accordion-item">
-                              <h2 class="accordion-header" id="flush-headingBrands">
-                                  <button class="accordion-button bg-transparent shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseBrands" aria-expanded="true" aria-controls="flush-collapseBrands">
-                                      <span class="text-muted text-uppercase fs-13 fw-medium">Brands</span> <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge"></span>
-                                  </button>
-                              </h2>
-
-                              <div id="flush-collapseBrands" class="accordion-collapse collapse show" aria-labelledby="flush-headingBrands">
-                                  <div class="accordion-body text-body pt-0">
-                                      <div class="search-box search-box-sm">
-                                          <input type="text" class="form-control bg-light border-0" id="searchBrandsList" placeholder="Search Brands...">
-                                          <i class="ri-search-line search-icon"></i>
-                                      </div>
-                                      <div class="d-flex flex-column gap-2 mt-3 filter-check">
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="Boat" id="productBrandRadio5">
-                                              <label class="form-check-label" for="productBrandRadio5">Boat</label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="OnePlus" id="productBrandRadio4">
-                                              <label class="form-check-label" for="productBrandRadio4">OnePlus</label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="Realme" id="productBrandRadio3">
-                                              <label class="form-check-label" for="productBrandRadio3">Realme</label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="Sony" id="productBrandRadio2">
-                                              <label class="form-check-label" for="productBrandRadio2">Sony</label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="JBL" id="productBrandRadio1">
-                                              <label class="form-check-label" for="productBrandRadio1">JBL</label>
-                                          </div>
-
-                                          <div>
-                                              <button type="button" class="btn btn-link text-decoration-none text-uppercase fw-medium p-0">1,235
-                                                  More</button>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                          <!-- end accordion-item -->
-
-                          <div class="accordion-item">
-                              <h2 class="accordion-header" id="flush-headingDiscount">
-                                  <button class="accordion-button bg-transparent shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseDiscount" aria-expanded="true" aria-controls="flush-collapseDiscount">
-                                      <span class="text-muted text-uppercase fs-13 fw-medium">Discount</span> <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge"></span>
-                                  </button>
-                              </h2>
-                              <div id="flush-collapseDiscount" class="accordion-collapse collapse" aria-labelledby="flush-headingDiscount">
-                                  <div class="accordion-body text-body pt-1">
-                                      <div class="d-flex flex-column gap-2 filter-check" id="discount-filter">
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="50" id="productdiscountRadio6">
-                                              <label class="form-check-label" for="productdiscountRadio6">50% or more</label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="40" id="productdiscountRadio5">
-                                              <label class="form-check-label" for="productdiscountRadio5">40% or more</label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="30" id="productdiscountRadio4">
-                                              <label class="form-check-label" for="productdiscountRadio4">
-                                                  30% or more
-                                              </label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="20" id="productdiscountRadio3">
-                                              <label class="form-check-label" for="productdiscountRadio3">
-                                                  20% or more
-                                              </label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="10" id="productdiscountRadio2">
-                                              <label class="form-check-label" for="productdiscountRadio2">
-                                                  10% or more
-                                              </label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="0" id="productdiscountRadio1">
-                                              <label class="form-check-label" for="productdiscountRadio1">
-                                                  Less than 10%
-                                              </label>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                          <!-- end accordion-item -->
-
-                          <div class="accordion-item">
-                              <h2 class="accordion-header" id="flush-headingRating">
-                                  <button class="accordion-button bg-transparent shadow-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseRating" aria-expanded="false" aria-controls="flush-collapseRating">
-                                      <span class="text-muted text-uppercase fs-13 fw-medium">Rating</span> <span class="badge bg-success rounded-pill align-middle ms-1 filter-badge"></span>
-                                  </button>
-                              </h2>
-
-                              <div id="flush-collapseRating" class="accordion-collapse collapse" aria-labelledby="flush-headingRating">
-                                  <div class="accordion-body text-body">
-                                      <div class="d-flex flex-column gap-2 filter-check" id="rating-filter">
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="4" id="productratingRadio4">
-                                              <label class="form-check-label" for="productratingRadio4">
-                                                  <span class="text-muted">
-                                                      <i class="mdi mdi-star text-warning"></i>
-                                                      <i class="mdi mdi-star text-warning"></i>
-                                                      <i class="mdi mdi-star text-warning"></i>
-                                                      <i class="mdi mdi-star text-warning"></i>
-                                                      <i class="mdi mdi-star"></i>
-                                                  </span> 4 & Above
-                                              </label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="3" id="productratingRadio3">
-                                              <label class="form-check-label" for="productratingRadio3">
-                                                  <span class="text-muted">
-                                                      <i class="mdi mdi-star text-warning"></i>
-                                                      <i class="mdi mdi-star text-warning"></i>
-                                                      <i class="mdi mdi-star text-warning"></i>
-                                                      <i class="mdi mdi-star"></i>
-                                                      <i class="mdi mdi-star"></i>
-                                                  </span> 3 & Above
-                                              </label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="2" id="productratingRadio2">
-                                              <label class="form-check-label" for="productratingRadio2">
-                                                  <span class="text-muted">
-                                                      <i class="mdi mdi-star text-warning"></i>
-                                                      <i class="mdi mdi-star text-warning"></i>
-                                                      <i class="mdi mdi-star"></i>
-                                                      <i class="mdi mdi-star"></i>
-                                                      <i class="mdi mdi-star"></i>
-                                                  </span> 2 & Above
-                                              </label>
-                                          </div>
-                                          <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="1" id="productratingRadio1">
-                                              <label class="form-check-label" for="productratingRadio1">
-                                                  <span class="text-muted">
-                                                      <i class="mdi mdi-star text-warning"></i>
-                                                      <i class="mdi mdi-star"></i>
-                                                      <i class="mdi mdi-star"></i>
-                                                      <i class="mdi mdi-star"></i>
-                                                      <i class="mdi mdi-star"></i>
-                                                  </span> 1
-                                              </label>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                          <!-- end accordion-item -->
-                      </div>
-                  </div>
-                  <!-- end card -->
-              </div> --}}
+                
                 <div class="flex-grow-1">
                     <div class="d-flex align-items-center gap-2 mb-4">
                         <p class="text-muted flex-grow-1 mb-0">Showing 1-12 of 84 results</p>
@@ -822,10 +101,11 @@
                             </div>
                         </div>
                     </div>
+
+
                     <div class="row">
-                        <!-- Products -->
                         <div class="col-xxl-3 col-lg-4 col-md-6">
-                            <div class="card ecommerce-product-widgets border-0 rounded-0 shadow-none overflow-hidden">
+                            <div class="card ecommerce-product-widgets border-0 rounded-0 shadow-none overflow-hidden product-card-widget">
                                 <div class="bg-light bg-opacity-50 rounded py-4 position-relative">
                                     <img src="{{asset('assetsMain/images/products/img-8.png')}}" alt=""
                                         style="max-height: 200px;max-width: 100%;" class="mx-auto d-block rounded-2">
@@ -842,32 +122,45 @@
                                 </div>
                                 <div class="pt-4">
                                     <div>
-                                        <ul class="clothe-colors list-unstyled hstack gap-1 mb-3 flex-wrap">
-                                            <li>
-                                                <input type="radio" name="sizes1" id="product-color-12">
-                                                <label
-                                                    class="avatar-xxs btn btn-success p-0 d-flex align-items-center justify-content-center rounded-circle"
-                                                    for="product-color-12"></label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="sizes1" id="product-color-13">
-                                                <label
-                                                    class="avatar-xxs btn btn-info p-0 d-flex align-items-center justify-content-center rounded-circle"
-                                                    for="product-color-13"></label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="sizes1" id="product-color-14">
-                                                <label
-                                                    class="avatar-xxs btn btn-warning p-0 d-flex align-items-center justify-content-center rounded-circle"
-                                                    for="product-color-14"></label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="sizes1" id="product-color-15">
-                                                <label
-                                                    class="avatar-xxs btn btn-danger p-0 d-flex align-items-center justify-content-center rounded-circle"
-                                                    for="product-color-15"></label>
-                                            </li>
-                                        </ul>
+                                        <div class="color-slider-container">
+                                            <span class="arrow left"><i class="fa-solid fa-circle-chevron-left"></i></span>
+                                            <div class="color-slider" id="colorSlider">
+        
+                                                <div class="color-option" style="background-color: red;" title="Color: Red"
+                                                    data-image="">
+                                                </div>
+                                                <div class="color-option" style="background-color: grey;" title="Color: Red"
+                                                data-image="">
+                                            </div>
+                                            <div class="color-option" style="background-color: indigo;" title="Color: Red"
+                                            data-image="">
+                                        </div>
+                                        <div class="color-option" style="background-color: purple;" title="Color: Red"
+                                        data-image="">
+                                    </div>
+                                    <div class="color-option" style="background-color: brown;" title="Color: Red"
+                                    data-image="">
+                                </div>
+                                <div class="color-option" style="background-color: pink;" title="Color: Red"
+                                data-image="">
+                            </div>
+                            <div class="color-option" style="background-color: orange;" title="Color: Red"
+                            data-image="">
+                        </div>
+                        <div class="color-option" style="background-color: green;" title="Color: Red"
+                        data-image="">
+                    </div>
+                    <div class="color-option" style="background-color: yellow;" title="Color: Red"
+                    data-image="">
+                </div>
+                <div class="color-option" style="background-color: black;" title="Color: Red"
+                data-image="">
+            </div>                                                
+        
+                                            </div>
+                                            <span class="arrow right"><i class="fa-solid fa-circle-chevron-right"></i></span>
+                                        </div>
+            
                                         <a href="#!">
                                             <h6 class="text-capitalize fs-15 lh-base text-truncate mb-0">World's most
                                                 expensive t shirt</h6>
@@ -879,13 +172,16 @@
                                                     class="text-muted fs-12"><del>$354.99</del></span></h5>
                                         </div>
                                         <div class="tn mt-3">
-                                            <a href="#!" class="btn btn-primary btn-hover w-100 add-btn"> <i class="mdi mdi-cart me-1"></i> Add To Cart</a>
+                                            <a href="#!" class="btn btn-primary btn-hover w-100 add-btn"> <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp; Customize</a>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>    
                         </div>
+                        
                     </div>
+
+
                     <div class="row" id="pagination-element">
                         <div class="col-lg-12">
                             <div
@@ -919,6 +215,7 @@
         </div><!--end container-->
     </div>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     <div class="position-relative section">
         <div class="container">
@@ -1159,6 +456,9 @@
           </div><!--end row-->
       </div><!--end container-->
   </section>
+=======
+
+>>>>>>> d2d5016 (working on front end for products pages)
 
   <section class="position-relative py-5">
       <div class="container">
@@ -1212,7 +512,7 @@
   </section>
 
 
-    {{-- <script>
+ <script>
         const slider = document.getElementById("categorySlider");
         let autoScrollInterval;
         const cards = document.querySelectorAll(".category-card");
@@ -1269,10 +569,14 @@
                 centerActiveCard(card);
             });
         });
-    </script> --}}
+    </script>
 
-    {{-- <script src="{{ asset('assetsMain/js/frontend/productcardcolorchange.js') }}"></script> --}}
+    <script src="{{ asset('assetsMain/js/frontend/productcardcolorchange.js') }}"></script>
     <!-- Product-grid init js -->
+<<<<<<< HEAD
     {{-- <script src="{{ asset('assetsMain/js/frontend/product-grid.init.js') }}"></script> --}}
 >>>>>>> e5cafc9 (many frontend changes)
+=======
+    <script src="{{ asset('assetsMain/js/frontend/product-grid.init.js') }}"></script>
+>>>>>>> d2d5016 (working on front end for products pages)
 @endsection
