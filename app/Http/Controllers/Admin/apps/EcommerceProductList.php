@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Apps;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -11,199 +13,217 @@ use App\Models\ProductSEO;
 use App\Models\ProductPricing;
 use App\Models\ComponentProductColor;
 use App\Models\ProductBaseImage;
+use App\Models\ProductVolumeDiscount;
 use Illuminate\Support\Facades\Log;
 
 class EcommerceProductList extends Controller
 {
-    public function index()
-    {
-        // Fetch all products and their pricing information
-        $products = Product::paginate(25);
+  public function index()
+  {
+    // Fetch all products and their pricing information
+    $products = Product::paginate(25);
 
-    
-        // Return the view with the products and their pricing
-        return view('admin.content.apps.app-ecommerce-product-list', compact('products'));
+
+    // Return the view with the products and their pricing
+    return view('admin.content.apps.app-ecommerce-product-list', compact('products'));
+  }
+
+  public function updateVisibility($id, Request $request)
+  {
+    // Validate the incoming request
+    $request->validate([
+      'visibility' => 'required|boolean',
+    ]);
+
+    // Update the product visibility in the database
+    $product = Product::findOrFail($id);
+    $product->update(['visibility' => $request->visibility]);
+
+    return response()->json(['success' => true]);
+  }
+
+  public function destroy($id)
+  {
+    try {
+      Log::info("Attempting to delete product with ID: $id");
+
+      $product = Product::findOrFail($id);
+
+      Log::info("Product found: " . json_encode($product));
+
+      $product->delete();
+
+      Log::info("Product deleted successfully.");
+
+      return response()->json(['success' => true]);
+    } catch (\Illuminate\Database\QueryException $e) {
+      Log::error("Database error: " . $e->getMessage());
+      return response()->json(['success' => false, 'message' => 'Database error: ' . $e->getMessage()], 500);
+    } catch (\Exception $e) {
+      Log::error("Error deleting product: " . $e->getMessage());
+      return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
     }
+  }
 
-    public function updateVisibility($id, Request $request)
-    {
-        // Validate the incoming request
-        $request->validate([
-            'visibility' => 'required|boolean',
-        ]);
+  public function edit($id)
+  {
+    // Retrieve the product with its related pricing, color images, and base images
+    $product = Product::with(['productSEO', 'productColors', 'ProductVolumeDiscount'])->findOrFail($id);
 
-        // Update the product visibility in the database
-        $product = Product::findOrFail($id);
-        $product->update(['visibility' => $request->visibility]);
+    $categories = Category::all();
+    $brands = Brand::all();
 
-        return response()->json(['success' => true]);
-    }
+    // Return the edit view with the product data and color options
+    return view('admin.content.apps.app-ecommerce-product-edit', compact('product', 'categories', 'brands'));
+  }
 
-    public function destroy($id)
-    {
-        try {
-            Log::info("Attempting to delete product with ID: $id");
-    
-            $product = Product::findOrFail($id);
-    
-            Log::info("Product found: " . json_encode($product));
-    
-            $product->delete();
-    
-            Log::info("Product deleted successfully.");
-    
-            return response()->json(['success' => true]);
-        } catch (\Illuminate\Database\QueryException $e) {
-            Log::error("Database error: " . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Database error: ' . $e->getMessage()], 500);
-        } catch (\Exception $e) {
-            Log::error("Error deleting product: " . $e->getMessage());
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
-        }
-    }
 
-    public function edit($id)
-    {
-        // Retrieve the product with its related pricing, color images, and base images
-        $product = Product::with(['productSEO','productPricing', 'productColors.componentColor', 'productBaseImages'])->findOrFail($id);
-    
-        // Fetch available color options for the product
-        $colorData = ComponentProductColor::all();
-    
-        // Return the edit view with the product data and color options
-        return view('admin.content.apps.app-ecommerce-product-edit', compact('product', 'colorData'));
-    }
-    
-    
-    
-    public function update($id, Request $request)
-    {
-        try {
-            // Validate the incoming request
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'metatitle' => 'nullable|string',
-                'metadescription' => 'nullable|string',
-                'metakeywords' => 'nullable|string',
-                'slug' => 'required|string|max:255|unique:products,slug,' . $id,
-                'description' => 'required|string',
-                'is_pompom' => 'required|integer',
-                'base_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-                'color.*' => 'nullable|string',
-                'images.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-                'quantity.*' => 'required|integer',
-                'pricing.*' => 'required|numeric',
-                'reseller_pricing.*' => 'required|numeric',
+
+  public function update($id, Request $request)
+  {
+    try {
+      // Validate the incoming request
+      $request->validate([
+        'title' => 'required|string|max:255',
+        'slug' => 'required|string|unique:products,slug,' . $id,
+        'description' => 'required|string',
+        'category_id' => 'required|exists:categories,id',
+        'brand_id' => 'required|exists:brands,id',
+        'cost_price' => 'required|numeric',
+        'selling_price' => 'required|numeric',
+        'metatitle' => 'nullable|string',
+        'metadescription' => 'nullable|string',
+        'metakeywords' => 'nullable|string',
+        'colorname1.*' => 'required|string',
+        'colorcode1.*' => 'required|string',
+        'images.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        'front_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        'back_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        'right_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        'left_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+        'quantity.*' => 'nullable|integer',
+        'discount.*' => 'nullable|numeric',
+      ]);
+
+      DB::beginTransaction();
+
+      // Find the product by its ID
+      $product = Product::findOrFail($id);
+
+      // Update the product's main data
+      $product->update([
+        'category_id' => $request->category_id, // Get category ID
+        'brand_id' => $request->brand_id,       // Get brand ID
+        'title' => $request->title,
+        'slug' => $request->slug,
+        'description' => $request->description,
+        'cost_price' => $request->cost_price,
+        'selling_price' => $request->selling_price,
+      ]);
+
+      // Update or create Product SEO data
+      ProductSEO::updateOrCreate(
+        ['product_id' => $product->id],
+        [
+          'metatitle' => $request->metatitle,
+          'metadescription' => $request->metadescription,
+          'metakeywords' => $request->metakeywords,
+        ]
+      );
+
+      //Delete existing pricing data
+      ProductVolumeDiscount::where('product_id', $product->id)->delete();
+      // Process and store discount
+      if (isset($request->quantity) && count($request->quantity) > 0) {
+        foreach ($request->quantity as $index => $qty) {
+          if (!empty($qty)) { // Skip empty entries
+            ProductVolumeDiscount::create([
+              'product_id' => $product->id,
+              'quantity' => $qty,
+              'discount' => $request->discount[$index] ?? 0, // Default discount to 0 if missing
             ]);
-    
-            DB::beginTransaction();
-    
-            // Find the product by its ID
-            $product = Product::findOrFail($id);
-    
-            // Update the product's main data
-            $product->update([
-                'title' => $request->title,
-                'description' => $request->description,
-                'slug' => $request->slug,
-                'is_pompom' => $request->is_pompom,
+          }
+        }
+      }
+
+      // Process and store images
+      if (is_array($request->colorname1)) {
+        foreach ($request->colorname1 as $index => $colorName1) {
+          $colorName2 = $request->colorname2[$index] ?? null;
+          $colorCode1 = $request->colorcode1[$index] ?? null;
+          $colorCode2 = $request->colorcode2[$index] ?? null;
+
+          // Ensure each file input is correctly retrieved
+          $frontImagePath = $request->hasFile("frontimage.$index") ? $request->file("frontimage")[$index]->store('ProductImages/FrontImage', 'public') : null;
+          $backImagePath = $request->hasFile("backimage.$index") ? $request->file("backimage")[$index]->store('ProductImages/BackImage', 'public') : null;
+          $rightImagePath = $request->hasFile("rightimage.$index") ? $request->file("rightimage")[$index]->store('ProductImages/RightImage', 'public') : null;
+          $leftImagePath = $request->hasFile("leftimage.$index") ? $request->file("leftimage")[$index]->store('ProductImages/LeftImage', 'public') : null;
+
+          Log::info("Image paths", compact('frontImagePath', 'backImagePath', 'rightImagePath', 'leftImagePath'));
+
+          // Create the product color entry if any image or color exists
+          if ($colorName1 || $colorName2 || $frontImagePath || $backImagePath || $rightImagePath || $leftImagePath) {
+            $productColor = ProductColor::create([
+              'product_id' => $product->id,
+              'color_name_1' => $colorName1,
+              'color_code_1' => $colorCode1,
+              'color_name_2' => $colorName2,
+              'color_code_2' => $colorCode2,
+              'front_image' => $frontImagePath,
+              'back_image' => $backImagePath,
+              'right_image' => $rightImagePath,
+              'left_image' => $leftImagePath,
             ]);
-    
-            // Update or create Product SEO data
-            ProductSEO::updateOrCreate(
-                ['product_id' => $product->id],
-                [
-                    'metatitle' => $request->metatitle,
-                    'metadescription' => $request->metadescription,
-                    'metakeywords' => $request->metakeywords,
-                ]
-            );
-    
-            // Process and store base images
-            if ($request->hasFile('base_images')) {
-                foreach ($request->file('base_images') as $baseImage) {
-                    Log::info('Processing base image: ', [$baseImage->getClientOriginalName()]);
-                    $baseImagePath = $baseImage->store('ProductImages', 'public');
-                    if ($baseImagePath) {
-                        ProductBaseImage::create([
-                            'product_id' => $product->id,
-                            'base_image' => $baseImagePath,
-                        ]);
-                    } else {
-                        Log::error('Base image upload failed for file: ', [$baseImage->getClientOriginalName()]);
-                        return redirect()->back()->with('error', 'Base image upload failed.');
-                    }
-                }
-            }
-    
-            // Process and store color images
-            if (isset($request->color) && count($request->color) > 0) {
-                foreach ($request->color as $index => $colorId) {
-                    Log::info("Processing color ID $colorId with images:");
-                    if ($request->hasFile("images.$index")) {
-                        foreach ($request->file("images.$index") as $colorImage) {
-                            Log::info('Processing color image: ', [$colorImage->getClientOriginalName()]);
-                            $colorImagePath = $colorImage->store('ProductImages/ColorVariations', 'public');
-                            if ($colorImagePath) {
-                                ProductColor::create([
-                                    'product_id' => $product->id,
-                                    'color_id' => $colorId,
-                                    'image' => $colorImagePath,
-                                ]);
-                            } else {
-                                return redirect()->back()->with('error', 'Color image upload failed.');
-                            }
-                        }
-                    }
-                }
-            }
-    
-            // Delete all existing product pricing first
-            ProductPricing::where('product_id', $id)->delete();
-    
-            // Save product pricing in separate rows
-            foreach ($request->quantity as $index => $quantity) {
-                Log::info("Processing pricing", [
-                    'Quantity' => $quantity,
-                    'Price' => $request->pricing[$index],
-                    'Reseller Price' => $request->reseller_pricing[$index],
-                ]);
-    
-                ProductPricing::create([
-                    'product_id' => $product->id,
-                    'quantity' => $quantity,
-                    'pricing' => $request->pricing[$index],
-                    'reseller_pricing' => $request->reseller_pricing[$index],
-                ]);
-            }
-    
-            DB::commit();
-            return redirect()->back()->with('success', 'Product updated successfully!');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error("Error occurred while updating product: " . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to update product. Please try again.');
-        }
-    }
-    
 
-    public function deleteProductColor($id)
-    {
-        try {
-            $productColor = ProductColor::findOrFail($id);
-            if($productColor){
-                $productColor->delete();
-                return redirect()->back()->with('success', 'Product Color has been removed successfully.');
-            }else{
-                return redirect()->back()->with('error', 'Product Color not found.');
+            if ($productColor) {
+              Log::info("Product color entry created successfully", ['product_color_id' => $productColor->id]);
+            } else {
+              Log::error("Failed to create product color entry", ['product_id' => $product->id]);
             }
-        } catch (\Throwable $th) {
-            //throw $th;
-            Log::error("Error occurred while deleting product color: " . $th->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete product color. Please try again.');
+          } else {
+            Log::warning("Skipping color entry due to missing data", ['index' => $index]);
+          }
         }
-    }
+      } else {
+        Log::error("colorname1 is not an array", ['colorname1' => $request->colorname1]);
+      }
 
-   
-    
+      DB::commit();
+      return redirect()->back()->with('success', 'Product updated successfully!');
+    } catch (\Exception $e) {
+      DB::rollBack();
+      Log::error("Error occurred while updating product: " . $e->getMessage());
+      return redirect()->back()->with('error', 'Failed to update product. Please try again.');
+    }
+  }
+
+
+  public function deleteProductColor($id)
+  {
+    try {
+      $productColor = ProductColor::findOrFail($id);
+      if ($productColor) {
+        if ($productColor->front_image) {
+          unlink(public_path('storage/' . $productColor->front_image));
+        }
+        if ($productColor->back_image) {
+          unlink(public_path('storage/' . $productColor->back_image));
+        }
+        if ($productColor->right_image) {
+          unlink(public_path('storage/' . $productColor->right_image));
+        }
+        if ($productColor->left_image) {
+          unlink(public_path('storage/' . $productColor->left_image));
+        }
+        $productColor->delete();
+        return redirect()->back()->with('success', 'Product Color has been removed successfully.');
+      } else {
+        return redirect()->back()->with('error', 'Product Color not found.');
+      }
+    } catch (\Throwable $th) {
+      //throw $th;
+      Log::error("Error occurred while deleting product color: " . $th->getMessage());
+      return redirect()->back()->with('error', 'Failed to delete product color. Please try again.');
+    }
+  }
 }

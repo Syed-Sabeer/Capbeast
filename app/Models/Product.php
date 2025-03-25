@@ -24,7 +24,7 @@ class Product extends Model
     {
         return $this->hasOne(ProductSEO::class, 'product_id');
     }
- 
+
   // Product.php (Model)
 
 
@@ -33,17 +33,13 @@ public function productCategory()
     return $this->belongsTo(Category::class, 'category_id');
 }
 
-    
+
 
     public function ProductVolumeDiscount()
     {
         return $this->hasMany(ProductVolumeDiscount::class, 'product_id'); // Updated to hasMany for multiple pricing options
     }
 
-    public function productBaseImages()
-    {
-        return $this->hasMany(ProductBaseImage::class, 'product_id'); // Relationship with base images
-    }
     public function discountCoupons()
     {
         return $this->morphMany(DiscountCoupon::class, 'discountable');

@@ -85,7 +85,7 @@ Route::middleware(['web'])->group(function () {
 
 
   Route::get('/sitemap.xml', [SitemapController::class, 'index']);
-  
+
 
   // Route::get('/products', [ProductController::class, 'index'])->name('products');
   Route::get('/products/{filterType?}/{slug?}', [ProductController::class, 'index'])->name('products');
@@ -145,20 +145,20 @@ foreach ($roles as $role => $prefix) {
         Route::post('/category/store', [EcommerceProductCategory::class, 'store'])->name(Route::prefixed($prefix,'category.store'));
         Route::get('/category/edit/{category}', [EcommerceProductCategory::class, 'edit'])->name(Route::prefixed($prefix,'category.edit'));
         Route::post('/category/update/{category}', [EcommerceProductCategory::class, 'update'])->name(Route::prefixed($prefix,'category.update'));
-        Route::delete('/category/delete/{category}', [EcommerceProductCategory::class, 'destroy'])->name(Route::prefixed($prefix,'category.delete'));
+        Route::get('/category/delete/{category}', [EcommerceProductCategory::class, 'destroy'])->name(Route::prefixed($prefix,'category.delete'));
         Route::post('/category/update-visibility/{id}', [EcommerceProductCategory::class, 'updateCategoryVisibility'])
         ->name(Route::prefixed($prefix, 'category.update.visibility'));
-    
+
 
         Route::get('/brand', [EcommerceProductBrand::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-product-brand'));
         Route::get('/brand/add', [EcommerceProductBrand::class, 'create'])->name(Route::prefixed($prefix,'brand.add'));
         Route::post('/brand/store', [EcommerceProductBrand::class, 'store'])->name(Route::prefixed($prefix,'brand.store'));
         Route::get('/brand/edit/{brand}', [EcommerceProductBrand::class, 'edit'])->name(Route::prefixed($prefix,'brand.edit'));
         Route::post('/brand/update/{brand}', [EcommerceProductBrand::class, 'update'])->name(Route::prefixed($prefix,'brand.update'));
-        Route::delete('/brand/delete/{brand}', [EcommerceProductBrand::class, 'destroy'])->name(Route::prefixed($prefix,'brand.delete'));
+        Route::get('/brand/delete/{brand}', [EcommerceProductBrand::class, 'destroy'])->name(Route::prefixed($prefix,'brand.delete'));
         Route::post('/brand/update-visibility/{id}', [EcommerceProductBrand::class, 'updateBrandVisibility'])
         ->name(Route::prefixed($prefix, 'brand.update.visibility'));
-        
+
 
 
         Route::get('/dashboard', [EcommerceDashboard::class, 'index'])->name(Route::prefixed($prefix, 'app-ecommerce-dashboard'));
@@ -166,7 +166,7 @@ foreach ($roles as $role => $prefix) {
 
         Route::prefix('/component')->group(function () use ($prefix) {
 
-          
+
 
           Route::get('/InternalStatus/list', [InternalStatusController::class, 'index'])->name(Route::prefixed($prefix, 'content-internal-status-list'));
           Route::get('/InternalStatus/add', [InternalStatusController::class, 'create'])->name(Route::prefixed($prefix, 'InternalStatus.index'));
@@ -210,7 +210,7 @@ foreach ($roles as $role => $prefix) {
         Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name(Route::prefixed($prefix, 'update.visibility'));
 
         Route::get('/delete/product-color/{id}', [EcommerceProductList::class, 'deleteProductColor'])->name(Route::prefixed($prefix, 'delete.product-color'));
-        
+
 
 
         Route::get('/order/list', [EcommerceOrderList::class, 'index'])->name(Route::prefixed($prefix, 'app-ecommerce-order-list'));
@@ -229,8 +229,8 @@ foreach ($roles as $role => $prefix) {
 
         Route::post('/logout', [EcommerceAuthController::class, 'logout'])->name(Route::prefixed($prefix, 'admin.logout'));
 
-      } 
-      
+      }
+
     });
   });
 }
