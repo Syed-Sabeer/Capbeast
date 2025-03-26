@@ -16,10 +16,10 @@
             let newScroll = colorSlider.scrollLeft + direction * scrollStep;
 
             // Prevent over-scrolling and apply bounce effect
-            if (newScroll < 0) {
+            if (newScroll <= 0) {
                 newScroll = 0;
                 bounceEffect(colorSlider, -10);
-            } else if (newScroll > maxScroll) {
+            } else if (newScroll >= maxScroll) {
                 newScroll = maxScroll;
                 bounceEffect(colorSlider, 10);
             }
@@ -28,6 +28,9 @@
                 left: newScroll,
                 behavior: "smooth"
             });
+
+            // Ensure arrows update after the scroll animation
+            setTimeout(toggleArrows, 300);
         }
 
         leftArrow.addEventListener("click", () => slide(-1));
@@ -35,11 +38,11 @@
 
         // Function to toggle arrows visibility based on scroll position
         function toggleArrows() {
-            leftArrow.classList.toggle("disabled", colorSlider.scrollLeft === 0);
-            rightArrow.classList.toggle(
-                "disabled",
-                Math.round(colorSlider.scrollLeft) >= colorSlider.scrollWidth - colorSlider.clientWidth
-            );
+            let maxScroll = colorSlider.scrollWidth - colorSlider.clientWidth;
+            let currentScroll = Math.ceil(colorSlider.scrollLeft); // Fix floating-point issue
+
+            leftArrow.classList.toggle("disabled", currentScroll <= 0);
+            rightArrow.classList.toggle("disabled", currentScroll >= maxScroll);
         }
 
         // Bounce effect by slightly shifting the slider
