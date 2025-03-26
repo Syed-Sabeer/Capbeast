@@ -12,15 +12,15 @@
                             <div class="card-header bg-primary border-0">
                                 <div class="row">
                                     <div class="col-lg-4 col-3">
-                                      <a href="{{ route('home') }}">  <img src="{{ asset('assetsMain/images/logo-dark.png') }}" alt="" class="img-fluid"></a>
+                                      <a href="{{ route('home') }}">  <img src="{{ asset('assetsCommon/images/logo-light.png') }}" alt="" class="img-fluid mt-4"></a>
                                     </div>
                                     <div class="col-lg-8 col-9">
-                                        <h2 class="text-white text-capitalize lh-base fw-lighter">Let's get started with Monkey Beanies</h2>
+                                        <h2 class="text-white text-capitalize lh-base fw-lighter">Let's get started with CapBeast</h2>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <p class="text-muted fs-15">Signup Your Monkey Beanies account now</p>
+                                <p class="text-muted fs-15">Signup Your CapBeast account now</p>
                                 <div class="p-2">
                                     <form class="needs-validation" novalidate method="POST" action="{{ route('user.register.post') }}">
                                         @csrf
@@ -53,24 +53,20 @@
                                         </div>
                                         
                                         <div class="mb-3 col-md-6">
-                                            <label for="language" class="form-label">Preferred Language <span class="text-danger">*</span></label>
-                                            <select class="form-control" id="language" name="language" required onchange="changeLanguage(this.value)">
-                                                <option value="" disabled selected>Select Language</option>
-                                                <option value="en">English</option>
-                                                <option value="fr">French</option>
-                                                <option value="es">Spanish</option>
-                                                <option value="pt-PT">Portuguese</option>
+                                            <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
+                                            <select class="form-control" id="country" name="country" required>
+                                                <option value="" disabled selected>Select Country</option>
+                                                @foreach ($countries as $country)
+                                                    <option value="{{ $country }}">{{ $country }}</option>
+                                                @endforeach
                                             </select>
                                             
-                                            @error('language')
+                                            @error('country')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
-                                    </div>
-                                        
-
-                                        
+                                    </div>           
 
                                         <div class="mb-3">
                                             <label for="useremail" class="form-label">Email <span class="text-danger">*</span></label>
@@ -79,43 +75,7 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
-                                            <select class="form-control" id="country" name="country" required>
-                                                <option value="" disabled selected>Select Country</option>
-                                                <option value="USA" {{ old('country') == 'USA' ? 'selected' : '' }}>USA</option>
-                                                <option value="CANADA" {{ old('country') == 'CANADA' ? 'selected' : '' }}>Canada</option>
-                                            </select>
-                                            @error('country')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        
-                                        
-
-                                        <div class="mb-3">
-                                            <label class="form-label">Are You A Reseller? <span class="text-danger">*</span></label>
-                                            <div class="d-flex">
-                                                <div>
-                                                    <input type="radio" id="resellerYes" name="reseller" value="yes" {{ old('reseller') === 'yes' ? 'checked' : '' }} required>
-                                                    <label for="resellerYes" class="form-label">Yes</label>
-                                                </div>
-                                                <div style="margin-left: 5%;">
-                                                    <input type="radio" id="resellerNo" name="reseller" value="no" {{ old('reseller') === 'no' ? 'checked' : '' }} required>
-                                                    <label for="resellerNo" class="form-label">No</label>
-                                                </div>
-                                            </div>
-                                            @error('reseller')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3" id="neqContainer" style="display: none;">
-                                            <label for="neqNumber" class="form-label">NEQ Number</label>
-                                            <input type="text" class="form-control" id="neqNumber" name="neq_number" value="{{ old('neq_number') }}">
-                                            @error('neq_number')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                                      
                                         <div class="mb-3">
                                             <label class="form-label" for="password-input">Password</label>
                                             <input type="password" class="form-control" name="password" required>
@@ -131,14 +91,7 @@
                                             <button class="btn btn-primary w-100" type="submit">Sign Up</button>
                                         </div>
                                     </form>
-                                    <script>
-                                        document.querySelectorAll('input[name="reseller"]').forEach(radio => {
-                                            radio.addEventListener('change', function () {
-                                                const neqContainer = document.getElementById('neqContainer');
-                                                neqContainer.style.display = this.value === 'yes' ? 'block' : 'none';
-                                            });
-                                        });
-                                    </script>
+                                    
                                 </div>
                                 <div class="mt-4 text-center">
                                     <p class="mb-0">Already have an account? <a href="{{ route('user.login') }}" class="fw-semibold text-primary text-decoration-underline"> Signin </a> </p>

@@ -28,23 +28,25 @@
                         <button class="categoryarrow categoryarrow-left" onclick="scrollSlider(-200)">&#10094;</button>
                         <div class="category-slider" id="categorySlider">
                             @if($filterType === 'brand')
-                                @foreach ($brands as $brand)
-                                    <div class="category-card {{ request()->segment(2) == 'brand' && request()->segment(3) == Str::slug($brand->title) ? 'active' : '' }}">
-                                        <a href="{{ url('products/brand/' . Str::slug($brand->title)) }}">
-                                            <img src="{{ asset($brand->image ?? 'default-brand.jpg') }}" alt="{{ $brand->title }}">
-                                            <p>{{ $brand->title }}</p>
-                                        </a>
-                                    </div>
-                                @endforeach
+                            @foreach ($brands as $brand)
+                            <a href="{{ url('products/brand/' . Str::slug($brand->title)) }}" class="brand-link">
+                                <div class="category-card {{ request()->segment(2) == 'brand' && request()->segment(3) == Str::slug($brand->title) ? 'active' : '' }}">
+                                    <img src="{{ asset($brand->image ?? 'default-brand.jpg') }}" alt="{{ $brand->title }}">
+                                    <p>{{ $brand->title }}</p>
+                                </div>
+                            </a>
+                        @endforeach
+                        
                             @else
-                                @foreach ($categories as $category)
-                                    <div class="category-card {{ request()->segment(2) == 'category' && request()->segment(3) == Str::slug($category->title) ? 'active' : '' }}">
-                                        <a href="{{ url('products/category/' . Str::slug($category->title)) }}">
-                                            <img src="{{ asset($category->image ?? 'default-category.jpg') }}" alt="{{ $category->title }}">
-                                            <p>{{ $category->title }}</p>
-                                        </a>
-                                    </div>
-                                @endforeach
+                            @foreach ($categories as $category)
+                            <a href="{{ url('products/category/' . Str::slug($category->title)) }}" class="category-link">
+                                <div class="category-card {{ request()->segment(2) == 'category' && request()->segment(3) == Str::slug($category->title) ? 'active' : '' }}">
+                                    <img src="{{ asset($category->image ?? 'default-category.jpg') }}" alt="{{ $category->title }}">
+                                    <p>{{ $category->title }}</p>
+                                </div>
+                            </a>
+                        @endforeach
+                        
                             @endif
                         </div>
                         <button class="categoryarrow categoryarrow-right" onclick="scrollSlider(200)">&#10095;</button>
@@ -191,9 +193,11 @@
                                                     class="text-muted fs-12"><del>$354.99</del></span></h5>
                                         </div>
                                         <div class="tn mt-3">
-                                            <a href="#!" class="btn btn-primary btn-hover w-100 add-btn"> <i
-                                                    class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp; Customize</a>
+                                            <a href="{{ url('/product/' . $product->slug) }}" class="btn btn-primary btn-hover w-100 add-btn">
+                                                <i class="fa-solid fa-pen-to-square"></i> &nbsp;&nbsp; Customize
+                                            </a>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
