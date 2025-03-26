@@ -107,7 +107,7 @@ class EcommerceProductList extends Controller
         'metatitle' => 'nullable|string',
         'metadescription' => 'nullable|string',
         'metakeywords' => 'nullable|string',
-        'slug' => 'required|string|unique:products,slug|max:255',
+        'slug' => 'required|string|unique:products,slug,' . $id,
         'description' => 'required|string',
         'base_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         'color.*' => 'required|string',
