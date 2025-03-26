@@ -437,3 +437,119 @@
     margin-left: 8%;
   }
 }
+
+
+
+.category-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    overflow: hidden;
+    padding: 20px 0;
+}
+
+.category-slider {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 15px;
+    scrollbar-width: none;
+}
+
+.category-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.category-card {
+    flex: 0 0 auto;
+    width: 160px;
+    height: 200px;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.category-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.category-card img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 3px solid #000;
+}
+
+.category-card p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+    color: black;
+}
+
+.categoryarrow {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 24px;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    transition: background 0.3s ease;
+}
+
+.categoryarrow:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+
+
+.categoryarrow-left {
+    left: 10px;
+}
+
+.categoryarrow-right {
+    right: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .category-card {
+        width: 130px;
+        height: 160px;
+    }
+
+    .category-card img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .categoryarrow {
+        padding: 12px;
+        font-size: 18px;
+    }
+}
+
+.category-card.active {
+    border: 2px solid black;
+    background: #f0f0f0;
+    transform: scale(1.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}

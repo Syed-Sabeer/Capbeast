@@ -87,7 +87,9 @@ Route::middleware(['web'])->group(function () {
   Route::get('/sitemap.xml', [SitemapController::class, 'index']);
   
 
-  Route::get('/products', [ProductController::class, 'index'])->name('products');
+  // Route::get('/products', [ProductController::class, 'index'])->name('products');
+  Route::get('/products/{filterType?}/{slug?}', [ProductController::class, 'index'])->name('products');
+
   Route::get('/product/{slug}', [ProductDetailController::class, 'index'])->name('product.detail');
 
   Route::post('/temp-cart-images/upload', [AuthController::class, 'uploadTempCartImage'])->name('temp_cart_images.upload');
