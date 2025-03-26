@@ -4,7 +4,7 @@
             <div class="col-lg-4">
                 <div class="footer-info">
 
-                    <img src="{{ asset('assetsMain/images/logo-light.png') }}" alt="logo image" height="160"
+                    <img src="{{ asset('assetsMain/images/logo-light.png') }}" alt="logo image" height="60"
                         alt="logo">
 
 

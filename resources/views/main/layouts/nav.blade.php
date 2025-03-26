@@ -97,7 +97,7 @@
                         </li>
                    
                         <li class="nav-item dropdown dropdown-hover dropdown-mega-full">
-                            <a class="nav-link dropdown-toggle" data-key="t-catalog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="{{ url('products/category') }}" role="button">
                                 Categories
                             </a>
                             <div class="dropdown-menu p-0">
@@ -110,11 +110,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
                         
                                     @php
                                         $categories = App\Models\Category::all();
-                                        $chunks = $categories->chunk(6); // Split categories into groups of 6
+                                        $chunks = $categories->chunk(6);
                                     @endphp
                         
                                     @foreach($chunks as $chunk)
@@ -125,7 +124,6 @@
                                                         <a href="{{ url('products/category/' . Str::slug($category->title)) }}" class="nav-link">
                                                             {{ $category->title }}
                                                         </a>
-                                                        
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -135,10 +133,9 @@
                             </div>
                         </li>
                         
-
-
+                        
                         <li class="nav-item dropdown dropdown-hover dropdown-mega-full">
-                            <a class="nav-link dropdown-toggle" data-key="t-catalog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="{{ url('products/brand') }}" role="button">
                                 Brands
                             </a>
                             <div class="dropdown-menu p-0">
@@ -147,14 +144,13 @@
                                         <div class="card rounded-start rounded-0 border-0 h-100 mb-0 overflow-hidden" style="background-image: url('../assetsMain/images/ecommerce/img-1.jpg'); background-size: cover;">
                                             <div class="bg-overlay bg-light bg-opacity-25"></div>
                                             <div class="card-body d-flex flex-column align-items-start justify-content-start">
-                                                {{-- <img src="{{ asset('assetsMain/images/fixed/nav_cap.png') }}" alt="" width="150" height="150"> --}}
                                             </div>
                                         </div>
                                     </div>
                         
                                     @php
                                         $brands = App\Models\Brand::all();
-                                        $chunks = $brands->chunk(3); // Split brands into groups of 6
+                                        $chunks = $brands->chunk(3);
                                     @endphp
                         
                                     @foreach($chunks as $chunk)
@@ -164,7 +160,6 @@
                                                     <li class="nav-item">
                                                         <a href="{{ url('products/brand/' . Str::slug($brand->title)) }}" class="nav-link d-flex align-items-center">
                                                             <img src="{{ asset('storage/' . $brand->image) }}" alt="{{ $brand->title }}" class="avatar-md me-2">
-                                                            {{-- {{ $brand->title }} --}}
                                                         </a>
                                                     </li>
                                                 @endforeach
@@ -174,6 +169,7 @@
                                 </div>
                             </div>
                         </li>
+                        
                         
 
                         
@@ -242,26 +238,19 @@
                         </button>
                     </div>
     
-                    <div class="dropdown topbar-head-dropdown ms-2 header-item dropdown-hover-end">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bi bi-sun align-middle fs-20"></i>
-                        </button>
-                        <div class="dropdown-menu p-2 dropdown-menu-end" id="light-dark-mode">
-                            <a href="#!" class="dropdown-item" data-mode="light"><i class="bi bi-sun align-middle me-2"></i> Default (light mode)</a>
-                            <a href="#!" class="dropdown-item" data-mode="dark"><i class="bi bi-moon align-middle me-2"></i> Dark</a>
-                            <a href="#!" class="dropdown-item" data-mode="auto"><i class="bi bi-moon-stars align-middle me-2"></i> Auto (system default)</a>
-                        </div>
-                    </div>
+                    
                     <div class="dropdown header-item dropdown-hover-end">
                         <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded-circle header-profile-user" src="../assetsMain/images/users/avatar-1.jpg" alt="Header Avatar">
+                            <img class="rounded-circle header-profile-user" src="{{asset('assetsMain/images/users/avatar-1.jpg')}}" alt="Header Avatar">
                         </button>
                         <!-- <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="ph-user-circle fs-22"></i>
                         </button>    -->
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <h6 class="dropdown-header">Welcome Diana!</h6>
+                            @auth
+        <h6 class="dropdown-header">Welcome {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h6>
+                            
                             <a class="dropdown-item" href="order-history.html"><i class="bi bi-cart4 text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Order History</span></a>
                             <a class="dropdown-item" href="track-order.html"><i class="bi bi-truck text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Track Orders</span></a>
                             <a class="dropdown-item" href="../backend/index.html"><i class="bi bi-speedometer2 text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Dashboard</span></a>
@@ -269,7 +258,25 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="account.html"><i class="bi bi-coin text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Balance : <b>$8451.36</b></span></a>
                             <a class="dropdown-item" href="account.html"><span class="badge bg-success-subtle text-success mt-1 float-end">New</span><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Settings</span></a>
-                            <a class="dropdown-item" href="auth-logout-basic.html"><i class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Logout</span></a>
+                             <!-- Logout Form -->
+        <form action="{{ route('user.logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="dropdown-item">
+                <i class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i>
+                <span class="align-middle" data-key="t-logout">Logout</span>
+            </button>
+        </form>
+    @else
+        <a href="{{ route('user.login') }}" class="dropdown-item"><i
+                class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i>
+            <span class="align-middle" data-key="t-logout">Login</span></a>
+
+            <a href="{{ route('user.register') }}" class="dropdown-item"><i
+                class="bi bi-box-arrow-right text-muted fs-16 align-middle me-1"></i>
+            <span class="align-middle" data-key="t-logout">Register</span></a>
+    @endauth
+
+
                         </div>
                     </div>
                 </div>
@@ -277,6 +284,9 @@
         </nav>
 
 
+        
+
+       
 {{-- <nav class="navbar navbar-expand-lg ecommerce-navbar h-auto" id="navbar">
     <div class="container">
         <a class="navbar-brand d-none d-lg-block" href="{{ route('home') }}">
