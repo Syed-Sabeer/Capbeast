@@ -168,18 +168,19 @@
 }
 
 .color-option {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
+  /* width: 25px;
+  height: 25px; */
+  /* border-radius: 50%; */
   margin: 0 5px;
   flex-shrink: 0;
   cursor: pointer;
   border: 2px solid transparent;
   transition: border 0.3s;
+  border: 1px solid #E5E5E5;
 }
 
 .color-option.active {
-  border: 2px solid #333;
+  border: 1px solid #333;
 }
 
 .arrow {
@@ -552,4 +553,7 @@
     background: #f0f0f0;
     transform: scale(1.1);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+.category-slider::-webkit-scrollbar {
+  display: none;
 }
