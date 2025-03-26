@@ -215,8 +215,7 @@
         </div><!--end container-->
     </div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     <div class="position-relative section">
         <div class="container">
             <div class="ecommerce-product gap-4">
@@ -456,9 +455,9 @@
           </div><!--end row-->
       </div><!--end container-->
   </section>
-=======
 
->>>>>>> d2d5016 (working on front end for products pages)
+
+
 
   <section class="position-relative py-5">
       <div class="container">
@@ -573,10 +572,9 @@
 
     <script src="{{ asset('assetsMain/js/frontend/productcardcolorchange.js') }}"></script>
     <!-- Product-grid init js -->
-<<<<<<< HEAD
+
     {{-- <script src="{{ asset('assetsMain/js/frontend/product-grid.init.js') }}"></script> --}}
->>>>>>> e5cafc9 (many frontend changes)
-=======
+
     <script src="{{ asset('assetsMain/js/frontend/product-grid.init.js') }}"></script>
->>>>>>> d2d5016 (working on front end for products pages)
+
 @endsection
