@@ -31,110 +31,60 @@
                     $subtotal = 0;
                 @endphp
 
-                @foreach($cart as $item)
-                @php
-                    $itemTotal = ($item->product_price + $item->printing_price  + $item->pompom_price) * $item->quantity + ($item->delivery_price);
-                    $subtotal += $itemTotal;
-                @endphp
-                    <div class="card product">
-                        <div class="card-body p-4">
-                            <div class="row gy-3">
-                                <div class="col-sm-auto">
-                                    <div class="avatar-lg h-100 d-flex ">
-                                        <div class="rounded py-3">
-                                            <img src="{{ asset('storage/' . ($item->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}"  alt="" class="avatar-md fixed-size-cartImage">
-                                        </div>
-                                    </div>
-                                </div>
-
-                             
-                                <div class="col-sm">
-                                    <a href="{{ route('product.detail', ['slug' => $item->product->slug]) }}">
-                                        <h5 class="fs-16 lh-base mb-1">{{ $item->product->title }}</h5>
-                                    </a>
-                                    
-                                    @php
-                                    // Ensure beanie_type is checked properly
-                                    $type = ($item->beanie_type === 1 || $item->beanie_type === '1') 
-                                                ? "Flipped" 
-                                                : (($item->beanie_type === 0 || $item->beanie_type === '0') 
-                                                    ? "Unflipped" 
-                                                    : "Not Specified");
-                                @endphp
-                                
-                                    
-                                    <ul class="list-inline text-muted fs-13 mb-3">
-                                        <li class="list-inline-item">Color : <span class="fw-medium">{{ $item->color->componentColor->color_name }}</span></li>
-                                        <br>
-                                        <li class="list-inline-item">Type: <span class="fw-medium">{{ $type }}</span></li>
-                                        <br>
-                                        <li class="list-inline-item">Embroidery : <span class="fw-medium">{{ $item->printing->title }}</span></li>
-                                        
-                                    </ul>
-                               
-                                </div>
-                                <div class="col-sm-auto">
-                                    <div class="text-lg-end">
-                                        <p class="text-muted mb-1 fs-12">Product Price:</p>
-                                        <h5 class="fs-16">
-                                            <x-currency-symbol-usd /><span class="product-price" id="product-price">{{ number_format($item->product_price * $item->quantity, 2) }}</span><x-currency-symbol-cad />
-                                        </h5>
-                                    </div>
-                                    
-                                    <div class="text-lg-end">
-                                        <p class="text-muted mb-1 fs-12">Customization Price:</p>
-                                        <h5 class="fs-16">
-                                            <x-currency-symbol-usd /><span class="customization-price" id="customization-price">{{ number_format($item->printing_price * $item->quantity + $item->pompom_price * $item->quantity, 2) }}</span><x-currency-symbol-cad />
-                                        </h5>
-                                    </div>
-                                    
-                                    <div class="text-lg-end">
-                                        <p class="text-muted mb-1 fs-12">Delivery Price:</p>
-                                        <h5 class="fs-16">
-                                            <x-currency-symbol-usd /><span class="delivery-price" id="delivery-price">{{ number_format($item->delivery_price, 2) }}</span><x-currency-symbol-cad />
-                                        </h5>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row align-items-center gy-3">
-                                <div class="col-sm">
-                                    <div class="d-flex flex-wrap my-n1">
-                                        <div>
-                                            <a href="javascript:void(0);" class="d-block text-body p-1 px-2 remove-item-btn" data-item-id="{{ $item->id }}">
-                                                <i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove
-                                            </a>
-                                            
-                                            
-                                        </div>
-                                       
-                                    </div>
-                                </div>
-                                <div class="col-sm-auto d-flex gap-3">
-                                    <div class="d-flex align-items-center gap-2 text-muted">
-                                        <div>Quantity :</div>
-                                        <h5 class="fs-14 mb-0"><span class="product-line-price">{{ $item->quantity }}</span></h5>
-                                    </div>
-                                    <div class="d-flex align-items-center gap-2 text-muted">
-                                        <div>Total :</div>
-                                        <h5 class="fs-14 mb-0">
-                                            <x-currency-symbol-usd />
-                                            <span class="product-line-price" id="total-price">
-                                                {{ number_format(($item->product_price * $item->quantity) + ($item->printing_price * $item->quantity) + ($item->delivery_price) + ($item->pompom_price * $item->quantity), 2) }}
-                                            </span>
-                                            <x-currency-symbol-cad />
-                                        </h5>
-                                    </div>
-                                    
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <!-- end card footer -->
+<div class="card product">
+    <div class="card-body p-4">
+        <div class="row gy-3">
+            <div class="col-sm-auto">
+                <div class="avatar-lg h-100">
+                    <div class="avatar-title bg-danger-subtle rounded py-3">
+                        <img src="../assets/images/products/img-12.png" alt="" class="avatar-md">
                     </div>
-                    @endforeach
+                </div>
+            </div>
+            <div class="col-sm">
+                <a href="#!">
+                    <h5 class="fs-16 lh-base mb-1">Branded Smart Chair Red</h5>
+                </a>
+                <ul class="list-inline text-muted fs-13 mb-3">
+                    <li class="list-inline-item">Color : <span class="fw-medium">Red</span></li>
+                    <li class="list-inline-item">Size : <span class="fw-medium">M</span></li>
+                </ul>
+                <div class="input-step">
+                    <button type="button" class="minus">–</button>
+                    <input type="number" class="product-quantity" value="3" min="0" max="100" readonly>
+                    <button type="button" class="plus">+</button>
+                </div>
+            </div>
+            <div class="col-sm-auto">
+                <div class="text-lg-end">
+                    <p class="text-muted mb-1 fs-12">Item Price:</p>
+                    <h5 class="fs-16">$<span class="product-price">89.99</span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row align-items-center gy-3">
+            <div class="col-sm">
+                <div class="d-flex flex-wrap my-n1">
+                    <div>
+                        <a href="#!" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#removeItemModal"><i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove</a>
+                    </div>
+                    <div>
+                        <a href="#!" class="d-block text-body p-1 px-2"><i class="ri-star-fill text-muted align-bottom me-1"></i> Add Wishlist</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-auto">
+                <div class="d-flex align-items-center gap-2 text-muted">
+                    <div>Total :</div>
+                    <h5 class="fs-14 mb-0">$<span class="product-line-price">269.97</span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end card footer -->
+</div>
               
                 </div>
                 <!--end col-->
@@ -162,21 +112,21 @@
                                             <tr>
                                                 <td>Sub Total :</td>
                                                 <td class="text-end">
-                                                    <x-currency-symbol-usd /><span id="subtotal-amount">{{ number_format($subtotal, 2) }}</span><x-currency-symbol-cad />
+                                                    <span id="subtotal-amount">{{ number_format($subtotal, 2) }}</span>
                                                 </td>
                                             </tr>
                                             
                                             <tr>
                                                 <td>Discount <span class="text-muted"></span>:</td>
                                                 <td class="text-end cart-discount">
-                                                    <x-currency-symbol-usd /><span id="discount-amount">0.00</span><x-currency-symbol-cad />
+                                                    <span id="discount-amount">0.00</span>
                                                 </td>
                                             </tr>
                                             
                                             <tr class="table-active">
-                                                <th>Total ( <x-currency-display /> ) :</th>
+                                                <th>Total (  ) :</th>
                                                 <td class="text-end">
-                                                    <x-currency-symbol-usd /><span id="final-total-amount">{{ number_format($subtotal, 2) }}</span><x-currency-symbol-cad />
+                                                    <span id="final-total-amount">{{ number_format($subtotal, 2) }}</span>
                                                 </td>
                                             </tr>
                                             

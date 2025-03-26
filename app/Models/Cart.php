@@ -12,17 +12,11 @@ class Cart extends Model
     protected $table = 'cart'; // Specify the correct table name
 
     protected $fillable = [
-        'product_id',
         'user_id',
+        'product_id',
         'color_id',
         'quantity',
-        'beanie_type',
-        'printing_id',
-        'printing_price',
-        'product_price',
-        'delivery_price',
-        'is_pompom',
-        'pompom_price',
+        'size',
     ];
 
     /**

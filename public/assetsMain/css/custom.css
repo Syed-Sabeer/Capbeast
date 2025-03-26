@@ -557,3 +557,15 @@
 .category-slider::-webkit-scrollbar {
   display: none;
 }
+.size-option {
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  min-width: 50px;
+  text-align: center;
+}
+
+.size-option.active {
+  background-color: black;
+  color: white;
+}
