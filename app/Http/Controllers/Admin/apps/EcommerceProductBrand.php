@@ -113,8 +113,17 @@ class EcommerceProductBrand extends Controller
 
   public function destroy($id)
   {
-    $brand = Brand::findOrFail($id);
-    $brand->delete();
-    return redirect()->route(app('authUser')->role . '.app-ecommerce-product-brand')->with('success', 'Brand deleted successfully!');
+    try {
+      $brand = Brand::findOrFail($id);
+      $products = $brand->products()->get();
+      if($products->count() > 0){
+        return redirect()->back()->with('error', 'Brand has products. Please delete products first.');
+      }
+      $brand->delete();
+      return redirect()->route(app('authUser')->role . '.app-ecommerce-product-brand')->with('success', 'Brand deleted successfully!');
+    } catch (\Exception $e) {
+      Log::error('Category delete failed', ['error' => $e->getMessage(), 'brand_id' => $id]);
+      return redirect()->back()->with('error', 'Failed to delete brand. Please try again.');
+    }
   }
 }
