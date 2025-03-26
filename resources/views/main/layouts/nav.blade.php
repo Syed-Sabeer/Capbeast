@@ -226,15 +226,22 @@
                     </ul>
                 </div>
                 <div class="bg-overlay navbar-overlay" data-bs-toggle="collapse"  data-bs-target="#navbarSupportedContent.show"></div>
+                @php
 
+                $cartItemCount = Auth::check() ? \App\Models\Cart::where('user_id', Auth::id())->count() : 0;
+            @endphp
                 <div class="d-flex align-items-center">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" data-bs-toggle="modal" data-bs-target="#searchModal">
                         <i class="bx bx-search fs-22"></i>
                     </button>
                     <div class="topbar-head-dropdown ms-1 header-item">
-                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted" data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart">
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-dark rounded-circle text-muted"
+                            data-bs-toggle="offcanvas" data-bs-target="#ecommerceCart" aria-controls="ecommerceCart"
+                            onclick="window.location.href='{{ route('cart') }}';">
                             <i class="ph-shopping-cart fs-18"></i>
-                            <span class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-danger">4</span>
+                            <span class="position-absolute topbar-badge  fs-10 translate-middle badge rounded-pill bg-danger">
+                                {{ $cartItemCount }}
+                            </span>
                         </button>
                     </div>
     
