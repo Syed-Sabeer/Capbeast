@@ -205,6 +205,7 @@ foreach ($roles as $role => $prefix) {
         Route::post('/product/add', [EcommerceProductAdd::class, 'store'])->name(Route::prefixed($prefix, 'app-ecommerce-product-store'));
         Route::get('/product/list', [EcommerceProductList::class, 'index'])->name(Route::prefixed($prefix, 'app-ecommerce-product-list'));
         Route::get('/product/edit/{id}', [EcommerceProductList::class, 'edit'])->name(Route::prefixed($prefix, 'app-ecommerce-product-edit'));
+        Route::get('/product/delete/{id}', [EcommerceProductList::class, 'destroy'])->name(Route::prefixed($prefix, 'app-ecommerce-product-delete'));
         Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(Route::prefixed($prefix, 'app-ecommerce-product-update'));
         Route::post('/product/edit/{id}', [EcommerceProductList::class, 'update'])->name(Route::prefixed($prefix, 'app-ecommerce-product-update'));
         Route::post('/update-visibility/{id}', [EcommerceProductList::class, 'updateVisibility'])->name(Route::prefixed($prefix, 'update.visibility'));

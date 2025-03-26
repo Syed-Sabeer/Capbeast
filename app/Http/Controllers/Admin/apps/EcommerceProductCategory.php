@@ -119,9 +119,19 @@ class EcommerceProductCategory extends Controller
     }
   }
 
-  public function destroy(Category $category)
+  public function destroy($id)
   {
-    $category->delete();
-    return redirect()->route(app('authUser')->role . '.app-ecommerce-product-category')->with('success', 'Category deleted successfully!');
+    try {
+      $category = Category::findOrFail($id);
+      $products = $category->products()->get();
+      if($products->count() > 0){
+        return redirect()->back()->with('error', 'Category has products. Please delete products first.');
+      }
+      $category->delete();
+      return redirect()->route(app('authUser')->role . '.app-ecommerce-product-category')->with('success', 'Category deleted successfully!');
+    } catch (\Exception $e) {
+      Log::error('Category delete failed', ['error' => $e->getMessage(), 'category_id' => $id]);
+      return redirect()->back()->with('error', 'Failed to delete category. Please try again.');
+    }
   }
 }
