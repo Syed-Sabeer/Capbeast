@@ -44,24 +44,43 @@ class EcommerceProductList extends Controller
 
   public function destroy($id)
   {
+    // dd($id);
     try {
       Log::info("Attempting to delete product with ID: $id");
 
       $product = Product::findOrFail($id);
+      if ($product) {
+        $productColor = ProductColor::where('product_id', $product->id)->get();
+        foreach ($productColor as $color) {
+          if ($color->back_image) {
+            unlink(public_path('storage/' . $color->back_image));
+          }
+          if ($color->right_image) {
+            unlink(public_path('storage/' . $color->right_image));
+          }
+          if ($color->left_image) {
+            unlink(public_path('storage/' . $color->left_image));
+          }
+          $color->back_image = null;
+          $color->right_image = null;
+          $color->left_image = null;
+          $color->save();
+        }
+        $product->delete();
+      } else {
+        Log::error("Product not found with ID: $id");
+        return redirect()->back()->with('error', 'Product not found.');
+      }
 
-      Log::info("Product found: " . json_encode($product));
-
-      $product->delete();
 
       Log::info("Product deleted successfully.");
 
-      return response()->json(['success' => true]);
-    } catch (\Illuminate\Database\QueryException $e) {
-      Log::error("Database error: " . $e->getMessage());
-      return response()->json(['success' => false, 'message' => 'Database error: ' . $e->getMessage()], 500);
+      // return response()->json(['success' => true]);
+      return redirect()->back()->with('success', 'Product deleted successfully.');
     } catch (\Exception $e) {
       Log::error("Error deleting product: " . $e->getMessage());
-      return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+      // return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+      return redirect()->back()->with('error', 'Error deleting product: ' . $e->getMessage());
     }
   }
 

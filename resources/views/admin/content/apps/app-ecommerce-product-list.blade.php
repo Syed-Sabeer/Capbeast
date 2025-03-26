@@ -54,33 +54,33 @@
                 <tbody>
                     @foreach ($products as $key => $product)
                     <tr>
-                        
+
                         <td>{{ $key + 1 }}</td>
-                        
+
                         <td>
                             <img src="{{ asset('storage/' . (
-                                $product->productColors->first()->front_image 
-                                ?? $product->productColors->first()->right_image 
-                                ?? $product->productColors->first()->left_image 
-                                ?? $product->productColors->first()->back_image 
+                                $product->productColors->first()->front_image
+                                ?? $product->productColors->first()->right_image
+                                ?? $product->productColors->first()->left_image
+                                ?? $product->productColors->first()->back_image
                                 ?? 'ProductImages/default.jpg'
                             )) }}" alt="Product Image" width="50">
-                            
-                       
-                       
+
+
+
                         </td>
-                        
-                    
+
+
                         <td>{{ $product->title }}</td>
                         <td>
                             {{ $product->selling_price }}
-                           
+
                         </td>
                         <td>{{ Str::limit($product->productBrand->title ?? 'No Brand', 15, '...') }}</td>
 <td>{{ Str::limit($product->productCategory->title ?? 'No Category', 15, '...') }}</td>
 
-                        
-                    
+
+
                         <td>
                             <div class="w-25 d-flex justify-content-end">
                                 <label class="switch switch-primary switch-sm me-4 pe-2">
@@ -95,15 +95,18 @@
                         <td>
                             <a href="{{ route($prefix .'.app-ecommerce-product-edit', $product->id) }}" class="me-2"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                    
-                            <a href="javascript:void(0);" class="me-2 delete-product" data-id="{{ $product->id }}">
+
+                            <a href="{{ route($prefix .'.app-ecommerce-product-delete', $product->id) }}" class="me-2 delete-product delete_confirm" data-id="{{ $product->id }}">
                                 <i class="fa-solid fa-trash"></i>
                             </a>
+                            {{-- <a href="javascript:void(0);" class="me-2 delete-product" data-id="{{ $product->id }}">
+                                <i class="fa-solid fa-trash"></i>
+                            </a> --}}
                             <a data-bs-toggle="modal" data-bs-target="#onboardHorizontalImageModal"><i class="fa-solid fa-eye"></i></a>
                         </td>
                     </tr>
-                    
-                    
+
+
                     @endforeach
 
                 </tbody>
@@ -117,7 +120,7 @@
     </div>
 
 
-    
+
 
        <!-- Form with Image horizontal Modal -->
        <div class="modal-onboarding modal fade animate__animated" id="onboardHorizontalImageModal" tabindex="-1" aria-hidden="true">
