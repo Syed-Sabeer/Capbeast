@@ -105,15 +105,12 @@
                                     <div class="col-lg-2 d-none d-lg-block">
                                         <div class="card rounded-start rounded-0 border-0 h-100 mb-0 overflow-hidden" style="background-image: url('../assetsMain/images/ecommerce/img-1.jpg'); background-size: cover;">
                                             <div class="bg-overlay bg-light bg-opacity-25"></div>
-                                            <div class="card-body d-flex align-items-center justify-content-center">
-                                                <div class="text-center">
-                                                    <a href="product-grid-sidebar-banner.html" class="btn btn-secondary btn-hover">
-                                                        <i class="ph-storefront align-middle me-1"></i> <span data-key="t-shop-now">Shop Now</span>
-                                                    </a>
-                                                </div>
+                                            <div class="card-body d-flex flex-column align-items-start justify-content-start">
+                                                <img src="{{ asset('assetsMain/images/fixed/nav_cap.png') }}" alt="" width="150" height="150">
                                             </div>
                                         </div>
                                     </div>
+                                    
                         
                                     @php
                                         $categories = App\Models\Category::all();
@@ -125,9 +122,10 @@
                                             <ul class="dropdown-menu-list list-unstyled mb-0 py-3">
                                                 @foreach($chunk as $category)
                                                     <li class="nav-item">
-                                                        <a href="{{ url('category/' . Str::slug($category->title)) }}" class="nav-link">
+                                                        <a href="{{ url('products/category/' . Str::slug($category->title)) }}" class="nav-link">
                                                             {{ $category->title }}
                                                         </a>
+                                                        
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -145,58 +143,38 @@
                             </a>
                             <div class="dropdown-menu p-0">
                                 <div class="row g-0 g-lg-4">
-                                    <div class="col-lg-2 d-none d-lg-block">
-                                        <div class="card rounded-start rounded-0 border-0 h-100 mb-0 overflow-hidden" style="background-image: url('../assetsMain/images/ecommerce/img-1.jpg');background-size: cover;">
+                                    <div class="col-lg-1 d-none d-lg-block">
+                                        <div class="card rounded-start rounded-0 border-0 h-100 mb-0 overflow-hidden" style="background-image: url('../assetsMain/images/ecommerce/img-1.jpg'); background-size: cover;">
                                             <div class="bg-overlay bg-light bg-opacity-25"></div>
-                                            <div class="card-body d-flex align-items-center justify-content-center">
-                                                <div class="text-center">
-                                                    <a href="product-grid-sidebar-banner.html" class="btn btn-secondary btn-hover"><i class="ph-storefront align-middle me-1"></i> <span data-key="t-shop-now">Shop Now</span></a>
-                                                </div>
+                                            <div class="card-body d-flex flex-column align-items-start justify-content-start">
+                                                {{-- <img src="{{ asset('assetsMain/images/fixed/nav_cap.png') }}" alt="" width="150" height="150"> --}}
                                             </div>
                                         </div>
                                     </div>
-                           
-                                    
-                                    <div class="col-lg-2 d-none d-lg-block">
-                                        <div class="p-3">
-                                            <p class="mb-3 text-uppercase fs-11 fw-medium text-muted" data-key="t-top-brands">Top Brands</p>
-                                            <div class="row g-2">
-                                                <div class="col-lg-4">
-                                                    <a href="#!" class="d-block p-2 border border-dashed text-center rounded-3">
-                                                        <img src="../assetsMain/images/brands/img-8.png" alt="" class="avatar-sm">
-                                                    </a>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <a href="#!" class="d-block p-2 border border-dashed text-center rounded-3">
-                                                        <img src="../assetsMain/images/brands/img-2.png" alt="" class="avatar-sm">
-                                                    </a>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <a href="#!" class="d-block p-2 border border-dashed text-center rounded-3">
-                                                        <img src="../assetsMain/images/brands/img-3.png" alt="" class="avatar-sm">
-                                                    </a>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <a href="#!" class="d-block p-2 border border-dashed text-center rounded-3">
-                                                        <img src="../assetsMain/images/brands/img-4.png" alt="" class="avatar-sm">
-                                                    </a>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <a href="#!" class="d-block p-2 border border-dashed text-center rounded-3">
-                                                        <img src="../assetsMain/images/brands/img-5.png" alt="" class="avatar-sm">
-                                                    </a>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    <a href="#!" class="d-block p-2 border border-dashed text-center rounded-3">
-                                                        <img src="../assetsMain/images/brands/img-6.png" alt="" class="avatar-sm">
-                                                    </a>
-                                                </div>
-                                            </div>
+                        
+                                    @php
+                                        $brands = App\Models\Brand::all();
+                                        $chunks = $brands->chunk(3); // Split brands into groups of 6
+                                    @endphp
+                        
+                                    @foreach($chunks as $chunk)
+                                        <div class="col-lg-1">
+                                            <ul class="dropdown-menu-list list-unstyled mb-0 py-3">
+                                                @foreach($chunk as $brand)
+                                                    <li class="nav-item">
+                                                        <a href="{{ url('products/brand/' . Str::slug($brand->title)) }}" class="nav-link d-flex align-items-center">
+                                                            <img src="{{ asset('storage/' . $brand->image) }}" alt="{{ $brand->title }}" class="avatar-md me-2">
+                                                            {{-- {{ $brand->title }} --}}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
                                         </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </li>
+                        
 
                         
                         <li class="nav-item dropdown dropdown-hover dropdown-mega-full">

@@ -17,7 +17,7 @@
               background-image: url('{{ asset('assetsMain/images/banner/banner1.jpeg') }}');
           "
           >
-                  <div class="container">
+                  {{-- <div class="container">
                       <div class="row justify-content-end">
                           <div class="col-lg-7">
                               <div class="text-sm-end">
@@ -28,7 +28,7 @@
                               </div>
                           </div>
                       </div>
-                  </div>
+                  </div> --}}
               </div>
           </div>
           <div class="carousel-item">

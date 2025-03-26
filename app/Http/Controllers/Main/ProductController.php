@@ -4,19 +4,36 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product; 
+use App\Models\Category; 
+use App\Models\Brand; 
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
-    {
-        
-        // $products = Product::with(['productColors', 'productPricing', 'productBaseImages'])
-        // ->where('visibility', 1)
-        // ->get();
+    public function index(Request $request, $filterType = null, $slug = null)
+{
+    $query = Product::where('visibility', 1);
+    $categories = Category::all(); 
+    $brands = Brand::all();
 
-       
-        // return view('main.pages.products', compact('products'));
-        return view('main.pages.products');
+    if ($filterType && $slug) {
+        if ($filterType === 'category') {
+            $category = Category::where('title', str_replace('-', ' ', $slug))->first();
+            if ($category) {
+                $query->where('category_id', $category->id);
+            }
+        } elseif ($filterType === 'brand') {
+            $brand = Brand::where('title', str_replace('-', ' ', $slug))->first();
+            if ($brand) {
+                $query->where('brand_id', $brand->id);
+            }
+        }
     }
+
+    $products = $query->get();
+
+    return view('main.pages.products', compact('products', 'categories', 'brands', 'filterType', 'slug'));
+}
+
+
 }

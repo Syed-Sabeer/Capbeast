@@ -10773,7 +10773,7 @@ fieldset:disabled .btn {
 
 .bg-light {
     --tb-bg-opacity: 1;
-    background-color: rgba(var(--tb-light-rgb), var(--tb-bg-opacity)) !important
+    /* background-color: rgba(var(--tb-light-rgb), var(--tb-bg-opacity)) !important */
 }
 
 .bg-dark {
