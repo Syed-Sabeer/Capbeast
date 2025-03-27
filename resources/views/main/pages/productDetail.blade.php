@@ -139,7 +139,9 @@
                         <div class="tab-pane active" id="home1" role="tabpanel">
 
 
-                            <p class="text-muted fs-15">{{ $product->description }}</p>
+                            <p class="text-muted fs-15">
+                                {!! $product->description !!}
+                              </p>
                         </div>
 
                     </div>

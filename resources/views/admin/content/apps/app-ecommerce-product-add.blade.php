@@ -13,6 +13,7 @@
 @endsection
 
 @section('vendor-script')
+
     <script src="{{ asset('assets/vendor/libs/quill/katex.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/quill/quill.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
@@ -21,6 +22,7 @@
     <script src="{{ asset('assets/vendor/libs/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/tagify/tagify.js') }}"></script>
 @endsection
+<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
 <style>
     body {
@@ -32,6 +34,7 @@
         $(document).ready(function() {
             $('#select2Category').select2();
             $('#select2Brand').select2();
+            $('#select2Mlb').select2();
         });
     </script>
 @endsection
@@ -46,30 +49,30 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="mb-3 col-7">
+                            <div class="mb-3 col-12">
                                 <label class="form-label">Product Name</label>
                                 <input type="text" name="title" class="form-control" placeholder="Product title"
                                     required>
                             </div>
-                            <div class="mb-3 col-5">
-                                <label for="select2Category" class="form-label">Select Categories</label>
+                           
+                           
+                            
+                        </div>
+
+                        <div class="row">
+
+                            <div class="mb-3 col-6">
+                                <label for="select2Category" class="form-label">Select Categories (Optional)</label>
                                 <select name="category_ids[]" id="select2Category" class="select2 form-select form-select-lg" multiple>
+                                    
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->title }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-7">
-                                <label class="form-label">Slug</label>
-                                <input type="text" name="slug" class="form-control" placeholder="Product slug"
-                                    required>
-                            </div>
 
-                            <div class="mb-3 col-5">
-                                <label for="select2Brand" class="form-label">Select Brand</label>
+                            <div class="mb-3 col-3">
+                                <label for="select2Brand" class="form-label">Select Brand (Optional)</label>
                                 <select name="brand_id" id="select2Brand" class="select2 form-select form-select-lg">
                                     <option value="">Select Brand</option>
                                     @foreach ($brands as $brand)
@@ -77,27 +80,46 @@
                                     @endforeach
                                 </select>
                             </div>
+                            
+                            <div class="mb-3 col-3">
+                                <label for="select2Mlb" class="form-label">Select MLB (Optional)</label>
+                                <select name="mlb_id" id="select2Mlb" class="select2 form-select form-select-lg">
+                                    <option value="">Select MLB</option>
+                                    @foreach ($mlbs as $mlb)
+                                        <option value="{{ $mlb->id }}">{{ $mlb->title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                           
+
                         </div>
 
                         <div class="row">
                             <div class="mb-3 col-6">
+                                <label class="form-label">Slug</label>
+                                <input type="text" name="slug" class="form-control" placeholder="Product slug"
+                                    required>
+                            </div>
+                            <div class="mb-3 col-3">
                                 <label class="form-label">Cost Price</label>
                                 <input type="text" name="cost_price" class="form-control"
                                     placeholder="Product Cost Price">
                             </div>
 
-                            <div class="mb-3 col-6">
+                            <div class="mb-3 col-3">
                                 <label class="form-label">Selling Price</label>
                                 <input type="text" name="selling_price" class="form-control"
                                     placeholder="Product Selling Price" required>
                             </div>
-
-
+                            
                         </div>
+
+                       
 
                         <div class="mb-3">
                             <label class="form-label">Description</label>
-                            <textarea name="description" class="form-control" rows="5" required></textarea>
+                            {{-- <textarea name="description" class="form-control" rows="5" required></textarea> --}}
+                            <textarea id="description" name="description"></textarea>
                         </div>
 
                     </div>
@@ -250,5 +272,92 @@
 
         
     </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      ClassicEditor
+        .create(document.querySelector('#description'), {
+          toolbar: [
+            'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
+            'fontColor', 'fontBackgroundColor', '|',
+            'link', 'numberedList', '', '|',
+            'undo', 'redo'
+          ]
+        })
+        .then(editor => {
+          document.querySelector('form').addEventListener('submit', function (event) {
+            if (!editor.getData().trim()) {
+              alert('Description is required!');
+              event.preventDefault();
+            }
+          });
+        })
+        .catch(error => console.error('CKEditor initialization error:', error));
+    });
+  </script>
+<style>
+    /* Change CKEditor toolbar icons color to white */
+.ck-toolbar .ck-button {
+  color: white !important;
+}
 
+/* Change active and focused button colors */
+.ck-toolbar .ck-button.ck-on,
+.ck-toolbar .ck-button:focus {
+  background-color: transparent !important; /* Remove hover effect */
+  box-shadow: none !important; /* Remove focus effect */
+}
+
+/* Change toolbar background color */
+.ck-toolbar {
+  background-color: #434968 !important;
+  border-radius: 5px;
+}
+
+/* Adjust editor area background and text color */
+.ck-editor__editable {
+  min-height: 200px;
+  border-radius: 5px;
+  background-color: #2F3349 !important;
+  color: #ffffff !important;
+}
+/* Remove hover effect from CKEditor toolbar buttons */
+.ck-toolbar .ck-button:hover {
+  background-color: transparent !important;
+}
+/* Change Select2 dropdown background and text color */
+.select2-container--default .select2-selection--single {
+  background-color: #2F3349 !important; /* Dark background */
+  color: #ffffff !important; /* White text */
+  border: 1px solid #6c757d !important; /* Border color */
+}
+
+/* Style the dropdown options */
+.select2-container--default .select2-results__option {
+  background-color: #2F3349 !important; /* Dark background */
+  color: #ffffff !important; /* White text */
+}
+
+/* Change hover effect */
+.select2-container--default .select2-results__option--highlighted {
+  background-color: #6c757d !important; /* Highlight color */
+}
+/* CKEditor dropdown background and text color */
+.ck.ck-dropdown__panel {
+  background-color: #2F3349 !important; /* Dark background */
+  color: #ffffff !important; /* White text */
+  border: 1px solid #6c757d !important; /* Border color */
+}
+
+/* Style CKEditor dropdown options */
+.ck.ck-list__item {
+  background-color: #2F3349 !important;
+  color: #ffffff !important;
+}
+
+/* Highlight dropdown option on hover */
+.ck.ck-list__item:hover {
+  background-color: #6c757d !important;
+}
+
+</style>
 @endsection
