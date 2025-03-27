@@ -34,7 +34,11 @@ class Product extends Model
   // Product.php (Model)
 
 
-
+  public function productBrand()
+  {
+      return $this->belongsTo(Brand::class, 'brand_id');
+  }
+  
 
 
     public function ProductVolumeDiscount()

@@ -137,32 +137,6 @@
                                             <span class="arrow left"><i class="fa-solid fa-circle-chevron-left"></i></span>
                                             <div class="color-slider" id="colorSlider">
 
-                                                {{-- @if($product->productColors->isNotEmpty())
-                                                @foreach($product->productColors as $color)
-                                                    <div class="color-option" 
-                                                        style="
-                                                            
-                                                            position: relative;
-                                                            display: inline-block; 
-                                                           
-                                                            overflow: hidden;
-                                                            background: {{$color->color_code_1}};">
-                                                        
-                                                        @if($color->color_name_2)
-                                                            <div style="
-                                                                content: ''; 
-                                                                position: absolute; 
-                                                                top: 0; 
-                                                                left: 0; 
-                                                                width: 100%; 
-                                                                height: 100%; 
-                                                                background: linear-gradient(45deg, transparent 50%, {{$color->color_code_2}} 50%);
-                                                            ">
-                                                            </div>
-                                                        @endif
-                                                    </div>
-                                                @endforeach
-                                            @endif --}}
                                             
                                             @if($product->productColors->isNotEmpty())
                                             @foreach($product->productColors as $color)
@@ -171,11 +145,6 @@
                                                 </div>
                                             @endforeach
                                         @endif
-                                        
-                                        
-                                            
-                                            
-                                            
                                               
 
                                             </div>
