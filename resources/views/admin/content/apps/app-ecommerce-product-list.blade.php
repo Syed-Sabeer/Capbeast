@@ -76,10 +76,9 @@
                             {{ $product->selling_price }}
 
                         </td>
-                        <td>{{ Str::limit($product->productBrand->title ?? 'No Brand', 15, '...') }}</td>
-<td>{{ Str::limit($product->productCategory->title ?? 'No Category', 15, '...') }}</td>
-
-
+                        <td>{{ $product->productBrand->title ?? 'No Brand' }}</td>
+                        <td>{{ $product->categories->pluck('title')->implode(', ') ?: 'No Category' }}</td>
+                        
 
                         <td>
                             <div class="w-25 d-flex justify-content-end">
