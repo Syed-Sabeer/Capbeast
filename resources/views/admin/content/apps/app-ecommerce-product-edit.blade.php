@@ -113,7 +113,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Description</label>
-                            <textarea name="description" class="form-control" rows="5" required>{{ $product->description }}</textarea>
+                            <textarea name="description" id="description" class="form-control" rows="5" required>{!! old('description', $product->description) !!}</textarea>
                         </div>
 
                     </div>
@@ -378,4 +378,5 @@
             });
         });
     </script>
+    <x-c-k-editor  />
 @endsection
