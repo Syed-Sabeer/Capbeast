@@ -17,12 +17,12 @@ class CartController extends Controller
         $userId = auth()->id(); 
     
         
-        $cart = Cart::with(['product', 'color', 'printing']) 
+        $carts = Cart::with(['product', 'color']) 
                     ->where('user_id', $userId)
                     ->get();
     
        
-        return view('main.pages.cart', compact('cart'));
+        return view('main.pages.cart', compact('carts'));
     }
     
 

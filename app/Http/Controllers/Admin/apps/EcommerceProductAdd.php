@@ -8,9 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductSEO;
 use App\Models\ProductColor;
+use App\Models\ProductCategory;
 use App\Models\ProductVolumeDiscount;
-
-use App\Models\ProductBaseImage;
 use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Support\Facades\Log;
@@ -53,16 +52,23 @@ class EcommerceProductAdd extends Controller
       ]);
 
 
-      // Save the product
-      $product = Product::create([
-        'category_id' => $request->category_id, // Get category ID
-        'brand_id' => $request->brand_id,       // Get brand ID
+       // Create the product
+       $product = Product::create([
+        'brand_id' => $request->brand_id,
         'title' => $request->title,
         'slug' => $request->slug,
         'description' => $request->description,
         'cost_price' => $request->cost_price,
         'selling_price' => $request->selling_price,
-      ]);
+    ]);
+
+    // Insert each category in the product_categories table row by row
+    foreach ($request->category_ids as $category_id) {
+        ProductCategory::create([
+            'product_id' => $product->id,
+            'category_id' => $category_id,
+        ]);
+    }
 
       ProductSEO::create([
         'product_id' => $product->id,

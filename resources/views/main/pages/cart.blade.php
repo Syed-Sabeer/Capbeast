@@ -31,23 +31,33 @@
                     $subtotal = 0;
                 @endphp
 
+@foreach ($carts as $cart )
+
+
 <div class="card product">
     <div class="card-body p-4">
         <div class="row gy-3">
             <div class="col-sm-auto">
                 <div class="avatar-lg h-100">
-                    <div class="avatar-title bg-danger-subtle rounded py-3">
-                        <img src="../assets/images/products/img-12.png" alt="" class="avatar-md">
+                    <div class="avatar-title rounded py-3">
+                        <img src="{{ asset('storage/' . (
+                            $cart->color->front_image
+                            ?? $cart->color->right_image
+                            ?? $cart->color->left_image
+                            ?? $cart->color->back_image
+                            ?? 'ProductImages/default.jpg'
+                        )) }}" alt="" class="avatar-lg ">
+                        
                     </div>
                 </div>
             </div>
             <div class="col-sm">
                 <a href="#!">
-                    <h5 class="fs-16 lh-base mb-1">Branded Smart Chair Red</h5>
+                    <h5 class="fs-16 lh-base mb-1">{{$cart->product->title}}</h5>
                 </a>
                 <ul class="list-inline text-muted fs-13 mb-3">
                     <li class="list-inline-item">Color : <span class="fw-medium">Red</span></li>
-                    <li class="list-inline-item">Size : <span class="fw-medium">M</span></li>
+                    <li class="list-inline-item">Size : <span class="fw-medium">{{$cart->size}}</span></li>
                 </ul>
                 <div class="input-step">
                     <button type="button" class="minus">–</button>
@@ -58,11 +68,13 @@
             <div class="col-sm-auto">
                 <div class="text-lg-end">
                     <p class="text-muted mb-1 fs-12">Item Price:</p>
-                    <h5 class="fs-16">$<span class="product-price">89.99</span></h5>
+                    <h5 class="fs-16">${{ number_format($cart->product->selling_price, 2) }}
+                    </h5>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="card-footer">
         <div class="row align-items-center gy-3">
             <div class="col-sm">
@@ -83,8 +95,10 @@
             </div>
         </div>
     </div>
-    <!-- end card footer -->
+    
 </div>
+
+@endforeach
               
                 </div>
                 <!--end col-->
