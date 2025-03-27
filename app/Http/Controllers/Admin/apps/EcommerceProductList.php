@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Apps;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Mlb;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -86,8 +87,9 @@ class EcommerceProductList extends Controller
       $product = Product::with(['categories', 'productSEO', 'productColors', 'ProductVolumeDiscount'])
           ->findOrFail($id);
       $categories = Category::all();
+      $mlbs = Mlb::all();
       $brands = Brand::all();
-      return view('admin.content.apps.app-ecommerce-product-edit', compact('product', 'categories', 'brands'));
+      return view('admin.content.apps.app-ecommerce-product-edit', compact('product', 'mlbs','categories', 'brands'));
   }
   
 
@@ -113,6 +115,7 @@ class EcommerceProductList extends Controller
   
           $product->update([
               'brand_id' => $request->brand_id,
+              'mlb_id' => $request->mlb_id,
               'title' => $request->title,
               'slug' => $request->slug,
               'description' => $request->description,

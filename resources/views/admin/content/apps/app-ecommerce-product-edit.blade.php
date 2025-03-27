@@ -18,6 +18,7 @@
         $(document).ready(function() {
             $('#select2Category').select2();
             $('#select2Brand').select2();
+            $('#select2Mlb').select2();
         });
     </script>
 @endsection
@@ -34,12 +35,17 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="mb-3 col-7">
+                            <div class="mb-3 col-12">
                                 <label class="form-label">Product Name</label>
                                 <input type="text" name="title" class="form-control" placeholder="Product title"
                                     value="{{ $product->title }}" required>
                             </div>
-                            <div class="mb-3 col-5">
+                            
+                            
+                        </div>
+                        <div class="row">
+
+                            <div class="mb-3 col-6">
                                 <label for="select2Category" class="form-label">Select Categories</label>
                                 <select name="category_ids[]" id="select2Category" class="select2 form-select form-select-lg" multiple>
                                     @foreach ($categories as $category)
@@ -51,16 +57,10 @@
                                 </select>
                                 
                             </div>
-                            
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-7">
-                                <label class="form-label">Slug</label>
-                                <input type="text" name="slug" class="form-control" placeholder="Product slug"
-                                    value="{{ $product->slug }}" required>
-                            </div>
 
-                            <div class="mb-3 col-5">
+                           
+
+                            <div class="mb-3 col-3">
                                 <label for="select2Brand" class="form-label">Select Brand</label>
                                 <select name="brand_id" id="select2Brand" class="select2 form-select form-select-lg">
                                     <option value="">Select Brand</option>
@@ -71,19 +71,38 @@
                                     @endforeach
                                 </select>
                             </div>
+
+
+                            <div class="mb-3 col-3">
+                                <label for="select2Mlb" class="form-label">Select MLB</label>
+                                <select name="mlb_id" id="select2Mlb" class="select2 form-select form-select-lg">
+                                    <option value="">Select MLB</option>
+                                    @foreach ($mlbs as $mlb)
+                                        <option value="{{ $mlb->id }}"
+                                            {{ $product->mlb_id == $mlb->id ? 'selected' : '' }}>{{ $mlb->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
 
 
 
                         <div class="row">
+
                             <div class="mb-3 col-6">
+                                <label class="form-label">Slug</label>
+                                <input type="text" name="slug" class="form-control" placeholder="Product slug"
+                                    value="{{ $product->slug }}" required>
+                            </div>
+                            <div class="mb-3 col-3">
                                 <label class="form-label">Cost Price</label>
                                 <input type="text" name="cost_price" class="form-control"
                                     placeholder="Product Cost Price" value="{{ $product->cost_price }}">
                             </div>
 
-                            <div class="mb-3 col-6">
+                            <div class="mb-3 col-3">
                                 <label class="form-label">Selling Price</label>
                                 <input type="text" name="selling_price" class="form-control"
                                     placeholder="Product Selling Price" required value="{{ $product->selling_price }}">
