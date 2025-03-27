@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\ProductSEO;
 use App\Models\ProductColor;
+use Illuminate\Support\Str;
 use App\Models\ProductCategory;
 use App\Models\ProductVolumeDiscount;
 use App\Models\Brand;
@@ -39,7 +40,7 @@ class EcommerceProductAdd extends Controller
         'metatitle' => 'nullable|string',
         'metadescription' => 'nullable|string',
         'metakeywords' => 'nullable|string',
-        'slug' => 'required|string|unique:products,slug|max:255',
+        'slug' => 'nullable|string|unique:products,slug|max:255',
         'description' => 'required|string',
         'base_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         'color.*' => 'required|string',
@@ -53,13 +54,14 @@ class EcommerceProductAdd extends Controller
 
       ]);
 
+      $slug = $request->slug ? Str::slug($request->slug) : Str::slug($request->title);
 
        // Create the product
        $product = Product::create([
         'brand_id' => $request->brand_id,
         'mlb_id' => $request->mlb_id,
         'title' => $request->title,
-        'slug' => $request->slug,
+        'slug' => $slug,
         'description' => $request->description,
         'cost_price' => $request->cost_price,
         'selling_price' => $request->selling_price,
