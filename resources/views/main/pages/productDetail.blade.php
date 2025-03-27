@@ -64,17 +64,24 @@
 
                         </div>
                         @if ($product->productColors->isNotEmpty())
-                            <h6 class="fs-14 fw-medium text-muted">Color :</h6>
-                            <div class="d-flex align-items-center flex-wrap gap-2">
+                        <h6 class="fs-14 fw-medium text-muted">Color :</h6>
+                        <div class="color-slider-container">
+                            <span class="arrow left disabled"><i class="fa-solid fa-circle-chevron-left"></i></span>
+                            <div class="color-slider">
                                 @foreach ($product->productColors as $color)
-                                    <div class="color-option border p-1 {{ $loop->first ? 'active' : '' }}"
-                                        data-image="{{ asset('storage/' . ($color->front_image ?? 'ProductImages/default.jpg')) }}">
+                                    <div class="color-option border p-1 {{ $loop->first ? 'active' : '' }}" 
+                                        data-image="{{ asset('storage/' . ($color->front_image ?? 'ProductImages/default.jpg')) }}"
+                                        data-color-id="{{ $color->id }}">
                                         <img src="{{ asset('storage/' . ($color->front_image ?? 'ProductImages/default.jpg')) }}"
-                                            alt="{{ $color->name ?? 'Color Option' }}" width="50" class="img-fluid">
+                                            alt="{{ $color->name ?? 'Color Option' }}" width="90" class="img-fluid">
                                     </div>
                                 @endforeach
                             </div>
-                        @endif
+                            <span class="arrow right"><i class="fa-solid fa-circle-chevron-right"></i></span>
+                        </div>
+                    @endif
+                    
+                    
 
                         <h6 class="fs-14 fw-medium text-muted mt-3">Size :</h6>
                         <div class="d-flex align-items-center flex-wrap gap-2">
@@ -205,6 +212,35 @@
         });
     });
 </script>
+<script>
+ document.addEventListener("DOMContentLoaded", function () {
+    const colorOptions = document.querySelectorAll(".color-option");
+    const mainImage = document.getElementById("mainImage");
+    const addToCartBtn = document.querySelector(".add-to-cart-btn");
+
+    if (colorOptions.length > 0) {
+        let defaultColor = colorOptions[0]; // Select first color by default
+        defaultColor.classList.add("active");
+        mainImage.src = defaultColor.getAttribute("data-image");
+        addToCartBtn.setAttribute("data-color-id", defaultColor.getAttribute("data-color-id"));
+    }
+
+    colorOptions.forEach(option => {
+        option.addEventListener("click", function () {
+            // Remove 'active' from all colors and set selected one
+            colorOptions.forEach(el => el.classList.remove("active"));
+            this.classList.add("active");
+
+            // Update the main image
+            mainImage.src = this.getAttribute("data-image");
+
+            // Update the color ID in the Add to Cart button
+            addToCartBtn.setAttribute("data-color-id", this.getAttribute("data-color-id"));
+        });
+    });
+});
 
 
+</script>
+<script src="{{ asset('assetsMain/js/frontend/productslider.js') }}"></script>
 @endsection
