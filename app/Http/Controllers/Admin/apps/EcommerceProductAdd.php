@@ -11,6 +11,7 @@ use App\Models\ProductColor;
 use App\Models\ProductCategory;
 use App\Models\ProductVolumeDiscount;
 use App\Models\Brand;
+use App\Models\Mlb;
 use App\Models\Category;
 use Illuminate\Support\Facades\Log;
 
@@ -21,8 +22,9 @@ class EcommerceProductAdd extends Controller
 
     $categories = Category::all();
     $brands = Brand::all();
+    $mlbs = Mlb::all();
 
-    return view('admin.content.apps.app-ecommerce-product-add', compact('categories', 'brands'));
+    return view('admin.content.apps.app-ecommerce-product-add', compact('categories','mlbs', 'brands'));
   }
 
   public function store(Request $request)
@@ -55,6 +57,7 @@ class EcommerceProductAdd extends Controller
        // Create the product
        $product = Product::create([
         'brand_id' => $request->brand_id,
+        'mlb_id' => $request->mlb_id,
         'title' => $request->title,
         'slug' => $request->slug,
         'description' => $request->description,
@@ -75,7 +78,6 @@ class EcommerceProductAdd extends Controller
         'metatitle' => $request->metatitle,
         'metadescription' => $request->metadescription,
         'metakeywords' => $request->metakeywords,
-
       ]);
 
 
