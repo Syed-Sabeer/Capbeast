@@ -52,14 +52,14 @@
                                     required>
                             </div>
                             <div class="mb-3 col-5">
-                                <label for="select2Category" class="form-label">Select Category</label>
-                                <select name="category_id" id="select2Category" class="select2 form-select form-select-lg">
-                                    <option value="">Select Category</option>
+                                <label for="select2Category" class="form-label">Select Categories</label>
+                                <select name="category_ids[]" id="select2Category" class="select2 form-select form-select-lg" multiple>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->title }}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            
                         </div>
                         <div class="row">
                             <div class="mb-3 col-7">
@@ -78,9 +78,6 @@
                                 </select>
                             </div>
                         </div>
-
-
-
 
                         <div class="row">
                             <div class="mb-3 col-6">
@@ -250,8 +247,8 @@
 
             pricingSection.appendChild(wrapper);
         });
+
+        
     </script>
-
-
 
 @endsection
