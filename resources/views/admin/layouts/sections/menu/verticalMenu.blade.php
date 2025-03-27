@@ -111,6 +111,16 @@
 </a>
 </li>
 
+{{-- Mlb --}}
+<li class="menu-item {{ in_array($currentRouteName, [
+  Route::prefixed($prefix, 'app-ecommerce-product-mlb'),
+  Route::prefixed($prefix, 'mlb.add'),
+  Route::prefixed($prefix, 'mlb.edit')
+]) ? 'active open' : '' }}">
+<a href="{{ url("backend/$prefix/mlb") }}" class="menu-link">
+  <div>Mlb</div>
+</a>
+</li>
 
 {{-- Order --}}
 <li class="menu-item {{ in_array($currentRouteName, [

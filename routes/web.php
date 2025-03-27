@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\apps\EcommerceDashboard;
 use App\Http\Controllers\Admin\apps\EcommerceProductAdd;
 use App\Http\Controllers\Admin\apps\EcommerceProductCategory;
 use App\Http\Controllers\Admin\apps\EcommerceProductBrand;
+use App\Http\Controllers\Admin\apps\EcommerceProductMlb;
 use App\Http\Controllers\Admin\apps\EcommerceProductList;
 use App\Http\Controllers\Admin\apps\EcommerceAuthController;
 use App\Http\Controllers\Admin\apps\EcommercePrintingAdd;
@@ -158,6 +159,16 @@ foreach ($roles as $role => $prefix) {
         Route::get('/brand/delete/{brand}', [EcommerceProductBrand::class, 'destroy'])->name(Route::prefixed($prefix,'brand.delete'));
         Route::post('/brand/update-visibility/{id}', [EcommerceProductBrand::class, 'updateBrandVisibility'])
         ->name(Route::prefixed($prefix, 'brand.update.visibility'));
+
+
+        Route::get('/mlb', [EcommerceProductMlb::class, 'index'])->name(Route::prefixed($prefix,'app-ecommerce-product-mlb'));
+        Route::get('/mlb/add', [EcommerceProductMlb::class, 'create'])->name(Route::prefixed($prefix,'mlb.add'));
+        Route::post('/mlb/store', [EcommerceProductMlb::class, 'store'])->name(Route::prefixed($prefix,'mlb.store'));
+        Route::get('/mlb/edit/{mlb}', [EcommerceProductMlb::class, 'edit'])->name(Route::prefixed($prefix,'mlb.edit'));
+        Route::post('/mlb/update/{mlb}', [EcommerceProductMlb::class, 'update'])->name(Route::prefixed($prefix,'mlb.update'));
+        Route::get('/mlb/delete/{mlb}', [EcommerceProductMlb::class, 'destroy'])->name(Route::prefixed($prefix,'mlb.delete'));
+        Route::post('/mlb/update-visibility/{id}', [EcommerceProductMlb::class, 'updateMlbVisibility'])
+        ->name(Route::prefixed($prefix, 'mlb.update.visibility'));
 
 
 
