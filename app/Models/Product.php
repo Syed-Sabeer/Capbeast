@@ -12,13 +12,18 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'products'; // Define the table name
-    protected $fillable = ['category_id', 'brand_id', 'title','slug', 'description','cost_price','selling_price', 'visibility'];
+    protected $fillable = ['brand_id', 'title','slug', 'description','cost_price','selling_price', 'visibility'];
 
     public function productColors()
     {
         return $this->hasMany(ProductColor::class, 'product_id');
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'product_categories', 'product_id', 'category_id');
+    }
+    
 
 
     public function productSEO()
@@ -29,10 +34,6 @@ class Product extends Model
   // Product.php (Model)
 
 
-public function productCategory()
-{
-    return $this->belongsTo(Category::class, 'category_id');
-}
 
 
 
