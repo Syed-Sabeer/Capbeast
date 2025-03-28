@@ -128,16 +128,16 @@
                         <div class="mb-3">
                             <label class="form-label">Meta Title</label>
                             <input type="text" name="metatitle" class="form-control" placeholder="Meta Title"
-                                value="{{ $product->productSEO->metatitle }}">
+                                value="{{ $product->productSEO->metatitle ?? ''}}">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Meta Description</label>
-                            <textarea name="metadescription" class="form-control" rows="3">{{ $product->productSEO->metadescription }}</textarea>
+                            <textarea name="metadescription" class="form-control" rows="3">{{ $product->productSEO->metadescription ?? '' }}</textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Meta Keywords</label>
                             <input type="text" name="metakeywords" class="form-control" placeholder="Meta Title"
-                                value="{{ $product->productSEO->metakeywords }}">
+                                value="{{ $product->productSEO->metakeywords ?? ''}}">
                         </div>
                     </div>
                 </div>
