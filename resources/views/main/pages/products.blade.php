@@ -31,17 +31,18 @@
                             @foreach ($brands as $brand)
                             <a href="{{ url('products/brand/' . Str::slug($brand->title)) }}" class="brand-link">
                                 <div class="category-card {{ request()->segment(2) == 'brand' && request()->segment(3) == Str::slug($brand->title) ? 'active' : '' }}">
-                                    <img src="{{ asset($brand->image ?? 'default-brand.jpg') }}" alt="{{ $brand->title }}">
+                                    <img src="{{ asset(  'storage/' . ($brand->image ?? 'default-brand.jpg')) }}" alt="{{ $brand->title }}">
                                     <p>{{ $brand->title }}</p>
                                 </div>
                             </a>
+                            {{-- 'storage/' . ($color->front_image ?? 'ProductImages/default.jpg')) }}" width="50"> --}}
                         @endforeach
                         
                             @else
                             @foreach ($categories as $category)
                             <a href="{{ url('products/category/' . Str::slug($category->title)) }}" class="category-link">
                                 <div class="category-card {{ request()->segment(2) == 'category' && request()->segment(3) == Str::slug($category->title) ? 'active' : '' }}">
-                                    <img src="{{ asset($category->image ?? 'default-category.jpg') }}" alt="{{ $category->title }}">
+                                    <img src="{{ asset('storage/' . ($category->image ?? 'default-category.jpg')) }}" alt="{{ $category->title }}">
                                     <p>{{ $category->title }}</p>
                                 </div>
                             </a>
@@ -273,4 +274,6 @@
     <script src="{{ asset('assetsMain/js/frontend/productslider.js') }}"></script>
     <script src="{{ asset('assetsMain/js/frontend/productcardcolorchange.js') }}"></script>
     <script src="{{ asset('assetsMain/js/frontend/product-grid.init.js') }}"></script>
+    <script src="{{ asset('assetsMain/js/frontend/categoryslider.js') }}"></script>
+    
 @endsection
