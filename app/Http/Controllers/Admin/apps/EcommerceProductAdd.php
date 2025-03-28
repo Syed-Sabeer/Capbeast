@@ -67,13 +67,16 @@ class EcommerceProductAdd extends Controller
         'selling_price' => $request->selling_price,
     ]);
 
-    // Insert each category in the product_categories table row by row
-    foreach ($request->category_ids as $category_id) {
-        ProductCategory::create([
-            'product_id' => $product->id,
-            'category_id' => $category_id,
-        ]);
-    }
+   // Check if category_ids exists and is an array before looping
+if (!empty($request->category_ids) && is_array($request->category_ids)) {
+  foreach ($request->category_ids as $category_id) {
+      ProductCategory::create([
+          'product_id' => $product->id,
+          'category_id' => $category_id,
+      ]);
+  }
+}
+
 
       ProductSEO::create([
         'product_id' => $product->id,
