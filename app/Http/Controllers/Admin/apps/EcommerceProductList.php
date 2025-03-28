@@ -106,6 +106,10 @@ class EcommerceProductList extends Controller
               'description' => 'required|string',
               'category_ids' => 'nullable|array',
               'quantity.*' => 'nullable|integer',
+              'front_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+              'back_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+              'right_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+              'left_image.*.*' => 'nullable|image|mimes:jpeg,png,jpg,gif',
               'discount.*' => 'nullable|numeric',
           ]);
   
@@ -155,6 +159,48 @@ class EcommerceProductList extends Controller
                   }
               }
           }
+
+           // Process and store images
+      if (is_array($request->colorname1)) {
+        foreach ($request->colorname1 as $index => $colorName1) {
+          $colorName2 = $request->colorname2[$index] ?? null;
+          $colorCode1 = $request->colorcode1[$index] ?? null;
+          $colorCode2 = $request->colorcode2[$index] ?? null;
+
+          // Ensure each file input is correctly retrieved
+          $frontImagePath = $request->hasFile("frontimage.$index") ? $request->file("frontimage")[$index]->store('ProductImages/FrontImage', 'public') : null;
+          $backImagePath = $request->hasFile("backimage.$index") ? $request->file("backimage")[$index]->store('ProductImages/BackImage', 'public') : null;
+          $rightImagePath = $request->hasFile("rightimage.$index") ? $request->file("rightimage")[$index]->store('ProductImages/RightImage', 'public') : null;
+          $leftImagePath = $request->hasFile("leftimage.$index") ? $request->file("leftimage")[$index]->store('ProductImages/LeftImage', 'public') : null;
+
+          Log::info("Image paths", compact('frontImagePath', 'backImagePath', 'rightImagePath', 'leftImagePath'));
+
+          // Create the product color entry if any image or color exists
+          if ($colorName1 || $colorName2 || $frontImagePath || $backImagePath || $rightImagePath || $leftImagePath) {
+            $productColor = ProductColor::create([
+              'product_id' => $product->id,
+              'color_name_1' => $colorName1,
+              'color_code_1' => $colorCode1,
+              'color_name_2' => $colorName2,
+              'color_code_2' => $colorCode2,
+              'front_image' => $frontImagePath,
+              'back_image' => $backImagePath,
+              'right_image' => $rightImagePath,
+              'left_image' => $leftImagePath,
+            ]);
+
+            if ($productColor) {
+              Log::info("Product color entry created successfully", ['product_color_id' => $productColor->id]);
+            } else {
+              Log::error("Failed to create product color entry", ['product_id' => $product->id]);
+            }
+          } else {
+            Log::warning("Skipping color entry due to missing data", ['index' => $index]);
+          }
+        }
+      } else {
+        Log::error("colorname1 is not an array", ['colorname1' => $request->colorname1]);
+      }
   
           DB::commit();
   
