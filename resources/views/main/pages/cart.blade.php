@@ -32,7 +32,10 @@
                 @endphp
 
 @foreach ($carts as $cart )
-
+@php
+$itemTotal = $cart->product->selling_price * $cart->quantity; 
+$subtotal += $itemTotal;
+@endphp
 
 <div class="card product">
     <div class="card-body p-4">
@@ -60,10 +63,11 @@
                     <li class="list-inline-item">Size : <span class="fw-medium">{{$cart->size}}</span></li>
                 </ul>
                 <div class="input-step">
-                    <button type="button" class="minus">–</button>
-                    <input type="number" class="product-quantity" value="3" min="0" max="100" readonly>
-                    <button type="button" class="plus">+</button>
+                    <button type="button" class="minus" data-cart-id="{{ $cart->id }}">–</button>
+                    <input type="number" class="product-quantity" value="{{ $cart->quantity }}" min="1" readonly data-cart-id="{{ $cart->id }}">
+                    <button type="button" class="plus" data-cart-id="{{ $cart->id }}">+</button>
                 </div>
+                
             </div>
             <div class="col-sm-auto">
                 <div class="text-lg-end">
@@ -90,7 +94,7 @@
             <div class="col-sm-auto">
                 <div class="d-flex align-items-center gap-2 text-muted">
                     <div>Total :</div>
-                    <h5 class="fs-14 mb-0">$<span class="product-line-price">269.97</span></h5>
+                    <h5 class="fs-14 mb-0">$<span class="product-line-price">{{$itemTotal}}</span></h5>
                 </div>
             </div>
         </div>
@@ -126,7 +130,7 @@
                                             <tr>
                                                 <td>Sub Total :</td>
                                                 <td class="text-end">
-                                                    <span id="subtotal-amount">{{ number_format($subtotal, 2) }}</span>
+                                                    <span id="subtotal-amount"><span>$</span>{{ number_format($subtotal, 2) }}</span>
                                                 </td>
                                             </tr>
                                             
@@ -138,9 +142,9 @@
                                             </tr>
                                             
                                             <tr class="table-active">
-                                                <th>Total (  ) :</th>
+                                                <th>Total (USD) :</th>
                                                 <td class="text-end">
-                                                    <span id="final-total-amount">{{ number_format($subtotal, 2) }}</span>
+                                                    <span id="final-total-amount"><span>$</span>{{ number_format($subtotal, 2) }}</span>
                                                 </td>
                                             </tr>
                                             
@@ -234,6 +238,65 @@
     });
 </script>
 
+<script>
+    $(document).ready(function () {
+    let isUpdating = false; // Prevent multiple simultaneous updates
 
+    $(".plus, .minus").click(function () {
+        if (isUpdating) return; // Ignore clicks if an update is in progress
+
+        isUpdating = true;
+
+        let cartId = $(this).data("cart-id");
+        let $input = $(`.product-quantity[data-cart-id="${cartId}"]`);
+        let currentQuantity = parseInt($input.val());
+        let isIncrease = $(this).hasClass("plus");
+
+        if (isIncrease) {
+            currentQuantity++;
+        } else {
+            if (currentQuantity > 1) currentQuantity--;
+        }
+
+        $input.val(currentQuantity);
+
+        updateCartQuantity(cartId, currentQuantity, function () {
+            isUpdating = false; // Reset after request completes
+        });
+    });
+
+    function updateCartQuantity(cartId, newQuantity, callback) {
+        $.ajax({
+            url: "{{ route('cart.update') }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                cart_id: cartId,
+                quantity: newQuantity,
+            },
+            success: function (response) {
+                if (response.success) {
+                    let itemPrice = parseFloat(
+                        $(`.product[data-cart-id="${cartId}"]`).find(".fs-16").text().replace("$", "")
+                    );
+                    let totalItemPrice = (itemPrice * newQuantity).toFixed(2);
+                    $(`.product-line-price[data-cart-id="${cartId}"]`).text(`$${totalItemPrice}`);
+
+                    $("#subtotal-amount").text(`$${response.subtotal}`);
+                    $("#final-total-amount").text(`$${response.total}`);
+                }
+            },
+            error: function () {
+                alert("Failed to update cart. Try again.");
+            },
+            complete: function () {
+                if (callback) callback(); // Unlock clicking when request finishes
+            }
+        });
+    }
+});
+
+    </script>
+    
 
     @endsection

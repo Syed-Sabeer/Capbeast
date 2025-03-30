@@ -250,7 +250,7 @@ class OrderController extends Controller
     {
         $userId = auth()->id();
 
-        $cart = Cart::with(['product', 'color', 'printing'])
+        $cart = Cart::with(['product', 'color'])
             ->where('user_id', $userId)
             ->get();
 

@@ -85,6 +85,46 @@ $cartItem = Cart::create([
             return response()->json(['success' => false, 'message' => 'Failed to clear the cart.'], 500);
         }
     }
-        
-
+    public function updateQuantity(Request $request)
+    {
+        $cart = Cart::with('product')->find($request->cart_id);
+    
+        if (!$cart) {
+            return response()->json(['success' => false, 'message' => 'Cart item not found.'], 404);
+        }
+    
+        try {
+            \DB::beginTransaction(); // Start database transaction
+    
+            // Check if quantity is valid
+            if ($request->quantity < 1) {
+                return response()->json(['success' => false, 'message' => 'Invalid quantity.'], 400);
+            }
+    
+            // Apply optimistic locking by checking the last updated timestamp
+            $cart->quantity = $request->quantity;
+            $cart->updated_at = now();
+            $cart->save();
+    
+            
+            $subtotal = Cart::where('user_id', auth()->id())->get()->sum(function ($item) {
+                return $item->quantity * $item->product->selling_price;
+            });
+    
+            \DB::commit(); 
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Cart updated successfully',
+                'subtotal' => number_format($subtotal, 2),
+                'total' => number_format($subtotal, 2),
+            ]);
+    
+        } catch (\Exception $e) {
+            \DB::rollBack(); // Rollback on error
+            Log::error('Error updating cart: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Failed to update cart.'], 500);
+        }
+    }
+    
 }
