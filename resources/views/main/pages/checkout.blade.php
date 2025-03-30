@@ -63,13 +63,19 @@
                                                     <div class="d-flex align-items-center gap-2">
                                                         <div class="avatar-sm flex-shrink-0">
                                                             <div class="avatar-title  rounded-3">
-                                                                <img src="{{ asset('storage/' . ($item->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}"
+                                                                <img src="{{ asset('storage/' . (
+                                                                    $item->color->front_image
+                                                                    ?? $item->color->right_image
+                                                                    ?? $item->color->left_image
+                                                                    ?? $item->color->back_image
+                                                                    ?? 'ProductImages/default.jpg'
+                                                                )) }}"
                                                                     alt="" class="avatar-xs">
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1">
-                                                            <h6>{{ $item->product->title }}</h6>
-                                                            <p class="text-muted mb-0">{{ $item->printing->title }}</p>
+                                                            <h6 style="margin-left: 5%">{{ $item->product->title }}</h6>
+                                                            {{-- <p class="text-muted mb-0">{{ $item->printing->title }}</p> --}}
                                                         </div>
                                                     </div>
                                                 </td>
@@ -254,14 +260,14 @@
                                                     <td>Sub Total :</td>
                                                     <td class="text-end cart-subtotal">
                                                       
-                                                        <x-currency-symbol-usd />{{ number_format($subtotal, 2) }}<x-currency-symbol-cad />
+                                                       {{ number_format($subtotal, 2) }}
                                                     </td>
                                                 </tr>
                                                 
                                                 <tr>
                                                     <td>Discount :</td>
                                                     <td class="text-end cart-discount">
-                                                        <x-currency-symbol-usd /><span id="discount-amount">0.00</span><x-currency-symbol-cad />
+                                                       <span id="discount-amount">0.00</span>
                                                     </td>
                                                 </tr>
                                                 
@@ -274,7 +280,7 @@
                                                         tps-data-tax="{{ $TPStaxPercentage->percentage }}">
                                                         
                                                         {{-- Dynamic currency symbols with JS updatable ID --}}
-                                                        <x-currency-symbol-usd /><span id="tps-tax-amount">0.00</span><x-currency-symbol-cad />
+                                                        <span id="tps-tax-amount">0.00</span>
                                                     </td>
                                                 </tr>
                                                 
@@ -286,16 +292,16 @@
                                                         tvq-data-tax="{{ $TVQtaxPercentage->percentage }}">
                                                         
                                                         {{-- Dynamic currency symbols with JS updatable ID --}}
-                                                        <x-currency-symbol-usd /><span id="tvq-tax-amount">0.00</span><x-currency-symbol-cad />
+                                                        <span id="tvq-tax-amount">0.00</span>
                                                     </td>
                                                 </tr>
                                                 
 
                                                 <tr class="table-active">
-                                                    <th>Total ( <x-currency-display /> ) :</th>
+                                                    <th>Total (  ) :</th>
                                                     <td class="text-end">
                                                         {{-- Currency symbol components stay, only amount updates --}}
-                                                        <x-currency-symbol-usd /><span id="final-total-amount">{{ number_format($subtotal, 2) }}</span><x-currency-symbol-cad />
+                                                     <span id="final-total-amount">{{ number_format($subtotal, 2) }}</span>
                                                     </td>
                                                 </tr>
                                                 

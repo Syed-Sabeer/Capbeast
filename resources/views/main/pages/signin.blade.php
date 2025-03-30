@@ -12,7 +12,7 @@
                             <div class="card-header bg-primary border-0">
                                 <div class="row">
                                     <div class="col-lg-4 col-3">
-                                        <a href="{{ route('home') }}"><img src="{{ asset('assetsMain/images/logo-dark.png') }}" alt="" class="img-fluid"></a>
+                                        <a href="{{ route('home') }}"><img src="{{ asset('assetsCommon/images/logo-light.png') }}" alt="" class="img-fluid"></a>
                                     </div>
                                     <div class="col-lg-8 col-9">
                                         <h1 class="text-white lh-base fw-lighter">Welcome Back</h1>
