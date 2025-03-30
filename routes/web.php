@@ -50,6 +50,10 @@ Route::middleware(['web'])->group(function () {
 
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
+    Route::get('/get-states/{country}', [OrderController::class, 'getStates'])->name('country.states');
+
+
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::delete('/cart/remove/{itemId}', [CartController::class, 'remove'])->name('cart.remove');
     Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');

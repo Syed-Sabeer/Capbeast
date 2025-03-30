@@ -54,7 +54,7 @@
 
                                 @if ($product->brand_id)
                                     <li><i class="bi bi-shop me-2 align-middle text-warning"></i>Brand:
-                                        {{ $product->brand->title }}</li>
+                                        {{ $product->brand->title ?? 'No Brand' }}</li>
                                 @endif
                             </ul>
 
@@ -151,98 +151,76 @@
             <!--end row-->
         </div>
     </section>
-    <script>
-        document.querySelectorAll(".color-option").forEach(option => {
-            option.addEventListener("click", function() {
-                document.querySelectorAll(".color-option").forEach(el => el.classList.remove("active"));
-                this.classList.add("active");
-            });
-        });
-
-        document.querySelectorAll(".size-option").forEach(option => {
-            option.addEventListener("click", function() {
-                document.querySelectorAll(".size-option").forEach(el => el.classList.remove("active"));
-                this.classList.add("active");
-            });
-        });
-    </script>
- 
+    
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const minusBtn = document.querySelector(".minus");
-        const plusBtn = document.querySelector(".plus");
-        const quantityInput = document.querySelector(".product-quantity1");
+  
+    document.querySelector(".add-to-cart-btn").addEventListener("click", function () {
+        const button = this;
+        const originalText = button.textContent;
 
-        minusBtn.addEventListener("click", function () {
-            let currentValue = parseInt(quantityInput.value);
-            if (currentValue > 1) {
-                quantityInput.value = currentValue - 1;
+        // Show loading state
+        button.disabled = true;
+        button.textContent = "Processing...";
+        button.classList.add("loading"); // Optional: Add a loading class for CSS styling
+
+        const isAuthenticated = "{{ Auth::check() }}" === "1"; // Ensure proper boolean conversion
+        let productId = this.getAttribute("data-product-id");
+        let colorId = document.querySelector(".color-option.active")?.getAttribute("data-color-id") || this.getAttribute("data-color-id");
+        let size = document.querySelector(".size-option.active")?.innerText || "";
+        let quantity = document.querySelector(".product-quantity1")?.value || 1;
+
+        let userId = this.getAttribute("data-user-id");
+
+        if (!isAuthenticated) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let newItem = { productId, colorId, size, quantity };
+
+            cart.push(newItem);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=3600; SameSite=Lax`;
+
+            setTimeout(() => {
+                window.location.href = "{{ route('user.login') }}";
+            }, 1000); // Redirect faster
+
+            return;
+        }
+
+        fetch("{{ route('cart.add') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({ productId, userId, colorId, size, quantity })
+        })
+        .then(response => response.json())
+        .then(data => {
+            button.disabled = false;
+            button.textContent = originalText;
+            button.classList.remove("loading");
+
+            if (data.success) {
+                alert("Item added to cart!");
+            } else {
+                alert("Failed to add item to cart.");
             }
-        });
-
-        plusBtn.addEventListener("click", function () {
-            let currentValue = parseInt(quantityInput.value);
-            if (currentValue < 100) {
-                quantityInput.value = currentValue + 1;
-            }
-        });
-
-        document.querySelector(".add-to-cart-btn").addEventListener("click", function () {
-            let productId = this.getAttribute("data-product-id");
-            let colorId = document.querySelector(".color-option.active")?.getAttribute("data-color-id") || this.getAttribute("data-color-id");
-            let size = document.querySelector(".size-option.active")?.innerText || "";
-            let quantity = quantityInput.value;
-            let userId = this.getAttribute("data-user-id");
-
-            fetch("{{ route('cart.add') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({ productId, userId, colorId, size, quantity })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Item added to cart!");
-                } else {
-                    alert("Failed to add item to cart.");
-                }
-            })
-            .catch(error => console.error("Error:", error));
-        });
-    });
-</script>
-<script>
- document.addEventListener("DOMContentLoaded", function () {
-    const colorOptions = document.querySelectorAll(".color-option");
-    const mainImage = document.getElementById("mainImage");
-    const addToCartBtn = document.querySelector(".add-to-cart-btn");
-
-    if (colorOptions.length > 0) {
-        let defaultColor = colorOptions[0]; // Select first color by default
-        defaultColor.classList.add("active");
-        mainImage.src = defaultColor.getAttribute("data-image");
-        addToCartBtn.setAttribute("data-color-id", defaultColor.getAttribute("data-color-id"));
-    }
-
-    colorOptions.forEach(option => {
-        option.addEventListener("click", function () {
-            // Remove 'active' from all colors and set selected one
-            colorOptions.forEach(el => el.classList.remove("active"));
-            this.classList.add("active");
-
-            // Update the main image
-            mainImage.src = this.getAttribute("data-image");
-
-            // Update the color ID in the Add to Cart button
-            addToCartBtn.setAttribute("data-color-id", this.getAttribute("data-color-id"));
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            button.disabled = false;
+            button.textContent = originalText;
+            button.classList.remove("loading");
         });
     });
 });
 
-
 </script>
+
+<script src="{{ asset('assetsMain/js/frontend/productquantityadjuster.js') }}"></script>
+
+<script src="{{ asset('assetsMain/js/frontend/productdetailcolor.js') }}"></script>
 <script src="{{ asset('assetsMain/js/frontend/productslider.js') }}"></script>
+
 @endsection
