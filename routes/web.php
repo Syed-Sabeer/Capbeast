@@ -51,7 +51,11 @@ Route::middleware(['web'])->group(function () {
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
-    Route::get('/get-states/{country}', [OrderController::class, 'getStates'])->name('country.states');
+   
+
+    Route::get('/countries', [OrderController::class, 'getCountries'])->name('countries.index');
+    Route::get('/countries/{code}/states', [OrderController::class, 'getStates'])->name('countries.states');
+    
 
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
