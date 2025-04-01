@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 use App\Models\Cart;
+use PragmaRX\Countries\Package\Countries;
 use App\Models\CartArtwork;
 use App\Mail\OrderPlacedMail;
 use Illuminate\Support\Facades\Mail;
@@ -263,6 +265,43 @@ class OrderController extends Controller
 
         return view('main.pages.checkout', compact('cart','TPStaxPercentage','TVQtaxPercentage'));
     }
+
+    public function getCountries()
+    {
+        $response = Http::get('https://restcountries.com/v3.1/all');
+        $countries = collect($response->json())->pluck('name.common', 'cca2');
+        return response()->json($countries);
+    }
+    
+    public function getStates($countryCode)
+{
+    // Convert country code to country name
+    $response = Http::get('https://restcountries.com/v3.1/all');
+    $countries = collect($response->json())->pluck('name.common', 'cca2');
+
+    $countryName = $countries->get(strtoupper($countryCode));
+
+    if (!$countryName) {
+        return response()->json(['error' => 'Country not found'], 404);
+    }
+
+    // Fetch states using the country name
+    $response = Http::post("https://countriesnow.space/api/v0.1/countries/states", [
+        'country' => $countryName
+    ]);
+
+    $data = $response->json();
+
+    // Correctly access the states array
+    if (isset($data['data']['states'])) {
+        $states = collect($data['data']['states'])->pluck('name', 'state_code');
+        return response()->json($states);
+    } else {
+        return response()->json(['error' => 'States not found'], 404);
+    }
+}
+
+
 
     public function add(Request $request)
     {

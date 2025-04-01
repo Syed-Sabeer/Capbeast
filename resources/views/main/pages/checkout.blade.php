@@ -136,6 +136,82 @@
                                     <input type="text" id="address" name="address" class="form-control" required />
                                 </div>
 
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <label class="form-label" for="country">Country *</label>
+                                    <select id="country" name="country" class="form-select" required>
+                                        <option value="">Select Country</option>
+                                    </select>
+                                </div>
+                                
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <label class="form-label" for="state">State *</label>
+                                    <select id="state" name="state" class="form-select" required>
+                                        <option value="">Select State</option>
+                                    </select>
+                                </div>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        const countriesRoute = "{{ route('countries.index') }}";
+                                        const statesRoute = "{{ route('countries.states', ':code') }}"; // Placeholder for state route
+                                
+                                        let countrySelect = document.getElementById('country');
+                                        let stateSelect = document.getElementById('state');
+                                
+                                        // Show loading indicator
+                                        function setLoading(selectElement) {
+                                            selectElement.innerHTML = '<option value="">Loading...</option>';
+                                            selectElement.disabled = true;
+                                        }
+                                
+                                        // Remove loading indicator
+                                        function removeLoading(selectElement, placeholder) {
+                                            selectElement.innerHTML = `<option value="">${placeholder}</option>`;
+                                            selectElement.disabled = false;
+                                        }
+                                
+                                        // Fetch countries
+                                        setLoading(countrySelect);
+                                        fetch(countriesRoute)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                removeLoading(countrySelect, "Select Country");
+                                                for (const [code, name] of Object.entries(data)) {
+                                                    countrySelect.innerHTML += `<option value="${code}">${name}</option>`;
+                                                }
+                                            })
+                                            .catch(error => {
+                                                removeLoading(countrySelect, "Failed to load countries");
+                                                console.error(error);
+                                            });
+                                
+                                        // Fetch states on country change
+                                        countrySelect.addEventListener('change', function () {
+                                            const countryCode = this.value; // Sends country code (e.g., GB)
+                                            const stateUrl = statesRoute.replace(':code', countryCode);
+                                
+                                            setLoading(stateSelect);
+                                            fetch(stateUrl)
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    removeLoading(stateSelect, "Select State");
+                                                    
+                                                    if (data.error) {
+                                                        alert(data.error); // Show error message
+                                                    } else {
+                                                        for (const [code, name] of Object.entries(data)) {
+                                                            stateSelect.innerHTML += `<option value="${code}">${name}</option>`;
+                                                        }
+                                                    }
+                                                })
+                                                .catch(error => {
+                                                    removeLoading(stateSelect, "Failed to load states");
+                                                    console.error(error);
+                                                });
+                                        });
+                                    });
+                                </script>
+                                                                   
+
                                 <!-- Email input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example5">Email *</label>
