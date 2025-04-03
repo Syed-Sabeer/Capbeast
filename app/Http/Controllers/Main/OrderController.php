@@ -256,7 +256,7 @@ class OrderController extends Controller
             ->where('user_id', $userId)
             ->get();
 
-        $TPStaxPercentage = TPSTaxPrice::first();
+    $TPStaxPercentage = TPSTaxPrice::first();
         $TVQtaxPercentage = TVQTaxPrice::first();
 
         if ($cart->isEmpty()) {
@@ -268,7 +268,8 @@ class OrderController extends Controller
 
     public function getCountries()
     {
-        $response = Http::get('https://restcountries.com/v3.1/all');
+        $response = Http::timeout(30)->get('https://restcountries.com/v3.1/all');
+
         $countries = collect($response->json())->pluck('name.common', 'cca2');
         return response()->json($countries);
     }
@@ -276,7 +277,7 @@ class OrderController extends Controller
     public function getStates($countryCode)
 {
     // Convert country code to country name
-    $response = Http::get('https://restcountries.com/v3.1/all');
+    $response = Http::timeout(30)->get('https://restcountries.com/v3.1/all');
     $countries = collect($response->json())->pluck('name.common', 'cca2');
 
     $countryName = $countries->get(strtoupper($countryCode));
@@ -410,27 +411,7 @@ class OrderController extends Controller
     if ($coupon->visibility != 1) {
         return response()->json(['success' => false, 'message' => 'Coupon is not available.'], 400);
     }
-
-    // Check country-based coupon eligibility
-    if ($user->country) {
-        $countryMap = [
-            'CANADA' => 1,
-            'USA' => 2,
-        ];
-
-        $userCountryCode = $countryMap[strtoupper($user->country)] ?? 0; // Default to 0 if not found
-
-        if ($coupon->coupon_country != 0 && $coupon->coupon_country != $userCountryCode) {
-            return response()->json(['success' => false, 'message' => 'Coupon not applicable in your country.'], 400);
-        }
-    }
-
-    // Check user type-based coupon eligibility
-    $userType = $user->is_reseller ? 1 : 2; // 1 = Reseller, 2 = Regular Customer
-    if ($coupon->coupon_user != 0 && $coupon->coupon_user != $userType) {
-        return response()->json(['success' => false, 'message' => 'Coupon not applicable for your user type.'], 400);
-    }
-
+   
     // Validate expiration date
     $currentDate = now();
     if ($coupon->is_expiry && ($currentDate < $coupon->duration_from || $currentDate > $coupon->duration_to)) {
@@ -452,9 +433,7 @@ class OrderController extends Controller
         if ($coupon->is_all == 1) {
             if ($item->product_id != null) {
                 $currentDiscount = ($item->product_price * $coupon->percentage / 100) * $item->quantity;
-            } elseif ($item->printing_id != null) {
-                $currentDiscount = ($item->printing_price * $coupon->percentage / 100) * $item->quantity;
-            }
+            } 
         } else {
             if ($item->product_id == $coupon->discountable_id) {
                 $currentDiscount = ($item->product_price * $coupon->percentage / 100) * $item->quantity;
