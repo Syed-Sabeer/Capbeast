@@ -45,7 +45,7 @@
                     <div class="ecommerce-product-widgets mt-4 mt-lg-0">
                         <div class="mb-4">
                          
-                            <h4 class="lh-base mb-1">{{ $product->title }}</h4>
+                            <h4 class="lh-base mb-1">{{ $product->title ?? '' }}</h4>
                             <ul class="list-unstyled vstack gap-2">
                                 @if ($product->productCategory)
                                     <li><i class="bi bi-tags-fill me-2 align-middle text-primary"></i>Category:
