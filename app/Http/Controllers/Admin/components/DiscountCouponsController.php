@@ -25,9 +25,11 @@ class DiscountCouponsController extends Controller
         try {
             if ($request->type == 1) {
                 $items = Product::select('id', 'title')->get();
-            } elseif ($request->type == 3) {
-                $items = ProductPrinting::select('id', 'title')->get();
-            } else {
+            }
+            //  elseif ($request->type == 3) {
+            //     $items = ProductPrinting::select('id', 'title')->get();
+            // } 
+            else {
                 return response()->json([], 400);
             }
 
@@ -46,8 +48,8 @@ class DiscountCouponsController extends Controller
             $request->validate([
                 'title' => 'required|string',
                 'code' => 'required|string|unique:discount_coupon',
-                'coupon_country' => 'required|integer',
-                'coupon_user' => 'required|integer',
+                'coupon_country' => 'required|string',
+                
                 'discount_type' => 'required|integer|in:1,3',
                 'item_id' => 'required|integer',
                 'percentage' => 'required|numeric|min:0|max:100',
@@ -65,7 +67,7 @@ class DiscountCouponsController extends Controller
             $discountCoupon->title = $request->title;
             $discountCoupon->code = $request->code;
             $discountCoupon->coupon_country = $request->coupon_country;
-            $discountCoupon->coupon_user = $request->coupon_user;
+            
             $discountCoupon->discount_type = $request->discount_type;
             $discountCoupon->percentage = $request->percentage;
     
@@ -91,9 +93,10 @@ class DiscountCouponsController extends Controller
                 // Apply to all products or printings
                 if ($request->discount_type == 1) {
                     $discountCoupon->discountable_type = Product::class;
-                } elseif ($request->discount_type == 3) {
-                    $discountCoupon->discountable_type = ProductPrinting::class;
                 }
+                //  elseif ($request->discount_type == 3) {
+                //     $discountCoupon->discountable_type = ProductPrinting::class;
+                // }
                 $discountCoupon->discountable_id = null; // Ensure ID is null
                 $discountCoupon->save(); // Save for global use
             } else {
@@ -103,12 +106,13 @@ class DiscountCouponsController extends Controller
                     $discountCoupon->discountable_type = Product::class;
                     $discountCoupon->discountable_id = $product->id;
                     $product->discountCoupons()->save($discountCoupon);
-                } elseif ($request->discount_type == 3) {
-                    $printing = ProductPrinting::findOrFail($request->item_id);
-                    $discountCoupon->discountable_type = ProductPrinting::class;
-                    $discountCoupon->discountable_id = $printing->id;
-                    $printing->discountCoupons()->save($discountCoupon);
-                }
+                } 
+                // elseif ($request->discount_type == 3) {
+                //     $printing = ProductPrinting::findOrFail($request->item_id);
+                //     $discountCoupon->discountable_type = ProductPrinting::class;
+                //     $discountCoupon->discountable_id = $printing->id;
+                //     $printing->discountCoupons()->save($discountCoupon);
+                // }
             }
             
 
@@ -151,8 +155,8 @@ public function update(Request $request, $id)
         $request->validate([
             'title' => 'required|string',
             'code' => 'required|string|unique:discount_coupon,code,' . $id,
-            'coupon_country' => 'required|integer',
-            'coupon_user' => 'required|integer',
+            'coupon_country' => 'required|string',
+            
             'discount_type' => 'required|integer|in:1,3',
             'item_id' => 'required|integer',
             'percentage' => 'required|numeric|min:0|max:100',
@@ -166,7 +170,7 @@ public function update(Request $request, $id)
         $discountCoupon->title = $request->title;
         $discountCoupon->code = $request->code;
         $discountCoupon->coupon_country = $request->coupon_country;
-        $discountCoupon->coupon_user = $request->coupon_user;
+       
         $discountCoupon->discount_type = $request->discount_type;
         $discountCoupon->percentage = $request->percentage;
 
