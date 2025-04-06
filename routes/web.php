@@ -13,6 +13,7 @@ use App\Http\Controllers\Main\ContactController;
 use App\Http\Controllers\Main\AuthController;
 use App\Http\Controllers\Main\FAQsController;
 use App\Http\Controllers\Main\CartController;
+use App\Http\Controllers\Main\CustomizerController;
 use App\Http\Controllers\Main\OrderController;
 
 use App\Http\Controllers\Admin\apps\EcommercePrintingList;
@@ -51,11 +52,14 @@ Route::middleware(['web'])->group(function () {
 
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/update', [CartController::class, 'updateQuantity'])->name('cart.update');
-   
+
+    Route::get('/customizer/{id}', [CustomizerController::class, 'index'])->name('customizer.index');
+    Route::post('/customizer/add', [CustomizerController::class, 'add'])->name('customizer.add');
+    Route::post('/customizer/update', [CustomizerController::class, 'update'])->name('customizer.update');
 
     Route::get('/countries', [OrderController::class, 'getCountries'])->name('countries.index');
-    
-    
+    Route::get('/countries/{code}/states', [OrderController::class, 'getStates'])->name('countries.states');
+
 
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
