@@ -1,14 +1,14 @@
 <!-- ENV -->
-PAYPAL_CLIENT_ID=AeahRqJThPaFSXH8KFte9e62eoeeC0S3S3DpzCj-VMimrfaFd6n4tJYkpATAwn2xH920BXQG-uwpm-Hp
-PAYPAL_SECRET=EGXOBhmwVk0117x9Q-zj8Yr57DmhTWv9DFXzFL2P6WH2Vf2BM80X07I73mqM-Q5iKPzMjU-5Qoe4srMq
+PAYPAL_CLIENT_ID=AcXQ0-k-ab7LtRVj2HzbhUfr9omL3mCmnyL6bG0WXXHz6ZOZixuftYAQgh7LtAsBGxgORklPGwFT62NQ
+PAYPAL_SECRET=EKbt-y_aCXkJfXvbu-EO9lKaNNAOY-0iPbyqUIWH1gTG3XbzrGMKloLsGiHrZBLHymbJZuZfukgXiN_9
 PAYPAL_MODE=live
 
 <!-- Config/paypal.php -->
 
 return [
 
-    'client_id' => 'AeahRqJThPaFSXH8KFte9e62eoeeC0S3S3DpzCj-VMimrfaFd6n4tJYkpATAwn2xH920BXQG-uwpm-Hp',
-    'secret' => 'EGXOBhmwVk0117x9Q-zj8Yr57DmhTWv9DFXzFL2P6WH2Vf2BM80X07I73mqM-Q5iKPzMjU-5Qoe4srMq',
+    'client_id' => 'AcXQ0-k-ab7LtRVj2HzbhUfr9omL3mCmnyL6bG0WXXHz6ZOZixuftYAQgh7LtAsBGxgORklPGwFT62NQ',
+    'secret' => 'EKbt-y_aCXkJfXvbu-EO9lKaNNAOY-0iPbyqUIWH1gTG3XbzrGMKloLsGiHrZBLHymbJZuZfukgXiN_9',
 
     'settings' => array(
 

@@ -38,8 +38,4 @@ class Cart extends Model
     }
     
 
-    public function artworks()
-    {
-        return $this->hasMany(CartArtwork::class, 'cart_id');
-    }
 }

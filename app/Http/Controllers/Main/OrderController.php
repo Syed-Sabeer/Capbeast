@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Cart;
 use PragmaRX\Countries\Package\Countries;
 use App\Models\CartArtwork;
@@ -144,8 +145,6 @@ class OrderController extends Controller
                     'total_price' => $totalPrice,
                     'subtotal_price' => $subtotalPrice,
                     'discount_price' => $discountAmount,
-                    'tps_tax_price' => $TPStaxAmount,
-                    'tvq_tax_price' => $TVQtaxAmount,
                     'payment_status' => 'completed',
                 ]);
     
@@ -175,31 +174,13 @@ class OrderController extends Controller
                         'order_id' => $order->id,
                         'product_id' => $item->product_id,
                         'color_id' => $item->color_id,
+                        'size' => $item->size,
                         'quantity' => $item->quantity,
-                        'beanie_type' => $item->beanie_type,
-                        'printing_id' => $item->printing_id,
-                        'is_pompom' => $item->is_pompom,
-                        'printing_price' => $item->printing_price,
                         'product_price' => $item->product_price,
-                        'delivery_price' => $item->delivery_price,
-                        'pompom_price' => $item->pompom_price,
+                     
                     ]);
     
-                    // Insert Order Artworks
-                    foreach ($item->artworks as $artwork) {
-                        OrderArtwork::create([
-                            'order_item_id' => $orderItem->id,
-                            'artwork_type' => $artwork->artwork_type,
-                            'artwork_dataText' => $artwork->artwork_dataText,
-                            'artwork_dataImage' => $artwork->artwork_dataImage,
-                            'patch_length' => $artwork->patch_length,
-                            'patch_height' => $artwork->patch_height,
-                            'font_style' => $artwork->font_style,
-                            'num_of_imprint' => $artwork->num_of_imprint,
-                            'imprint_color' => $artwork->imprint_color,
-                            'leathercolor' => $artwork->leathercolor,
-                        ]);
-                    }
+                   
                 }
     
                 // Clear Cart
@@ -268,40 +249,30 @@ class OrderController extends Controller
 
     public function getCountries()
     {
-        $response = Http::timeout(30)->get('https://restcountries.com/v3.1/all');
-
-        $countries = collect($response->json())->pluck('name.common', 'cca2');
-        return response()->json($countries);
+        try {
+            $countries = Cache::remember('country_list', now()->addDays(1), function () {
+                $response = Http::timeout(120) // Increase the timeout value
+                    ->get('https://restcountries.com/v3.1/all?fields=name,cca2');
+    
+                if (!$response->successful()) {
+                    throw new \Exception('API request failed');
+                }
+    
+                return collect($response->json())->pluck('name.common', 'cca2')->sort();
+            });
+    
+            // Check if the countries data was returned correctly
+            if (is_array($countries) && isset($countries['error'])) {
+                return response()->json(['error' => $countries['error']], 500);
+            }
+    
+            return response()->json($countries);
+        } catch (\Exception $e) {
+            Log::error('Error fetching countries: ' . $e->getMessage());
+            return response()->json(['error' => 'Server error: ' . $e->getMessage()], 500);
+        }
     }
     
-    public function getStates($countryCode)
-{
-    // Convert country code to country name
-    $response = Http::timeout(30)->get('https://restcountries.com/v3.1/all');
-    $countries = collect($response->json())->pluck('name.common', 'cca2');
-
-    $countryName = $countries->get(strtoupper($countryCode));
-
-    if (!$countryName) {
-        return response()->json(['error' => 'Country not found'], 404);
-    }
-
-    // Fetch states using the country name
-    $response = Http::post("https://countriesnow.space/api/v0.1/countries/states", [
-        'country' => $countryName
-    ]);
-
-    $data = $response->json();
-
-    // Correctly access the states array
-    if (isset($data['data']['states'])) {
-        $states = collect($data['data']['states'])->pluck('name', 'state_code');
-        return response()->json($states);
-    } else {
-        return response()->json(['error' => 'States not found'], 404);
-    }
-}
-
 
 
     public function add(Request $request)
@@ -313,6 +284,8 @@ class OrderController extends Controller
                 'firstname' => 'required|string|max:255',
                 'lastname' => 'required|string|max:255',
                 'companyname' => 'nullable|string|max:255',
+                'country' => 'required|string|max:255',
+                'state' => 'nullable|string|max:255',
                 'address' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'phone' => 'required|string|max:20',
@@ -320,7 +293,7 @@ class OrderController extends Controller
                 'paymentMethod' => 'required|string'
             ]);
     
-            $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing', 'artworks'])->get();
+            $cartItems = Cart::where('user_id', $userId)->with(['product', 'color'])->get();
             if ($cartItems->isEmpty()) {
                 return response()->json(['success' => false, 'message' => 'Cart is empty.'], 400);
             }
@@ -344,6 +317,8 @@ class OrderController extends Controller
                     'firstname' => $request->input('firstname'),
                     'lastname' => $request->input('lastname'),
                     'companyname' => $request->input('companyname'),
+                    'country' => $request->input('country'),
+                    'state' => $request->input('state'),
                     'address' => $request->input('address'),
                     'email' => $request->input('email'),
                     'phone' => $request->input('phone'),

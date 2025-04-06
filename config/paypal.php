@@ -3,8 +3,8 @@
 
 return [
 
-    'client_id' => 'Af8VFR5vqMBFBhuG7PDUOyMKQdVfIgRdJpnAVadfD9kvTtX7IqA1WwEwjpl2y2y0fmrniznyatSO_C2t',
-    'secret' => 'EFvbyL-O11-xQ7XduxenZq64kaCd55lwtHFtaUlwpeADMPJlAzo3kBar0MGNuybW1QpMO9eN3l9Zs_x_',
+    'client_id' => 'AWzcVvjluwPAEGP7qE5Ba3dBEEI5rNFdVK7j56BoalKkCrAGsv2JiCNwv_iRv2Hs1pRB6jVDVbAGiSsr',
+    'secret' => 'EOCmV_phNXF-l8RzEK0hY6ZbcSekPpFD8DsVU34T1968WdUU9CPU9TP9RuWnHWjg-V32KUaQ-3cv37Pw',
 
     'settings' => array(
 

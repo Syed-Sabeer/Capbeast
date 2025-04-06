@@ -18,6 +18,8 @@ class OrderShippingDetail extends Model
         'firstname',
         'lastname',
         'companyname',
+        'country',
+        'state',
         'address',
         'email',
         'phone',

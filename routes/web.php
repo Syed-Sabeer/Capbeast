@@ -54,7 +54,7 @@ Route::middleware(['web'])->group(function () {
    
 
     Route::get('/countries', [OrderController::class, 'getCountries'])->name('countries.index');
-    Route::get('/countries/{code}/states', [OrderController::class, 'getStates'])->name('countries.states');
+    
     
 
 

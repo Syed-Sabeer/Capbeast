@@ -14,16 +14,11 @@ class OrderItem extends Model
     protected $fillable = [
         'order_id',
         'product_id',
-        'quantity',
-        'beanie_type',
-        'is_pompom',
-        'printing_price',
-        'product_price',
-        'delivery_price',
-        'pompom_price',
-        'price',
         'color_id',
-        'printing_id',
+        'size',
+        'quantity',
+        'product_price',
+        
     ];
 
     /**
@@ -54,13 +49,7 @@ class OrderItem extends Model
             ->select(['id', 'title', 'description']);
     }
 
-    /**
-     * Relationship with ProductBaseImages
-     */
-    public function productBaseImages()
-    {
-        return $this->hasMany(ProductBaseImage::class, 'product_id');
-    }
+    
 
     /**
      * Relationship with Color

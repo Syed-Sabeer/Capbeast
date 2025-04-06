@@ -115,11 +115,7 @@
                                          />
                                 </div>
 
-                                <!-- Text input -->
-                                <div data-mdb-input-init class="form-outline mb-4">
-                                    <label class="form-label" for="form6Example4">Address *</label>
-                                    <input type="text" id="address" name="address" class="form-control" required />
-                                </div>
+                                
 
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="country">Country *</label>
@@ -128,11 +124,10 @@
                                     </select>
                                 </div>
                                 
+                                <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
-                                    <label class="form-label" for="state">State *</label>
-                                    <select id="state" name="state" class="form-select" required>
-                                        <option value="">Select State</option>
-                                    </select>
+                                    <label class="form-label" for="form6Example4">Address *</label>
+                                    <input type="text" id="address" name="address" class="form-control" required />
                                 </div>
                                                                    
 
@@ -315,7 +310,7 @@
                                 <a href="{{ route('cart') }}" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
                                         class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
                                 <button type="button" class="btn w-100 btn-hover btn-primary" id="checkoutButton"
-                                    {{ count($cart) == 0 ? 'disabled' : '' }} onclick="proceedToCheckout()">
+                                        {{ count($cart) == 0 ? 'disabled' : '' }}>
                                     Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i>
                                 </button>
                             </div>
@@ -326,277 +321,233 @@
                 </div><!--end row-->
             </div><!--end container-->
         </section>
+     
+    
+        <script>
+            let appliedDiscount = 0; 
+            let discountId = null;
         
-
-
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-    let appliedDiscount = 0; 
-    let discountId = null;
-
-    // Add a variable to store the country
-    let userCountry = ''; // Default, will be updated when user selects a country
-
-    // Update tax and total calculation
-    function updateTaxAndTotal(subtotal, appliedDiscount = 0) {
-        let TPStaxElement = document.querySelector('.tps-cart-tax');
-        let TVQtaxElement = document.querySelector('.tvq-cart-tax');
-        let totalElement = document.querySelector('.cart-total');
-
-        let TPStaxPercentage = parseFloat(TPStaxElement.getAttribute('tps-data-tax')) || 0;
-        let TVQtaxPercentage = parseFloat(TVQtaxElement.getAttribute('tvq-data-tax')) || 0;
-
-        let discountedTotal = subtotal - appliedDiscount;
-        if (discountedTotal < 0) discountedTotal = 0; // Prevent negative totals
-
-        let TPStaxAmount = 0;
-        let TVQtaxAmount = 0;
-        let finalTotal = discountedTotal;
-
-        if (userCountry === "CA") {
-            TPStaxAmount = (discountedTotal * TPStaxPercentage) / 100;
-            TVQtaxAmount = (discountedTotal * TVQtaxPercentage) / 100;
-            finalTotal = discountedTotal + TPStaxAmount + TVQtaxAmount;
-        }
-
-        // Update tax and final total
-        document.getElementById('tps-tax-amount').textContent = TPStaxAmount.toFixed(2);
-        document.getElementById('tvq-tax-amount').textContent = TVQtaxAmount.toFixed(2);
-        document.getElementById('final-total-amount').textContent = finalTotal.toFixed(2);
-
-        console.log("User Country:", userCountry);
-        console.log("Subtotal: $" + subtotal.toFixed(2));
-        console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
-        console.log("TPS Tax Amount: $" + TPStaxAmount.toFixed(2));
-        console.log("TVQ Tax Amount: $" + TVQtaxAmount.toFixed(2));
-        console.log("Total after Tax: $" + finalTotal.toFixed(2));
-    }
-
-    // Get subtotal value
-    function getSubtotal() {
-        let subtotalElement = document.querySelector('.cart-subtotal');
-        return parseFloat(subtotalElement.innerText.replace(/[^0-9.]/g, '')) || 0;
-    }
-
-    // Set up country selection listener
-    let countrySelect = document.getElementById('country');
-    countrySelect.addEventListener('change', function () {
-        userCountry = this.value;
-
-        // Show or hide TPS and TVQ tax based on country
-        if (userCountry === 'CA') {
-            document.querySelector('.tps-cart-tax').style.display = 'block';
-            document.querySelector('.tvq-cart-tax').style.display = 'block';
-        } else {
-            document.querySelector('.tps-cart-tax').style.display = 'none';
-            document.querySelector('.tvq-cart-tax').style.display = 'none';
-        }
-
-        // Recalculate taxes after country change
-        updateTaxAndTotal(getSubtotal(), appliedDiscount);
-    });
-
-    // Initial tax calculation
-    updateTaxAndTotal(getSubtotal());
-
-    // Coupon apply event
-    document.getElementById('applyCoupon').addEventListener('click', function () {
-        let couponCode = document.getElementById('couponCode').value;
-
-        fetch("{{ route('apply.discount') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ coupon_code: couponCode })
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                alert(result.message);
-                appliedDiscount = parseFloat(result.discount) || 0; 
-                discountId = result.discountId ?? null;
-
-                document.getElementById('discount-amount').textContent = appliedDiscount.toFixed(2);
+            document.addEventListener('DOMContentLoaded', function () {
                 
-                updateTaxAndTotal(getSubtotal(), appliedDiscount);
-                console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
-            } else {
-                alert(result.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    });
-});
-
-
-        function proceedToCheckout() {
-    if (confirm('Are you sure you want to proceed to checkout?')) {
-        let checkoutButton = document.getElementById('checkoutButton');
-        checkoutButton.innerHTML = 'Processing... <span class="spinner-border spinner-border-sm"></span>';
-        checkoutButton.disabled = true;
-
-        let subtotalElement = document.querySelector('.cart-subtotal');
-        let subtotal = parseFloat(subtotalElement.innerText.replace(/[^0-9.]/g, '')) || 0;
-
-        let TPStaxElement = document.querySelector('.tps-cart-tax');
-        let TPStaxAmount = parseFloat(TPStaxElement.innerText.replace(/[^0-9.]/g, '')) || 0;
-        let TPStaxNumber = TPStaxElement.getAttribute('tps-data-taxno'); // Extract TPS Tax Number
-        let TPStaxPercentage = TPStaxElement.getAttribute('tps-data-percentage'); // Extract TPS Tax Number
-
-        let TVQtaxElement = document.querySelector('.tvq-cart-tax');
-        let TVQtaxAmount = parseFloat(TVQtaxElement.innerText.replace(/[^0-9.]/g, '')) || 0;
-        let TVQtaxNumber = TVQtaxElement.getAttribute('tvq-data-taxno'); // Extract TVQ Tax Number
-        let TVQtaxPercentage = TVQtaxElement.getAttribute('tvq-data-percentage');
-
-        let finalTotal = subtotal - appliedDiscount + TPStaxAmount + TVQtaxAmount;
-
-        console.log("Subtotal: $" + subtotal.toFixed(2));
-        console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
-        console.log("Discount ID:", discountId); 
-        console.log("TPS Tax Amount: $" + TPStaxAmount.toFixed(2));
-        console.log("TPS Tax Number:", TPStaxNumber);
-        console.log("TPS Tax Percentage:", TPStaxPercentage);
-        console.log("TVQ Tax Amount: $" + TVQtaxAmount.toFixed(2));
-        console.log("TVQ Tax Number:", TVQtaxNumber);
-        console.log("TVQ Tax Percentage:", TVQtaxPercentage);
-        console.log("Total after Tax: $" + finalTotal.toFixed(2));
-
-        const formData = {
-            firstname: document.getElementById('firstname').value,
-            lastname: document.getElementById('lastname').value,
-            companyname: document.getElementById('companyname').value,
-            address: document.getElementById('address').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            additional_info: document.getElementById('additional_info').value,
-            paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value,
-            DiscountAmount: appliedDiscount,
-            discountId: discountId ? discountId : null,  
-            subtotal: subtotal,
-            TPStaxAmount: TPStaxAmount,
-            TPStaxNumber: TPStaxNumber,
-            TVQtaxAmount: TVQtaxAmount,
-            TPStaxPercentage: TPStaxPercentage,
-            TVQtaxPercentage: TVQtaxPercentage,
-            TVQtaxAmount: TVQtaxAmount,
-            TVQtaxNumber: TVQtaxNumber,
-            finalTotal: finalTotal
-        };
-
-        fetch("{{ route('checkout.add') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                if (formData.paymentMethod === 'paypal') {
-                    window.location.href = result.paypalUrl;
-                } else {
-                    window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
+                // Function to update tax and total amounts
+                function updateTaxAndTotal(subtotal, appliedDiscount = 0) {
+                    let TPStaxElement = document.querySelector('.tps-cart-tax');
+                    let TVQtaxElement = document.querySelector('.tvq-cart-tax');
+                    let totalElement = document.querySelector('.cart-total');
+        
+                    let TPStaxPercentage = parseFloat(TPStaxElement.getAttribute('tps-data-tax')) || 0;
+                    let TVQtaxPercentage = parseFloat(TVQtaxElement.getAttribute('tvq-data-tax')) || 0;
+        
+                    let discountedTotal = subtotal - appliedDiscount;
+                    if (discountedTotal < 0) discountedTotal = 0; // Prevent negative totals
+        
+                    // Update userCountry dynamically
+                    let userCountry = document.getElementById('country').value;
+        
+                    // If the country is Canada, apply TPS and TVQ taxes
+                    let TPStaxAmount = userCountry === "CA" ? (discountedTotal * TPStaxPercentage) / 100 : 0;
+                    let TVQtaxAmount = userCountry === "CA" ? (discountedTotal * TVQtaxPercentage) / 100 : 0;
+                    let finalTotal = discountedTotal + TPStaxAmount + TVQtaxAmount;
+        
+                    // ✅ Only update the amount, keep symbols intact
+                    document.getElementById('tps-tax-amount').textContent = TPStaxAmount.toFixed(2);
+                    document.getElementById('tvq-tax-amount').textContent = TVQtaxAmount.toFixed(2);
+                    document.getElementById('final-total-amount').textContent = finalTotal.toFixed(2);
+        
+                    console.log("User Country:", userCountry);
+                    console.log("Discount Id:", discountId);
+                    console.log("Subtotal: $" + subtotal.toFixed(2));
+                    console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
+                    console.log("TPS Tax Amount: $" + TPStaxAmount.toFixed(2));
+                    console.log("TVQ Tax Amount: $" + TVQtaxAmount.toFixed(2));
+                    console.log("Total after Tax: $" + finalTotal.toFixed(2));
                 }
-            } else {
-                alert(result.message);
-                checkoutButton.innerHTML = 'Proceed to Pay';
-                checkoutButton.disabled = false;
-            }
-        })
-        .catch(error => {
-            alert('An error occurred during checkout. Please try again.');
-            checkoutButton.innerHTML = 'Proceed to Pay';
-            checkoutButton.disabled = false;
-        });
-    }
-}
-    </script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const countriesRoute = "{{ route('countries.index') }}";
-        const statesRoute = "{{ route('countries.states', ':code') }}"; // Placeholder for state route
-
-        let countrySelect = document.getElementById('country');
-        let stateSelect = document.getElementById('state');
-        let tpsTaxRow = document.querySelector('.tps-cart-tax').parentElement;
-        let tvqTaxRow = document.querySelector('.tvq-cart-tax').parentElement;
-
-        // Show loading indicator
-        function setLoading(selectElement) {
-            selectElement.innerHTML = '<option value="">Loading...</option>';
-            selectElement.disabled = true;
-        }
-
-        // Remove loading indicator
-        function removeLoading(selectElement, placeholder) {
-            selectElement.innerHTML = `<option value="">${placeholder}</option>`;
-            selectElement.disabled = false;
-        }
-
-        // Fetch countries
-        setLoading(countrySelect);
-        fetch(countriesRoute)
-            .then(response => response.json())
-            .then(data => {
-                removeLoading(countrySelect, "Select Country");
-                for (const [code, name] of Object.entries(data)) {
-                    countrySelect.innerHTML += `<option value="${code}">${name}</option>`;
+        
+                // Function to get the subtotal value from the DOM
+                function getSubtotal() {
+                    let subtotalElement = document.querySelector('.cart-subtotal');
+                    return parseFloat(subtotalElement.innerText.replace(/[^0-9.]/g, '')) || 0;
                 }
-            })
-            .catch(error => {
-                removeLoading(countrySelect, "Failed to load countries, Kindly Refresh the page");
-                console.error(error);
-            });
-
-        // Fetch states on country change
-        countrySelect.addEventListener('change', function () {
-            const countryCode = this.value; // Sends country code (e.g., GB)
-            const stateUrl = statesRoute.replace(':code', countryCode);
-
-            // Show/hide TPS and TVQ tax rows based on country selection
-            if (countryCode === "CA") { // Canada
-                tpsTaxRow.style.display = 'table-row';
-                tvqTaxRow.style.display = 'table-row';
-            } else {
-                tpsTaxRow.style.display = 'none';
-                tvqTaxRow.style.display = 'none';
-            }
-
-            setLoading(stateSelect);
-            fetch(stateUrl)
-                .then(response => response.json())
-                .then(data => {
-                    removeLoading(stateSelect, "Select State");
-                    if (data.error) {
-                        alert(data.error); // Show error message
-                    } else {
-                        for (const [code, name] of Object.entries(data)) {
-                            stateSelect.innerHTML += `<option value="${code}">${name}</option>`;
+        
+                // Initial Tax Calculation on Load
+                updateTaxAndTotal(getSubtotal());
+        
+                document.getElementById('applyCoupon').addEventListener('click', function () {
+                    let couponCode = document.getElementById('couponCode').value;
+        
+                    fetch("{{ route('apply.discount') }}", {
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ coupon_code: couponCode })
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            alert(result.message);
+                            appliedDiscount = parseFloat(result.discount) || 0; 
+                            discountId = result.discountId ?? null;
+        
+                            // ✅ Only update the amount, keep symbols intact
+                            document.getElementById('discount-amount').textContent = appliedDiscount.toFixed(2);
+        
+                            updateTaxAndTotal(getSubtotal(), appliedDiscount);
+        
+                            console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
+                            console.log("Discount ID:", discountId); // ✅ Log discountId in console
+                        } else {
+                            alert(result.message);
                         }
-                    }
-                })
-                .catch(error => {
-                    removeLoading(stateSelect, "Failed to load states, Kindly Refresh the page");
-                    console.error(error);
+                    })
+                    .catch(error => console.error('Error:', error));
                 });
-        });
-
-        // Initial check for Canada tax rows visibility
-        if (countrySelect.value === "CA") {
-            tpsTaxRow.style.display = 'table-row';
-            tvqTaxRow.style.display = 'table-row';
-        } else {
-            tpsTaxRow.style.display = 'none';
-            tvqTaxRow.style.display = 'none';
-        }
-    });
-</script>
-
-
-
+        
+                // Checkout function
+                function proceedToCheckout() {
+                    if (confirm('Are you sure you want to proceed to checkout?')) {
+                        let checkoutButton = document.getElementById('checkoutButton');
+                        checkoutButton.innerHTML = 'Processing... <span class="spinner-border spinner-border-sm"></span>';
+                        checkoutButton.disabled = true;
+        
+                        let subtotalElement = document.querySelector('.cart-subtotal');
+                        let subtotal = parseFloat(subtotalElement.innerText.replace(/[^0-9.]/g, '')) || 0;
+        
+                        let TPStaxElement = document.querySelector('.tps-cart-tax');
+                        let TPStaxAmount = parseFloat(TPStaxElement.innerText.replace(/[^0-9.]/g, '')) || 0;
+                        let TPStaxNumber = TPStaxElement.getAttribute('tps-data-taxno'); // Extract TPS Tax Number
+                        let TPStaxPercentage = TPStaxElement.getAttribute('tps-data-percentage'); // Extract TPS Tax Number
+        
+                        let TVQtaxElement = document.querySelector('.tvq-cart-tax');
+                        let TVQtaxAmount = parseFloat(TVQtaxElement.innerText.replace(/[^0-9.]/g, '')) || 0;
+                        let TVQtaxNumber = TVQtaxElement.getAttribute('tvq-data-taxno'); // Extract TVQ Tax Number
+                        let TVQtaxPercentage = TVQtaxElement.getAttribute('tvq-data-percentage');
+        
+                        let finalTotal = subtotal - appliedDiscount + TPStaxAmount + TVQtaxAmount;
+        
+                        console.log("Subtotal: $" + subtotal.toFixed(2));
+                        console.log("Applied Discount: $" + appliedDiscount.toFixed(2));
+                        console.log("Discount ID:", discountId); 
+                        console.log("TPS Tax Amount: $" + TPStaxAmount.toFixed(2));
+                        console.log("TPS Tax Number:", TPStaxNumber);
+                        console.log("TPS Tax Percentage:", TPStaxPercentage);
+                        console.log("TVQ Tax Amount: $" + TVQtaxAmount.toFixed(2));
+                        console.log("TVQ Tax Number:", TVQtaxNumber);
+                        console.log("TVQ Tax Percentage:", TVQtaxPercentage);
+                        console.log("Total after Tax: $" + finalTotal.toFixed(2));
+        
+                        const formData = {
+                            firstname: document.getElementById('firstname').value,
+                            lastname: document.getElementById('lastname').value,
+                            companyname: document.getElementById('companyname').value,
+                            country: document.getElementById('country').value,
+                            // state: document.getElementById('state').value,
+                            address: document.getElementById('address').value,
+                            email: document.getElementById('email').value,
+                            phone: document.getElementById('phone').value,
+                            additional_info: document.getElementById('additional_info').value,
+                            paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value,
+                            DiscountAmount: appliedDiscount,
+                            discountId: discountId ? discountId : null,  
+                            subtotal: subtotal,
+                            TPStaxAmount: TPStaxAmount,
+                            TPStaxNumber: TPStaxNumber,
+                            TVQtaxAmount: TVQtaxAmount,
+                            TPStaxPercentage: TPStaxPercentage,
+                            TVQtaxPercentage: TVQtaxPercentage,
+                            TVQtaxAmount: TVQtaxAmount,
+                            TVQtaxNumber: TVQtaxNumber,
+                            finalTotal: finalTotal
+                        };
+        
+                        fetch("{{ route('checkout.add') }}", {
+                            method: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(formData),
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.success) {
+                                if (formData.paymentMethod === 'paypal') {
+                                    window.location.href = result.paypalUrl;
+                                } else {
+                                    window.location.href = "{{ route('main.pages.success') }}?orderId=" + result.orderId;
+                                }
+                            } else {
+                                alert(result.message);
+                                checkoutButton.innerHTML = 'Proceed to Pay';
+                                checkoutButton.disabled = false;
+                            }
+                        })
+                        .catch(error => {
+                            alert('An error occurred during checkout. Please try again.');
+                            checkoutButton.innerHTML = 'Proceed to Pay';
+                            checkoutButton.disabled = false;
+                        });
+                    }
+                }
+        
+                // Country select logic
+                const countriesRoute = "{{ route('countries.index') }}";
+                let countrySelect = document.getElementById('country');
+                let tpsTaxRow = document.querySelector('.tps-cart-tax').parentElement;
+                let tvqTaxRow = document.querySelector('.tvq-cart-tax').parentElement;
+        
+                // Show loading indicator
+                function setLoading(selectElement) {
+                    selectElement.innerHTML = '<option value="">Loading...</option>';
+                    selectElement.disabled = true;
+                }
+        
+                // Remove loading indicator
+                function removeLoading(selectElement, placeholder) {
+                    selectElement.innerHTML = `<option value="">${placeholder}</option>`;
+                    selectElement.disabled = false;
+                }
+        
+                // Fetch countries
+                setLoading(countrySelect);
+                fetch(countriesRoute)
+                    .then(response => response.json())
+                    .then(data => {
+                        removeLoading(countrySelect, "Select Country");
+                        for (const [code, name] of Object.entries(data)) {
+                            countrySelect.innerHTML += `<option value="${code}">${name}</option>`;
+                        }
+        
+                        // Trigger tax rows visibility check based on the selected country
+                        updateTaxRowsVisibility();
+                    })
+                    .catch(error => {
+                        removeLoading(countrySelect, "Failed to load countries, Kindly Refresh the page");
+                        console.error(error);
+                    });
+        
+                // Function to update tax row visibility
+                function updateTaxRowsVisibility() {
+                    if (countrySelect.value === "CA") {
+                        tpsTaxRow.style.display = 'table-row';
+                        tvqTaxRow.style.display = 'table-row';
+                        updateTaxAndTotal(getSubtotal(), appliedDiscount); // Recalculate taxes if Canada is selected
+                    } else {
+                        tpsTaxRow.style.display = 'none';
+                        tvqTaxRow.style.display = 'none';
+                    }
+                }
+        
+                // Event listener for country change
+                countrySelect.addEventListener('change', function () {
+                    updateTaxRowsVisibility();
+                });
+        
+                // Initial check for Canada tax rows visibility
+                updateTaxRowsVisibility();
+                document.getElementById('checkoutButton').addEventListener('click', proceedToCheckout);
+            });
+        </script>
+            
     @endsection
