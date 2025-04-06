@@ -74,7 +74,13 @@
                             <td style="padding: 12px 5px; vertical-align: top;width: 65px;">
                                 <div
                                     style="border: 1px solid #eaeef4;height: 64px;width: 64px;display: flex; align-items: center;justify-content: center;border-radius: 6px;">
-                                    <img src="{{ asset('storage/' . ($item->product->productBaseImages->first()->base_image ?? 'ProductImages/default.jpg')) }}"
+                                    <img src="{{ asset('storage/' . (
+                                        $item->color->front_image
+                                        ?? $item->color->right_image
+                                        ?? $item->color->left_image
+                                        ?? $item->color->back_image
+                                        ?? 'ProductImages/default.jpg'
+                                    )) }}"
                                         alt="" class="avatar-xs">
 
 
@@ -87,22 +93,15 @@
                                 </h6>
                                 <p
                                     style="color: #878a99 !important; margin-bottom: 10px; font-size: 13px;font-weight: 500;margin-top: 6px;">
-                                    {{ $item->printing->title ?? 'Embroidery' }}
+                                    {{-- {{ $item->printing->title ?? 'Embroidery' }} --}}
                                 </p>
                                 <p
                                     style="color: #878a99 !important; margin-bottom: 0px; font-size: 13px;font-weight: 500;margin-top: 0;">
-                                    <span>Color: {{ $item->color->componentColor->color_name ?? 'N/A' }}</span>
-                                    @php
-                                        // Ensure beanie_type is checked properly
-                                        $type =
-                                            $item->beanie_type === 1 || $item->beanie_type === '1'
-                                                ? 'Flipped'
-                                                : ($item->beanie_type === 0 || $item->beanie_type === '0'
-                                                    ? 'Unflipped'
-                                                    : 'Not Specified');
-                                    @endphp
+                                     <span>Color: {{$item->color->color_name_1}} @if ($item->color->color_name_2)
+                                        & {{$item->color->color_name_2}} @endif</span> 
+                                   
 
-                                    <span style="margin-left: 15px;">Type: {{ $type ?? 'N/A' }}</span>
+                                    <span style="margin-left: 15px;">Size: {{ $item->size ?? 'OSFA' }}</span>
                                 </p>
                             </td>
                             <td style="padding: 12px 5px; vertical-align: top;">
@@ -133,27 +132,32 @@
                     </tr>
 
 
+                    @if ($order->TaxDetails && $order->TaxDetails->tvq_tax_percentage)
                     <tr>
                         <td colspan="3" style="padding: 12px 8px; font-size: 15px;">
                             TVQ Tax {{$order->TaxDetails->tvq_tax_percentage}}% ({{$order->TaxDetails->tvq_tax_no}})
                         </td>
-                        <td style="padding: 12px 8px; font-size: 15px;text-align: end; ">
-                            <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
+                        <td style="padding: 12px 8px; font-size: 15px;text-align: end;">
+                            <h6 style="font-size: 15px; margin: 0px; font-weight: 600; font-family: 'Inter', sans-serif;">
                                 ${{ number_format($order->tvq_tax_price, 2) ?? 0 }}
                             </h6>
-                            </th>
+                        </td>
                     </tr>
-
+                @endif
+                
+                @if ($order->TaxDetails && $order->TaxDetails->tps_tax_percentage)
                     <tr>
                         <td colspan="3" style="padding: 12px 8px; font-size: 15px;">
                             TPS Tax {{$order->TaxDetails->tps_tax_percentage}}% ({{$order->TaxDetails->tps_tax_no}})
                         </td>
-                        <td style="padding: 12px 8px; font-size: 15px;text-align: end; ">
-                            <h6 style="font-size: 15px; margin: 0px;font-weight: 600; font-family: 'Inter', sans-serif;">
+                        <td style="padding: 12px 8px; font-size: 15px;text-align: end;">
+                            <h6 style="font-size: 15px; margin: 0px; font-weight: 600; font-family: 'Inter', sans-serif;">
                                 ${{ number_format($order->tps_tax_price, 2) ?? 0 }}
                             </h6>
-                            </th>
+                        </td>
                     </tr>
+                @endif
+                
 
                     
 
@@ -186,7 +190,7 @@
                     <h6
                         style="font-size: 15px; margin: 0px;font-weight: 500;font-size: 17px; font-family: 'Inter', sans-serif;">
                         Thank you!</h6>
-                    <p style="color: #878a99; margin-bottom: 0;margin-top: 8px;">Monkey Beanies</p>
+                    <p style="color: #878a99; margin-bottom: 0;margin-top: 8px;">CapBeast</p>
                 </div>
             </div>
             <div style="padding: 1.5rem; background-color: #fafafa;">
@@ -194,7 +198,7 @@
                     <p style="color: #878a99; text-align: center; margin: 0;">
                         <script>
                             document.write(new Date().getFullYear())
-                        </script> © Monkey Beanies.
+                        </script> © CapBeast.
                     </p>
                 </div>
             </div>

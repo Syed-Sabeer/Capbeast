@@ -54,9 +54,8 @@ class OrderController extends Controller
         $amount = new Amount();
         $amount->setTotal((float)$totalPrice); 
     
-        $user = Auth::user();
-        $country = $user ? $user->country : (session('country') ?? 'CANADA'); 
-        $currency = ($country === 'USA') ? 'USD' : 'CAD';
+       
+        $currency = 'USD';
         
         $amount->setCurrency($currency);
 
@@ -139,8 +138,8 @@ class OrderController extends Controller
     
                 // Create Order
                 $order = Order::create([
-                    'user_id' => auth()->id(),
                     'order_id' => $this->generateOrderId(),
+                    'user_id' => auth()->id(),
                     'discount_id' => $discountId,
                     'total_price' => $totalPrice,
                     'subtotal_price' => $subtotalPrice,
@@ -148,13 +147,18 @@ class OrderController extends Controller
                     'payment_status' => 'completed',
                 ]);
     
-                OrderTaxDetails::create([
-                    'order_id' => $order->id,
-                    'tps_tax_no' => $TPStaxNumber,
-                    'tps_tax_percentage' => $TPStaxPercentage,
-                    'tvq_tax_no' => $TVQtaxNumber,
-                    'tvq_tax_percentage' => $TVQtaxPercentage,
-                ]);
+                if (!empty($request->TPStaxNumber) && $request->TPStaxPercentage > 0
+                 || !empty($request->TVQtaxNumber) && $request->TVQtaxPercentage > 0 ) {
+
+                    OrderTaxDetails::create([
+                        'order_id' => $order->id,
+                        'tps_tax_no' => $request->TPStaxNumber,
+                        'tps_tax_percentage' => $request->TPStaxPercentage,
+                        'tvq_tax_no' => $request->TVQtaxNumber,
+                        'tvq_tax_percentage' => $request->TVQtaxPercentage,
+                    ]);
+                }
+                
     
                 // Create Shipping Details
                 OrderShippingDetail::create([
@@ -162,6 +166,7 @@ class OrderController extends Controller
                     'firstname' => $checkoutDetails['firstname'],
                     'lastname' => $checkoutDetails['lastname'],
                     'companyname' => $checkoutDetails['companyname'],
+                    'country' => $checkoutDetails['country'],
                     'address' => $checkoutDetails['address'],
                     'email' => $checkoutDetails['email'],
                     'phone' => $checkoutDetails['phone'],
@@ -176,11 +181,10 @@ class OrderController extends Controller
                         'color_id' => $item->color_id,
                         'size' => $item->size,
                         'quantity' => $item->quantity,
-                        'product_price' => $item->product_price,
-                     
+                        'product_price' => $item->product->selling_price,
                     ]);
     
-                   
+                 
                 }
     
                 // Clear Cart
@@ -190,8 +194,8 @@ class OrderController extends Controller
                 session()->forget('checkout_details');
     
                    // Send Emails
-            Mail::to(auth()->user()->email)->send(new OrderPlacedMail($order, false));
-            Mail::to('sales@monkeybeanies.com')->send(new OrderPlacedMail($order, true));
+            // Mail::to(auth()->user()->email)->send(new OrderPlacedMail($order, false));
+            // Mail::to('sales@monkeybeanies.com')->send(new OrderPlacedMail($order, true));
 
 
                 return redirect()->route('main.pages.success', ['orderId' => $order->id]);
@@ -209,7 +213,7 @@ class OrderController extends Controller
     public function orderSuccess(Request $request)
     {
         $orderId = $request->query('orderId');
-        $order = Order::with(['user','TaxDetails','discountCoupon', 'items','product'])->where('id', $orderId)->first();
+        $order = Order::where('id', $orderId)->first();
 
         if (!$order) {
             return redirect()->route('home')->with('error', 'Order not found.');
@@ -272,9 +276,6 @@ class OrderController extends Controller
             return response()->json(['error' => 'Server error: ' . $e->getMessage()], 500);
         }
     }
-    
-
-
     public function add(Request $request)
     {
         $userId = auth()->id();
@@ -284,16 +285,15 @@ class OrderController extends Controller
                 'firstname' => 'required|string|max:255',
                 'lastname' => 'required|string|max:255',
                 'companyname' => 'nullable|string|max:255',
-                'country' => 'required|string|max:255',
-                'state' => 'nullable|string|max:255',
                 'address' => 'required|string|max:255',
+                'country' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'phone' => 'required|string|max:20',
                 'additional_info' => 'nullable|string|max:500',
                 'paymentMethod' => 'required|string'
             ]);
     
-            $cartItems = Cart::where('user_id', $userId)->with(['product', 'color'])->get();
+            $cartItems = Cart::where('user_id', $userId)->with(['product', 'color', 'printing'])->get();
             if ($cartItems->isEmpty()) {
                 return response()->json(['success' => false, 'message' => 'Cart is empty.'], 400);
             }
@@ -317,9 +317,8 @@ class OrderController extends Controller
                     'firstname' => $request->input('firstname'),
                     'lastname' => $request->input('lastname'),
                     'companyname' => $request->input('companyname'),
-                    'country' => $request->input('country'),
-                    'state' => $request->input('state'),
                     'address' => $request->input('address'),
+                    'country' => $request->input('country'),
                     'email' => $request->input('email'),
                     'phone' => $request->input('phone'),
                     'additional_info' => $request->input('additional_info'),

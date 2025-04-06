@@ -21,51 +21,21 @@ class OrderItem extends Model
         
     ];
 
-    /**
-     * Relationship with Order
-     */
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
     }
 
-    /**
-     * Relationship with Artwork
-     */
-    // In OrderItem model
-    public function orderArtwork()
-    {
-        return $this->hasOne(OrderArtwork::class);
-    }
-
-
-
-    /**
-     * Relationship with Product
-     */
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id')
             ->select(['id', 'title', 'description']);
     }
 
-    
-
-    /**
-     * Relationship with Color
-     */
     public function color()
     {
-        return $this->belongsTo(ProductColor::class, 'color_id')
-            ->with('componentColor'); // Eager-load componentColor
+        return $this->belongsTo(ProductColor::class, 'color_id');
     }
     
-    
-    /**
-     * Relationship with Printing
-     */
-    public function printing()
-    {
-        return $this->belongsTo(ProductPrinting::class, 'printing_id');
-    }
+   
 }

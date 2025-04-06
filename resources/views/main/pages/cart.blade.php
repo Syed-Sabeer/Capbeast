@@ -59,8 +59,10 @@ $subtotal += $itemTotal;
                     <h5 class="fs-16 lh-base mb-1">{{$cart->product->title}}</h5>
                 </a>
                 <ul class="list-inline text-muted fs-13 mb-3">
-                    <li class="list-inline-item">Color : <span class="fw-medium">Red</span></li>
-                    <li class="list-inline-item">Size : <span class="fw-medium">{{$cart->size}}</span></li>
+                    <li class="list-inline-item">Color : <span class="fw-medium">{{$cart->color->color_name_1}} @if ($cart->color->color_name_2)
+                    & {{$cart->color->color_name_2}}
+                    @endif</span></li>
+                    <li class="list-inline-item">Size : <span class="fw-medium">{{$cart->size ?? 'OSFA'}}</span></li>
                 </ul>
                 <div class="input-step">
                     <button type="button" class="minus" data-cart-id="{{ $cart->id }}">–</button>

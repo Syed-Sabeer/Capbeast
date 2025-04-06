@@ -30,6 +30,7 @@
                                             <th scope="col">Product</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col">Price</th>
+                                            <th scope="col">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -67,6 +68,9 @@
 
                                                 <td>
                                                     {{ $item->quantity }}
+                                                </td>
+                                                <td class="text-end">
+                                                    ${{ $item->product->selling_price  }}
                                                 </td>
                                                 <td class="text-end">
                                                     ${{ $item->product->selling_price * $item->quantity }}
@@ -115,21 +119,20 @@
                                          />
                                 </div>
 
-                                
-
-                                <div data-mdb-input-init class="form-outline mb-4">
-                                    <label class="form-label" for="country">Country *</label>
-                                    <select id="country" name="country" class="form-select" required>
-                                        <option value="">Select Country</option>
-                                    </select>
-                                </div>
-                                
                                 <!-- Text input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
                                     <label class="form-label" for="form6Example4">Address *</label>
                                     <input type="text" id="address" name="address" class="form-control" required />
                                 </div>
-                                                                   
+
+                                <div data-mdb-input-init class="form-outline mb-4">
+                                    <label class="form-label" for="country">Country *</label>
+                                    <select id="country" name="country" class="form-select" required>
+                                        <option value="" disabled selected>Select Country</option>
+
+                                    </select>
+                                </div>
+                                                    
 
                                 <!-- Email input -->
                                 <div data-mdb-input-init class="form-outline mb-4">
@@ -310,7 +313,7 @@
                                 <a href="{{ route('cart') }}" class="btn btn-hover btn-soft-info w-100">Back To Cart <i
                                         class="ri-arrow-right-line label-icon align-middle ms-1"></i></a>
                                 <button type="button" class="btn w-100 btn-hover btn-primary" id="checkoutButton"
-                                        {{ count($cart) == 0 ? 'disabled' : '' }}>
+                                    {{ count($cart) == 0 ? 'disabled' : '' }} onclick="proceedToCheckout()">
                                     Proceed to Pay <i class="ri-logout-box-r-line align-bottom ms-1"></i>
                                 </button>
                             </div>
@@ -321,8 +324,7 @@
                 </div><!--end row-->
             </div><!--end container-->
         </section>
-     
-    
+        
         <script>
             let appliedDiscount = 0; 
             let discountId = null;
@@ -549,5 +551,5 @@
                 document.getElementById('checkoutButton').addEventListener('click', proceedToCheckout);
             });
         </script>
-            
+
     @endsection
