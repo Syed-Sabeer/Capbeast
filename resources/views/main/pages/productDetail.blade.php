@@ -18,6 +18,24 @@
             height: 2rem;
             width: 2rem;
         }
+        .customization-btn{
+          background-color: white;
+          color: #000;
+          border: 1px solid #000;
+          margin-top: 10px;
+          padding: 10px;
+          border-radius: 5px;
+          width: 100%;
+        }
+        .customization-btn:hover{
+          background-color: #000;
+          color: #fff;
+          border: 1px solid #000;
+          margin-top: 10px;
+          padding: 10px;
+          border-radius: 5px;
+          width: 100%;
+        }
     </style>
 
     <section class="section">
@@ -290,7 +308,8 @@
                         button.classList.remove("loading");
 
                         if (data.success) {
-                            alert("Item added to cart!");
+                          // Redirect to the customizer index page
+                          window.location.href = data.redirect_url;
                         } else {
                             alert("Failed to add item to cart.");
                         }
